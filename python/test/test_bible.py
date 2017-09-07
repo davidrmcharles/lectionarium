@@ -9,6 +9,40 @@ import unittest
 # Local imports:
 import bible
 
+class BookTestCase(unittest.TestCase):
+
+    def test_normalName(self):
+        self.assertEqual('genesis', bible.Book('Genesis', 'Gn').normalName)
+
+    def test_noramlAbbreviations(self):
+        self.assertEqual(['gn'], bible.Book('Genesis', 'Gn').normalAbbreviations)
+
+    def test_matchesToken(self):
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('Genesis'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('genesis'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GENESIS'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GeNesIs'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('Gn'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('gn'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GN'))
+        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('gN'))
+
+    def test_str(self):
+        self.assertEqual('Genesis (Gn)', str(bible.Book('Genesis', 'Gn')))
+
+class BibleTestCase(unittest.TestCase):
+
+    def test_findBook(self):
+        self.assertIsNotNone(bible._bible.findBook('Genesis'))
+        self.assertIsNotNone(bible._bible.findBook('genesis'))
+        self.assertIsNotNone(bible._bible.findBook('GENESIS'))
+        self.assertIsNotNone(bible._bible.findBook('GeNeSIs'))
+
+        self.assertIsNotNone(bible._bible.findBook('Gn'))
+        self.assertIsNotNone(bible._bible.findBook('gn'))
+        self.assertIsNotNone(bible._bible.findBook('GN'))
+        self.assertIsNotNone(bible._bible.findBook('gN'))
+
 class PointTestCase(unittest.TestCase):
 
     def test_eq(self):

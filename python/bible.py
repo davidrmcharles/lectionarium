@@ -3,7 +3,9 @@
 Represents the Canon of Scripture
 
 * :func:`parseBibleRef` - TODO
-* :func:`_parseBookToken` - TODO
+* :class:`Book`
+* :class:`Bible`
+* :func:`_parseBookToken`
 * :class:`Point`
 * :class:`Range`
 * :func:`_parseChapterAndVerseToken`
@@ -16,12 +18,183 @@ def parseBibleRef(text):
 
     return  # TODO
 
-def _parseBookToken(token):
+class Book(object):
     '''
-    Parse a book token to a normalized book name.
+    Represents a single 'book' of the scriptures.
     '''
 
-    return  # TODO
+    def __init__(self, name, *abbreviations):
+        self.name = name
+        self.abbreviations = list(abbreviations)
+
+    @property
+    def normalName(self):
+        '''
+        The normalized name for the book:
+
+        * Full-book name (no abbreviations)
+        * All lowercase
+        * No interior whitespace
+        '''
+
+        return ''.join(self.name.lower().split())
+
+    @property
+    def normalAbbreviations(self):
+        '''
+        The abbreviations for the book, normalized.
+
+        (Same rules as for ``normalName``.
+        '''
+
+        return [
+            ''.join(abbreviation.lower().split())
+            for abbreviation in self.abbreviations
+            ]
+
+    def matchesToken(self, token):
+        '''
+        Return ``True`` if `token` can refer to this book.
+        '''
+
+        token = ''.join(token.lower().split())
+        return token in [self.normalName] + self.normalAbbreviations
+
+    def __str__(self):
+        return '%s (%s)' % (
+            self.name,
+            ', '.join(self.abbreviations))
+
+    def __repr__(self):
+        return '<bible.Book object "%s" at 0x%x>' % (
+            self, id(self))
+
+class Bible(object):
+    '''
+    Represents the Canon of Scripture
+    '''
+
+    def __init__(self):
+        self._otBooks = [
+            Book('Genesis', 'Gn'),
+            Book('Exodus', 'Ex'),
+            Book('Leviticus', 'Lv'),
+            Book('Numbers', 'Nm'),
+            Book('Deuteronomy', 'Dt'),
+            Book('Joshua', 'Jos'),
+            Book('Judges', 'Jgs'),
+            Book('Ruth', 'Ru'),
+            Book('1 Samuel', '1 Sm'),
+            Book('2 Samuel', '2 Sm'),
+            Book('1 Kings', '1 Kgs'),
+            Book('2 Kings', '2 Kgs'),
+            Book('1 Chronicles', '1 Chr'),
+            Book('2 Chronicles', '2 Chr'),
+            Book('Ezra', 'Ezr'),
+            Book('Nehemiah', 'Neh'),
+            Book('Tobit', 'Tb'),
+            Book('Judith', 'Jdt'),
+            Book('Esther', 'Est'),
+            Book('1 Maccabees', '1 Mc'),
+            Book('2 Maccabees', '2 Mc'),
+            Book('Job', 'Jb'),
+            Book('Psalms', 'Ps', 'Pss'),
+            Book('Proverbs', 'Prv'),
+            Book('Ecclesiastes', 'Eccl'),
+            Book('Song of Songs', 'Song', 'Sg'),
+            Book('Wisdom', 'Wis'),
+            Book('Sirach', 'Sir'),
+            Book('Isaiah', 'Is'),
+            Book('Jeremiah', 'Jr'),
+            Book('Lamentations', 'Lam'),
+            Book('Baruch', 'Bar'),
+            Book('Ezekiel', 'Ez'),
+            Book('Daniel', 'Dn'),
+            Book('Hosea', 'Hos'),
+            Book('Joel', 'Jl'),
+            Book('Amos', 'Am'),
+            Book('Obadiah', 'Ob'),
+            Book('Jonah', 'Jon'),
+            Book('Michah', 'Mi'),
+            Book('Nahum', 'Na'),
+            Book('Habakkuk', 'Hb'),
+            Book('Zephaniah', 'Zep'),
+            Book('Haggai', 'Hg'),
+            Book('Zechariah', 'Zec'),
+            Book('Malachi', 'Mal'),
+            ]
+
+        self._ntBooks = [
+            Book('Matthew', 'Mt'),
+            Book('Mark', 'Mk'),
+            Book('Luke', 'Lk'),
+            Book('John', 'Jn'),
+            Book('Acts', 'Acts'),
+            Book('Romans', 'Rom'),
+            Book('1 Corinthians', '1 Cor'),
+            Book('2 Corinthians', '2 Cor'),
+            Book('Galatians', 'Gal'),
+            Book('Ephesians', 'Eph'),
+            Book('Philippians', 'Phil'),
+            Book('Colossians', 'Col'),
+            Book('1 Thessalonians', '1 Thes'),
+            Book('2 Thessalonians', '2 Thes'),
+            Book('1 Timothy', '1 Tm'),
+            Book('2 Timothy', '2 Tm'),
+            Book('Titus', 'Ti'),
+            Book('Philemon', 'Phlm'),
+            Book('Hebrews', 'Heb'),
+            Book('James', 'Jas'),
+            Book('1 Peter', '1 Pt'),
+            Book('2 Peter', '2 Pt'),
+            Book('1 John', '1 Jn'),
+            Book('2 John', '2 Jn'),
+            Book('3 John', '3 Jn'),
+            Book('Jude', 'Jude'),
+            Book('Revelation', 'Rv'),
+            ]
+
+        self._allBooks = self._otBooks + self._ntBooks
+
+    @property
+    def allBooks(self):
+        '''
+        All books.
+        '''
+
+        return self._allBooks
+
+    def findBook(self, token):
+        '''
+        Find and return the book that goes with `token`.
+        '''
+
+        for book in self._allBooks:
+            if book.matchesToken(token):
+                return book
+        return None
+
+    @property
+    def allBookAbbreviations(self):
+        '''
+        All book abbreviations in a single, flattened list.
+        '''
+
+        return itertools.chain.from_iterable(
+            book.abbreviations for book in self._allBooks)
+
+_bible = Bible()
+
+def _parseBookToken(token):
+    '''
+    Parse a book token in any form to a normalized form:
+
+    * Full-book name (no abbreviation)
+    * All lowercase
+    * Interior whitespace removed
+    '''
+
+    return _bible.findBook(token).normalName
 
 class Point(object):
     '''
