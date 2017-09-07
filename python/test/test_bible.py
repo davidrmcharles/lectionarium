@@ -15,6 +15,11 @@ class PointTestCase(unittest.TestCase):
         self.assertTrue(bible.Point(1) == bible.Point(1))
         self.assertTrue(bible.Point(2) == bible.Point(2))
 
+    def test_str(self):
+        self.assertEqual('1', str(bible.Point(1)))
+        self.assertEqual('2', str(bible.Point(2)))
+        self.assertEqual('1:2', str(bible.Point(1, 2)))
+
 class RangeTestCase(unittest.TestCase):
 
     def test_eq(self):
@@ -22,6 +27,10 @@ class RangeTestCase(unittest.TestCase):
         self.assertTrue(
             bible.Range(bible.Point(1), bible.Point(2)) == \
                 bible.Range(bible.Point(1), bible.Point(2)))
+
+    def test_str(self):
+        self.assertEqual(
+            '1:2-3:4', str(bible.Range(bible.Point(1, 2), bible.Point(3, 4))))
 
 class parseChapterAndVerseTokenTestCase(unittest.TestCase):
 

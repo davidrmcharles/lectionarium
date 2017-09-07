@@ -25,7 +25,11 @@ def _parseBookToken(token):
 
 class Point(object):
     '''
-    Represents a chatper, a verse, or both a chapter and a verse.
+    Represents a single place in some scriptural book.
+
+    This can be a single value that represents either a chapter or a
+    verse depending upon context.  Or, it can be a pair of values that
+    most definitely represents both a chapter and verse.
     '''
 
     def __init__(self, first, second=None):
@@ -59,9 +63,19 @@ class Point(object):
         else:
             return '%d:%d' % (self.first, self.second)
 
+    def __repr__(self):
+        if self.second is None:
+            return '<bible.Point object "%s" at 0x%x>' % (
+                self.first, id(self))
+        else:
+            return '<bible.Point object "%s:%s" at 0x%x>' % (
+                self.first, self.second, id(self))
+
 class Range(object):
     '''
-    Represents an inclusive range of the Bible.
+    Represents an range of text in some scriptural book.
+
+    The range is inclusive, and bounded by two :class:`Point` objects.
     '''
 
     def __init__(self, first, last):
@@ -90,10 +104,11 @@ class Range(object):
         return hash((self.first, self.last))
 
     def __str__(self):
-        return '%s-%s' % (self.first.first, self.last.first)
+        return '%s-%s' % (self.first, self.last)
 
     def __repr__(self):
-        return '<bible.Range object "%s" at 0x%x>' % (str(self), id(self))
+        return '<bible.Range object "%s-%s" at 0x%x>' % (
+            self.first, self.last, id(self))
 
 def _parseChapterAndVerseToken(token):
     '''
