@@ -6,6 +6,8 @@ http://vulsearch.sourceforge.net/index.html
 Here are the changes we currently make:
 
 * Rename each file to match our ``normalName`` for each book.
+* Change enconding from Windows-1252 to UTF-8.
+* Change line endings from DOS to Unix.
 '''
 
 # Standard Python imports:
@@ -115,10 +117,11 @@ Preprocess the ``clemtext`` provided by http://vulsearch.sourceforge.net/index.h
     # Go!
     for inputFileName, outputFileName in _fileNames.iteritems():
         inputFilePath = os.path.join(args.inputFolderPath, inputFileName)
-        with open(inputFilePath, 'r') as inputFile:
+        with open(inputFilePath, 'rU') as inputFile:
             outputFilePath = os.path.join(args.outputFolderPath, outputFileName)
             with open(outputFilePath, 'w') as outputFile:
-                outputFile.write(inputFile.read())
+                outputFile.write(
+                    inputFile.read().decode('Windows-1252'). encode('utf-8'))
 
 if __name__ == '__main__':
     main()
