@@ -22,19 +22,19 @@ class parseRefTestCase(unittest.TestCase):
     def test_singleTokenBookOnly(self):
         ref = bible.parseRef('gn')
         self.assertEqual('genesis', ref.book)
-        self.assertEqual(None, ref.numbers)
+        self.assertEqual(None, ref.verses)
 
     def test_twoTokenBookOnly(self):
         ref = bible.parseRef('1 samuel')
         self.assertEqual('1samuel', ref.book)
-        self.assertEqual(None, ref.numbers)
+        self.assertEqual(None, ref.verses)
 
     def test_twoTokenBookPlus(self):
         ref = bible.parseRef('1 samuel 1:2-3:4')
         self.assertEqual('1samuel', ref.book)
         self.assertEqual(
             [bible.Range(bible.Point(1, 2), bible.Point(3, 4))],
-            ref.numbers)
+            ref.verses)
 
     @unittest.skip('Not ready yet!')
     def test_songOfSongsOnly(self):
@@ -51,80 +51,79 @@ class parseRefTestCase(unittest.TestCase):
 
     def test_syntheticAndMinimal(self):
         '''
-        This is exactly the same series used in
-        parseChapterAndVerseTokenTestCase, but with the addition of a
-        book token on the front.
+        This is exact same series appears in parseVersesTokenTestCase,
+        but here we add the name of a book.
         '''
 
         ref = bible.parseRef('gn 1')
         self.assertEquals('genesis', ref.book)
-        self.assertEquals([bible.Point(1)], ref.numbers)
+        self.assertEquals([bible.Point(1)], ref.verses)
 
         ref = bible.parseRef('gn 1-2')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Range(bible.Point(1), bible.Point(2))],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1,3')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1), bible.Point(3)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1-2,4')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Range(bible.Point(1), bible.Point(2)), bible.Point(4)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1, 1)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1-2')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(1, 2))],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1,3')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(1, 3)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1-2,4')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(1, 2)), bible.Point(1, 4)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1-2:1')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(2, 1))],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1,2:1')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(2, 1)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1,3,2:1')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(1, 3), bible.Point(2, 1)],
-            ref.numbers)
+            ref.verses)
 
         ref = bible.parseRef('gn 1:1,3-2:1')
         self.assertEquals('genesis', ref.book)
         self.assertEquals(
             [bible.Point(1, 1), bible.Range(bible.Point(1, 3), bible.Point(2, 1))],
-            ref.numbers)
+            ref.verses)
 
 class BookTestCase(unittest.TestCase):
 
@@ -183,53 +182,53 @@ class RangeTestCase(unittest.TestCase):
         self.assertEqual(
             '1:2-3:4', str(bible.Range(bible.Point(1, 2), bible.Point(3, 4))))
 
-class parseChapterAndVerseTokenTestCase(unittest.TestCase):
+class parseVersesTokenTestCase(unittest.TestCase):
 
     def test_None(self):
         with self.assertRaises(TypeError):
-            bible._parseChapterAndVerseToken(None)
+            bible._parseVersesToken(None)
 
     def test_emptyString(self):
         with self.assertRaises(ValueError):
-            bible._parseChapterAndVerseToken('')
+            bible._parseVersesToken('')
 
     def test_syntheticAndMinimal(self):
         self.assertEquals(
             [bible.Point(1)],
-            bible._parseChapterAndVerseToken('1'))
+            bible._parseVersesToken('1'))
         self.assertEquals(
             [bible.Range(bible.Point(1), bible.Point(2))],
-            bible._parseChapterAndVerseToken('1-2'))
+            bible._parseVersesToken('1-2'))
         self.assertEquals(
             [bible.Point(1), bible.Point(3)],
-            bible._parseChapterAndVerseToken('1,3'))
+            bible._parseVersesToken('1,3'))
         self.assertEquals(
             [bible.Range(bible.Point(1), bible.Point(2)), bible.Point(4)],
-            bible._parseChapterAndVerseToken('1-2,4'))
+            bible._parseVersesToken('1-2,4'))
         self.assertEquals(
             [bible.Point(1, 1)],
-            bible._parseChapterAndVerseToken('1:1'))
+            bible._parseVersesToken('1:1'))
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(1, 2))],
-            bible._parseChapterAndVerseToken('1:1-2'))
+            bible._parseVersesToken('1:1-2'))
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(1, 3)],
-            bible._parseChapterAndVerseToken('1:1,3'))
+            bible._parseVersesToken('1:1,3'))
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(1, 2)), bible.Point(1, 4)],
-            bible._parseChapterAndVerseToken('1:1-2,4'))
+            bible._parseVersesToken('1:1-2,4'))
         self.assertEquals(
             [bible.Range(bible.Point(1, 1), bible.Point(2, 1))],
-            bible._parseChapterAndVerseToken('1:1-2:1'))
+            bible._parseVersesToken('1:1-2:1'))
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(2, 1)],
-            bible._parseChapterAndVerseToken('1:1,2:1'))
+            bible._parseVersesToken('1:1,2:1'))
         self.assertEquals(
             [bible.Point(1, 1), bible.Point(1, 3), bible.Point(2, 1)],
-            bible._parseChapterAndVerseToken('1:1,3,2:1'))
+            bible._parseVersesToken('1:1,3,2:1'))
         self.assertEquals(
             [bible.Point(1, 1), bible.Range(bible.Point(1, 3), bible.Point(2, 1))],
-            bible._parseChapterAndVerseToken('1:1,3-2:1'))
+            bible._parseVersesToken('1:1,3-2:1'))
 
 if __name__ == '__main__':
     unittest.main()

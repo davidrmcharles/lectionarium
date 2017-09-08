@@ -9,7 +9,7 @@ Represents the Canon of Scripture
 * :func:`_parseBookToken`
 * :class:`Point`
 * :class:`Range`
-* :func:`_parseChapterAndVerseToken`
+* :func:`_parseVersesToken`
 '''
 
 class Ref(object):
@@ -17,9 +17,9 @@ class Ref(object):
     Represents range of text in some particular scriptural book.
     '''
 
-    def __init__(self, book, numbers):
+    def __init__(self, book, verses):
         self.book = book
-        self.numbers = numbers
+        self.verses = verses
 
 def parseRef(text):
     '''
@@ -60,13 +60,13 @@ def parseRef(text):
         raise ValueError(
             'Extra tokens %s!' % remainingTokens[1:])
 
-    # If there is one remaining token, try to parse numbers out of it.
-    numbers = None
+    # If there is one remaining token, try to parse verses out of it.
+    verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
-        numbers = _parseChapterAndVerseToken(remainingToken)
+        verses = _parseVersesToken(remainingToken)
 
-    return Ref(book, numbers)
+    return Ref(book, verses)
 
 class Book(object):
     '''
@@ -327,7 +327,7 @@ class Range(object):
         return '<bible.Range object "%s-%s" at 0x%x>' % (
             self.first, self.last, id(self))
 
-def _parseChapterAndVerseToken(token):
+def _parseVersesToken(token):
     '''
     Parse a chapter and verse token to a list of points and ranges.
     '''
@@ -335,14 +335,14 @@ def _parseChapterAndVerseToken(token):
     # Fail if `token` is not a string.
     if not isinstance(token, basestring):
         raise TypeError(
-            'Non-string (%s, %s) passed to _parseChapterAndVerseToken()!' % (
+            'Non-string (%s, %s) passed to _parseVersesToken()!' % (
                 type(token), token))
 
     token.strip()
     if len(token) == 0:
         raise ValueError(
             'Empty/whitespace-only string passed to'
-            ' _parseChapterAndVerseToken()!')
+            ' _parseVersesToken()!')
 
     prefix = None
 
