@@ -4,6 +4,7 @@ Represents the Canon of Scripture
 
 * :class:`Ref`
 * :func:`parseRef`
+* :func:`_parseBookTokensGreedily`
 * :class:`Book`
 * :class:`Bible`
 * :func:`_parseBookToken`
@@ -14,7 +15,7 @@ Represents the Canon of Scripture
 
 class Ref(object):
     '''
-    Represents range of text in some particular scriptural book.
+    Represents a range of text in a particular scriptural book.
     '''
 
     def __init__(self, book, verses):
@@ -23,8 +24,8 @@ class Ref(object):
 
 def parseRef(text):
     '''
-    Parse a human-readable intra-book bible reference to an object
-    representation.
+    Parse a human-readable, single-book bible reference and return the
+    result as a :class:`Ref`.
     '''
 
     # Fail if `text` is not a string.
@@ -62,10 +63,12 @@ def parseRef(text):
 def _parseBookTokensGreedily(tokens):
     '''
     Return the book represented by the leading tokens and the number
-    of tokens consumed.
+    of tokens consumed.  If no book can be parsed out of the tokens,
+    return ``(None, 0)``.
 
     This function parses in a 'greedy' fashion, trying to consume as
-    many tokens as possible.
+    many tokens as possible.  This is key to parsing 'Song of Songs',
+    whose abbreviations include 'Song'.
     '''
 
     for index in reversed(range(len(tokens))):
@@ -77,7 +80,7 @@ def _parseBookTokensGreedily(tokens):
 
 class Book(object):
     '''
-    Represents a single 'book' of the scriptures.
+    Represents a single scriptural 'book'.
     '''
 
     def __init__(self, name, *abbreviations):
@@ -128,7 +131,7 @@ class Book(object):
 
 class Bible(object):
     '''
-    Represents the Canon of Scripture
+    Represents the whole Canon of Scripture.
     '''
 
     def __init__(self):
@@ -252,8 +255,8 @@ class Point(object):
     Represents a single place in some scriptural book.
 
     This can be a single value that represents either a chapter or a
-    verse depending upon context.  Or, it can be a pair of values that
-    most definitely represents both a chapter and verse.
+    verse (depending upon context).  Or, it can be a pair of values
+    that definitely represents a chapter and verse.
     '''
 
     def __init__(self, first, second=None):
@@ -336,7 +339,8 @@ class Range(object):
 
 def _parseVersesToken(token):
     '''
-    Parse a chapter and verse token to a list of points and ranges.
+    Parse a chapter and verse token to a list of :class:`Point` and
+    :class:`Range` objects.
     '''
 
     # Fail if `token` is not a string.
