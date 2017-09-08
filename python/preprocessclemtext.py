@@ -63,9 +63,9 @@ _fileNames = {
     'Job.lat' : 'job.txt',
     'Joel.lat' : 'joel.txt',
     'Jo.lat' : 'john.txt',
-    'Jon.lat' : 'johah.txt',
+    'Jon.lat' : 'jonah.txt',
     'Jos.lat' : 'joshua.txt',
-    'Jr.lat' : 'jeremaiah.txt',
+    'Jr.lat' : 'jeremiah.txt',
     'Jud.lat' : 'jude.txt',
     'Lam.lat' : 'lamentations.txt',
     'Lc.lat' : 'luke.txt',
@@ -75,7 +75,7 @@ _fileNames = {
     'Mc.lat' : 'mark.txt',
     'Mt.lat' : 'matthew.txt',
     'Nah.lat' : 'nahum.txt',
-    'Neh.lat' : 'nehemaiah.txt',
+    'Neh.lat' : 'nehemiah.txt',
     'Nm.lat' : 'numbers.txt',
     'Os.lat' : 'hosea.txt',
     'Phlm.lat' : 'philemon.txt',
@@ -89,7 +89,7 @@ _fileNames = {
     'Soph.lat' : 'zephaniah.txt',
     'Tit.lat' : 'titus.txt',
     'Tob.lat' : 'tobit.txt',
-    'Zach.lat' : 'zecharaiah.txt',
+    'Zach.lat' : 'zechariah.txt',
     }
 
 def main():
