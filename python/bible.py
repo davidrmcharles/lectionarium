@@ -2,7 +2,8 @@
 '''
 Represents the Canon of Scripture
 
-* :func:`parseBibleRef` - TODO
+* :class:`Ref`
+* :func:`parseRef`
 * :class:`Book`
 * :class:`Bible`
 * :func:`_parseBookToken`
@@ -11,12 +12,61 @@ Represents the Canon of Scripture
 * :func:`_parseChapterAndVerseToken`
 '''
 
-def parseBibleRef(text):
+class Ref(object):
     '''
-    Parse a human-readable bible refrence to an object representation.
+    Represents range of text in some particular scriptural book.
     '''
 
-    return  # TODO
+    def __init__(self, book, numbers):
+        self.book = book
+        self.numbers = numbers
+
+def parseRef(text):
+    '''
+    Parse a human-readable intra-book bible reference to an object
+    representation.
+    '''
+
+    # Fail if `text` is not a string.
+    if not isinstance(text, basestring):
+        raise TypeError(
+            'Non-string (%s, %s) passed to _parseRef()!' % (
+                type(text), text))
+
+    # Fail if there are no non-white characters in `text`.
+    tokens = text.strip().split()
+    if len(tokens) == 0:
+        raise ValueError(
+            'Empty/whitespace-only string passed to'
+            ' parseRef()!')
+
+    # Try to parse a book out of the leading tokens.
+    book = None
+    superToken = ''
+    tokensConsumed = 0
+    for token in tokens:
+        superToken += token
+        tokensConsumed += 1
+        book = _parseBookToken(superToken)
+        if book is not None:
+            break
+    else:
+        tokensConsumed = 0
+
+    # If there is more than one token remaining, we have too many
+    # tokens.
+    remainingTokens = tokens[tokensConsumed:]
+    if len(remainingTokens) > 1:
+        raise ValueError(
+            'Extra tokens %s!' % remainingTokens[1:])
+
+    # If there is one remaining token, try to parse numbers out of it.
+    numbers = None
+    if len(remainingTokens) == 1:
+        remainingToken = remainingTokens[0]
+        numbers = _parseChapterAndVerseToken(remainingToken)
+
+    return Ref(book, numbers)
 
 class Book(object):
     '''
@@ -174,15 +224,6 @@ class Bible(object):
                 return book
         return None
 
-    @property
-    def allBookAbbreviations(self):
-        '''
-        All book abbreviations in a single, flattened list.
-        '''
-
-        return itertools.chain.from_iterable(
-            book.abbreviations for book in self._allBooks)
-
 _bible = Bible()
 
 def _parseBookToken(token):
@@ -194,7 +235,10 @@ def _parseBookToken(token):
     * Interior whitespace removed
     '''
 
-    return _bible.findBook(token).normalName
+    book = _bible.findBook(token)
+    if book is None:
+        return None
+    return book.normalName
 
 class Point(object):
     '''
