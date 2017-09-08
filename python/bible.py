@@ -30,28 +30,18 @@ def parseRef(text):
     # Fail if `text` is not a string.
     if not isinstance(text, basestring):
         raise TypeError(
-            'Non-string (%s, %s) passed to _parseRef()!' % (
+            'Non-string (%s, %s) passed to parseRef()!' % (
                 type(text), text))
 
     # Fail if there are no non-white characters in `text`.
     tokens = text.strip().split()
     if len(tokens) == 0:
         raise ValueError(
-            'Empty/whitespace-only string passed to'
-            ' parseRef()!')
+            'No non-white characters passed to parseRef()!')
 
-    # Try to parse a book out of the leading tokens.
-    book = None
-    superToken = ''
-    tokensConsumed = 0
-    for token in tokens:
-        superToken += token
-        tokensConsumed += 1
-        book = _parseBookToken(superToken)
-        if book is not None:
-            break
-    else:
-        tokensConsumed = 0
+    # Try to parse a book out of the leading tokens in a 'greedy'
+    # fashion.
+    book, tokensConsumed = _parseBookTokensGreedily(tokens)
 
     # If there is more than one token remaining, we have too many
     # tokens.
@@ -60,13 +50,30 @@ def parseRef(text):
         raise ValueError(
             'Extra tokens %s!' % remainingTokens[1:])
 
-    # If there is one remaining token, try to parse verses out of it.
+    # If there is exactly remaining token, try to parse verses out of
+    # it.
     verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
         verses = _parseVersesToken(remainingToken)
 
     return Ref(book, verses)
+
+def _parseBookTokensGreedily(tokens):
+    '''
+    Return the book represented by the leading tokens and the number
+    of tokens consumed.
+
+    This function parses in a 'greedy' fashion, trying to consume as
+    many tokens as possible.
+    '''
+
+    for index in reversed(range(len(tokens))):
+        superToken = ''.join(tokens[:index + 1])
+        book = _parseBookToken(superToken)
+        if book is not None:
+            return book, index + 1
+    return None, 0
 
 class Book(object):
     '''

@@ -36,10 +36,10 @@ class parseRefTestCase(unittest.TestCase):
             [bible.Range(bible.Point(1, 2), bible.Point(3, 4))],
             ref.verses)
 
-    @unittest.skip('Not ready yet!')
-    def test_songOfSongsOnly(self):
+    def test_songOfSongs(self):
         '''
-        This case requires that the parsing of the book be 'greedy'.
+        This case requires that the parsing of the book tokens be
+        'greedy'.
 
         Because 'song' is both an abbreviations for this book and the
         first word in its full name, a non-greedy approach to
@@ -47,7 +47,11 @@ class parseRefTestCase(unittest.TestCase):
         behind.
         '''
 
-        ref = bible.parseRef('song of songs')
+        ref = bible.parseRef('song of songs 1:2-3:4')
+        self.assertEqual('songofsongs', ref.book)
+        self.assertEqual(
+            [bible.Range(bible.Point(1, 2), bible.Point(3, 4))],
+            ref.verses)
 
     def test_syntheticAndMinimal(self):
         '''
@@ -124,6 +128,11 @@ class parseRefTestCase(unittest.TestCase):
         self.assertEquals(
             [bible.Point(1, 1), bible.Range(bible.Point(1, 3), bible.Point(2, 1))],
             ref.verses)
+
+class parseBookTokensGreedilyTestCase(unittest.TestCase):
+
+    def test_1(self):
+        bible._parseBookTokensGreedily(['foo', 'bar', 'zod'])
 
 class BookTestCase(unittest.TestCase):
 
