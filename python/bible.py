@@ -414,8 +414,11 @@ class Book(object):
                     firstChapter, firstVerse, lastVerse)
 
         # Add the verses from the first chapter in the range.
-        result = self._lastVersesInChapter(
-            firstChapter, firstVerse)
+        result = []
+        if firstVerse is None:
+            result.extend(self._allVersesInChapter(firstChapter))
+        else:
+            result.extend(self._lastVersesInChapter(firstChapter, firstVerse))
 
         # Add all the verses from any interior chapters.
         for chapter in range(firstChapter + 1, lastChapter):
@@ -424,9 +427,10 @@ class Book(object):
                     chapter))
 
         # Add the verses from the last chapter in the range.
-        result.extend(
-            self._firstVersesInChapter(
-                lastChapter, lastVerse))
+        if lastVerse is None:
+            result.extend(self._allVersesInChapter(lastChapter))
+        else:
+            result.extend(self._firstVersesInChapter(lastChapter, lastVerse))
 
         return result
 

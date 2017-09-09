@@ -302,6 +302,36 @@ class BookTestCase(unittest.TestCase):
              ((3, 1), u'Sed et serpens erat callidior cunctis animantibus terræ quæ fecerat Dominus Deus...')],
             verses)
 
+        # Now let's see if we can handle whole-chapter ranges like
+        # 1-2:
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(1), bible.Point(2)))
+        self.assertEqual(
+            [((1, 1), u'In principio creavit Deus cælum et terram.'),
+             ((1, 2), u'Terra autem erat inanis et vacua...'),
+             ((1, 3), u'Dixitque Deus...'),
+             ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
+             ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
+             ((2, 3), u'Et benedixit diei septimo...')],
+            verses)
+
+        # What about a range that begins on a chapter, but ends on a
+        # verse, like 1-2:2:
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(1), bible.Point(2, 2)))
+        self.assertEqual(
+            [((1, 1), u'In principio creavit Deus cælum et terram.'),
+             ((1, 2), u'Terra autem erat inanis et vacua...'),
+             ((1, 3), u'Dixitque Deus...'),
+             ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
+             ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
+            verses)
+
+        # Now, how to express a range that begins on a verse and ends
+        # at the end of a chapter?  1:2-3 won't do!  perhaps something
+        # like 1:2--3?  But, we can't parse that yet.
+
+        # TODO: Finally, before this method can be fully tested, we
+        # must handle the case of a book with chapters.
+
     def test_allVersesInChapter(self):
         bookWithChapters = bible.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
