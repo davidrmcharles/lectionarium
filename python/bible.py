@@ -330,6 +330,11 @@ class Book(object):
             self, id(self))
 
     def loadTextFromFile(self):
+        '''
+        Load the text of this book from a file of known name and
+        location.
+        '''
+
         textFileName = '%s.txt' % self.normalName
         textFilePath = os.path.join(_textFolderPath, textFileName)
         with open(textFilePath, 'r') as inputFile:
@@ -337,10 +342,20 @@ class Book(object):
                 self._loadLineOfText(line)
 
     def loadTextFromString(self, text):
+        '''
+        Load the text of this book from a string.  (To support unit
+        testing.)
+        '''
+
         for line in text.splitlines():
             self._loadLineOfText(line)
 
     def _loadLineOfText(self, line):
+        '''
+        This method supports the other load methods by loading a
+        single verse.
+        '''
+
         verseAddrToken, verseText = line.split(' ', 1)
         verseAddrList = _parseVersesToken(verseAddrToken)
         verseAddr = verseAddrList[0]
@@ -357,25 +372,28 @@ class Book(object):
 
         if point.dimensionality == 2:
             # This is a chapter-and-verse reference to a single verse.
+            chapterIndex, verseIndex = point.first, point.second
             return [(
-                    (point.first, point.second),           # The address of the verse
-                    self._text[point.first][point.second]  # The text of the verse
+                    (chapterIndex, verseIndex),
+                    self._text[chapterIndex][verseIndex]
                     )]
         else:
             if self.hasChapters:
                 # This is a whole-chapter reference.  Add
                 # every single verse in the chapter to the
                 # returned result.
+                chapterIndex = point.first
                 return [
-                    ((point.first, verseIndex), verseText)
+                    ((chapterIndex, verseIndex), verseText)
                     for verseIndex, verseText in \
-                        self._text[point.first].iteritems()
+                        self._text[chapterIndex].iteritems()
                     ]
             else:
                 # This is a single-verse reference.
+                verseIndex = point.first
                 return [(
-                        (point.first),
-                        self._text[1][point.first]
+                        (verseIndex),
+                        self._text[1][verseIndex]
                         )]
 
     def getRangeOfVerses(self, textRange):
