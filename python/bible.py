@@ -378,12 +378,56 @@ class Book(object):
                         self._text[1][point.first]
                         )]
 
+    def _getTextRange(self, textRange):
+        '''
+        Return an object representation of the text indicated by
+        `textRange`.
+        '''
+
+        firstChapter = textRange.first.first
+        firstVerse = textRange.first.second
+
+        lastChapter = textRange.last.first
+        lastVerse = textRange.last.second
+
+        if firstChapter == lastChapter:
+            # The entire range of text is in the same book.
+            return self._middleVersesInChapter(
+                    firstChapter, firstVerse, lastVerse)
+
+        # Add the verses from the first chapter in the range.
+        result = self._lastVersesInChapter(
+            firstChapter, firstVerse)
+
+        # Add all the verses from any interior chapters.
+        for chapter in range(firstChapter + 1, lastChapter):
+            result.extend(
+                self._allVersesInChapter(
+                    chapter))
+
+        # Add the verses from the last chapter in the range.
+        result.extend(
+            self._firstVersesInChapter(
+                lastChapter, lastVerse))
+
+        return result
+
     def _visitAllVersesInChapter(self, chapter):
         '''
         Return a visitor onto every verse object in a `chapter`.
         '''
 
-        return self._text[chapter].iteritems()
+        return (
+            ((chapter, verseIndex), verseText)
+            for verseIndex, verseText in self._text[chapter].iteritems()
+            )
+
+    def _allVersesInChapter(self, chapter):
+        return [
+            verse
+            for verse in self._visitAllVersesInChapter(
+                chapter)
+            ]
 
     def _visitLastVersesInChapter(self, chapter, firstVerse):
         '''
@@ -392,11 +436,19 @@ class Book(object):
         '''
 
         def isExcluded(item):
-            verseIndex, verseText = item
+            verseAddr, verseText = item
+            chapterIndex, verseIndex = verseAddr
             return verseIndex < firstVerse
 
         return itertools.dropwhile(
             isExcluded, self._visitAllVersesInChapter(chapter))
+
+    def _lastVersesInChapter(self, chapter, firstVerse):
+        return [
+            verse
+            for verse in self._visitLastVersesInChapter(
+                chapter, firstVerse)
+            ]
 
     def _visitFirstVersesInChapter(self, chapter, lastVerse):
         '''
@@ -405,11 +457,19 @@ class Book(object):
         '''
 
         def isIncluded(item):
-            verseIndex, verseText = item
+            verseAddr, verseText = item
+            chapterIndex, verseIndex = verseAddr
             return verseIndex <= lastVerse
 
         return itertools.takewhile(
             isIncluded, self._visitAllVersesInChapter(chapter))
+
+    def _firstVersesInChapter(self, chapter, lastVerse):
+        return [
+            verse
+            for verse in self._visitFirstVersesInChapter(
+                chapter, lastVerse)
+            ]
 
     def _visitMiddleVersesInChapter(self, chapter, firstVerse, lastVerse):
         '''
@@ -418,11 +478,19 @@ class Book(object):
         '''
 
         def isIncluded(item):
-            verseIndex, verseText = item
+            verseAddr, verseText = item
+            chapterIndex, verseIndex = verseAddr
             return (verseIndex >= firstVerse) and (verseIndex <= lastVerse)
 
         return itertools.ifilter(
             isIncluded, self._visitAllVersesInChapter(chapter))
+
+    def _middleVersesInChapter(self, chapter, firstVerse, lastVerse):
+        return [
+            verse
+            for verse in self._visitMiddleVersesInChapter(
+                chapter, firstVerse, lastVerse)
+            ]
 
     def writeText(self, outputFile=sys.stdout):
         '''
