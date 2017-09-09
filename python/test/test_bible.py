@@ -252,7 +252,7 @@ class BookTestCase(unittest.TestCase):
                       bookWithChapters._visitAllVersesInChapter(1)]
         self.assertEqual(
             result, [
-                (1, u'In principio creavit Deus c\xe6lum et terram.'),
+                (1, u'In principio creavit Deus cælum et terram.'),
                 (2, u'Terra autem erat inanis et vacua...'),
                 (3, u'Dixitque Deus...'),
                 ])
@@ -278,6 +278,124 @@ class BookTestCase(unittest.TestCase):
                 (1, u'Judas Jesu Christi servus...'),
                 (2, u'Misericordia vobis...'),
                 (3, u'Carissimi...'),
+                ])
+
+    def test_visitLastVersesInChapter(self):
+        bookWithChapters = bible.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        # This should produce verses 1:1-3.
+        result = [verse for verse in \
+                      bookWithChapters._visitLastVersesInChapter(1, 1)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
+                ])
+
+        # This should produce verses 1:2-3.
+        result = [verse for verse in \
+                      bookWithChapters._visitLastVersesInChapter(1, 2)]
+        self.assertEqual(
+            result, [
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
+                ])
+
+        # This should produces verses 1:3.
+        result = [verse for verse in \
+                      bookWithChapters._visitLastVersesInChapter(1, 3)]
+        self.assertEqual(
+            result, [
+                (3, u'Dixitque Deus...'),
+                ])
+
+    def test_visitFirstVersesInChapter(self):
+        bookWithChapters = bible.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        # This should produce verses 1:1-3.
+        result = [verse for verse in \
+                      bookWithChapters._visitFirstVersesInChapter(1, 1)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                ])
+
+        # This should produce verses 1:2-3.
+        result = [verse for verse in \
+                      bookWithChapters._visitFirstVersesInChapter(1, 2)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                ])
+
+        # This should produces verses 1:3.
+        result = [verse for verse in \
+                      bookWithChapters._visitFirstVersesInChapter(1, 3)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
+                ])
+
+    def test_visitMiddleVersesInChapter(self):
+        bookWithChapters = bible.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        # This should produce all three verses of chapter one.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 1, 3)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
+                ])
+
+        # This should produce only verse 1.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 1, 1)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                ])
+
+        # This should produce only verse 2.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 2, 2)]
+        self.assertEqual(
+            result, [
+                (2, u'Terra autem erat inanis et vacua...'),
+                ])
+
+        # This should produce only verse 3.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 3, 3)]
+        self.assertEqual(
+            result, [
+                (3, u'Dixitque Deus...'),
+                ])
+
+        # This should produce verses 1-2.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 1, 2)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus cælum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                ])
+
+        # This should produce verses 2-3.
+        result = [verse for verse in \
+                      bookWithChapters._visitMiddleVersesInChapter(1, 2, 3)]
+        self.assertEqual(
+            result, [
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
                 ])
 
 class BibleTestCase(unittest.TestCase):

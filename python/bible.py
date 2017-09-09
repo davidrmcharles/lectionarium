@@ -23,6 +23,7 @@ Everything Else
 # Standard imports:
 import collections
 import inspect
+import itertools
 import os
 import sys
 import traceback
@@ -378,7 +379,50 @@ class Book(object):
                         )]
 
     def _visitAllVersesInChapter(self, chapter):
+        '''
+        Return a visitor onto every verse object in a `chapter`.
+        '''
+
         return self._text[chapter].iteritems()
+
+    def _visitLastVersesInChapter(self, chapter, firstVerse):
+        '''
+        Return a visitor onto every verse object in a `chapter`
+        starting with `firstVerse`.
+        '''
+
+        def isExcluded(item):
+            verseIndex, verseText = item
+            return verseIndex < firstVerse
+
+        return itertools.dropwhile(
+            isExcluded, self._visitAllVersesInChapter(chapter))
+
+    def _visitFirstVersesInChapter(self, chapter, lastVerse):
+        '''
+        Return a visitor onto every verse object in a `chapter` up to
+        an including `lastVerse`.
+        '''
+
+        def isIncluded(item):
+            verseIndex, verseText = item
+            return verseIndex <= lastVerse
+
+        return itertools.takewhile(
+            isIncluded, self._visitAllVersesInChapter(chapter))
+
+    def _visitMiddleVersesInChapter(self, chapter, firstVerse, lastVerse):
+        '''
+        Return a visitor onto the inclusive range of verses,
+        [`firstVerse`, `lastVerse`] in `chapter`.
+        '''
+
+        def isIncluded(item):
+            verseIndex, verseText = item
+            return (verseIndex >= firstVerse) and (verseIndex <= lastVerse)
+
+        return itertools.ifilter(
+            isIncluded, self._visitAllVersesInChapter(chapter))
 
     def writeText(self, outputFile=sys.stdout):
         '''
