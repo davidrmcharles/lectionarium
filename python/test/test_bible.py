@@ -137,6 +137,25 @@ class parseBookTokensGreedilyTestCase(unittest.TestCase):
 
 class BookTestCase(unittest.TestCase):
 
+    # Here is a phony book with chapters, fabricated from excerpts of
+    # genesis.txt.
+    bookWithChaptersText = u'''\
+1:1 In principio creavit Deus cælum et terram.
+1:2 Terra autem erat inanis et vacua...
+1:3 Dixitque Deus...
+2:1 Igitur perfecti sunt cæli et terra...
+2:2 Complevitque Deus die septimo opus suum quod fecerat...
+2:3 Et benedixit diei septimo...
+'''
+
+    # Here is a phony book *without* chapters, fabricated from
+    # excerpts of jude.txt.
+    bookWithoutChaptersText = u'''\
+1:1 Judas Jesu Christi servus...
+1:2 Misericordia vobis...
+1:3 Carissimi...
+'''
+
     def test_normalName(self):
         self.assertEqual('genesis', bible.Book('Genesis', ['Gn']).normalName)
 
@@ -157,17 +176,9 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual('Genesis (Gn)', str(bible.Book('Genesis', ['Gn'])))
 
     def test_getTextAtPoint(self):
-        # Here is a phony book with chapters, fabricated from excerpts
-        # of genesis.txt.
         bookWithChapters = bible.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(u'''\
-1:1 In principio creavit Deus cælum et terram.
-1:2 Terra autem erat inanis et vacua...
-1:3 Dixitque Deus...
-2:1 Igitur perfecti sunt cæli et terra...
-2:2 Complevitque Deus die septimo opus suum quod fecerat...
-2:3 Et benedixit diei septimo...
-''')
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
         # This should return all of chapter 1.
         result = bookWithChapters._getTextAtPoint(bible.Point(1))
         self.assertEqual(
@@ -207,14 +218,8 @@ class BookTestCase(unittest.TestCase):
                 ((2, 3), u'Et benedixit diei septimo...'),
                 ])
 
-        # Here is a phony book *without* chapters, fabricated from
-        # excerpts of jude.txt.
         bookWithoutChapters = bible.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(u'''\
-1:1 Judas Jesu Christi servus...
-1:2 Misericordia vobis...
-1:3 Carissimi...
-''')
+        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
         result = bookWithoutChapters._getTextAtPoint(bible.Point(1))
@@ -236,6 +241,43 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(
             result, [
                 ((1, 2), u'Misericordia vobis...'),
+                ])
+
+    def test_visitAllVersesInChapter(self):
+        bookWithChapters = bible.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        # This should arrive at all verses in chapter 1.
+        result = [verse for verse in \
+                      bookWithChapters._visitAllVersesInChapter(1)]
+        self.assertEqual(
+            result, [
+                (1, u'In principio creavit Deus c\xe6lum et terram.'),
+                (2, u'Terra autem erat inanis et vacua...'),
+                (3, u'Dixitque Deus...'),
+                ])
+
+        # This should arrive at all verses in chapter 2.
+        result = [verse for verse in \
+                      bookWithChapters._visitAllVersesInChapter(2)]
+        self.assertEqual(
+            result, [
+                (1, u'Igitur perfecti sunt cæli et terra...'),
+                (2, u'Complevitque Deus die septimo opus suum quod fecerat...'),
+                (3, u'Et benedixit diei septimo...'),
+                ])
+
+        bookWithoutChapters = bible.Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+
+        # This should arrive at all verses in chapter 1.
+        result = [verse for verse in \
+                      bookWithoutChapters._visitAllVersesInChapter(1)]
+        self.assertEqual(
+            result, [
+                (1, u'Judas Jesu Christi servus...'),
+                (2, u'Misericordia vobis...'),
+                (3, u'Carissimi...'),
                 ])
 
 class BibleTestCase(unittest.TestCase):

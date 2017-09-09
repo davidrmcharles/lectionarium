@@ -377,6 +377,9 @@ class Book(object):
                         self._text[1][point.first]
                         )]
 
+    def _visitAllVersesInChapter(self, chapter):
+        return self._text[chapter].iteritems()
+
     def writeText(self, outputFile=sys.stdout):
         '''
         Write the entire text of the book to `outputFile` in a format
