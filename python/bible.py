@@ -2,12 +2,12 @@
 '''
 Represents the Canon of Scripture
 
-Verse References (OUTFACTORME!)
+Locations (OUTFACTORME!)
 ======================================================================
 
-* :class:`Point`
-* :class:`Range`
-* :func:`_parseVersesToken`
+* :class:`Addr`
+* :class:`AddrRange`
+* :func:`_parseLocsToken`
 
 Library Interface
 ======================================================================
@@ -38,7 +38,7 @@ _thisFilePath = inspect.getfile(inspect.currentframe())
 _projectFolderPath = os.path.dirname(os.path.dirname(_thisFilePath))
 _textFolderPath = os.path.join(_projectFolderPath, 'myclemtext')
 
-class Point(object):
+class Addr(object):
     '''
     Represents a single place in some scriptural book.
 
@@ -89,17 +89,17 @@ class Point(object):
 
     def __repr__(self):
         if self.second is None:
-            return '<bible.Point object "%s" at 0x%x>' % (
+            return '<bible.Addr object "%s" at 0x%x>' % (
                 self.first, id(self))
         else:
-            return '<bible.Point object "%s:%s" at 0x%x>' % (
+            return '<bible.Addr object "%s:%s" at 0x%x>' % (
                 self.first, self.second, id(self))
 
-class Range(object):
+class AddrRange(object):
     '''
     Represents an range of text in some scriptural book.
 
-    The range is inclusive, and bounded by two :class:`Point` objects.
+    The range is inclusive, and bounded by two :class:`Addr` objects.
     '''
 
     def __init__(self, first, last):
@@ -131,26 +131,26 @@ class Range(object):
         return '%s-%s' % (self.first, self.last)
 
     def __repr__(self):
-        return '<bible.Range object "%s-%s" at 0x%x>' % (
+        return '<bible.AddrRange object "%s-%s" at 0x%x>' % (
             self.first, self.last, id(self))
 
-def _parseVersesToken(token):
+def _parseLocsToken(token):
     '''
-    Parse a chapter and verse token to a list of :class:`Point` and
-    :class:`Range` objects.
+    Parse a chapter and verse token to a list of :class:`Addr` and
+    :class:`AddrRange` objects.
     '''
 
     # Fail if `token` is not a string.
     if not isinstance(token, basestring):
         raise TypeError(
-            'Non-string (%s, %s) passed to _parseVersesToken()!' % (
+            'Non-string (%s, %s) passed to _parseLocsToken()!' % (
                 type(token), token))
 
     token.strip()
     if len(token) == 0:
         raise ValueError(
             'Empty/whitespace-only string passed to'
-            ' _parseVersesToken()!')
+            ' _parseLocsToken()!')
 
     prefix = None
 
@@ -180,16 +180,16 @@ def _parseVersesToken(token):
                 # last prefix we've seen (if there is one).
                 # Otherwise, generate a point without a prefix.
                 if prefix is not None:
-                    points.append(Point(int(prefix), int(colon_tokens[0])))
+                    points.append(Addr(int(prefix), int(colon_tokens[0])))
                 else:
-                    points.append(Point(int(colon_tokens[0])))
+                    points.append(Addr(int(colon_tokens[0])))
 
             elif len(colon_tokens) == 2:
                 # This token has exactly point colon.  Generate a
                 # two-dimensional point and remember the prefix for
                 # later.
                 first, second = colon_tokens
-                points.append(Point(int(first), int(second)))
+                points.append(Addr(int(first), int(second)))
                 prefix = first
 
         # If parsing the hyphenated subtokens generated a single
@@ -200,7 +200,7 @@ def _parseVersesToken(token):
             result.extend(points)
         elif len(points) == 2:
             first, second = points
-            result.append(Range(first, second))
+            result.append(AddrRange(first, second))
 
     return result
 
@@ -231,9 +231,9 @@ class Ref(object):
     * Acts 13:16-17,27 - verse address range, verse address
     '''
 
-    def __init__(self, book, verseLocs):
+    def __init__(self, book, locs):
         self._book = book
-        self._verseLocs = verseLocs
+        self._locs = locs
 
     @property
     def book(self):
@@ -244,13 +244,13 @@ class Ref(object):
         return self._book
 
     @property
-    def verseLocs(self):
+    def locs(self):
         '''
         The verse locations as they were provided.  (Perhaps this is a
         mix of both verse addresses and verse address ranges.)
         '''
 
-        return self._verseLocs
+        return self._locs
 
     @property
     def addrRanges(self):
@@ -259,15 +259,15 @@ class Ref(object):
         '''
 
         # Perhaps this logic belongs in the constructor.
-        def normalize(verseLoc):
-            if isinstance(verseLoc, Range):
-                return verseLoc
+        def normalize(loc):
+            if isinstance(loc, AddrRange):
+                return loc
             else:
-                return Range(verseLoc, verseLoc)
+                return AddrRange(loc, loc)
 
         return [
-            normalize(verseLoc)
-            for verseLoc in self.verseLocs
+            normalize(loc)
+            for loc in self.locs
             ]
 
 def parseRef(text):
@@ -304,7 +304,7 @@ def parseRef(text):
     verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
-        verses = _parseVersesToken(remainingToken)
+        verses = _parseLocsToken(remainingToken)
 
     return Ref(book, verses)
 
@@ -419,7 +419,7 @@ class Book(object):
         '''
 
         verseAddrToken, verseText = line.split(' ', 1)
-        verseAddrList = _parseVersesToken(verseAddrToken)
+        verseAddrList = _parseLocsToken(verseAddrToken)
         verseAddr = verseAddrList[0]
         chapterIndex, verseIndex = verseAddr.first, verseAddr.second
         if chapterIndex not in self._text:
@@ -458,17 +458,17 @@ class Book(object):
                         self._text[1][verseIndex]
                         )]
 
-    def getRangeOfVerses(self, textRange):
+    def getRangeOfVerses(self, addrRange):
         '''
         Return an object representation of the text indicated by
-        `textRange`.
+        `addrRange`.
         '''
 
-        firstChapter = textRange.first.first
-        firstVerse = textRange.first.second
+        firstChapter = addrRange.first.first
+        firstVerse = addrRange.first.second
 
-        lastChapter = textRange.last.first
-        lastVerse = textRange.last.second
+        lastChapter = addrRange.last.first
+        lastVerse = addrRange.last.second
 
         if firstChapter == lastChapter:
             # The entire range of text is in the same book.
@@ -585,7 +585,7 @@ class Book(object):
         for chapterIndex, verses in self._text.iteritems():
             for verseIndex, verseText in verses.iteritems():
                 outputFile.write(
-                    '%s %s\n' % (Point(chapterIndex, verseIndex), verseText))
+                    '%s %s\n' % (Addr(chapterIndex, verseIndex), verseText))
 
 class Bible(object):
     '''
