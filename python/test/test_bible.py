@@ -178,12 +178,12 @@ class BookTestCase(unittest.TestCase):
     def test_str(self):
         self.assertEqual('Genesis (Gn)', str(bible.Book('Genesis', ['Gn'])))
 
-    def test_getTextAtPoint(self):
+    def test_getVerse(self):
         bookWithChapters = bible.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should return all of chapter 1.
-        result = bookWithChapters._getTextAtPoint(bible.Point(1))
+        result = bookWithChapters.getVerse(bible.Point(1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
@@ -192,7 +192,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return all of chapter 2.
-        result = bookWithChapters._getTextAtPoint(bible.Point(2))
+        result = bookWithChapters.getVerse(bible.Point(2))
         self.assertEqual(
             result, [
                 ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -201,21 +201,21 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return verse 1:1.
-        result = bookWithChapters._getTextAtPoint(bible.Point(1, 1))
+        result = bookWithChapters.getVerse(bible.Point(1, 1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should return verse 1:2.
-        result = bookWithChapters._getTextAtPoint(bible.Point(1, 2))
+        result = bookWithChapters.getVerse(bible.Point(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should return verse 2:3:
-        result = bookWithChapters._getTextAtPoint(bible.Point(2, 3))
+        result = bookWithChapters.getVerse(bible.Point(2, 3))
         self.assertEqual(
             result, [
                 ((2, 3), u'Et benedixit diei septimo...'),
@@ -225,14 +225,14 @@ class BookTestCase(unittest.TestCase):
         bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
-        result = bookWithoutChapters._getTextAtPoint(bible.Point(1))
+        result = bookWithoutChapters.getVerse(bible.Point(1))
         self.assertEqual(
             result, [
                 (1, u'Judas Jesu Christi servus...'),
                 ])
 
         # This should return only verse 2.
-        result = bookWithoutChapters._getTextAtPoint(bible.Point(2))
+        result = bookWithoutChapters.getVerse(bible.Point(2))
         self.assertEqual(
             result, [
                 (2, u'Misericordia vobis...'),
@@ -240,19 +240,19 @@ class BookTestCase(unittest.TestCase):
 
         # A request for 1:2 should also return verse 2, but the
         # 'address' should have the shape of the reference.
-        result = bookWithoutChapters._getTextAtPoint(bible.Point(1, 2))
+        result = bookWithoutChapters.getVerse(bible.Point(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Misericordia vobis...'),
                 ])
 
-    def test_getTextRange(self):
+    def test_getRangeOfVerses(self):
         bookWithChapters = bible.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # Here are a few ranges entirely within the same chapter,
         # starting with 1:1-1:3.
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(1, 1), bible.Point(1, 3)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(1, 1), bible.Point(1, 3)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -260,14 +260,14 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:1-2:2
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(2, 1), bible.Point(2, 2)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(2, 1), bible.Point(2, 2)))
         self.assertEqual(
             [((2, 1), u'Igitur perfecti sunt cæli et terra...'),
              ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
             verses)
 
         # 3:2-3:3
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(3, 2), bible.Point(3, 3)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(3, 2), bible.Point(3, 3)))
         self.assertEqual(
             [((3, 2), u'Cui respondit mulier...'),
              ((3, 3), u'de fructu vero ligni quod est in medio paradisi...')],
@@ -275,7 +275,7 @@ class BookTestCase(unittest.TestCase):
 
         # Here are some ranges in adjacent chapters, starting with
         # 1:1-2:1:
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(1, 1), bible.Point(2, 1)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(1, 1), bible.Point(2, 1)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -284,7 +284,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:2-3:2
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(2, 2), bible.Point(3, 2)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(2, 2), bible.Point(3, 2)))
         self.assertEqual(
             [((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
              ((2, 3), u'Et benedixit diei septimo...'),
@@ -293,7 +293,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # Finally, here is the case of a book in the middle: 1:3-3:1:
-        verses = bookWithChapters._getTextRange(bible.Range(bible.Point(1, 3), bible.Point(3, 1)))
+        verses = bookWithChapters.getRangeOfVerses(bible.Range(bible.Point(1, 3), bible.Point(3, 1)))
         self.assertEqual(
             [((1, 3), u'Dixitque Deus...'),
              ((2, 1), u'Igitur perfecti sunt cæli et terra...'),

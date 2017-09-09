@@ -349,7 +349,7 @@ class Book(object):
             self._text[chapterIndex] = collections.OrderedDict()
         self._text[chapterIndex][verseIndex] = verseText.strip()
 
-    def _getTextAtPoint(self, point):
+    def getVerse(self, point):
         '''
         Return an object representation of the text indicated by
         `point`.
@@ -378,7 +378,7 @@ class Book(object):
                         self._text[1][point.first]
                         )]
 
-    def _getTextRange(self, textRange):
+    def getRangeOfVerses(self, textRange):
         '''
         Return an object representation of the text indicated by
         `textRange`.
