@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
 Tests for :mod:`bible`
 '''
@@ -137,23 +138,105 @@ class parseBookTokensGreedilyTestCase(unittest.TestCase):
 class BookTestCase(unittest.TestCase):
 
     def test_normalName(self):
-        self.assertEqual('genesis', bible.Book('Genesis', 'Gn').normalName)
+        self.assertEqual('genesis', bible.Book('Genesis', ['Gn']).normalName)
 
     def test_noramlAbbreviations(self):
-        self.assertEqual(['gn'], bible.Book('Genesis', 'Gn').normalAbbreviations)
+        self.assertEqual(['gn'], bible.Book('Genesis', ['Gn']).normalAbbreviations)
 
     def test_matchesToken(self):
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('Genesis'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('genesis'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GENESIS'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GeNesIs'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('Gn'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('gn'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('GN'))
-        self.assertTrue(bible.Book('Genesis', 'Gn').matchesToken('gN'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('Genesis'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('genesis'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('GENESIS'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('GeNesIs'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('Gn'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('gn'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('GN'))
+        self.assertTrue(bible.Book('Genesis', ['Gn']).matchesToken('gN'))
 
     def test_str(self):
-        self.assertEqual('Genesis (Gn)', str(bible.Book('Genesis', 'Gn')))
+        self.assertEqual('Genesis (Gn)', str(bible.Book('Genesis', ['Gn'])))
+
+    def test_getTextAtPoint(self):
+        # Here is a phony book with chapters, fabricated from excerpts
+        # of genesis.txt.
+        bookWithChapters = bible.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(u'''\
+1:1 In principio creavit Deus cælum et terram.
+1:2 Terra autem erat inanis et vacua...
+1:3 Dixitque Deus...
+2:1 Igitur perfecti sunt cæli et terra...
+2:2 Complevitque Deus die septimo opus suum quod fecerat...
+2:3 Et benedixit diei septimo...
+''')
+        # This should return all of chapter 1.
+        result = bookWithChapters._getTextAtPoint(bible.Point(1))
+        self.assertEqual(
+            result, [
+                ((1, 1), u'In principio creavit Deus cælum et terram.'),
+                ((1, 2), u'Terra autem erat inanis et vacua...'),
+                ((1, 3), u'Dixitque Deus...'),
+                ])
+
+        # This should return all of chapter 2.
+        result = bookWithChapters._getTextAtPoint(bible.Point(2))
+        self.assertEqual(
+            result, [
+                ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
+                ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
+                ((2, 3), u'Et benedixit diei septimo...'),
+                ])
+
+        # This should return verse 1:1.
+        result = bookWithChapters._getTextAtPoint(bible.Point(1, 1))
+        self.assertEqual(
+            result, [
+                ((1, 1), u'In principio creavit Deus cælum et terram.'),
+                ])
+
+        # This should return verse 1:2.
+        result = bookWithChapters._getTextAtPoint(bible.Point(1, 2))
+        self.assertEqual(
+            result, [
+                ((1, 2), u'Terra autem erat inanis et vacua...'),
+                ])
+
+        # This should return verse 2:3:
+        result = bookWithChapters._getTextAtPoint(bible.Point(2, 3))
+        self.assertEqual(
+            result, [
+                ((2, 3), u'Et benedixit diei septimo...'),
+                ])
+
+        # Here is a phony book *without* chapters, fabricated from
+        # excerpts of jude.txt.
+        bookWithoutChapters = bible.Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters.loadTextFromString(u'''\
+1:1 Judas Jesu Christi servus...
+1:2 Misericordia vobis...
+1:3 Carissimi...
+''')
+
+        # This should return only verse 1.
+        result = bookWithoutChapters._getTextAtPoint(bible.Point(1))
+        self.assertEqual(
+            result, [
+                (1, u'Judas Jesu Christi servus...'),
+                ])
+
+        # This should return only verse 2.
+        result = bookWithoutChapters._getTextAtPoint(bible.Point(2))
+        self.assertEqual(
+            result, [
+                (2, u'Misericordia vobis...'),
+                ])
+
+        # A request for 1:2 should also return verse 2, but the
+        # 'address' should have the shape of the reference.
+        result = bookWithoutChapters._getTextAtPoint(bible.Point(1, 2))
+        self.assertEqual(
+            result, [
+                ((1, 2), u'Misericordia vobis...'),
+                ])
 
 class BibleTestCase(unittest.TestCase):
 

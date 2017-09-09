@@ -45,6 +45,15 @@ class Point(object):
         self.first = first
         self.second = second
 
+    @property
+    def dimensionality(self):
+        '''
+        ``1`` for one-dimensional points, and ``2`` for
+        two-dimensional points.
+        '''
+
+        return 1 if self.second is None else 2
+
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
@@ -259,10 +268,11 @@ class Book(object):
     Represents a single scriptural 'book'.
     '''
 
-    def __init__(self, name, *abbreviations):
+    def __init__(self, name, abbreviations=[], hasChapters=False):
         self.name = name
-        self.abbreviations = list(abbreviations)
-        self.textByVerse = collections.OrderedDict()
+        self.abbreviations = abbreviations
+        self._text = collections.OrderedDict()
+        self._hasChapters = hasChapters
 
     @property
     def normalName(self):
@@ -289,6 +299,18 @@ class Book(object):
             for abbreviation in self.abbreviations
             ]
 
+    @property
+    def hasChapters(self):
+        '''
+        ``True`` if the book has chapters, otherwise ``False``.  (Some
+        of the smaller books don't.)
+
+        We currently defer assignment of this property until the text
+        is loaded.  That may not be the best strategy.
+        '''
+
+        return self._hasChapters
+
     def matchesToken(self, token):
         '''
         Return ``True`` if `token` can refer to this book.
@@ -306,19 +328,65 @@ class Book(object):
         return '<bible.Book object "%s" at 0x%x>' % (
             self, id(self))
 
-    def loadText(self):
+    def loadTextFromFile(self):
         textFileName = '%s.txt' % self.normalName
         textFilePath = os.path.join(_textFolderPath, textFileName)
         with open(textFilePath, 'r') as inputFile:
             for line in inputFile.readlines():
-                verseToken, text = line.split(' ', 1)
-                verseList = _parseVersesToken(verseToken)
-                verse = verseList[0]
-                self.textByVerse[verse] = text.strip()
+                self._loadLineOfText(line)
 
-    def printText(self, outputFile=sys.stdout):
-        for verseKey, verseText in self.textByVerse.iteritems():
-            outputFile.write('%s %s\n' % (verseKey, verseText))
+    def loadTextFromString(self, text):
+        for line in text.splitlines():
+            self._loadLineOfText(line)
+
+    def _loadLineOfText(self, line):
+        verseAddrToken, verseText = line.split(' ', 1)
+        verseAddrList = _parseVersesToken(verseAddrToken)
+        verseAddr = verseAddrList[0]
+        chapterIndex, verseIndex = verseAddr.first, verseAddr.second
+        if chapterIndex not in self._text:
+            self._text[chapterIndex] = collections.OrderedDict()
+        self._text[chapterIndex][verseIndex] = verseText.strip()
+
+    def _getTextAtPoint(self, point):
+        '''
+        Return an object representation of the text indicated by
+        `point`.
+        '''
+
+        if point.dimensionality == 2:
+            # This is a chapter-and-verse reference to a single verse.
+            return [(
+                    (point.first, point.second),           # The address of the verse
+                    self._text[point.first][point.second]  # The text of the verse
+                    )]
+        else:
+            if self.hasChapters:
+                # This is a whole-chapter reference.  Add
+                # every single verse in the chapter to the
+                # returned result.
+                return [
+                    ((point.first, verseIndex), verseText)
+                    for verseIndex, verseText in \
+                        self._text[point.first].iteritems()
+                    ]
+            else:
+                # This is a single-verse reference.
+                return [(
+                        (point.first),
+                        self._text[1][point.first]
+                        )]
+
+    def writeText(self, outputFile=sys.stdout):
+        '''
+        Write the entire text of the book to `outputFile` in a format
+        that resembles the original input.
+        '''
+
+        for chapterIndex, verses in self._text.iteritems():
+            for verseIndex, verseText in verses.iteritems():
+                outputFile.write(
+                    '%s %s\n' % (Point(chapterIndex, verseIndex), verseText))
 
 class Bible(object):
     '''
@@ -327,82 +395,82 @@ class Bible(object):
 
     def __init__(self):
         self._otBooks = [
-            Book('Genesis', 'Gn'),
-            Book('Exodus', 'Ex'),
-            Book('Leviticus', 'Lv'),
-            Book('Numbers', 'Nm'),
-            Book('Deuteronomy', 'Dt'),
-            Book('Joshua', 'Jos'),
-            Book('Judges', 'Jgs'),
-            Book('Ruth', 'Ru'),
-            Book('1 Samuel', '1 Sm'),
-            Book('2 Samuel', '2 Sm'),
-            Book('1 Kings', '1 Kgs'),
-            Book('2 Kings', '2 Kgs'),
-            Book('1 Chronicles', '1 Chr'),
-            Book('2 Chronicles', '2 Chr'),
-            Book('Ezra', 'Ezr'),
-            Book('Nehemiah', 'Neh'),
-            Book('Tobit', 'Tb'),
-            Book('Judith', 'Jdt'),
-            Book('Esther', 'Est'),
-            Book('1 Maccabees', '1 Mc'),
-            Book('2 Maccabees', '2 Mc'),
-            Book('Job', 'Jb'),
-            Book('Psalms', 'Ps', 'Pss'),
-            Book('Proverbs', 'Prv'),
-            Book('Ecclesiastes', 'Eccl'),
-            Book('Song of Songs', 'Song', 'Sg'),
-            Book('Wisdom', 'Wis'),
-            Book('Sirach', 'Sir'),
-            Book('Isaiah', 'Is'),
-            Book('Jeremiah', 'Jr'),
-            Book('Lamentations', 'Lam'),
-            Book('Baruch', 'Bar'),
-            Book('Ezekiel', 'Ez'),
-            Book('Daniel', 'Dn'),
-            Book('Hosea', 'Hos'),
-            Book('Joel', 'Jl'),
-            Book('Amos', 'Am'),
-            Book('Obadiah', 'Ob'),
-            Book('Jonah', 'Jon'),
-            Book('Michah', 'Mi'),
-            Book('Nahum', 'Na'),
-            Book('Habakkuk', 'Hb'),
-            Book('Zephaniah', 'Zep'),
-            Book('Haggai', 'Hg'),
-            Book('Zechariah', 'Zec'),
-            Book('Malachi', 'Mal'),
+            Book('Genesis', ['Gn']),
+            Book('Exodus', ['Ex']),
+            Book('Leviticus', ['Lv']),
+            Book('Numbers', ['Nm']),
+            Book('Deuteronomy', ['Dt']),
+            Book('Joshua', ['Jos']),
+            Book('Judges', ['Jgs']),
+            Book('Ruth', ['Ru']),
+            Book('1 Samuel', ['1 Sm']),
+            Book('2 Samuel', ['2 Sm']),
+            Book('1 Kings', ['1 Kgs']),
+            Book('2 Kings', ['2 Kgs']),
+            Book('1 Chronicles', ['1 Chr']),
+            Book('2 Chronicles', ['2 Chr']),
+            Book('Ezra', ['Ezr']),
+            Book('Nehemiah', ['Neh']),
+            Book('Tobit', ['Tb']),
+            Book('Judith', ['Jdt']),
+            Book('Esther', ['Est']),
+            Book('1 Maccabees', ['1 Mc']),
+            Book('2 Maccabees', ['2 Mc']),
+            Book('Job', ['Jb']),
+            Book('Psalms', ['Ps', 'Pss']),
+            Book('Proverbs', ['Prv']),
+            Book('Ecclesiastes', ['Eccl']),
+            Book('Song of Songs', ['Song', 'Sg']),
+            Book('Wisdom', ['Wis']),
+            Book('Sirach', ['Sir']),
+            Book('Isaiah', ['Is']),
+            Book('Jeremiah', ['Jr']),
+            Book('Lamentations', ['Lam']),
+            Book('Baruch', ['Bar']),
+            Book('Ezekiel', ['Ez']),
+            Book('Daniel', ['Dn']),
+            Book('Hosea', ['Hos']),
+            Book('Joel', ['Jl']),
+            Book('Amos', ['Am']),
+            Book('Obadiah', ['Ob'], hasChapters=False),
+            Book('Jonah', ['Jon']),
+            Book('Michah', ['Mi']),
+            Book('Nahum', ['Na']),
+            Book('Habakkuk', ['Hb']),
+            Book('Zephaniah', ['Zep']),
+            Book('Haggai', ['Hg']),
+            Book('Zechariah', ['Zec']),
+            Book('Malachi', ['Mal']),
             ]
 
         self._ntBooks = [
-            Book('Matthew', 'Mt'),
-            Book('Mark', 'Mk'),
-            Book('Luke', 'Lk'),
-            Book('John', 'Jn'),
-            Book('Acts', 'Acts'),
-            Book('Romans', 'Rom'),
-            Book('1 Corinthians', '1 Cor'),
-            Book('2 Corinthians', '2 Cor'),
-            Book('Galatians', 'Gal'),
-            Book('Ephesians', 'Eph'),
-            Book('Philippians', 'Phil'),
-            Book('Colossians', 'Col'),
-            Book('1 Thessalonians', '1 Thes'),
-            Book('2 Thessalonians', '2 Thes'),
-            Book('1 Timothy', '1 Tm'),
-            Book('2 Timothy', '2 Tm'),
-            Book('Titus', 'Ti'),
-            Book('Philemon', 'Phlm'),
-            Book('Hebrews', 'Heb'),
-            Book('James', 'Jas'),
-            Book('1 Peter', '1 Pt'),
-            Book('2 Peter', '2 Pt'),
-            Book('1 John', '1 Jn'),
-            Book('2 John', '2 Jn'),
-            Book('3 John', '3 Jn'),
-            Book('Jude', 'Jude'),
-            Book('Revelation', 'Rv'),
+            Book('Matthew', ['Mt']),
+            Book('Mark', ['Mk']),
+            Book('Luke', ['Lk']),
+            Book('John', ['Jn']),
+            Book('Acts', ['Acts']),
+            Book('Romans', ['Rom']),
+            Book('1 Corinthians', ['1 Cor']),
+            Book('2 Corinthians', ['2 Cor']),
+            Book('Galatians', ['Gal']),
+            Book('Ephesians', ['Eph']),
+            Book('Philippians', ['Phil']),
+            Book('Colossians', ['Col']),
+            Book('1 Thessalonians', ['1 Thes']),
+            Book('2 Thessalonians', ['2 Thes']),
+            Book('1 Timothy', ['1 Tm']),
+            Book('2 Timothy', ['2 Tm']),
+            Book('Titus', ['Ti']),
+            Book('Philemon', ['Phlm'], hasChapters=False),
+            Book('Hebrews', ['Heb']),
+            Book('James', ['Jas']),
+            Book('1 Peter', ['1 Pt']),
+            Book('2 Peter', ['2 Pt']),
+            Book('1 John', ['1 Jn']),
+            Book('2 John', ['2 Jn'], hasChapters=False),
+            Book('3 John', ['3 Jn'], hasChapters=False),
+            Book('Jude', ['Jude'], hasChapters=False),
+            Book('Revelation', ['Rv']),
             ]
 
         self._allBooks = self._otBooks + self._ntBooks
@@ -436,7 +504,7 @@ class Bible(object):
 
     def _loadText(self):
         for book in self.allBooks:
-            book.loadText()
+            book.loadTextFromFile()
 
 _bible = Bible()
 
