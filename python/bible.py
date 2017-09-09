@@ -2,17 +2,21 @@
 '''
 Represents the Canon of Scripture
 
-Verse References
+Verse References (OUTFACTORME!)
 ======================================================================
 
 * :class:`Point`
 * :class:`Range`
 * :func:`_parseVersesToken`
 
-Everything Else
+Library Interface
 ======================================================================
 
 * :class:`getVerses`
+
+Everything Else
+======================================================================
+
 * :class:`Ref`
 * :func:`parseRef`
 * :func:`_parseBookTokensGreedily`
@@ -207,16 +211,64 @@ def getVerses(text):
 
     ref = parseRef(text)
     book = _bible.findBook(ref.book)
-    return book.getRangeOfVerses(ref.verses[0])
+    return list(
+        itertools.chain.from_iterable(
+            book.getRangeOfVerses(addrRange)
+            for addrRange in ref.addrRanges
+            )
+        )
 
 class Ref(object):
     '''
-    Represents a range of text in a particular scriptural book.
+    A sequence of one or more verse locations within a particular
+    book.
+
+    Each verse location is potentially a verse address or an verse
+    address range.  For example:
+
+    * John 3:16 - verse address
+    * Exodus 20:1-10 - verse address range
+    * Acts 13:16-17,27 - verse address range, verse address
     '''
 
-    def __init__(self, book, verses):
-        self.book = book
-        self.verses = verses
+    def __init__(self, book, verseLocs):
+        self._book = book
+        self._verseLocs = verseLocs
+
+    @property
+    def book(self):
+        '''
+        The normalized name of the book.
+        '''
+
+        return self._book
+
+    @property
+    def verseLocs(self):
+        '''
+        The verse locations as they were provided.  (Perhaps this is a
+        mix of both verse addresses and verse address ranges.)
+        '''
+
+        return self._verseLocs
+
+    @property
+    def addrRanges(self):
+        '''
+        The verse locationss normalized to verse address ranges.
+        '''
+
+        # Perhaps this logic belongs in the constructor.
+        def normalize(verseLoc):
+            if isinstance(verseLoc, Range):
+                return verseLoc
+            else:
+                return Range(verseLoc, verseLoc)
+
+        return [
+            normalize(verseLoc)
+            for verseLoc in self.verseLocs
+            ]
 
 def parseRef(text):
     '''
