@@ -12,6 +12,7 @@ Verse References
 Everything Else
 ======================================================================
 
+* :class:`getVerses`
 * :class:`Ref`
 * :func:`parseRef`
 * :func:`_parseBookTokensGreedily`
@@ -198,6 +199,15 @@ def _parseVersesToken(token):
             result.append(Range(first, second))
 
     return result
+
+def getVerses(text):
+    '''
+    Return an object representation of the text associated with `text`.
+    '''
+
+    ref = parseRef(text)
+    book = _bible.findBook(ref.book)
+    return book.getRangeOfVerses(ref.verses[0])
 
 class Ref(object):
     '''
