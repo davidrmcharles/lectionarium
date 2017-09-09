@@ -2,13 +2,6 @@
 '''
 Represents the Canon of Scripture
 
-Locations (OUTFACTORME!)
-======================================================================
-
-* :class:`Addr`
-* :class:`AddrRange`
-* :func:`_parseLocsToken`
-
 Library Interface
 ======================================================================
 
@@ -33,176 +26,13 @@ import os
 import sys
 import traceback
 
+# Local imports:
+import locs
+
 # For the moment, assume that the text is in '../../myclemtext'.
 _thisFilePath = inspect.getfile(inspect.currentframe())
 _projectFolderPath = os.path.dirname(os.path.dirname(_thisFilePath))
 _textFolderPath = os.path.join(_projectFolderPath, 'myclemtext')
-
-class Addr(object):
-    '''
-    Represents a single place in some scriptural book.
-
-    This can be a single value that represents either a chapter or a
-    verse (depending upon context).  Or, it can be a pair of values
-    that definitely represents a chapter and verse.
-    '''
-
-    def __init__(self, first, second=None):
-        self.first = first
-        self.second = second
-
-    @property
-    def dimensionality(self):
-        '''
-        ``1`` for one-dimensional points, and ``2`` for
-        two-dimensional points.
-        '''
-
-        return 1 if self.second is None else 2
-
-    def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        if self.first != other.first:
-            return False
-        if self.second != other.second:
-            return False
-        return True
-
-    def __ne__(self, other):
-        if not isinstance(other, self.__class__):
-            return True
-        if self.first != other.first:
-            return True
-        if self.second != other.second:
-            return True
-        return False
-
-    def __hash__(self):
-        return hash((self.first, self.second))
-
-    def __str__(self):
-        if self.second is None:
-            return '%d' % self.first
-        else:
-            return '%d:%d' % (self.first, self.second)
-
-    def __repr__(self):
-        if self.second is None:
-            return '<bible.Addr object "%s" at 0x%x>' % (
-                self.first, id(self))
-        else:
-            return '<bible.Addr object "%s:%s" at 0x%x>' % (
-                self.first, self.second, id(self))
-
-class AddrRange(object):
-    '''
-    Represents an range of text in some scriptural book.
-
-    The range is inclusive, and bounded by two :class:`Addr` objects.
-    '''
-
-    def __init__(self, first, last):
-        self.first = first
-        self.last = last
-
-    def __eq__(self, other):
-        if not isinstance(other, self.__class__):
-            return False
-        if self.first != other.first:
-            return False
-        if self.last != other.last:
-            return False
-        return True
-
-    def __ne__(self, other):
-        if not isinstance(other, self.__class__):
-            return True
-        if self.first != other.first:
-            return True
-        if self.last != other.last:
-            return True
-        return False
-
-    def __hash__(self):
-        return hash((self.first, self.last))
-
-    def __str__(self):
-        return '%s-%s' % (self.first, self.last)
-
-    def __repr__(self):
-        return '<bible.AddrRange object "%s-%s" at 0x%x>' % (
-            self.first, self.last, id(self))
-
-def _parseLocsToken(token):
-    '''
-    Parse a chapter and verse token to a list of :class:`Addr` and
-    :class:`AddrRange` objects.
-    '''
-
-    # Fail if `token` is not a string.
-    if not isinstance(token, basestring):
-        raise TypeError(
-            'Non-string (%s, %s) passed to _parseLocsToken()!' % (
-                type(token), token))
-
-    token.strip()
-    if len(token) == 0:
-        raise ValueError(
-            'Empty/whitespace-only string passed to'
-            ' _parseLocsToken()!')
-
-    prefix = None
-
-    # Parse each of the comma-separated tokens to a list of points and
-    # ranges.  There can be an arbitrary number of these.
-    result = []
-    comma_tokens = token.split(',')
-    for comma_token in comma_tokens:
-        # Parse each of the hyphen-separated subtokens within the
-        # comma-separated token to a list of points and ranges.  There
-        # may be only one or two of these subtokens.
-        hyphen_tokens = comma_token.split('-')
-        if len(hyphen_tokens) > 2:
-            raise ValueError('Too many hyphens!')
-
-        points = []
-        for hyphen_token in hyphen_tokens:
-            # Parse each of the colon-separated subtokens within the
-            # hyphen-separated tken to a list of points.  There may be
-            # only one or two of these subtokens.
-            colon_tokens = hyphen_token.split(':')
-            if len(colon_tokens) > 2:
-                raise ValueError('Too many colons!')
-
-            if len(colon_tokens) == 1:
-                # There are no colons in this subtoken.  Reuse the
-                # last prefix we've seen (if there is one).
-                # Otherwise, generate a point without a prefix.
-                if prefix is not None:
-                    points.append(Addr(int(prefix), int(colon_tokens[0])))
-                else:
-                    points.append(Addr(int(colon_tokens[0])))
-
-            elif len(colon_tokens) == 2:
-                # This token has exactly point colon.  Generate a
-                # two-dimensional point and remember the prefix for
-                # later.
-                first, second = colon_tokens
-                points.append(Addr(int(first), int(second)))
-                prefix = first
-
-        # If parsing the hyphenated subtokens generated a single
-        # point, add it to the result as-is.  Otherwise, if parsing
-        # the hyphenated subtokens generated two points, wrap them in
-        # a range.
-        if len(points) == 1:
-            result.extend(points)
-        elif len(points) == 2:
-            first, second = points
-            result.append(AddrRange(first, second))
-
-    return result
 
 def getVerses(text):
     '''
@@ -260,10 +90,10 @@ class Ref(object):
 
         # Perhaps this logic belongs in the constructor.
         def normalize(loc):
-            if isinstance(loc, AddrRange):
+            if isinstance(loc, locs.AddrRange):
                 return loc
             else:
-                return AddrRange(loc, loc)
+                return locs.AddrRange(loc, loc)
 
         return [
             normalize(loc)
@@ -304,7 +134,7 @@ def parseRef(text):
     verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
-        verses = _parseLocsToken(remainingToken)
+        verses = locs.parseLocsToken(remainingToken)
 
     return Ref(book, verses)
 
@@ -419,7 +249,7 @@ class Book(object):
         '''
 
         verseAddrToken, verseText = line.split(' ', 1)
-        verseAddrList = _parseLocsToken(verseAddrToken)
+        verseAddrList = locs.parseLocsToken(verseAddrToken)
         verseAddr = verseAddrList[0]
         chapterIndex, verseIndex = verseAddr.first, verseAddr.second
         if chapterIndex not in self._text:

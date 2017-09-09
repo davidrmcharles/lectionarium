@@ -9,6 +9,7 @@ import unittest
 
 # Local imports:
 import bible
+import locs
 
 class getVersesTestCase(unittest.TestCase):
 
@@ -62,7 +63,7 @@ class parseRefTestCase(unittest.TestCase):
         ref = bible.parseRef('1 samuel 1:2-3:4')
         self.assertEqual('1samuel', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 2), bible.Addr(3, 4))],
+            [locs.AddrRange(locs.Addr(1, 2), locs.Addr(3, 4))],
             ref.locs)
 
     def test_songOfSongs(self):
@@ -79,7 +80,7 @@ class parseRefTestCase(unittest.TestCase):
         ref = bible.parseRef('song of songs 1:2-3:4')
         self.assertEqual('songofsongs', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 2), bible.Addr(3, 4))],
+            [locs.AddrRange(locs.Addr(1, 2), locs.Addr(3, 4))],
             ref.locs)
 
     def test_syntheticAndMinimal(self):
@@ -90,72 +91,72 @@ class parseRefTestCase(unittest.TestCase):
 
         ref = bible.parseRef('gn 1')
         self.assertEqual('genesis', ref.book)
-        self.assertEqual([bible.Addr(1)], ref.locs)
+        self.assertEqual([locs.Addr(1)], ref.locs)
 
         ref = bible.parseRef('gn 1-2')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1), bible.Addr(2))],
+            [locs.AddrRange(locs.Addr(1), locs.Addr(2))],
             ref.locs)
 
         ref = bible.parseRef('gn 1,3')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1), bible.Addr(3)],
+            [locs.Addr(1), locs.Addr(3)],
             ref.locs)
 
         ref = bible.parseRef('gn 1-2,4')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1), bible.Addr(2)), bible.Addr(4)],
+            [locs.AddrRange(locs.Addr(1), locs.Addr(2)), locs.Addr(4)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1, 1)],
+            [locs.Addr(1, 1)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1-2')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(1, 2))],
+            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2))],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1,3')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(1, 3)],
+            [locs.Addr(1, 1), locs.Addr(1, 3)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1-2,4')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(1, 2)), bible.Addr(1, 4)],
+            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2)), locs.Addr(1, 4)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1-2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(2, 1))],
+            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1))],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1,2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(2, 1)],
+            [locs.Addr(1, 1), locs.Addr(2, 1)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1,3,2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(1, 3), bible.Addr(2, 1)],
+            [locs.Addr(1, 1), locs.Addr(1, 3), locs.Addr(2, 1)],
             ref.locs)
 
         ref = bible.parseRef('gn 1:1,3-2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [bible.Addr(1, 1), bible.AddrRange(bible.Addr(1, 3), bible.Addr(2, 1))],
+            [locs.Addr(1, 1), locs.AddrRange(locs.Addr(1, 3), locs.Addr(2, 1))],
             ref.locs)
 
 class parseBookTokensGreedilyTestCase(unittest.TestCase):
@@ -211,7 +212,7 @@ class BookTestCase(unittest.TestCase):
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should return all of chapter 1.
-        result = bookWithChapters.getVerse(bible.Addr(1))
+        result = bookWithChapters.getVerse(locs.Addr(1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
@@ -220,7 +221,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return all of chapter 2.
-        result = bookWithChapters.getVerse(bible.Addr(2))
+        result = bookWithChapters.getVerse(locs.Addr(2))
         self.assertEqual(
             result, [
                 ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -229,21 +230,21 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return verse 1:1.
-        result = bookWithChapters.getVerse(bible.Addr(1, 1))
+        result = bookWithChapters.getVerse(locs.Addr(1, 1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should return verse 1:2.
-        result = bookWithChapters.getVerse(bible.Addr(1, 2))
+        result = bookWithChapters.getVerse(locs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should return verse 2:3:
-        result = bookWithChapters.getVerse(bible.Addr(2, 3))
+        result = bookWithChapters.getVerse(locs.Addr(2, 3))
         self.assertEqual(
             result, [
                 ((2, 3), u'Et benedixit diei septimo...'),
@@ -253,14 +254,14 @@ class BookTestCase(unittest.TestCase):
         bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
-        result = bookWithoutChapters.getVerse(bible.Addr(1))
+        result = bookWithoutChapters.getVerse(locs.Addr(1))
         self.assertEqual(
             result, [
                 (1, u'Judas Jesu Christi servus...'),
                 ])
 
         # This should return only verse 2.
-        result = bookWithoutChapters.getVerse(bible.Addr(2))
+        result = bookWithoutChapters.getVerse(locs.Addr(2))
         self.assertEqual(
             result, [
                 (2, u'Misericordia vobis...'),
@@ -268,7 +269,7 @@ class BookTestCase(unittest.TestCase):
 
         # A request for 1:2 should also return verse 2, but the
         # 'address' should have the shape of the reference.
-        result = bookWithoutChapters.getVerse(bible.Addr(1, 2))
+        result = bookWithoutChapters.getVerse(locs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Misericordia vobis...'),
@@ -280,7 +281,7 @@ class BookTestCase(unittest.TestCase):
 
         # Here are a few ranges entirely within the same chapter,
         # starting with 1:1-1:3.
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(1, 1), bible.Addr(1, 3)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -288,14 +289,14 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:1-2:2
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(2, 1), bible.Addr(2, 2)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
         self.assertEqual(
             [((2, 1), u'Igitur perfecti sunt cæli et terra...'),
              ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
             verses)
 
         # 3:2-3:3
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(3, 2), bible.Addr(3, 3)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
         self.assertEqual(
             [((3, 2), u'Cui respondit mulier...'),
              ((3, 3), u'de fructu vero ligni quod est in medio paradisi...')],
@@ -303,7 +304,7 @@ class BookTestCase(unittest.TestCase):
 
         # Here are some ranges in adjacent chapters, starting with
         # 1:1-2:1:
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(1, 1), bible.Addr(2, 1)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -312,7 +313,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:2-3:2
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(2, 2), bible.Addr(3, 2)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
         self.assertEqual(
             [((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
              ((2, 3), u'Et benedixit diei septimo...'),
@@ -321,7 +322,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # Finally, here is the case of a book in the middle: 1:3-3:1:
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(1, 3), bible.Addr(3, 1)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
         self.assertEqual(
             [((1, 3), u'Dixitque Deus...'),
              ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -332,7 +333,7 @@ class BookTestCase(unittest.TestCase):
 
         # Now let's see if we can handle whole-chapter ranges like
         # 1-2:
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(1), bible.Addr(2)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -344,7 +345,7 @@ class BookTestCase(unittest.TestCase):
 
         # What about a range that begins on a chapter, but ends on a
         # verse, like 1-2:2:
-        verses = bookWithChapters.getRangeOfVerses(bible.AddrRange(bible.Addr(1), bible.Addr(2, 2)))
+        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -497,77 +498,6 @@ class BibleTestCase(unittest.TestCase):
         self.assertIsNotNone(bible._bible.findBook('gn'))
         self.assertIsNotNone(bible._bible.findBook('GN'))
         self.assertIsNotNone(bible._bible.findBook('gN'))
-
-class AddrTestCase(unittest.TestCase):
-
-    def test_eq(self):
-        self.assertTrue(bible.Addr(1) == bible.Addr(1))
-        self.assertTrue(bible.Addr(2) == bible.Addr(2))
-
-    def test_str(self):
-        self.assertEqual('1', str(bible.Addr(1)))
-        self.assertEqual('2', str(bible.Addr(2)))
-        self.assertEqual('1:2', str(bible.Addr(1, 2)))
-
-class RangeTestCase(unittest.TestCase):
-
-    def test_eq(self):
-        self.assertTrue(bible.AddrRange(1, 2) == bible.AddrRange(1, 2))
-        self.assertTrue(
-            bible.AddrRange(bible.Addr(1), bible.Addr(2)) == \
-                bible.AddrRange(bible.Addr(1), bible.Addr(2)))
-
-    def test_str(self):
-        self.assertEqual(
-            '1:2-3:4', str(bible.AddrRange(bible.Addr(1, 2), bible.Addr(3, 4))))
-
-class parseVersesTokenTestCase(unittest.TestCase):
-
-    def test_None(self):
-        with self.assertRaises(TypeError):
-            bible._parseLocsToken(None)
-
-    def test_emptyString(self):
-        with self.assertRaises(ValueError):
-            bible._parseLocsToken('')
-
-    def test_syntheticAndMinimal(self):
-        self.assertEqual(
-            [bible.Addr(1)],
-            bible._parseLocsToken('1'))
-        self.assertEqual(
-            [bible.AddrRange(bible.Addr(1), bible.Addr(2))],
-            bible._parseLocsToken('1-2'))
-        self.assertEqual(
-            [bible.Addr(1), bible.Addr(3)],
-            bible._parseLocsToken('1,3'))
-        self.assertEqual(
-            [bible.AddrRange(bible.Addr(1), bible.Addr(2)), bible.Addr(4)],
-            bible._parseLocsToken('1-2,4'))
-        self.assertEqual(
-            [bible.Addr(1, 1)],
-            bible._parseLocsToken('1:1'))
-        self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(1, 2))],
-            bible._parseLocsToken('1:1-2'))
-        self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(1, 3)],
-            bible._parseLocsToken('1:1,3'))
-        self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(1, 2)), bible.Addr(1, 4)],
-            bible._parseLocsToken('1:1-2,4'))
-        self.assertEqual(
-            [bible.AddrRange(bible.Addr(1, 1), bible.Addr(2, 1))],
-            bible._parseLocsToken('1:1-2:1'))
-        self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(2, 1)],
-            bible._parseLocsToken('1:1,2:1'))
-        self.assertEqual(
-            [bible.Addr(1, 1), bible.Addr(1, 3), bible.Addr(2, 1)],
-            bible._parseLocsToken('1:1,3,2:1'))
-        self.assertEqual(
-            [bible.Addr(1, 1), bible.AddrRange(bible.Addr(1, 3), bible.Addr(2, 1))],
-            bible._parseLocsToken('1:1,3-2:1'))
 
 if __name__ == '__main__':
     unittest.main()
