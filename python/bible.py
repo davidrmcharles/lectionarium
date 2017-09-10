@@ -337,11 +337,7 @@ class Book(object):
             )
 
     def _allVersesInChapter(self, chapter):
-        return [
-            verse
-            for verse in self._visitAllVersesInChapter(
-                chapter)
-            ]
+        return list(self._visitAllVersesInChapter(chapter))
 
     def _visitLastVersesInChapter(self, chapter, firstVerse):
         '''
@@ -358,11 +354,7 @@ class Book(object):
             isExcluded, self._visitAllVersesInChapter(chapter))
 
     def _lastVersesInChapter(self, chapter, firstVerse):
-        return [
-            verse
-            for verse in self._visitLastVersesInChapter(
-                chapter, firstVerse)
-            ]
+        return list(self._visitLastVersesInChapter(chapter, firstVerse))
 
     def _visitFirstVersesInChapter(self, chapter, lastVerse):
         '''
@@ -379,11 +371,7 @@ class Book(object):
             isIncluded, self._visitAllVersesInChapter(chapter))
 
     def _firstVersesInChapter(self, chapter, lastVerse):
-        return [
-            verse
-            for verse in self._visitFirstVersesInChapter(
-                chapter, lastVerse)
-            ]
+        return list(self._visitFirstVersesInChapter(chapter, lastVerse))
 
     def _visitMiddleVersesInChapter(self, chapter, firstVerse, lastVerse):
         '''
@@ -400,11 +388,9 @@ class Book(object):
             isIncluded, self._visitAllVersesInChapter(chapter))
 
     def _middleVersesInChapter(self, chapter, firstVerse, lastVerse):
-        return [
-            verse
-            for verse in self._visitMiddleVersesInChapter(
-                chapter, firstVerse, lastVerse)
-            ]
+        return list(
+            self._visitMiddleVersesInChapter(
+                chapter, firstVerse, lastVerse))
 
     def writeText(self, outputFile=sys.stdout):
         '''
