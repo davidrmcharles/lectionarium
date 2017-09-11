@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Location Handling
+Locations
 
 This is where we deal with the numerical portion of a scripture
 citation.  For example, things like:
