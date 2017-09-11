@@ -10,6 +10,8 @@ Library Interface
 
 # Standard imports:
 import itertools
+import sys
+import textwrap
 
 # Local imports:
 import books
@@ -30,3 +32,34 @@ def getVerses(text):
             for addrRange in citation.addrRanges
             )
         )
+
+def formatVersesForConsole(verses):
+    '''
+    Convert a list of verses to a formatted string that is readable on
+    the console.
+    '''
+
+    lines = []
+    for verseAddr, verseText in verses:
+        chapterIndex, verseIndex = verseAddr
+        lines.append(
+            '[%d:%d] %s\n' % (chapterIndex, verseIndex, verseText))
+
+    return textwrap.fill(' '.join(lines), width=80) + '\n'
+
+def main():
+    '''
+    The command-line interface.
+    '''
+
+    if len(sys.argv) == 1:
+        sys.stderr.write(
+            'Provide a scripture citation and we will write it to stdout.\n')
+        raise SystemExit(1)
+
+    verses = getVerses(' '.join(sys.argv[1:]))
+
+    sys.stdout.write(formatVersesForConsole(verses))
+
+if __name__ == '__main__':
+    main()
