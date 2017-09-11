@@ -177,7 +177,10 @@ class Book(object):
 
         if firstChapter == lastChapter:
             # The entire range of text is in the same book.
-            return self._middleVersesInChapter(
+            if (firstVerse is None) and (lastVerse is None):
+                return self._allVersesInChapter(firstChapter)
+            else:
+                return self._middleVersesInChapter(
                     firstChapter, firstVerse, lastVerse)
 
         # Add the verses from the first chapter in the range.
@@ -266,6 +269,17 @@ class Book(object):
         return list(
             self._visitMiddleVersesInChapter(
                 chapter, firstVerse, lastVerse))
+
+    def getAllVerses(self):
+        '''
+        Return an object representation of every verse in the book.
+        '''
+
+        verses = []
+        for chapterIndex, chapterVerses in self._text.iteritems():
+            for verseIndex, verseText in chapterVerses.iteritems():
+                verses.append(((chapterIndex, verseIndex), verseText))
+        return verses
 
     def writeText(self, outputFile=sys.stdout):
         '''

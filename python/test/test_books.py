@@ -36,26 +36,26 @@ class BookTestCase(unittest.TestCase):
 '''
 
     def test_normalName(self):
-        self.assertEqual('genesis', books._Book('Genesis', ['Gn']).normalName)
+        self.assertEqual('genesis', books.Book('Genesis', ['Gn']).normalName)
 
     def test_noramlAbbreviations(self):
-        self.assertEqual(['gn'], books._Book('Genesis', ['Gn']).normalAbbreviations)
+        self.assertEqual(['gn'], books.Book('Genesis', ['Gn']).normalAbbreviations)
 
     def test_matchesToken(self):
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('Genesis'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('genesis'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('GENESIS'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('GeNesIs'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('Gn'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('gn'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('GN'))
-        self.assertTrue(books._Book('Genesis', ['Gn']).matchesToken('gN'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('Genesis'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('genesis'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('GENESIS'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('GeNesIs'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('Gn'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('gn'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('GN'))
+        self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('gN'))
 
     def test_str(self):
-        self.assertEqual('Genesis (Gn)', str(books._Book('Genesis', ['Gn'])))
+        self.assertEqual('Genesis (Gn)', str(books.Book('Genesis', ['Gn'])))
 
     def test_getVerse(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should return all of chapter 1.
@@ -97,7 +97,7 @@ class BookTestCase(unittest.TestCase):
                 ((2, 3), u'Et benedixit diei septimo...'),
                 ])
 
-        bookWithoutChapters = books._Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
         bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
@@ -123,7 +123,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
     def test_getRangeOfVerses(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # Here are a few ranges entirely within the same chapter,
@@ -190,6 +190,19 @@ class BookTestCase(unittest.TestCase):
              ((2, 3), u'Et benedixit diei septimo...')],
             verses)
 
+        # What about a range like 1-1?  We don't expect this from a
+        # human, but it can happen when we normalize a mix of
+        # addresses and address ranges to address ranges.
+        expectedVerses = [
+            ((1, 1), u'In principio creavit Deus cælum et terram.'),
+            ((1, 2), u'Terra autem erat inanis et vacua...'),
+            ((1, 3), u'Dixitque Deus...')
+            ]
+        self.assertEqual(
+            expectedVerses,
+            bookWithChapters.getRangeOfVerses(
+                locs.AddrRange(locs.Addr(1), locs.Addr(1))))
+
         # What about a range that begins on a chapter, but ends on a
         # verse, like 1-2:2:
         verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
@@ -209,7 +222,7 @@ class BookTestCase(unittest.TestCase):
         # must handle the case of a book with chapters.
 
     def test_allVersesInChapter(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should arrive at all verses in chapter 1.
@@ -228,7 +241,7 @@ class BookTestCase(unittest.TestCase):
                 ((2, 3), u'Et benedixit diei septimo...'),
                 ])
 
-        bookWithoutChapters = books._Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
         bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
 
         # This should arrive at all verses in chapter 1.
@@ -240,7 +253,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
     def test_lastVersesInChapter(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should produce verses 1:1-3.
@@ -265,7 +278,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
     def test_firstVersesInChapter(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should produce verses 1:1-3.
@@ -290,7 +303,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
     def test_middleVersesInChapter(self):
-        bookWithChapters = books._Book('withchapters', hasChapters=True)
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
 
         # This should produce all three verses of chapter one.
