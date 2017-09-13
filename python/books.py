@@ -328,7 +328,7 @@ class _Bible(object):
             Book('Wisdom', ['Wis']),
             Book('Sirach', ['Sir']),
             Book('Isaiah', ['Is']),
-            Book('Jeremiah', ['Jr']),
+            Book('Jeremiah', ['Jer']),
             Book('Lamentations', ['Lam']),
             Book('Baruch', ['Bar']),
             Book('Ezekiel', ['Ez']),

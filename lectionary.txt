@@ -99,7 +99,7 @@ Eph 5:8-14
 Jn 9:1-41
 
 5th Sunday of Lent
-Ez` 37:12-14
+Ez 37:12-14
 Rom 8:8-11
 Jn 11:1-45
 
@@ -134,7 +134,7 @@ Mt 28:1-10
 Easter Sunday
 Acts 10:34a,37-43
 Col 3:1-4 or 1 Cor 5,6b-8
-Jn 20:1-9 or Mt 28:1-10 (or evening 3 Lk 24:13-35)
+Jn 20:1-9 or Mt 28:1-10 or Lk 24:13-35
 
 2nd Sunday of Easter
 Acts 2:42-47
@@ -142,13 +142,13 @@ Acts 2:42-47
 Jn 20:19-31
 
 3rd Sunday of Easter
-Acts 2:14:22-33
+Acts 2:14,22-33
 1 Pt 1:17-21
 Lk 24:13-35
 
 4th Sunday of Easter
 Acts 2:14a,36-41
-1 Pt2:20b-25
+1 Pt 2:20b-25
 Jn 10,1-10
 
 5th Sunday of Easter
@@ -208,12 +208,12 @@ Is 8:23b-9:3
 Mt 4:12-23
 
 4th Sunday
-Zep 2:3,3:12--13
+Zep 2:3,3:12-13
 1 Cor 1:26-31
 Mt 5:1-12a
 
 5th Sunday
-I s58:7-10
+Is 58:7-10
 1 Cor 2:1-5
 Mt 5:13-16
 
@@ -253,7 +253,7 @@ Rom 5:12-15
 Mt 10:26-33
 
 13th Sunday
-k2 Kgs 4:8-11,14-16a
+2 Kgs 4:8-11,14-16a
 Rom 6:3-4,8-11
 Mt 10:37-42
 
@@ -308,7 +308,7 @@ Rom 18:8-10
 Mt 18:15-20
 
 24th Sunday
-Sr 27:30-28:7
+Sir 27:30-28:7
 Rom 14:7-9
 Mt 18:21-35
 
@@ -496,17 +496,17 @@ Mk 16:1-7
 
 Easter Sunday
 Acts 10:34a,37-43
-Col 3:1-4 or Cor 5:6b-8
-Jn 20:1-8 or Mk 16:1-8 (or evening Lk 24:13-35)
+Col 3:1-4 or 1 Cor 5:6b-8
+Jn 20:1-8 or Mk 16:1-8 or Lk 24:13-35
 
 2nd Sunday of Easter
-Acts 4:32:35
+Acts 4:32-35
 1 Jn 5:1-6
 Jn 20:19-31
 
 3rd Sunday of Easter
 Acts 3:13-15,17-19
-1 Jn2:1-5a
+1 Jn 2:1-5a
 Lk 24:35-48
 
 4th Sunday of Easter
@@ -522,11 +522,11 @@ Jn 15:1-8
 6th Sunday of Easter
 Acts 10:25-26,34-35,44-48
 1 Jn 4:7-10
-Jn15:9-17
+Jn 15:9-17
 
 Ascension of Our Lord
 Acts 1:1-11
-Eph 1:17-28 or 4:1-13
+Eph 1:17-28 or Eph 4:1-13
 Mk 16:15-20
 
 7th Sunday of Easter
@@ -566,7 +566,6 @@ Ordinary Time
 1st Sunday (See Baptism of the Lord, above)
 
 2nd Sunday
-
 1 Sm 3:3b-10,19
 1 Cor 6:13c-15a,17-20
 Jn 1:35-42
@@ -688,7 +687,7 @@ Mk 9:30-37
 
 26th Sunday
 Nm 11:25-29
-Jaqs 5:1-6
+Jas 5:1-6
 Mk 9:38-43,45,47-48
 
 27th Sunday
@@ -788,7 +787,7 @@ Gal 4:4-7
 Lk 2:16-21
 
 2nd Sunday After Christmas
-Sr 24:1-2,8-12
+Sir 24:1-2,8-12
 Eph 1:3-6,15-18
 Jn 1:1-18
 
@@ -866,7 +865,7 @@ Lk 24:1-12
 Easter Sunday
 Acts 10:34a,37-43
 Col 3:1-4 or 1 Cor 5:6b-8
-Jn 20:1-9 or Lk 24:1-12 (or evening Lk 24, 13-35)
+Jn 20:1-9 or Lk 24:1-12 or Lk 24:13-35
 
 2nd Sunday of Easter
 Acts 5:12-16
@@ -1085,7 +1084,7 @@ Wis 11:23-12:2
 Lk 19:1-10
 
 32nd Sunday
-2 Mk 7:1-2,9-14
+Mk 7:1-2,9-14
 2 Thes 2:16-3:5
 Lk 20:27-38
 
@@ -1102,7 +1101,7 @@ Lk 23:35-43
 READINGS FOR THE MAJOR FEASTS OF THE YEAR
 
 Feb. 2: Presentation of the Lord
-Maal 3:1-4
+Mal 3:1-4
 Heb 2:14-18
 Lk 2:22-40
 
@@ -1122,7 +1121,7 @@ Jer 1:4-10
 Lk 1:5-17
 
 mass of the Day
-Is 49L1-6
+Is 49:1-6
 Acts 13:22-26
 Lk 1:47-66,80
 

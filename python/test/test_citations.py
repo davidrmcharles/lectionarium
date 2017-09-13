@@ -20,6 +20,24 @@ class parseCitationTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             citations.parseCitation('')
 
+    def test_actualMistakes(self):
+        with self.assertRaises(ValueError):
+            citations.parseCitation('Ez` 37:12-14')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('3 Lk 24:13-35')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('Acts 2:14:22-33')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('1 Pt2:20b-25')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('Zep 2:3,3:12--13')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('I s58:7-10')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('Cor 5:6b-8')
+        with self.assertRaises(ValueError):
+            citations.parseCitation('Is 49L1-6')
+
     def test_singleTokenBookOnly(self):
         ref = citations.parseCitation('gn')
         self.assertEqual('genesis', ref.book)

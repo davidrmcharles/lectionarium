@@ -24,6 +24,9 @@ Interface
 * :func:`parseLocsToken` - Parse a single locations token
 '''
 
+# Standard imports:
+import string
+
 class Addr(object):
     '''
     A single location (chapter or verse)
@@ -150,16 +153,25 @@ def parseLocsToken(token):
         # only one or two of these subtokens.
         hyphen_tokens = comma_token.split('-')
         if len(hyphen_tokens) > 2:
-            raise ValueError('Too many hyphens!')
+            raise ValueError(
+                'Too many hyphens in token "%s"!' % comma_token)
 
         addrs = []
         for hyphen_token in hyphen_tokens:
             # Parse each of the colon-separated subtokens within the
-            # hyphen-separated tken to a list of addrs.  There may be
+            # hyphen-separated token to a list of addrs.  There may be
             # only one or two of these subtokens.
             colon_tokens = hyphen_token.split(':')
             if len(colon_tokens) > 2:
-                raise ValueError('Too many colons!')
+                raise ValueError(
+                    'Too many colons in token "%s"!' % hyphen_token)
+
+            # TODO: Eventually we'll have to locations with trailing
+            # letters.  For the moment, we'll strip them off.
+            colon_tokens = [
+                token.rstrip(string.lowercase)
+                for token in colon_tokens
+                ]
 
             if len(colon_tokens) == 1:
                 # There are no colons in this subtoken.  Reuse the

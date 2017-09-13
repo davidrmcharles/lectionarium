@@ -83,6 +83,9 @@ def parseCitation(text):
     # Try to parse a book out of the leading tokens in a 'greedy'
     # fashion.
     book, tokensConsumed = books.parseBookTokensGreedily(tokens)
+    if book is None:
+        raise ValueError(
+            'Unable to identify the book in citation "%s"!' % text)
 
     # If there is more than one token remaining, we have too many
     # tokens.
