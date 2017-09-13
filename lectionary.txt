@@ -304,7 +304,7 @@ Mt 16:21-27
 
 23rd Sunday
 Ez 33:7-9
-Rom 18:8-10
+Rom 8:8-10
 Mt 18:15-20
 
 24th Sunday
@@ -553,7 +553,7 @@ Mt 28:16-20
 
 Corpus Christi
 Ex 24:3-8
-Hb 9:11-15
+Heb 9:11-15
 Mk 14:12-16,22-26
 
 Sacred Hear of Jesus
@@ -742,7 +742,7 @@ Lk 21:25-28,34-36
 2nd Sunday of Advent
 Bar 5:1-9
 Phil 1:4-6,8-11
-Lk 34:1-6
+Lk 3:1-6
 
 3rd Sunday of Advent
 Zep 3:14-18a

@@ -168,11 +168,28 @@ class Book(object):
         `addrRange`.
         '''
 
-        firstChapter = addrRange.first.first
-        firstVerse = addrRange.first.second
-
-        lastChapter = addrRange.last.first
-        lastVerse = addrRange.last.second
+        # TODO: Move this logic into AddrRange itself.
+        if (addrRange.first.second is None) \
+                and (addrRange.last.second is None):
+            # Both seconds in the address range are ``None``, so the
+            # interpretation depends upon whether or not the book has
+            # chapters.
+            if not self.hasChapters:
+                # The book does not have chapters, so normalize the
+                # chapter index to 1.
+                firstChapter, firstVerse = 1, addrRange.first.first
+                lastChapter, lastVerse = 1, addrRange.last.first
+            else:
+                # The book chapters, to treat the address range as a
+                # range of chapters.
+                firstChapter, lastChapter = \
+                    addrRange.first.first, addrRange.last.first
+                firstVerse, lastVerse = None, None
+        else:
+            firstChapter = addrRange.first.first
+            firstVerse = addrRange.first.second
+            lastChapter = addrRange.last.first
+            lastVerse = addrRange.last.second
 
         if firstChapter == lastChapter:
             # The entire range of text is in the same book.
@@ -203,14 +220,19 @@ class Book(object):
 
         return result
 
-    def _visitAllVersesInChapter(self, chapter):
+    def _visitAllVersesInChapter(self, chapterIndex):
         '''
-        Return a visitor onto every verse object in a `chapter`.
+        Return a visitor onto every verse object in a `chapterIndex`.
         '''
 
+        if chapterIndex not in self._text:
+            raise LookupError(
+                'Chapter %d is out of range for book "%s"!' % (
+                    chapterIndex, self.name))
+
         return (
-            ((chapter, verseIndex), verseText)
-            for verseIndex, verseText in self._text[chapter].iteritems()
+            ((chapterIndex, verseIndex), verseText)
+            for verseIndex, verseText in self._text[chapterIndex].iteritems()
             )
 
     def _allVersesInChapter(self, chapter):
