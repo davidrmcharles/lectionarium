@@ -32,53 +32,53 @@ class RangeTestCase(unittest.TestCase):
         self.assertEqual(
             '1:2-3:4', str(locs.AddrRange(locs.Addr(1, 2), locs.Addr(3, 4))))
 
-class parseLocsTokenTestCase(unittest.TestCase):
+class parseTestCase(unittest.TestCase):
 
     def test_None(self):
         with self.assertRaises(TypeError):
-            locs.parseLocsToken(None)
+            locs.parse(None)
 
     def test_emptyString(self):
         with self.assertRaises(ValueError):
-            locs.parseLocsToken('')
+            locs.parse('')
 
     def test_syntheticAndMinimal(self):
         self.assertEqual(
             [locs.Addr(1)],
-            locs.parseLocsToken('1'))
+            locs.parse('1'))
         self.assertEqual(
             [locs.AddrRange(locs.Addr(1), locs.Addr(2))],
-            locs.parseLocsToken('1-2'))
+            locs.parse('1-2'))
         self.assertEqual(
             [locs.Addr(1), locs.Addr(3)],
-            locs.parseLocsToken('1,3'))
+            locs.parse('1,3'))
         self.assertEqual(
             [locs.AddrRange(locs.Addr(1), locs.Addr(2)), locs.Addr(4)],
-            locs.parseLocsToken('1-2,4'))
+            locs.parse('1-2,4'))
         self.assertEqual(
             [locs.Addr(1, 1)],
-            locs.parseLocsToken('1:1'))
+            locs.parse('1:1'))
         self.assertEqual(
             [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2))],
-            locs.parseLocsToken('1:1-2'))
+            locs.parse('1:1-2'))
         self.assertEqual(
             [locs.Addr(1, 1), locs.Addr(1, 3)],
-            locs.parseLocsToken('1:1,3'))
+            locs.parse('1:1,3'))
         self.assertEqual(
             [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2)), locs.Addr(1, 4)],
-            locs.parseLocsToken('1:1-2,4'))
+            locs.parse('1:1-2,4'))
         self.assertEqual(
             [locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1))],
-            locs.parseLocsToken('1:1-2:1'))
+            locs.parse('1:1-2:1'))
         self.assertEqual(
             [locs.Addr(1, 1), locs.Addr(2, 1)],
-            locs.parseLocsToken('1:1,2:1'))
+            locs.parse('1:1,2:1'))
         self.assertEqual(
             [locs.Addr(1, 1), locs.Addr(1, 3), locs.Addr(2, 1)],
-            locs.parseLocsToken('1:1,3,2:1'))
+            locs.parse('1:1,3,2:1'))
         self.assertEqual(
             [locs.Addr(1, 1), locs.AddrRange(locs.Addr(1, 3), locs.Addr(2, 1))],
-            locs.parseLocsToken('1:1,3-2:1'))
+            locs.parse('1:1,3-2:1'))
 
 if __name__ == '__main__':
     unittest.main()

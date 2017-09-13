@@ -21,7 +21,7 @@ Interface
 
 * :class:`Addr` - A single location (chapter or verse)
 * :class:`AddrRange` - An inclusive range of addresses
-* :func:`parseLocsToken` - Parse a single locations token
+* :func:`parse` - Parse a single locations token
 '''
 
 # Standard imports:
@@ -123,7 +123,7 @@ class AddrRange(object):
         return '<bible.AddrRange object "%s-%s" at 0x%x>' % (
             self.first, self.last, id(self))
 
-def parseLocsToken(token):
+def parse(token):
     '''
     Parse a single locations token and return it as a list of
     :class:`Addr` and :class:`AddrRange` objects.
@@ -132,14 +132,13 @@ def parseLocsToken(token):
     # Fail if `token` is not a string.
     if not isinstance(token, basestring):
         raise TypeError(
-            'Non-string (%s, %s) passed to parseLocsToken()!' % (
+            'Non-string (%s, %s) passed to locs.parse()!' % (
                 type(token), token))
 
     token.strip()
     if len(token) == 0:
         raise ValueError(
-            'Empty/whitespace-only string passed to'
-            ' parseLocsToken()!')
+            'Empty/whitespace-only string passed to locs.parse()!')
 
     chapterIndex = None
 

@@ -24,7 +24,7 @@ def getVerses(text):
     `text`.
     '''
 
-    citation = citations.parseCitation(text)
+    citation = citations.parse(text)
     book = books.findBook(citation.book)
     if citation.locs is None:
         # This is the citation of an entire book.

@@ -50,7 +50,7 @@ for celeb in celebs:
             continue
         for reading_ in reading.split(' or '):
             try:
-                citations.parseCitation(reading_)
+                citations.parse(reading_)
             except Exception:
                 traceback.print_exc()
                 print 'Failed to parse:', reading_

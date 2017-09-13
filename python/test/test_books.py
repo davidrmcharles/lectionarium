@@ -359,13 +359,10 @@ class BibleTestCase(unittest.TestCase):
         self.assertIsNotNone(books.findBook('GN'))
         self.assertIsNotNone(books.findBook('gN'))
 
-class parseBookTokensGreedilyTestCase(unittest.TestCase):
+class parseTestCase(unittest.TestCase):
 
     def test_1(self):
-        books.parseBookTokensGreedily(['foo', 'bar', 'zod'])
-
-class parseBookTokenTestCase(unittest.TestCase):
-    pass
+        books.parse(['foo', 'bar', 'zod'])
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,8 +7,7 @@ Interface
 
 * :class:`Book` - A single canonical book with its text
 * :func:`findBook` - Find a canonical book
-* :func:`parseBookTokensGreedily` - Parse adjacent book tokens
-* :func:`parseBookToken` - Parse a single book token
+* :func:`parse` - Parse adjacent book tokens
 
 Internals
 ======================================================================
@@ -124,7 +123,7 @@ class Book(object):
         '''
 
         verseAddrToken, verseText = line.split(' ', 1)
-        verseAddrList = locs.parseLocsToken(verseAddrToken)
+        verseAddrList = locs.parse(verseAddrToken)
         verseAddr = verseAddrList[0]
         chapterIndex, verseIndex = verseAddr.first, verseAddr.second
         if chapterIndex not in self._text:
@@ -419,7 +418,7 @@ def findBook(bookToken):
 
     return _bible.findBook(bookToken)
 
-def parseBookTokensGreedily(tokens):
+def parse(tokens):
     '''
     Return the book represented by the leading tokens and the number
     of tokens consumed.  If no book can be parsed out of the tokens,
@@ -430,23 +429,23 @@ def parseBookTokensGreedily(tokens):
     whose abbreviations include 'Song'.
     '''
 
+    def parseSupertoken(token):
+        '''
+        Parse a book token in any form to a normalized form:
+
+        * Full-book name (no abbreviation)
+        * All lowercase
+        * Interior whitespace removed
+        '''
+
+        book = _bible.findBook(token)
+        if book is None:
+            return None
+        return book.normalName
+
     for index in reversed(range(len(tokens))):
         superToken = ''.join(tokens[:index + 1])
-        book = parseBookToken(superToken)
+        book = parseSupertoken(superToken)
         if book is not None:
             return book, index + 1
     return None, 0
-
-def parseBookToken(token):
-    '''
-    Parse a book token in any form to a normalized form:
-
-    * Full-book name (no abbreviation)
-    * All lowercase
-    * Interior whitespace removed
-    '''
-
-    book = _bible.findBook(token)
-    if book is None:
-        return None
-    return book.normalName

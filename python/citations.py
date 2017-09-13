@@ -3,7 +3,7 @@
 Citations
 
 * :class:`Citation`
-* :func:`parseCitation`
+* :func:`parse`
 '''
 
 # Local imports:
@@ -62,7 +62,7 @@ class Citation(object):
             for loc in self.locs
             ]
 
-def parseCitation(text):
+def parse(text):
     '''
     Parse a human-readable, single-book bible reference and return the
     result as a :class:`Citation`.
@@ -71,18 +71,18 @@ def parseCitation(text):
     # Fail if `text` is not a string.
     if not isinstance(text, basestring):
         raise TypeError(
-            'Non-string (%s, %s) passed to parseCitation()!' % (
+            'Non-string (%s, %s) passed to citations.parse()!' % (
                 type(text), text))
 
     # Fail if there are no non-white characters in `text`.
     tokens = text.strip().split()
     if len(tokens) == 0:
         raise ValueError(
-            'No non-white characters passed to parseCitation()!')
+            'No non-white characters passed to citations.parse()!')
 
     # Try to parse a book out of the leading tokens in a 'greedy'
     # fashion.
-    book, tokensConsumed = books.parseBookTokensGreedily(tokens)
+    book, tokensConsumed = books.parse(tokens)
     if book is None:
         raise ValueError(
             'Unable to identify the book in citation "%s"!' % text)
@@ -99,6 +99,6 @@ def parseCitation(text):
     verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
-        verses = locs.parseLocsToken(remainingToken)
+        verses = locs.parse(remainingToken)
 
     return Citation(book, verses)
