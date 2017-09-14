@@ -5,7 +5,8 @@ Sacred Scripture
 Library Interface
 ======================================================================
 
-* :class:`getVerses`
+* :func:`getVerses`
+* :func:`formatVersesForConsole`
 '''
 
 # Standard imports:
