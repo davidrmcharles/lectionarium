@@ -1,85 +1,200 @@
 #!/usr/bin/env python
 '''
-The Lectionary of the Roman Rite
+The Lectionary of the Ordinary Form of the Mass of the Roman Rite
 
-* :class:`Celebration`
-* :class:`OFSundayLectionary`
+Interface
+======================================================================
+
+* :func:`getReadings` - Get an object representation of the readings
+* :class:`BadQuery` - Raised when a query goes wrong
+* :func:`parse` - Parse a query for a certain mass
+
+Internals
+======================================================================
+
+* :class:`Mass` - A single mass (or Good Friday)
+* :class:`OFSundayLectionary` - The Ordinary-Form Lectionary for Sundays
+* :func:`_text`
+* :func:`_firstChild`
+* :func:`_children`
+* :class:`MissingAttrExceptionTestCase`
+* :func:`_attr`
 '''
 
+# Standard imports:
+import collections
+import re
+import sys
+import traceback
 import xml.dom.minidom
 
-class Celebration(object):
+# Local imports:
+import bible
+
+class Mass(object):
     '''
-    A single liturgical event
+    A single mass (or Good Friday, even though it technically isn't a
+    mass).
     '''
 
     def __init__(self, name, readings, date=None):
         self._name = name
         self._readings = readings
+        self._normalName = None
         self._date = date
+        self._year = None
+
+    @property
+    def name(self):
+        '''
+        A human-friendly name for the mass.
+        '''
+
+        return self._name
+
+    @property
+    def readings(self):
+        '''
+        The readings as a list of scripture citations.
+        '''
+
+        return self._readings
+
+    @property
+    def normalName(self):
+        '''
+        An computer-friendly name for the mass, but not necessarily a
+        unique identifier:
+
+        * All lowercase
+        * All spaces converted to hyphens
+        * All other non-alphanumeric characters removed
+        '''
+
+        return '-'.join(
+            re.sub(
+                r'[^[A-Za-z0-9 ]',
+                '',
+                self._name).lower().split())
+
+    @property
+    def uniqueID(self):
+        '''
+        A unique identifier for the mass that builds upon
+        ``normalName``, adding the additional context necessary to
+        make it unique.
+        '''
+
+        if self._date is not None:
+            return self.normalName
+        else:
+            return '%s/%s' % (self._year, self.normalName)
+
+    @property
+    def year(self):
+        '''
+        The year (``a``, ``b``, or ``c``) if the mass is specific to a
+        year.  Otherwise, ``None``.
+        '''
+
+        return self._year
+
+    @year.setter
+    def year(self, newValue):
+        self._year = newValue.lower()
 
 class OFSundayLectionary(object):
     '''
-    The Ordinary Form Lectionary for Sundays
+    The Ordinary-Form Lectionary for Sunday Mass
     '''
 
     def __init__(self):
-        self._celebrations = []
+        # Initialize the list of masses from lectionary.xml.
+        self._masses = []
         doc = xml.dom.minidom.parse('lectionary.xml')
-        for year_node in _children(doc.documentElement, 'year'):
-            self._celebrations.extend(self._decode_year(year_node))
-        majorFeasts_node = _firstChild(doc.documentElement, 'majorFeasts')
-        self._celebrations.extend(self._decode_majorFeasts(majorFeasts_node))
+        try:
+            # Decode the year-specific masses.
+            for year_node in _children(doc.documentElement, 'year'):
+                year_id = _attr(year_node, 'id')
+                masses = self._decode_year(year_node)
+                for mass in masses:
+                    mass.year = year_id
+                self._masses.extend(masses)
+
+            # Decode the masses that are not year-specific.
+            everyYear_node = _firstChild(doc.documentElement, 'everyYear')
+            self._masses.extend(self._decode_everyYear(everyYear_node))
+        finally:
+            doc.unlink()
+
+    @property
+    def masses(self):
+        '''
+        All the masses as a list.
+        '''
+
+        return self._masses
+
+    def findMass(self, uniqueID):
+        '''
+        Return the mass having `uniqueID`, otherwise return ``None``.
+        '''
+
+        for mass in self._masses:
+            if mass.uniqueID == uniqueID:
+                return mass
+        return None
 
     def _decode_year(self, year_node):
         '''
-        Decode a <year> element and return all its celebrations as a
+        Decode a <year> element and return all its masses as a
         list.
         '''
 
         result = []
         for season_node in _children(year_node, 'season'):
-            result.extend(self._decode_season(season_node))
+            masses = self._decode_season(season_node)
+            result.extend(masses)
         return result
 
     def _decode_season(self, season_node):
         '''
-        Decode a <season> element and return all its celebrations as a
+        Decode a <season> element and return all its masses as a
         list.
         '''
 
         result = []
-        for celebration_node in _children(season_node, 'celebration'):
-            celebration = self._decode_celebration(celebration_node)
-            result.append(celebration)
+        for mass_node in _children(season_node, 'mass'):
+            mass = self._decode_mass(mass_node)
+            result.append(mass)
         return result
 
-    def _decode_majorFeasts(self, majorFeasts_node):
+    def _decode_everyYear(self, everyYear_node):
         '''
-        Decode a <majorFeasts> element and return all its celebrations
+        Decode a <everyYear> element and return all its masses
         as a list.
         '''
 
         result = []
-        for celebration_node in _children(majorFeasts_node, 'celebration'):
-            celebration = self._decode_celebration(celebration_node)
-            result.append(celebration)
+        for mass_node in _children(everyYear_node, 'mass'):
+            mass = self._decode_mass(mass_node)
+            result.append(mass)
         return result
 
-    def _decode_celebration(self, celebration_node):
+    def _decode_mass(self, mass_node):
         '''
-        Decode a single <celebration> element and return it as a
-        :class:`Celebration` object.
+        Decode a single <mass> element and return it as a
+        :class:`Mass` object.
         '''
 
-        date = _attr(celebration_node, 'date', None)
-        name = _attr(celebration_node, 'name')
+        date = _attr(mass_node, 'date', None)
+        name = _attr(mass_node, 'name')
 
         readings = []
-        for reading_node in _children(celebration_node, 'reading'):
+        for reading_node in _children(mass_node, 'reading'):
             readings.append(self._decode_reading(reading_node))
 
-        return Celebration(name, readings, date)
+        return Mass(name, readings, date)
 
     def _decode_reading(self, reading_node):
         '''
@@ -92,14 +207,14 @@ class OFSundayLectionary(object):
 
 def _text(node):
     '''
-    The text content of a `node`
+    Return the text content of a `node`
     '''
 
-    return node.nodeValue
+    return node.childNodes[0].nodeValue
 
 def _firstChild(parent_node, localName):
     '''
-    The first child of `parent_node` having `localName`.
+    Return the first child of `parent_node` having `localName`.
     '''
 
     for child_node in parent_node.childNodes:
@@ -109,7 +224,7 @@ def _firstChild(parent_node, localName):
 
 def _children(parent_node, localName):
     '''
-    All children of `parent_node` having `localName`.
+    Return all children of `parent_node` having `localName`.
     '''
 
     result_nodes = []
@@ -135,7 +250,7 @@ class MissingAttrException(Exception):
 
 def _attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
     '''
-    The value of the attribute of `node` having `localName`.
+    Return the value of the attribute of `node` having `localName`.
     '''
 
     if not node.hasAttribute(localName):
@@ -145,3 +260,136 @@ def _attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
             return ifMissing
     return node.getAttribute(localName)
 
+def parse(query):
+    '''
+    Parse `query` and return all possible matching masses as a list of
+    unique identifiers.
+    '''
+
+    # Fail if `query` is not a string.
+    if not isinstance(query, basestring):
+        raise TypeError(
+            'Non-string (%s, %s) passed lectionary.parse()!' % (
+                type(token), token))
+
+    # Discard leading and trailing whitespace and fail if nothing is
+    # left.
+    query = query.strip()
+    if len(query) == 0:
+        raise ValueError(
+            'No non-white characters passed to lectionary.parse()!')
+
+    # Split the query at the slash, if any, and fail if there is more
+    # than one slash.
+    slash_tokens = query.split('/')
+    if len(slash_tokens) > 2:
+        raise ValueError(
+            'Too many slashes in query "%s"!' % (query))
+
+    # Isolate the year (if any) and the normal name substring.
+    year = None
+    if len(slash_tokens) == 2:
+        year, normalNameSubstring = slash_tokens
+        if year.lower() not in ('a', 'b', 'c'):
+            raise ValueError(
+                'Year must be one of A, B, or C (in either case)!')
+    elif len(slash_tokens) == 1:
+        normalNameSubstring = slash_tokens[0]
+
+    # Collect all matches and return them.
+    def isMatch(mass):
+        '''
+        Return ``True`` if `mass` has a matching `year` and contains
+        `normalNameSubstring` within its `normalName`.
+        '''
+
+        return (mass.year == year) and \
+            (normalNameSubstring in mass.normalName)
+
+    return [
+        mass.uniqueID
+        for mass in _lectionary.masses
+        if isMatch(mass)
+        ]
+
+class BadQuery(ValueError):
+    '''
+    Represents a query that failed because it either returned no
+    result, or multiple results, when all we really wanted was a
+    single result.
+    '''
+
+    def __init__(self, query, massUniqueIDs):
+        self.query = query
+        self.massUniqueIDs = massUniqueIDs
+        if len(self.massUniqueIDs) == 0:
+            message = 'Query "%s" doesn\'t match anything!' % self.query
+        else:
+            message = '''\
+Query "%s" matches multiple masses.  Did you mean?
+
+%s
+
+Provide additional query text to disambiguate.
+''' % (self.query, '\n'.join([
+                        '* %s' % uniqueID
+                        for uniqueID in self.massUniqueIDs
+                        ]))
+        ValueError.__init__(self, message)
+
+def getReadings(query):
+    '''
+    Return an object representation of the readings with the single
+    mass indicated by `query`.
+    '''
+
+    # Parse the query and fail if it returns anything but exactly one
+    # result.
+    massUniqueIDs = parse(query)
+    if len(massUniqueIDs) != 1:
+        raise BadQuery(query, massUniqueIDs)
+
+    massUniqueID = massUniqueIDs[0]
+    mass = _lectionary.findMass(massUniqueID)
+
+    readings = collections.OrderedDict()
+    for reading in mass.readings:
+        for subreading in reading.split(' or '):
+            readings[subreading] = bible.getVerses(subreading)
+    return mass.name, readings
+
+def main():
+    '''
+    The command-line interface.
+    '''
+
+    # If the user provided no arguments, print help and quit.
+    if len(sys.argv) == 1:
+        sys.stderr.write('''\
+Provide the name of a mass and we will write its readings to stdout.
+''')
+        raise SystemExit(1)
+
+    # If the user provided more than one argument, print an error
+    # message and quit.
+    if len(sys.argv) > 2:
+        sys.stderr.write('One mass at a time, please!\n')
+        raise SystemExit(1)
+
+    # Parse the query.
+    try:
+        massName, readings = getReadings(sys.argv[1])
+    except BadQuery as e:
+        sys.stderr.write(e.message)
+        raise SystemExit(-1)
+
+    # Write all the readings for the mass to stdout.
+    sys.stdout.write('Readings for %s\n' % (massName))
+    for citation, verses in readings.iteritems():
+        sys.stdout.write('\n%s' % citation)
+        sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
+
+_lectionary = OFSundayLectionary()
+
+if __name__ == '__main__':
+    main()
