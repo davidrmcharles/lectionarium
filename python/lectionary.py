@@ -2,7 +2,12 @@
 '''
 The Lectionary of the Ordinary Form of the Mass of the Roman Rite
 
-Interface
+Command-Line Interface
+======================================================================
+
+Provide the name of a mass and we will write its readings to stdout.
+
+Library Interface
 ======================================================================
 
 * :func:`getReadings` - Get an object representation of the readings

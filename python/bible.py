@@ -2,11 +2,16 @@
 '''
 Sacred Scripture
 
+Command-Line Interface
+======================================================================
+
+Provide a scripture citation and we will write it to stdout.
+
 Library Interface
 ======================================================================
 
-* :func:`getVerses`
-* :func:`formatVersesForConsole`
+* :func:`getVerses` - Get an object representation of some verses
+* :func:`formatVersesForConsole` - Format verses for display on the console
 '''
 
 # Standard imports:
@@ -19,13 +24,13 @@ import books
 import locs
 import citations
 
-def getVerses(text):
+def getVerses(query):
     '''
-    Return an object representation of the text associated with
-    `text`.
+    Return an object representation of the verses associated with
+    `query`.
     '''
 
-    citation = citations.parse(text)
+    citation = citations.parse(query)
     book = books.findBook(citation.book)
     if citation.locs is None:
         # This is the citation of an entire book.

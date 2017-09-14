@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 '''
-Citations
+Scriptural Citations
 
-* :class:`Citation`
-* :func:`parse`
+* :func:`parse` - Parse a human-readable citation to an object representation
+* :class:`Citation` - Represents a single-book scripture citation
 '''
 
 # Local imports:
@@ -62,20 +62,23 @@ class Citation(object):
             for loc in self.locs
             ]
 
-def parse(text):
+def parse(query):
     '''
-    Parse a human-readable, single-book bible reference and return the
-    result as a :class:`Citation`.
+    Parse a human-readable citation and return an object representation.
+
+    The result as a :class:`Citation` object.
+
+    The `query` is currently limited to only one book at a time.
     '''
 
-    # Fail if `text` is not a string.
-    if not isinstance(text, basestring):
+    # Fail if `query` is not a string.
+    if not isinstance(query, basestring):
         raise TypeError(
             'Non-string (%s, %s) passed to citations.parse()!' % (
-                type(text), text))
+                type(query), query))
 
-    # Fail if there are no non-white characters in `text`.
-    tokens = text.strip().split()
+    # Fail if there are no non-white characters in `query`.
+    tokens = query.strip().split()
     if len(tokens) == 0:
         raise ValueError(
             'No non-white characters passed to citations.parse()!')
@@ -85,7 +88,7 @@ def parse(text):
     book, tokensConsumed = books.parse(tokens)
     if book is None:
         raise ValueError(
-            'Unable to identify the book in citation "%s"!' % text)
+            'Unable to identify the book in citation "%s"!' % query)
 
     # If there is more than one token remaining, we have too many
     # tokens.

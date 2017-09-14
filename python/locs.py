@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Locations
+Locations Within a Book of Sacred Scripture
 
 This is where we deal with the numerical portion of a scripture
 citation.  For example, things like:

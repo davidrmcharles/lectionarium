@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 '''
-Books
+The Books of Sacred Scripture
 
 Interface
 ======================================================================
 
+* :func:`parse` - Parse adjacent book tokens
 * :class:`Book` - A single canonical book with its text
 * :func:`findBook` - Find a canonical book
-* :func:`parse` - Parse adjacent book tokens
 
 Internals
 ======================================================================
