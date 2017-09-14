@@ -20,7 +20,7 @@ In the short-term, I'd be ecstatic if I could say:
 
 .. code-block:: sh
 
-    $ lectionarium.py
+    $ lectionary.py
 
 And today's readings would come out.
 
@@ -58,7 +58,6 @@ And the decalogue appears in a human-readable form::
     ejus, non servum, non ancillam, non bovem, non asinum, nec omnia quæ illius
     sunt.\
 
-
 I got here in a bottom-up fashion by modeling the numerical portion of
 the citation (``locs.py``), the book portion (``books.py``), and the
 aggregation of the two (``citations.py``)
@@ -70,13 +69,31 @@ little massage (``preprocessclemtext.py``) prior to consumption by
 
 The high-level interface onto the whole thing is ``bible.py``.
 
+Furthermore, I can now say:
+
+.. code-block:: sh
+
+    $ lectionary.py a/easter-vigil
+
+And all the readings for the Easter Vigil, Year A, appear.
+
 Next Steps
 ======================================================================
 
-The next step is to model the lectionary with all of its celebrations
-in terms of these citations (``lectionarium.py``).  Then we will be
-able to retrieve the readings associated with any known celebration.
+The last step in pursuit of the `Short-Term Goal`_ is to model the
+liturgical calendar so we can map calendar dates onto a particular
+mass and the readings for that day will come out.  In other words:
 
-Then, if we model the liturgical calendar (``calendarium.py``), we
-will know the liturgical celebration associated with any given date
-and the `Short-Term Goal`_ will be achieved.
+.. code-block:: sh
+
+    $ lectionary.py 2017-09-14
+
+And we would see the readings for the Feast of the Exaltation of the
+Holy Cross.  Or:
+
+.. code-block:: sh
+
+    $ lectionry.py
+
+And we would see the readings for the current day, whatever they
+happen to be.

@@ -6,19 +6,21 @@ Interface
 ======================================================================
 
 * :func:`getReadings` - Get an object representation of the readings
-* :class:`BadQuery` - Raised when a query goes wrong
 * :func:`parse` - Parse a query for a certain mass
+* :class:`MalformedQueryError` - Raised when we cannot parse a query string
+* :class:`NonSingularResultsError` - Raised for empty or ambiguous results
 
 Internals
 ======================================================================
 
 * :class:`Mass` - A single mass (or Good Friday)
 * :class:`OFSundayLectionary` - The Ordinary-Form Lectionary for Sundays
-* :func:`_text`
-* :func:`_firstChild`
-* :func:`_children`
-* :class:`MissingAttrExceptionTestCase`
-* :func:`_attr`
+* :func:`_text` - Return the text of an element
+* :func:`_firstChild` - Return the first matching child of an element
+* :func:`_children` - Return all matching children of an element
+* :class:`RaiseIfAttrIsMissing` - Raise if an attribute is missing
+* :class:`MissingAttrExceptionTestCase` - An expected attribute is missing
+* :func:`_attr` - Return the value of the named attribute
 '''
 
 # Standard imports:
@@ -33,8 +35,8 @@ import bible
 
 class Mass(object):
     '''
-    A single mass (or Good Friday, even though it technically isn't a
-    mass).
+    Represents a single mass (or Good Friday, even though it
+    technically isn't a mass).
     '''
 
     def __init__(self, name, readings, date=None):
@@ -105,7 +107,7 @@ class Mass(object):
 
 class OFSundayLectionary(object):
     '''
-    The Ordinary-Form Lectionary for Sunday Mass
+    Represents the Ordinary-Form Lectionary for Sunday Mass.
     '''
 
     def __init__(self):
@@ -260,30 +262,44 @@ def _attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
             return ifMissing
     return node.getAttribute(localName)
 
+class MalformedQueryError(ValueError):
+    '''
+    Represents when we cannot parse a query string.
+    '''
+
+    def __init__(self, query, s):
+        self.query = query
+        ValueError.__init__(self, s)
+
 def parse(query):
     '''
     Parse `query` and return all possible matching masses as a list of
     unique identifiers.
+
+    :raises TypeError: if `query` is not a string
+    :raises MalformedQueryError: if `query` cannot be parsed
     '''
 
     # Fail if `query` is not a string.
     if not isinstance(query, basestring):
         raise TypeError(
             'Non-string (%s, %s) passed lectionary.parse()!' % (
-                type(token), token))
+                type(query), query))
 
     # Discard leading and trailing whitespace and fail if nothing is
     # left.
     query = query.strip()
     if len(query) == 0:
-        raise ValueError(
+        raise MalformedQueryError(
+            query,
             'No non-white characters passed to lectionary.parse()!')
 
     # Split the query at the slash, if any, and fail if there is more
     # than one slash.
     slash_tokens = query.split('/')
     if len(slash_tokens) > 2:
-        raise ValueError(
+        raise MalformedQueryError(
+            query,
             'Too many slashes in query "%s"!' % (query))
 
     # Isolate the year (if any) and the normal name substring.
@@ -291,8 +307,10 @@ def parse(query):
     if len(slash_tokens) == 2:
         year, normalNameSubstring = slash_tokens
         if year.lower() not in ('a', 'b', 'c'):
-            raise ValueError(
-                'Year must be one of A, B, or C (in either case)!')
+            raise MalformedQueryError(
+                query,
+                'Year is "%s", but must be one of A, B, or C (in either case)!' % (
+                    year))
     elif len(slash_tokens) == 1:
         normalNameSubstring = slash_tokens[0]
 
@@ -312,7 +330,7 @@ def parse(query):
         if isMatch(mass)
         ]
 
-class BadQuery(ValueError):
+class NonSingularResultsError(ValueError):
     '''
     Represents a query that failed because it either returned no
     result, or multiple results, when all we really wanted was a
@@ -347,7 +365,7 @@ def getReadings(query):
     # result.
     massUniqueIDs = parse(query)
     if len(massUniqueIDs) != 1:
-        raise BadQuery(query, massUniqueIDs)
+        raise NonSingularResultsError(query, massUniqueIDs)
 
     massUniqueID = massUniqueIDs[0]
     mass = _lectionary.findMass(massUniqueID)
@@ -379,8 +397,8 @@ Provide the name of a mass and we will write its readings to stdout.
     # Parse the query.
     try:
         massName, readings = getReadings(sys.argv[1])
-    except BadQuery as e:
-        sys.stderr.write(e.message)
+    except NonSingularResultsError as e:
+        sys.stderr.write('%s\n' % e.message)
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
@@ -388,6 +406,7 @@ Provide the name of a mass and we will write its readings to stdout.
     for citation, verses in readings.iteritems():
         sys.stdout.write('\n%s' % citation)
         sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
+    return
 
 _lectionary = OFSundayLectionary()
 
