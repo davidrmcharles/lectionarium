@@ -30,6 +30,7 @@ Internals
 
 # Standard imports:
 import collections
+import datetime
 import re
 import sys
 import traceback
@@ -130,7 +131,8 @@ class OFSundayLectionary(object):
 
             # Decode the masses that are not year-specific.
             everyYear_node = _firstChild(doc.documentElement, 'everyYear')
-            self._masses.extend(self._decode_everyYear(everyYear_node))
+            self._fixedDateMasses = self._decode_everyYear(everyYear_node)
+            self._masses.extend(self._fixedDateMasses)
         finally:
             doc.unlink()
 
@@ -141,6 +143,14 @@ class OFSundayLectionary(object):
         '''
 
         return self._masses
+
+    @property
+    def fixedDateMasses(self):
+        '''
+        All the fixed-date masses as a list.
+        '''
+
+        return self._fixedDateMasses
 
     def findMass(self, uniqueID):
         '''
@@ -195,6 +205,10 @@ class OFSundayLectionary(object):
         '''
 
         date = _attr(mass_node, 'date', None)
+        if date is not None:
+            month, day = date.split('-')
+            date = int(month), int(day)
+
         name = _attr(mass_node, 'name')
 
         readings = []
@@ -266,6 +280,65 @@ def _attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
         else:
             return ifMissing
     return node.getAttribute(localName)
+
+def _nextSunday(d, count):
+    '''
+    Given a date, `d`, return the date `count`th nearest Sunday.
+
+    A negative value for `count` move back in time to Sundays before.
+    A positive value for `count` moves forward in time to following
+    Sundays.  We raise `ValueError` if `count` is zero.
+    '''
+
+    if not isinstance(d, datetime.date):
+        raise TypeError(
+            'Non-date (%s, %s) was passed to _nextSunday()!' % (
+                type(d), d))
+    if not isinstance(count, int):
+        raise TypeError(
+            'Non-int (%s, %s) was passed as count to _nextSunday()!' % (
+                type(count), count))
+    if count == 0:
+        raise ValueError(
+            'Count of zero was passed to _nextSunday()!')
+
+    # Handle a non-Sunday start by advancing a partial week.
+    if d.weekday() != 6:
+        if count > 0:
+            d = d + datetime.timedelta(
+                days=6 - d.weekday())
+            count -= 1
+        else:
+            d = d - datetime.timedelta(
+                days=d.weekday() + 1)
+            count += 1
+
+    # Now that we are on a Sunday, the rest of the way is simple.
+    return d + datetime.timedelta(weeks=count)
+
+def _dateOfEaster(year):
+    '''
+    Return the date of Easter for a given `year`.
+
+    http://aa.usno.navy.mil/faq/docs/easter.php
+    '''
+
+    y = year
+    c = y / 100
+    n = y - 19 * ( y / 19 )
+    k = ( c - 17 ) / 25
+    i = c - c / 4 - ( c - k ) / 3 + 19 \
+        * n + 15
+    i = i - 30 * ( i / 30 )
+    i = i - ( i / 28 ) * ( 1 - ( i / 28 ) \
+        * ( 29 / ( i + 1 ) ) \
+        * ( ( 21 - n ) / 11 ) )
+    j = y + y / 4 + i + 2 - c + c / 4
+    j = j - 7 * ( j / 7 )
+    l = i - j
+    m = 3 + ( l + 40 ) / 44
+    d = l + 28 - 31 * ( m / 4 )
+    return datetime.date(year, m, d)
 
 class MalformedQueryError(ValueError):
     '''

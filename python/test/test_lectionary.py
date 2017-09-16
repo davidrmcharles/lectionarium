@@ -4,6 +4,7 @@ Tests for :mod:`lectionary`
 '''
 
 # Standard imports:
+import datetime
 import unittest
 
 # Local imports:
@@ -20,6 +21,61 @@ class OFSundayLectionaryTestCase(unittest.TestCase):
 # childrenTestCase?
 # MissingAttrExceptionTestCase?
 # attrTestCase?
+
+class nextSundayTestCase(unittest.TestCase):
+
+    def test_badDate(self):
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday(None, 1)
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday('', 1)
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday(1, 1)
+
+    def test_badCount(self):
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday(datetime.date.today(), None)
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday(datetime.date.today(), '')
+        with self.assertRaises(TypeError):
+            lectionary._nextSunday(datetime.date.today(), 0.0)
+        with self.assertRaises(ValueError):
+            lectionary._nextSunday(datetime.date.today(), 0)
+
+    def test_dates(self):
+        aSunday = datetime.date(2017, 9, 10)
+        previousSunday1 = datetime.date(2017, 9, 3)
+        previousSunday2 = datetime.date(2017, 8, 27)
+        previousSunday3 = datetime.date(2017, 8, 20)
+        nextSunday1 = datetime.date(2017, 9, 17)
+        nextSunday2 = datetime.date(2017, 9, 24)
+        nextSunday3 = datetime.date(2017, 10, 1)
+
+        # A Sunday:
+        self.assertEqual(previousSunday1, lectionary._nextSunday(aSunday, -1))
+        self.assertEqual(previousSunday2, lectionary._nextSunday(aSunday, -2))
+        self.assertEqual(previousSunday3, lectionary._nextSunday(aSunday, -3))
+        self.assertEqual(nextSunday1, lectionary._nextSunday(aSunday, 1))
+        self.assertEqual(nextSunday2, lectionary._nextSunday(aSunday, 2))
+        self.assertEqual(nextSunday3, lectionary._nextSunday(aSunday, 3))
+
+        # ...But not just any Monday.
+        aMonday = datetime.date(2017, 9, 11)
+        self.assertEqual(aSunday, lectionary._nextSunday(aMonday, -1))
+        self.assertEqual(previousSunday1, lectionary._nextSunday(aMonday, -2))
+        self.assertEqual(previousSunday2, lectionary._nextSunday(aMonday, -3))
+        self.assertEqual(nextSunday1, lectionary._nextSunday(aMonday, 1))
+        self.assertEqual(nextSunday2, lectionary._nextSunday(aMonday, 2))
+        self.assertEqual(nextSunday3, lectionary._nextSunday(aMonday, 3))
+
+        # A Saturday:
+        aSaturday = datetime.date(2017, 9, 9)
+        self.assertEqual(previousSunday1, lectionary._nextSunday(aSaturday, -1))
+        self.assertEqual(previousSunday2, lectionary._nextSunday(aSaturday, -2))
+        self.assertEqual(previousSunday3, lectionary._nextSunday(aSaturday, -3))
+        self.assertEqual(aSunday, lectionary._nextSunday(aSaturday, 1))
+        self.assertEqual(nextSunday1, lectionary._nextSunday(aSaturday, 2))
+        self.assertEqual(nextSunday2, lectionary._nextSunday(aSaturday, 3))
 
 class parseTestCase(unittest.TestCase):
 
