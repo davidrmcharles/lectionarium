@@ -19,7 +19,7 @@ Internals
 ======================================================================
 
 * :class:`Mass` - A single mass (or Good Friday)
-* :class:`OFSundayLectionary` - The Ordinary-Form Lectionary for Sundays
+* :class:`Lectionary` - The lectionary for mass
 * :func:`_text` - Return the text of an element
 * :func:`_firstChild` - Return the first matching child of an element
 * :func:`_children` - Return all matching children of an element
@@ -111,9 +111,9 @@ class Mass(object):
     def year(self, newValue):
         self._year = newValue.lower()
 
-class OFSundayLectionary(object):
+class Lectionary(object):
     '''
-    Represents the Ordinary-Form Lectionary for Sunday Mass.
+    Represents the lectionary for mass.
     '''
 
     def __init__(self):
@@ -486,7 +486,7 @@ Provide the name of a mass and we will write its readings to stdout.
         sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
     return
 
-_lectionary = OFSundayLectionary()
+_lectionary = Lectionary()
 
 if __name__ == '__main__':
     main()
