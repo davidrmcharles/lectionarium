@@ -501,7 +501,7 @@ class Calendar(object):
 
         self._assignMass(
             datetime.date(self._year, 1, 1),
-            '%s/solemnity-of-mary-mother-of-god')
+            '%s/mary-mother-of-god')
 
         if self.dateOfPreviousChristmas.weekday() == 6:
             # Make adjustments for when Christmas falls on a Sunday.
@@ -510,11 +510,11 @@ class Calendar(object):
                 '%s/epiphany')
             self._assignMass(
                 datetime.date(self._year, 1, 9),
-                '%s/sunday-after-epiphany-baptism-of-the-lord')
+                '%s/baptism-of-the-lord')
         else:
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +1),
-                '%s/sunday-after-christmas-holy-family')
+                '%s/holy-family')
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +2),
                 '%s/2nd-sunday-after-christmas')
@@ -556,7 +556,7 @@ class Calendar(object):
 
         self._assignMass(
             _nextSunday(self.dateOfEaster, -1),
-            '%s/passion-sunday-palm-sunday')
+            '%s/palm-sunday')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=3),
             '%s/mass-of-lords-supper')
@@ -595,7 +595,7 @@ class Calendar(object):
             '%s/pentecost-vigil')
         self._assignMass(
             self.dateOfPentecost,
-            '%s/mass-of-the-day')
+            '%s/pentecost')
 
     def _allocateAdventSeason(self):
         '''
@@ -665,7 +665,7 @@ class Calendar(object):
         # whatever else is being celebrated that day.
         self._assignMass(
             _nextSunday(self.dateOfEaster, +8),
-            '%s/trinity-sunday-sunday-after-pentecost')
+            '%s/trinity-sunday')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
         if corpusChristiDate.weekday() in (5, 4, 3):

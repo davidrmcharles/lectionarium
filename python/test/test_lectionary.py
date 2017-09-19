@@ -5,6 +5,8 @@ Tests for :mod:`lectionary`
 
 # Standard imports:
 import datetime
+import sys
+import traceback
 import unittest
 
 # Local imports:
@@ -105,7 +107,7 @@ class CalendarTestCase(unittest.TestCase):
 
         testData = [
             # January
-            (1, 1, ['a/solemnity-of-mary-mother-of-god']),
+            (1, 1, ['a/mary-mother-of-god']),
             (1, 8, ['a/epiphany']),
             (1, 15, ['a/2nd-sunday']),
             (1, 22, ['a/3rd-sunday']),
@@ -128,7 +130,7 @@ class CalendarTestCase(unittest.TestCase):
 
             # April
             (4, 2, ['a/5th-sunday-of-lent']),
-            (4, 9, ['a/passion-sunday-palm-sunday']),
+            (4, 9, ['a/palm-sunday']),
             (4, 16, ['a/easter-sunday']),
             (4, 23, ['a/2nd-sunday-of-easter']),
             (4, 30, ['a/3rd-sunday-of-easter']),
@@ -140,14 +142,14 @@ class CalendarTestCase(unittest.TestCase):
             (5, 28, ['a/7th-sunday-of-easter']),
 
             # June
-            (6, 4, ['a/mass-of-the-day']),
-            (6, 11, ['a/trinity-sunday-sunday-after-pentecost']),
+            (6, 4, ['a/pentecost']),
+            (6, 11, ['a/trinity-sunday']),
             (6, 18, ['a/corpus-christi']),
             (6, 23, ['john-the-baptist-vigil']),
-            (6, 24, ['john-the-baptist-mass-of-the-day']),
+            (6, 24, ['john-the-baptist']),
             (6, 25, ['a/12th-sunday']),
             (6, 28, ['peter-and-paul-vigil']),
-            (6, 29, ['peter-and-paul-mass-of-the-day']),
+            (6, 29, ['peter-and-paul']),
 
             # July
             (7, 2, ['a/13th-sunday']),
@@ -160,7 +162,7 @@ class CalendarTestCase(unittest.TestCase):
             (8, 6, ['transfiguration']),
             (8, 13, ['a/19th-sunday']),
             (8, 14, ['assumption-vigil']),
-            (8, 15, ['assumption-mass-of-the-day']),
+            (8, 15, ['assumption']),
             (8, 20, ['a/20th-sunday']),
             (8, 27, ['a/21st-sunday']),
 
@@ -197,9 +199,15 @@ class CalendarTestCase(unittest.TestCase):
             ]
 
         for month, day, expectedMassIDs in testData:
-            self.assertEqual(
-                expectedMassIDs,
-                [mass.uniqueID for mass in calendar.massesByDate(month, day)])
+            try:
+                self.assertEqual(
+                    expectedMassIDs,
+                    [mass.uniqueID for mass in calendar.massesByDate(month, day)])
+            except:
+                sys.stderr.write(
+                    'Failure Case: month=%d day=%d expected=%s\n' % (
+                        month, day, expectedMassIDs))
+                raise
 
 class parseTestCase(unittest.TestCase):
 
