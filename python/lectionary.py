@@ -130,7 +130,7 @@ class Mass(object):
     @property
     def isSundayInOrdinaryTime(self):
         '''
-        ```True`` if this mass is a Sunday in Ordinary Time.
+        ``True`` if this mass is a Sunday in Ordinary Time.
         '''
 
         if 'christ-the-king' in self.normalName:
@@ -523,7 +523,7 @@ class Calendar(object):
                 '%s/epiphany')
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                '%s/sunday-after-epiphany-baptism-of-the-lord')
+                '%s/baptism-of-the-lord')
 
     def _allocateLentenSeason(self):
         '''
