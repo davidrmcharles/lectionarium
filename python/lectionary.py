@@ -45,12 +45,20 @@ class Mass(object):
     technically isn't a mass).
     '''
 
-    def __init__(self, name, readings, date=None):
+    def __init__(self, name, readings, fixedMonth=None, fixedDay=None):
         self._name = name
         self._readings = readings
         self._normalName = None
-        self._date = date
-        self._year = None
+        self._fixedMonth = fixedMonth
+        self._fixedDay = fixedDay
+        self._cycle = None
+
+    def __str__(self):
+        return self._name
+
+    def __repr__(self):
+        return '<lectionary.Mass object %s at 0x%x>' % (
+            self.uniqueID, id(self))
 
     @property
     def name(self):
@@ -93,23 +101,42 @@ class Mass(object):
         make it unique.
         '''
 
-        if self._date is not None:
+        if self._fixedDay is not None:
             return self.normalName
         else:
-            return '%s/%s' % (self._year, self.normalName)
+            return '%s/%s' % (self.cycle, self.normalName)
 
     @property
-    def year(self):
+    def cycle(self):
         '''
         The year (``a``, ``b``, or ``c``) if the mass is specific to a
         year.  Otherwise, ``None``.
         '''
 
-        return self._year
+        return self._cycle
 
-    @year.setter
-    def year(self, newValue):
-        self._year = newValue.lower()
+    @cycle.setter
+    def cycle(self, newValue):
+        self._cycle = newValue.lower()
+
+    @property
+    def fixedMonth(self):
+        return self._fixedMonth
+
+    @property
+    def fixedDay(self):
+        return self._fixedDay
+
+    @property
+    def isSundayInOrdinaryTime(self):
+        '''
+        ```True`` if this mass is a Sunday in Ordinary Time.
+        '''
+
+        if 'christ-the-king' in self.normalName:
+            return True
+        else:
+            return re.match(r'[0-9][0-9]?..-sunday$', self.normalName) is not None
 
 class Lectionary(object):
     '''
@@ -119,6 +146,7 @@ class Lectionary(object):
     def __init__(self):
         # Initialize the list of masses from lectionary.xml.
         self._masses = []
+        self._sundaysInOrdinaryTime = []
         doc = xml.dom.minidom.parse('lectionary.xml')
         try:
             # Decode the year-specific masses.
@@ -126,7 +154,9 @@ class Lectionary(object):
                 year_id = _attr(year_node, 'id')
                 masses = self._decode_year(year_node)
                 for mass in masses:
-                    mass.year = year_id
+                    mass.cycle = year_id
+                    if mass.isSundayInOrdinaryTime:
+                        self._sundaysInOrdinaryTime.append(mass)
                 self._masses.extend(masses)
 
             # Decode the masses that are not year-specific.
@@ -143,6 +173,14 @@ class Lectionary(object):
         '''
 
         return self._masses
+
+    @property
+    def sundaysInOrdinaryTime(self):
+        '''
+        All masses that are Sundays in Ordinary Time.
+        '''
+
+        return self._sundaysInOrdinaryTime
 
     @property
     def fixedDateMasses(self):
@@ -204,10 +242,11 @@ class Lectionary(object):
         :class:`Mass` object.
         '''
 
-        date = _attr(mass_node, 'date', None)
-        if date is not None:
-            month, day = date.split('-')
-            date = int(month), int(day)
+        fixedMonth, fixedDay = None, None
+        fixedDate = _attr(mass_node, 'date', None)
+        if fixedDate is not None:
+            fixedMonth, fixedDay = fixedDate.split('-')
+            fixedMonth, fixedDay = int(fixedMonth), int(fixedDay)
 
         name = _attr(mass_node, 'name')
 
@@ -215,7 +254,7 @@ class Lectionary(object):
         for reading_node in _children(mass_node, 'reading'):
             readings.append(self._decode_reading(reading_node))
 
-        return Mass(name, readings, date)
+        return Mass(name, readings, fixedMonth, fixedDay)
 
     def _decode_reading(self, reading_node):
         '''
@@ -305,11 +344,11 @@ def _nextSunday(d, count):
     # Handle a non-Sunday start by advancing a partial week.
     if d.weekday() != 6:
         if count > 0:
-            d = d + datetime.timedelta(
+            d += datetime.timedelta(
                 days=6 - d.weekday())
             count -= 1
         else:
-            d = d - datetime.timedelta(
+            d -= datetime.timedelta(
                 days=d.weekday() + 1)
             count += 1
 
@@ -339,6 +378,350 @@ def _dateOfEaster(year):
     m = 3 + ( l + 40 ) / 44
     d = l + 28 - 31 * ( m / 4 )
     return datetime.date(year, m, d)
+
+def _cycleForDate(d):
+    '''
+    Return the Gospel Cycle ('A', 'B', or 'C') for the given date,
+    `d`.
+    '''
+
+    christmasDate = datetime.date(d.year, 12, 25)
+    firstSundayOfAdventDate = _nextSunday(christmasDate, -4)
+    if d >= firstSundayOfAdventDate:
+        return 'ABC'[d.year % 3]
+    else:
+        return 'CAB'[d.year % 3]
+
+class Calendar(object):
+    '''
+    A liturgical calendar for a given year that links dates to
+    particular masses.
+    '''
+
+    def __init__(self, year):
+        '''
+        Initialize this liturgical calendar for a particular year.
+        '''
+
+        self._year = year
+        self._massesByDate = None
+        self._initMassesByDate()
+
+    def massesByDate(self, month, day):
+        '''
+        Return the list of masses associated with a particular `month`
+        and `day` for the `year` given at initialization time.
+        '''
+
+        return self._massesByDate[datetime.date(self._year, month, day)]
+
+    def visitMassesByDate(self):
+        '''
+        Return a visitor onto every ``(date, masses)`` pair starting
+        with January 1st, Solemnity of Mary, Mother of God.
+        '''
+
+        return sorted(self._massesByDate.iteritems())
+
+    @property
+    def dateOfPreviousChristmas(self):
+        '''
+        The date of Christmas from the previous year
+        '''
+
+        return datetime.date(self._year - 1, 12, 25)
+
+    @property
+    def dateOfEndOfPreviousChristmas(self):
+        '''
+        The date of the end of the Christmas Season from the previous
+        year.
+        '''
+
+        if self.dateOfPreviousChristmas.weekday() == 6:
+            return _nextSunday(self.dateOfPreviousChristmas, +2)
+        else:
+            return _nextSunday(self.dateOfPreviousChristmas, +3)
+
+    @property
+    def dateOfAshWednesday(self):
+        '''
+        The date of Ash Wednesday
+        '''
+
+        return self.dateOfEaster - datetime.timedelta(days=46)
+
+    @property
+    def dateOfEaster(self):
+        '''
+        The date of Easter Sunday
+        '''
+
+        return _dateOfEaster(self._year)
+
+    @property
+    def dateOfPentecost(self):
+        '''
+        The date of Pentecost Sunday
+        '''
+
+        return _nextSunday(self.dateOfEaster, +7)
+
+    @property
+    def dateOfFirstSundayOfAdvent(self):
+        '''
+        The date of the First Sunday of Advent
+        '''
+
+        return _nextSunday(self.dateOfChristmas, -4)
+
+    @property
+    def dateOfChristmas(self):
+        '''
+        The date of Christmas
+        '''
+
+        return datetime.date(self._year, 12, 25)
+
+    def _initMassesByDate(self):
+        self._massesByDate = {}
+        self._allocateEarlyChristmasSeason()
+        self._allocateLentenSeason()
+        self._allocateHolyWeekAndEasterSeason()
+        self._allocateAdventSeason()
+        self._allocateLateChristmasSeason()
+        self._allocateOrdinaryTime()
+        self._allocateFixedDateMasses()
+
+    def _allocateEarlyChristmasSeason(self):
+        '''
+        Allocate the masses of the Christmas season that started in
+        the previous year.
+        '''
+
+        self._assignMass(
+            datetime.date(self._year, 1, 1),
+            '%s/solemnity-of-mary-mother-of-god')
+
+        if self.dateOfPreviousChristmas.weekday() == 6:
+            # Make adjustments for when Christmas falls on a Sunday.
+            self._assignMass(
+                self.dateOfEndOfPreviousChristmas,
+                '%s/epiphany')
+            self._assignMass(
+                datetime.date(self._year, 1, 9),
+                '%s/sunday-after-epiphany-baptism-of-the-lord')
+        else:
+            self._assignMass(
+                _nextSunday(self.dateOfPreviousChristmas, +1),
+                '%s/sunday-after-christmas-holy-family')
+            self._assignMass(
+                _nextSunday(self.dateOfPreviousChristmas, +2),
+                '%s/2nd-sunday-after-christmas')
+            self._assignMass(
+                datetime.date(self._year, 1, 6),
+                '%s/epiphany')
+            self._assignMass(
+                self.dateOfEndOfPreviousChristmas,
+                '%s/sunday-after-epiphany-baptism-of-the-lord')
+
+    def _allocateLentenSeason(self):
+        '''
+        Allocate the masses of the Lenten season.
+        '''
+
+        self._assignMass(
+            self.dateOfAshWednesday,
+            '%s/ash-wednesday')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -6),
+            '%s/1st-sunday-of-lent')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -5),
+            '%s/2nd-sunday-of-lent')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -4),
+            '%s/3rd-sunday-of-lent')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -3),
+            '%s/4th-sunday-of-lent')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -2),
+            '%s/5th-sunday-of-lent')
+
+    def _allocateHolyWeekAndEasterSeason(self):
+        '''
+        Allocate the masses of Holy Week and the Easter Season.
+        '''
+
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, -1),
+            '%s/passion-sunday-palm-sunday')
+        self._assignMass(
+            self.dateOfEaster - datetime.timedelta(days=3),
+            '%s/mass-of-lords-supper')
+        self._assignMass(
+            self.dateOfEaster - datetime.timedelta(days=2),
+            '%s/good-friday')
+        self._assignMass(
+            self.dateOfEaster - datetime.timedelta(days=1),
+            '%s/easter-vigil')
+        self._assignMass(
+            self.dateOfEaster,
+            '%s/easter-sunday')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +1),
+            '%s/2nd-sunday-of-easter')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +2),
+            '%s/3rd-sunday-of-easter')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +3),
+            '%s/4th-sunday-of-easter')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +4),
+            '%s/5th-sunday-of-easter')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +5),
+            '%s/6th-sunday-of-easter')
+        self._assignMass(
+            self.dateOfEaster + datetime.timedelta(days=40),
+            '%s/ascension-of-our-lord')
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +6),
+            '%s/7th-sunday-of-easter')
+        self._assignMass(
+            self.dateOfEaster + datetime.timedelta(days=49),
+            '%s/pentecost-vigil')
+        self._assignMass(
+            self.dateOfPentecost,
+            '%s/mass-of-the-day')
+
+    def _allocateAdventSeason(self):
+        '''
+        Allocate the masses of the Advent season.
+        '''
+
+        self._assignMass(
+            self.dateOfFirstSundayOfAdvent,
+            '%s/1st-sunday-of-advent')
+        self._assignMass(
+            _nextSunday(self.dateOfChristmas, -3),
+            '%s/2nd-sunday-of-advent')
+        self._assignMass(
+            _nextSunday(self.dateOfChristmas, -2),
+            '%s/3rd-sunday-of-advent')
+        self._assignMass(
+            _nextSunday(self.dateOfChristmas, -1),
+            '%s/4th-sunday-of-advent')
+
+    def _allocateLateChristmasSeason(self):
+        '''
+        Allocate the masses of the Christmas season that comes at the
+        end of the year.
+        '''
+
+        self._appendMass(
+            _nextSunday(self.dateOfChristmas, -1),
+            '%s/christmas-vigil')
+        self._appendMass(
+            self.dateOfChristmas,
+            '%s/christmas-at-midnight')
+        self._appendMass(
+            self.dateOfChristmas,
+            '%s/christmas-at-dawn')
+        self._appendMass(
+            self.dateOfChristmas,
+            '%s/christmas-during-the-day')
+
+    def _allocateOrdinaryTime(self):
+        '''
+        Allocate the masses of Ordinary Time.
+        '''
+
+        # Ordinary Time Before Lent: Calculate and record the masses
+        # of Ordinary Time that come between the end of Christmas and
+        # Ash Wednesday.
+        sundaysInOrdinaryTime = [
+            mass
+            for mass in _lectionary.sundaysInOrdinaryTime
+            if mass.cycle == _cycleForDate(
+                datetime.date(self._year, 1, 1)).lower()
+            ]
+        d = _nextSunday(self.dateOfEndOfPreviousChristmas, +1)
+        while d < self.dateOfAshWednesday:
+            self._assignMass(d, sundaysInOrdinaryTime.pop(0))
+            d = _nextSunday(d, +1)
+
+        # Ordinary Time After Easter: Calculate and record the masses
+        # of Ordinary Time that come between the end of Easter and
+        # Advent.
+        d = _nextSunday(self.dateOfFirstSundayOfAdvent, -1)
+        while d > self.dateOfPentecost:
+            self._assignMass(d, sundaysInOrdinaryTime.pop())
+            d = _nextSunday(d, -1)
+
+        # These special feasts in Ordinary Time have priority over
+        # whatever else is being celebrated that day.
+        self._assignMass(
+            _nextSunday(self.dateOfEaster, +8),
+            '%s/trinity-sunday-sunday-after-pentecost')
+
+        corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
+        if corpusChristiDate.weekday() in (5, 4, 3):
+            corpusChristiDate += datetime.timedelta(
+                days=6 - corpusChristiDate.weekday())
+        self._assignMass(
+            corpusChristiDate,
+            '%s/corpus-christi')
+
+        self._assignMass(
+            self.dateOfEaster + datetime.timedelta(days=68),
+            '%s/sacred-heart-of-jesus')
+
+    def _allocateFixedDateMasses(self):
+        '''
+        Allocate the fixed-date masses.
+        '''
+
+        for mass in _lectionary.fixedDateMasses:
+            d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
+
+            if (mass.normalName == 'joseph-husband-of-mary') and (d.weekday() == 6):
+                d += datetime.timedelta(days=1)
+
+            if mass.normalName in ('all-souls-second-mass', 'all-souls-third-mass'):
+                self._appendMass(d, mass.normalName)
+            else:
+                self._assignMass(d, mass.normalName)
+
+    def _assignMass(self, d, mass):
+        '''
+        Assign `mass` to date `d`, replacing any other masses that may
+        already be there.
+        '''
+
+        if isinstance(mass, basestring):
+            if '%s' in mass:
+                mass = mass % _cycleForDate(d).lower()
+            mass = _lectionary.findMass(mass)
+
+        self._massesByDate[d] = [mass]
+
+    def _appendMass(self, d, mass):
+        '''
+        Apppend `mass` to the list of masses already associated with
+        date `d`.
+        '''
+        
+        if isinstance(mass, basestring):
+            if '%s' in mass:
+                mass = mass % _cycleForDate(d).lower()
+            mass = _lectionary.findMass(mass)
+
+        if d not in self._massesByDate:
+            self._massesByDate[d] = []
+        self._massesByDate[d].append(mass)
 
 class MalformedQueryError(ValueError):
     '''
@@ -399,7 +782,7 @@ def parse(query):
         `normalNameSubstring` within its `normalName`.
         '''
 
-        return (mass.year == year) and \
+        return (mass.cycle == year) and \
             (normalNameSubstring in mass.normalName)
 
     return [
