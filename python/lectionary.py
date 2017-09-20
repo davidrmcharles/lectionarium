@@ -31,6 +31,7 @@ Internals
 # Standard imports:
 import collections
 import datetime
+import itertools
 import re
 import sys
 import traceback
@@ -136,7 +137,8 @@ class Mass(object):
         if 'christ-the-king' in self.normalName:
             return True
         else:
-            return re.match(r'[0-9][0-9]?..-sunday$', self.normalName) is not None
+            return re.match(
+                r'[0-9][0-9]?..-sunday$', self.normalName) is not None
 
 class Lectionary(object):
     '''
@@ -146,6 +148,9 @@ class Lectionary(object):
     def __init__(self):
         # Initialize the list of masses from lectionary.xml.
         self._masses = []
+        self._cycleAMasses = []
+        self._cycleBMasses = []
+        self._cycleCMasses = []
         self._sundaysInOrdinaryTime = []
         doc = xml.dom.minidom.parse('lectionary.xml')
         try:
@@ -158,6 +163,22 @@ class Lectionary(object):
                     if mass.isSundayInOrdinaryTime:
                         self._sundaysInOrdinaryTime.append(mass)
                 self._masses.extend(masses)
+
+            self._cycleAMasses = [
+                mass
+                for mass in self._masses
+                if mass.cycle == 'a'
+                ]
+            self._cycleBMasses = [
+                mass
+                for mass in self._masses
+                if mass.cycle == 'b'
+                ]
+            self._cycleCMasses = [
+                mass
+                for mass in self._masses
+                if mass.cycle == 'c'
+                ]
 
             # Decode the masses that are not year-specific.
             everyYear_node = _firstChild(doc.documentElement, 'everyYear')
@@ -199,6 +220,54 @@ class Lectionary(object):
             if mass.uniqueID == uniqueID:
                 return mass
         return None
+
+    @property
+    def formattedIDs(self):
+        '''
+        Return all the mass IDs as a single, formatted string suitable
+        for printing to the console.
+        '''
+
+        lines = []
+
+        def truncateToken(token, length):
+            '''
+            Return `token` truncated to `length` characters, and
+            ellipsis to indicate truncation occurred.
+            '''
+
+            if len(token) <= length:
+                return token
+            return token[:length - 3] + '...'
+
+        # Format the three-year cycle.
+        lines.append('=' * 80)
+        lines.append('The Three Year Cycle of Sunday Mass Readings'.center(80))
+        lines.append('=' * 80)
+        for massA, massB, massC in zip(
+            self._cycleAMasses, self._cycleBMasses, self._cycleCMasses):
+            massAToken = truncateToken(massA.uniqueID, 24)
+            massBToken = truncateToken(massB.uniqueID, 24)
+            massCToken = truncateToken(massC.uniqueID, 24)
+            lines.append(
+                '* %-24s * %-24s * %-24s' % (
+                    massAToken, massBToken, massCToken))
+
+        # Format the special feasts.
+        lines.append('=' * 80)
+        lines.append('Mass Readings for Certain Special Feasts'.center(80))
+        lines.append('=' * 80)
+        for index in range(0, len(self._fixedDateMasses), 2):
+            mass1 = self._fixedDateMasses[index]
+            mass1Token = '* %s' % mass1.uniqueID
+            mass2Token = ''
+            if (index + 1) < len(self._fixedDateMasses):
+                mass2 = self.fixedDateMasses[index + 1]
+                mass2Token = '* %s' % mass2.uniqueID
+            lines.append(
+                '     %-28s          %-28s' % (
+                    mass1Token, mass2Token))
+        return '\n'.join(lines)
 
     def _decode_year(self, year_node):
         '''
@@ -844,7 +913,9 @@ def main():
 
     # If the user provided no arguments, print help and quit.
     if len(sys.argv) == 1:
+        sys.stderr.write('%s\n' % _lectionary.formattedIDs)
         sys.stderr.write('''\
+
 Provide the name of a mass and we will write its readings to stdout.
 ''')
         raise SystemExit(1)
