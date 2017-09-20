@@ -1,0 +1,267 @@
+# Advent Season
+
+# First Week of Advent
+Mon
+  Is 2:1-5  # Year A: Is 4:2-6
+  Mt 8:5-11
+Tue
+  Is 11:1-10
+  Lk 10:21-24
+Wed
+  Is 25:6-10a
+  Mt 15:29-37
+Thu
+  Is 26:1-6
+  Mt 7:21,24-27
+Fri
+  Is 29:17-24
+  Mt 9:27-31
+Sat
+  Is 30:19-21,23-26
+  Mt 9:35-10:1,6-8
+
+# Second Week of Advent
+Mon
+  Is  35:1-10
+  Lk 5:17-26
+Tue
+  Is 40:1-11
+  Mt 18:12-14
+Wed
+  Is 40:25-31
+  Mt 11:28-30
+Thu
+  Is 41:13-20
+  Mt 11:11-15
+Fri
+  Is 48:17-19
+  Mt 11:16-19
+Sat
+  Sir 48:1-4,9-11
+  Mt 17:10-13
+
+# Third Week of Advent
+Mon
+  Num 24:2-7,15-17a
+  Mt 21:23-27
+Tue
+  Zep 3:1-2,9-13
+  Mt 21:28-32
+Wed
+  is 45:6b-8,18,21b-25
+  Lk 7:18b-23
+Thu
+  Is 54:1-10
+  Lk 7:24-30
+Fri
+  Is 56:1-3a,6-8
+  Jn 5:33-36
+12-17
+  Gn 49:2,8-10
+  Mt 1:1-17
+12-18
+  Jer 23:5-8
+  Mt 1:18-24
+12-19
+  Jgs 13:2-7,24-25a
+  Lk 1:5-25
+12-20
+  is 7:10-14
+  Lk 1:26-38
+12-21
+  Gs 2:8-14  # or Zep 3:14-18a
+  Lk 1:39-45
+12-22
+  1 Sm 1:24-28
+  Lk 1:46-56
+12-23
+  Mal 3:1-4,23-24
+  Lk 1:57-66
+12-24
+  2 Sm 7:1-5,8b-11,16
+  Lk 1:67-79
+
+# Christmas Season
+
+# Octave of Christmas
+Second day (St. Stephen)
+  Acts 6:8-10,7:54-59
+  Mt 10:17-22
+Third day (St. John)
+  1 Jn 1:1-4
+  Jn 20:2-8
+Fourth day (Holy Innocents)
+  1 Jn 1:5-2:2
+  Mt 2:13-18
+Fifth day
+  1 Jn 2:3-11Lk 2:22-35
+Sixth day
+  1 Jn 2:12-17
+  Lk 2:36-40
+Seventh day
+  1 Jn 2:18-21
+  Jn 1:1-18
+1-2
+  1 Jn 2:22-28
+  Jn 1:19-28
+1-3
+  1 Jn 2:29-3:6
+  Jn 1:29-34
+1-4
+  1 Jn 3:7-10
+  Jn 1:35-42
+1-5
+  1 Jn 3:11-21
+  Jn 1:43-51
+1-6  # If Epiphany is not celebrated
+  1 Jn 5:5-13
+  Mk 1:6b-11
+
+# Week After Epiphany
+Monday after Epiphany
+  1 Jn 3:22-4:6
+  Mt 4:12-17,23-25
+Tuesday after Epiphany
+  1 Jn 4:7-10
+  Mk 6:34-44
+Wednesday after Epiphany
+  1 Jn 4:11-18
+  Mk 6:45-52
+Thursday after Epiphany
+  1 Jn 4:19-5:4
+  Lk 4:14-22a
+Friday after Epiphany
+  1 Jn 5:5-13
+  Lk 5:12-16
+Saturday after Epiphany
+  1 Jn 5:14-21
+  Jn 3:22-30
+
+# Lenten Season
+Ash Wednesday
+  Jl 2:12-18
+  2 Cor 5:20-6:2
+  Mt 6:1-16,16-18
+Thursday after Ash Wednesday
+  Dt 30:15-20
+  Lk 9:22-25
+Friday after Ash Wednesday
+  Is 58:1-9a
+  mt 9:14-15
+Saturday after Ash Wednesday
+  Is 58:9b-14
+  Lk 5:27-32
+
+# First Week of Lent
+Monday
+  Lv 19:1-2,11-18
+  Mt 25:31-46
+Tuesday
+  Is 55,10--11
+  Mt 6:7-15
+Wednesday
+  Jon 3:1-10
+  Lk 11:29-32
+Thursday
+  Est C:12,14-16,23-25
+  Mt 7:7-12
+Friday
+  Ez 18:21-28
+  Mt 5:20-26
+Saturday
+  Dt 26:16-19
+  Mt 5:43-48
+
+# Second Week of Lent
+Mon
+  Dn 9:4b-10
+  Lk 6:36-38
+Tue
+  Is 1:10,16-20
+  Mt 23:1-12
+Wed
+  Jer 18:18-20
+  mt 20:17-28
+Thu
+  Jer 17:5-10
+  Lk 16:19-31
+Fri
+  Gn 37:3-4,12-13a,17b-28
+  Mt 21:33-43,45-46
+Sat
+  Mi 7:14-15,18-20
+  Lk 15:1-3,11-32
+
+# Third Week of Lent
+Mon
+  2 Kgs 5:1-15a
+  Lk 4:24-30
+Tue
+  Dn 3:25,34-43
+  Mt 18:21-35
+Wed
+  Dt 4:1,5-9
+  Mt 5:17-19
+Thu
+  Jer 7:23-28
+  Lk 11:14-23
+Fri
+  Hos 14:2-10
+  Mk 12:28b-34
+Sat
+  Hos 6:1-16
+  Lk 18:19-24
+
+# Fourth Week of Lent
+Mon
+  Is 65:17-21
+  Jn 4:43-54
+Tue
+  Ez 47:1-9,12
+  Jn 5:1-3a,5-16
+Wed
+  Is 49:8-15
+  Jn 5:17-30
+Thu
+  Ex 32:7-14
+  Jn 5:31-47
+Fri
+  Wis 2:1a,12-22
+  Jn 7:1-2,10,25-30
+Sat
+  jer 11:18-20
+  Jn 7:40-53
+
+# Fifth Week of Lent
+Mon
+  Dn 13:1-9,15-17,19-30,33-62
+  Jn 8:1-11  # Year C: Jn 8:12-20
+Tue
+  Nm 21:4-9
+  Jn 8:21-30
+Wed
+  Dn 3:14-20,91-92
+Thu
+  Gn 17:3-9
+  Jn 8:51-59
+Fri
+  Jer 20:10-13
+  Jn 10:31-42
+Sat
+  Ez 37:21-28
+  Jn 11:45-56
+
+# Holy Week
+Mon
+  Is 42:1-7
+  Jn 12:1-11
+Tue
+  I s49:1-6
+  Jn 13:21-33,36-38
+Wed
+  is 50:4-9a
+  Mt 26:14-25
+Thursday Chrism Mass
+  Is 61:1-3a,6a,8b-9
+  Rv 1:5-8
+  Lk 4:16-21
