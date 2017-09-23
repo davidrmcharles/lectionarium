@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<lectionary desc="THE NEW 3-YEAR CYCLE OF READINGS FOR SUNDAY MASS">
+<lectionary name="THE NEW 3-YEAR CYCLE OF READINGS FOR SUNDAY MASS">
   <year id="A" name="Year A" desc="2015 2008 2011 2014 2017 2020 2023">
     <season name="Advent Season">
       <mass name="1st Sunday of Advent">

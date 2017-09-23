@@ -146,13 +146,13 @@ class Lectionary(object):
     '''
 
     def __init__(self):
-        # Initialize the list of masses from lectionary.xml.
+        # Initialize the list of masses from sunday-lectionary.xml.
         self._masses = []
         self._cycleAMasses = []
         self._cycleBMasses = []
         self._cycleCMasses = []
         self._sundaysInOrdinaryTime = []
-        doc = xml.dom.minidom.parse('lectionary.xml')
+        doc = xml.dom.minidom.parse('sunday-lectionary.xml')
         try:
             # Decode the year-specific masses.
             for year_node in _children(doc.documentElement, 'year'):

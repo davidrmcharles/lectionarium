@@ -1,0 +1,1643 @@
+<?xml version="1.0"?>
+<lectionary name="WEEKDAY READINGS">
+  <season name="Advent Season">
+    <week name="First Week of Advent">
+      <day name="Monday">
+        <chooseFirstMatch>
+          <reading cycle="A">Is 4:2-6</reading>
+          <reading>Is 2:1-5</reading>
+        </chooseFirstMatch>
+        <reading>Mt 8:5-11</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Is 11:1-10</reading>
+        <reading>Lk 10:21-24</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Is 25:6-10a</reading>
+        <reading>Mt 15:29-37</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Is 26:1-6</reading>
+        <reading>Mt 7:21,24-27</reading>
+      </day>
+      <day name="Friday">
+        <reading>Is 29:17-24</reading>
+        <reading>Mt 9:27-31</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Is 30:19-21,23-26</reading>
+        <reading>Mt 9:35-10:1,6-8</reading>
+      </day>
+    </week>
+    <week name="Second Week of Advent">
+      <day name="Monday">
+        <reading>Is  35:1-10</reading>
+        <reading>Lk 5:17-26</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Is 40:1-11</reading>
+        <reading>Mt 18:12-14</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Is 40:25-31</reading>
+        <reading>Mt 11:28-30</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Is 41:13-20</reading>
+        <reading>Mt 11:11-15</reading>
+      </day>
+      <day name="Friday">
+        <reading>Is 48:17-19</reading>
+        <reading>Mt 11:16-19</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Sir 48:1-4,9-11</reading>
+        <reading>Mt 17:10-13</reading>
+      </day>
+    </week>
+    <week name="Third Week of Advent">
+      <day name="Monday">
+        <reading>Num 24:2-7,15-17a</reading>
+        <reading>Mt 21:23-27</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Zep 3:1-2,9-13</reading>
+        <reading>Mt 21:28-32</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>is 45:6b-8,18,21b-25</reading>
+        <reading>Lk 7:18b-23</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Is 54:1-10</reading>
+        <reading>Lk 7:24-30</reading>
+      </day>
+      <day name="Friday">
+        <reading>Is 56:1-3a,6-8</reading>
+        <reading>Jn 5:33-36</reading>
+      </day>
+      <day date="12-17">
+        <reading>Gn 49:2,8-10</reading>
+        <reading>Mt 1:1-17</reading>
+      </day>
+      <day date="12-18">
+        <reading>Jer 23:5-8</reading>
+        <reading>Mt 1:18-24</reading>
+      </day>
+      <day date="12-19">
+        <reading>Jgs 13:2-7,24-25a</reading>
+        <reading>Lk 1:5-25</reading>
+      </day>
+      <day date="12-20">
+        <reading>Is 7:10-14</reading>
+        <reading>Lk 1:26-38</reading>
+      </day>
+      <day date="12-21">
+        <chooseOne>
+          <reading>Gs 2:8-14</reading>
+          <reading>Zep 3:14-18a</reading>
+        </chooseOne>
+        <reading>Lk 1:39-45</reading>
+      </day>
+      <day date="12-22">
+        <reading>1 Sm 1:24-28</reading>
+        <reading>Lk 1:46-56</reading>
+      </day>
+      <day date="12-23">
+        <reading>Mal 3:1-4,23-24</reading>
+        <reading>Lk 1:57-66</reading>
+      </day>
+      <day date="12-24">
+        <reading>2 Sm 7:1-5,8b-11,16</reading>
+        <reading>Lk 1:67-79</reading>
+      </day>
+    </week>
+  </season>
+  <season name="Christmas Season">
+    <week name="Octave of Christmas">
+      <day name="Second day (St. Stephen)">
+        <reading>Acts 6:8-10,7:54-59</reading>
+        <reading>Mt 10:17-22</reading>
+      </day>
+      <day name="Third day (St. John)">
+        <reading>1 Jn 1:1-4</reading>
+        <reading>Jn 20:2-8</reading>
+      </day>
+      <day name="Fourth day (Holy Innocents)">
+        <reading>1 Jn 1:5-2:2</reading>
+        <reading>Mt 2:13-18</reading>
+      </day>
+      <day name="Fifth day">
+        <reading>1 Jn 2:3-11</reading>
+        <reading>Lk 2:22-35</reading>
+      </day>
+      <day name="Sixth day">
+        <reading>1 Jn 2:12-17</reading>
+        <reading>Lk 2:36-40</reading>
+      </day>
+      <day name="Seventh day">
+        <reading>1 Jn 2:18-21</reading>
+        <reading>Jn 1:1-18</reading>
+      </day>
+      <day date="1-2">
+        <reading>1 Jn 2:22-28</reading>
+        <reading>Jn 1:19-28</reading>
+      </day>
+      <day date="1-3">
+        <reading>1 Jn 2:29-3:6</reading>
+        <reading>Jn 1:29-34</reading>
+      </day>
+      <day date="1-4">
+        <reading>1 Jn 3:7-10</reading>
+        <reading>Jn 1:35-42</reading>
+      </day>
+      <day date="1-5">
+        <reading>1 Jn 3:11-21</reading>
+        <reading>Jn 1:43-51</reading>
+      </day>
+      <day date="1-6" desc="If Epiphany is not celebrated">
+        <reading>1 Jn 5:5-13</reading>
+        <reading>Mk 1:6b-11</reading>
+      </day>
+    </week>
+    <week name="Week After Epiphany">
+      <day name="Monday">day after Epiphany
+        <reading>1 Jn 3:22-4:6</reading>
+        <reading>Mt 4:12-17,23-25</reading>
+      </day>
+      <day name="Tuesday">sday after Epiphany
+        <reading>1 Jn 4:7-10</reading>
+        <reading>Mk 6:34-44</reading>
+      </day>
+      <day name="Wednesday">nesday after Epiphany
+        <reading>1 Jn 4:11-18</reading>
+        <reading>Mk 6:45-52</reading>
+      </day>
+      <day name="Thursday after Epiphany">
+        <reading>1 Jn 4:19-5:4</reading>
+        <reading>Lk 4:14-22a</reading>
+      </day>
+      <day name="Friday after Epiphany">
+        <reading>1 Jn 5:5-13</reading>
+        <reading>Lk 5:12-16</reading>
+      </day>
+      <day name="Saturday after Epiphany">
+        <reading>1 Jn 5:14-21</reading>
+        <reading>Jn 3:22-30</reading>
+      </day>
+    </week>
+  </season>
+  <season name="Lenten Season">
+    <week name="Week of Ash Wednesday">
+      <day name="Ash Wednesday">
+        <reading>Jl 2:12-18</reading>
+        <reading>2 Cor 5:20-6:2</reading>
+        <reading>Mt 6:1-16,16-18</reading>
+      </day>
+      <day name="Thursday after Ash Wednesday">
+        <reading>Dt 30:15-20</reading>
+        <reading>Lk 9:22-25</reading>
+      </day>
+      <day name="Friday after Ash Wednesday">
+        <reading>Is 58:1-9a</reading>
+        <reading>Mt 9:14-15</reading>
+      </day>
+      <day name="Saturday after Ash Wednesday">
+        <reading>Is 58:9b-14</reading>
+        <reading>Lk 5:27-32</reading>
+      </day>
+    </week>
+    <week name="First Week of Lent">
+      <day name="Monday">
+        <reading>Lv 19:1-2,11-18</reading>
+        <reading>Mt 25:31-46</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Is 55,10--11</reading>
+        <reading>Mt 6:7-15</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Jon 3:1-10</reading>
+        <reading>Lk 11:29-32</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Est C:12,14-16,23-25</reading>
+        <reading>Mt 7:7-12</reading>
+      </day>
+      <day name="Friday">
+        <reading>Ez 18:21-28</reading>
+        <reading>Mt 5:20-26</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Dt 26:16-19</reading>
+        <reading>Mt 5:43-48</reading>
+      </day>
+    </week>
+    <week name="Second Week of Lent">
+      <day name="Monday">
+        <reading>Dn 9:4b-10</reading>
+        <reading>Lk 6:36-38</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Is 1:10,16-20</reading>
+        <reading>Mt 23:1-12</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Jer 18:18-20</reading>
+        <reading>Mt 20:17-28</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Jer 17:5-10</reading>
+        <reading>Lk 16:19-31</reading>
+      </day>
+      <day name="Friday">
+        <reading>Gn 37:3-4,12-13a,17b-28</reading>
+        <reading>Mt 21:33-43,45-46</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Mi 7:14-15,18-20</reading>
+        <reading>Lk 15:1-3,11-32</reading>
+      </day>
+    </week>
+    <week name="Third Week of Lent">
+      <day name="Monday">
+        <reading>2 Kgs 5:1-15a</reading>
+        <reading>Lk 4:24-30</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Dn 3:25,34-43</reading>
+        <reading>Mt 18:21-35</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Dt 4:1,5-9</reading>
+        <reading>Mt 5:17-19</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Jer 7:23-28</reading>
+        <reading>Lk 11:14-23</reading>
+      </day>
+      <day name="Friday">
+        <reading>Hos 14:2-10</reading>
+        <reading>Mk 12:28b-34</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Hos 6:1-16</reading>
+        <reading>Lk 18:19-24</reading>
+      </day>
+    </week>
+    <week name="Fourth Week of Lent">
+      <day name="Monday">
+        <reading>Is 65:17-21</reading>
+        <reading>Jn 4:43-54</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Ez 47:1-9,12</reading>
+        <reading>Jn 5:1-3a,5-16</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Is 49:8-15</reading>
+        <reading>Jn 5:17-30</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Ex 32:7-14</reading>
+        <reading>Jn 5:31-47</reading>
+      </day>
+      <day name="Friday">
+        <reading>Wis 2:1a,12-22</reading>
+        <reading>Jn 7:1-2,10,25-30</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Jer 11:18-20</reading>
+        <reading>Jn 7:40-53</reading>
+      </day>
+    </week>
+    <week name="Fifth Week of Lent">
+      <day name="Monday">
+        <reading>Dn 13:1-9,15-17,19-30,33-62</reading>
+        <chooseFirstMatch>
+          <reading cycle="C">Jn 8:12-20</reading>
+          <reading>Jn 8:1-11</reading>
+        </chooseFirstMatch>
+      </day>
+      <day name="Tuesday">
+        <reading>Nm 21:4-9</reading>
+        <reading>Jn 8:21-30</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Dn 3:14-20,91-92</reading>
+        <reading>Jn 8:31-42</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Gn 17:3-9</reading>
+        <reading>Jn 8:51-59</reading>
+      </day>
+      <day name="Friday">
+        <reading>Jer 20:10-13</reading>
+        <reading>Jn 10:31-42</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Ez 37:21-28</reading>
+        <reading>Jn 11:45-56</reading>
+      </day>
+    </week>
+    <week name="Holy Week">
+      <day name="Monday">
+        <reading>Is 42:1-7</reading>
+        <reading>Jn 12:1-11</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Is49:1-6</reading>
+        <reading>Jn 13:21-33,36-38</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Is 50:4-9a</reading>
+        <reading>Mt 26:14-25</reading>
+      </day>
+      <day name="Thursday Chrism Mass">
+        <reading>Is 61:1-3a,6a,8b-9</reading>
+        <reading>Rv 1:5-8</reading>
+        <reading>Lk 4:16-21</reading>
+      </day>
+    </week>
+  </season>
+  <season name="Easter Season">
+    <week name="Octave of Easter">
+      <day name="Monday">
+        <reading>Acts 2:14,22-32</reading>
+        <reading>Mt 28:8-15</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 2:36-41</reading>
+        <reading>Jn 20:11-18</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 3:1-10</reading>
+        <reading>Lk 24:13-35</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 3:11-26</reading>
+        <reading>Lk 24:35-48</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 4:1-12</reading>
+        <reading>Jn 21:1-14</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 4:13-21</reading>
+        <reading>Mk 16:9-15</reading>
+      </day>
+    </week>
+    <week name="Second Week of Easter">
+      <day name="Monday">
+        <reading>Acts 4:23-31</reading>
+        <reading>Jn 3:1-8</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 4:32-37</reading>
+        <reading>Jn 3:7-15</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 5:17-26</reading>
+        <reading>Jn 3:16-21</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 5:27-33</reading>
+        <reading>Jn 3:31-36</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 5:34-42</reading>
+        <reading>Jn 6:1-15</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 6:1-7</reading>
+        <reading>Jn 6:16-21</reading>
+      </day>
+    </week>
+    <week name="Third Week of Easter">
+      <day name="Monday">
+        <reading>Acts 6:8-15</reading>
+        <reading>Jn 6:22-29</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 7:51-8:1a</reading>
+        <reading>Jn 6:30-35</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 8:1-8</reading>
+        <reading>Jn 6:35-40</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 8:26-40</reading>
+        <reading>Jn 6:44-51</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 9:1-20</reading>
+        <reading>Jn 6:52-59</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 9:31-42</reading>
+        <reading>Jn 6:60-69</reading>
+      </day>
+    </week>
+    <week name="Fourth Week of Easter">
+      <day name="Monday">
+        <reading>Acts 11:1-18</reading>
+        <chooseFirstMatch>
+          <reading cycle="A">Jn 10:11-18</reading>
+          <reading>Jn 10:1-10</reading>
+        </chooseFirstMatch>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 11:19-26</reading>
+        <reading>Jn 10:22-30</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 12:24-13:5a</reading>
+        <reading>Jn 12:44-50</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 13:13-25</reading>
+        <reading>Jn 13:16-20</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 13:26-33</reading>
+        <reading>Jn 14:1-6</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 13:44-52</reading>
+        <reading>Jn 14:7-14</reading>
+      </day>
+    </week>
+    <week name="Fifth Week of Easter">
+      <day name="Monday">
+        <reading>Acts 14:5-18</reading>
+        <reading>Jn 14:21-26</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 14:19-28</reading>
+        <reading>Jn 14:27-31a</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 15:1-6</reading>
+        <reading>Jn 15:1-8</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 15:7-21</reading>
+        <reading>Jn 15:9-11</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 15:22-31</reading>
+        <reading>Jn 15:12-17</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 16:1-10</reading>
+        <reading>Jn 15:18-21</reading>
+      </day>
+    </week>
+    <week name="Sixth Week of Easter">
+      <day name="Monday">
+        <reading>Acts 16:11-15</reading>
+        <reading>Jn 15:26-16:4a</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 16:22-34</reading>
+        <reading>Jn 16:5-11</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 17:15,22-18:1</reading>
+        <reading>Jn 16:12-15</reading>
+      </day>
+      <day name="Thursday">
+        <reading>Acts 18:1-8</reading>
+        <reading>Jn 16:16-20</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 18:9-18</reading>
+        <reading>Jn 16:20-23a</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 18:23-28</reading>
+        <reading>Jn 16:23b-28</reading>
+      </day>
+    </week>
+    <week name="Seventh Week of Easter">
+      <day name="Monday">
+        <reading>Acts 19:1-8</reading>
+        <reading>Jn 16:29-33</reading>
+      </day>
+      <day name="Tuesday">
+        <reading>Acts 20:17-27</reading>
+        <reading>Jn 17:1-11a</reading>
+      </day>
+      <day name="Wednesday">
+        <reading>Acts 20:30, 23:6-11</reading>
+        <reading>Jn 17:20-26</reading>
+      </day>
+      <day name="Friday">
+        <reading>Acts 25:13-21</reading>
+        <reading>Jn 21:15-19</reading>
+      </day>
+      <day name="Saturday">
+        <reading>Acts 28:16-20,30-13</reading>
+        <reading>Jn 21:20-25</reading>
+      </day>
+    </week>
+  </season>
+  <season name="Season of the Year">
+    <week name="Week One">
+      <day name="Monday">
+        <reading cycle="I">Heb 1:1-6</reading>
+        <reading cycle="II">1 Sm 1:1-8</reading>
+        <reading>Mk 1:14-20</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Heb 2:5-12</reading>
+        <reading cycle="II">1 Sm 1:9-20</reading>
+        <reading>Mk 1:21-28</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Heb 2:14-18</reading>
+        <reading cycle="II">1 Sm 3:1-10,19-20</reading>
+        <reading>Mk 1:29-30</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Heb 3:7-14</reading>
+        <reading cycle="II">1 Sm 4:1-11</reading>
+        <reading>Mk 1:40-45</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Heb 4:1-5,11</reading>
+        <reading cycle="II">1 Sm 8:4-7,10-ssa</reading>
+        <reading>Mk 2:1-12</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Heb 4:12-16</reading>
+        <reading cycle="II">1 Sm 9:1-14,17-19,10:1a</reading>
+        <reading>Mk 2:13-17</reading>
+      </day>
+    </week>
+    <week name="Week Two">
+      <day name="Monday">
+        <reading cycle="I">Heb 5:1-10</reading>
+        <reading cycle="II">1 Sm 15:16-23</reading>
+        <reading>Mk 2:18-22</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Heb 6:10-20</reading>
+        <reading cycle="II">1 Sm 16:1-13</reading>
+        <reading>Mk 2:23-28</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Heb 7:1-3,15-17</reading>
+        <reading cycle="II">1 Sm 17:32-33,37,40-51</reading>
+        <reading>Mk 3:1-6</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">He b7:25-8:6</reading>
+        <reading cycle="II">1 Sm 18:6-9,19:1-7</reading>
+        <reading>Mk 3:7-12</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Heb 8:6-13</reading>
+        <reading cycle="II">1 Sm 24:3-21</reading>
+        <reading>Mk 3:13-19</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Heb 9:2-3,11-14</reading>
+        <reading cycle="II">2 Sm 1:1-4,11-12,19,23-27</reading>
+        <reading>Mk 3:20-21</reading>
+      </day>
+    </week>
+    <week name="Week Three">
+      <day name="Monday">
+        <reading cycle="I">Heb 9:15,24-28</reading>
+        <reading cycle="II">2 Sm 5:1-7,10</reading>
+        <reading>Mk 3:22-30</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Heb 10:1-10</reading>
+        <reading cycle="II">2 Sm 6:12b-15,17-19</reading>
+        <reading>Mk 3:31-35</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Heb 10:11-18</reading>
+        <reading cycle="II">2 Sm 7:4-17</reading>
+        <reading>Mk 4:1-20</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Heb 10:19-25</reading>
+        <reading cycle="II">2 Sm 7:18-19,24-29</reading>
+        <reading>Mk 4:21-25</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Heb 10:32-39</reading>
+        <reading cycle="II">2 Sm 11:1-4a,5-10a,13-17</reading>
+        <reading>Mk 4:26-34</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Heb 11:1-2,8-9</reading>
+        <reading cycle="II">2 Sm 12:1-7a,10-17</reading>
+        <reading>Mk 4:35-41</reading>
+      </day>
+    </week>
+    <week name="Week Four">
+      <day name="Monday">
+        <reading cycle="I">Heb 11:32-40</reading>
+        <reading cycle="II">2 Sm 15:13-14,30,16:5-13a</reading>
+        <reading>Mk 5:1-20</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Heb 12:1-4</reading>
+        <reading cycle="II">2 Sm 18:9-10,14b,24-25a,30-19:3</reading>
+        <reading>Mk 5:21-43</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Heb 12:4-7,11-15</reading>
+        <reading cycle="II">2 Sm 24:2,9-17</reading>
+        <reading>Mk 6:1-6</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Heb 12:18-19,21-24</reading>
+        <reading cycle="II">1 Kgs 2:1-4,10-12</reading>
+        <reading>Mk 6:7-13</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Heb 13:1-8</reading>
+        <reading cycle="II">Sir 47:2-11</reading>
+        <reading>Mk 6:14-29</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Heb 13:15-17,20-21</reading>
+        <reading cycle="II">1 Kgs 3:4-13</reading>
+        <reading>Mk 6:30-34</reading>
+      </day>
+    </week>
+    <week name="Week Five">
+      <day name="Monday">
+        <reading cycle="I">Gn 1:1-19</reading>
+        <reading cycle="II">1 Kgs 8:1-7,9-13</reading>
+        <reading>Mk 6:53-56</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Gn 1:20-2,4a</reading>
+        <reading cycle="II">1 Kgs 8:22-23,27-30</reading>
+        <reading>Mk 7:1-13</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Gn 2:4b-9,15-17</reading>
+        <reading cycle="II">1 Kgs 10:1-10</reading>
+        <reading>Mk 7:14-23</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I"> Gn 2:18-25</reading>
+        <reading cycle="II">1 Kgs 1:4-13</reading>
+        <reading>Mk 7:24-30</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Gn 3:1-8</reading>
+        <reading cycle="II">1 Kgs 11:29-32,12:29</reading>
+        <reading>Mk 7:31-37</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Gn 3:9-24</reading>
+        <reading cycle="II">1 Kgs 12:26-32,13:33-34</reading>
+        <reading>Mk 8:1-10</reading>
+      </day>
+    </week>
+    <week name="Week Six">
+      <day name="Monday">
+        <reading cycle="I">Gn 4:1-15,25</reading>
+        <reading cycle="II">Jas 1:1-11</reading>
+        <reading>Mk 8:11-13</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Gn 6:5-8,7:1-5,10</reading>
+        <reading cycle="II">Jasa 1:12-18</reading>
+        <reading>Mk 8:14-21</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Gn 8:6-13,20-22</reading>
+        <reading cycle="II">Jas 1:19-27</reading>
+        <reading>Mk 8:22-26</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Gn 9:1-13</reading>
+        <reading cycle="II">Jas 2:1-9</reading>
+        <reading>Mk 8:27-33</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Gn 11:1-9</reading>
+        <reading cycle="II">Jas 2:14-24,26</reading>
+        <reading>Mk 8:34-9:1</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Heb 11:1-7</reading>
+        <reading cycle="II">Jas 3:1-10</reading>
+        <reading>Mk 9:2-13</reading>
+      </day>
+    </week>
+    <week name="Week Seven">
+      <day name="Monday">
+        <reading cycle="I">Sir 1:1-10</reading>
+        <reading cycle="II">Jas 3:13-18</reading>
+        <reading>Mk 9:14-29</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Sir 2:1-11</reading>
+        <reading cycle="II">Jas 4:1-10</reading>
+        <reading>Mk 9:30-37</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Sir 4:11-19</reading>
+        <reading cycle="II">Jas 4:13-17</reading>
+        <reading>Mk 9:38-40</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Sir 5:1-18</reading>
+        <reading cycle="II">Jas 5:1-16</reading>
+        <reading>Mk 9:41-15</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Sir 6:5-17</reading>
+        <reading cycle="II">Jas 5:19-12</reading>
+        <reading>Mk 10:1-12</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Sir 17:1-15</reading>
+        <reading cycle="II">Jas 5:13-20</reading>
+        <reading>Mk 10:13-16</reading>
+      </day>
+    </week>
+    <week name="Week Eight">
+      <day name="Monday">
+        <reading cycle="I">Sir 17:19-27</reading>
+        <reading cycle="II">1 Pt:3-9</reading>
+        <reading>Mk 10:17-27</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Sir 35:1-12</reading>
+        <reading cycle="II">1 Pt 1:10-16</reading>
+        <reading>Mk 10:28-31</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Sir 36:1,5-6,10-17</reading>
+        <reading cycle="II">1 Pt 1:18-25</reading>
+        <reading>Mk 10:32-45</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Sir 42:15-25</reading>
+        <reading cycle="II">1 Pt 4:7-13</reading>
+        <reading>Mk 11:11-26</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Sir 51:12b-20</reading>
+        <reading cycle="II">Jude 17:20b-25</reading>
+        <reading>Mk 11:27-33</reading>
+      </day>
+    </week>
+    <week name="Week Nine">
+      <day name="Monday">
+        <reading cycle="I">Tb 1:1a-2,2:1-9</reading>
+        <reading cycle="II">2 Pt 1:2-7</reading>
+        <reading>Mk 12:1-12</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Tb2:9-14</reading>
+        <reading cycle="II">2 Pt 3:12-15a,17-18</reading>
+        <reading>Mk 12:13-17</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Tb 3:1-11,16</reading>
+        <reading cycle="II">2 Tm 1:1-3,6-12</reading>
+        <reading>Mk 12:18-27</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Tb 6:10-11,7:1,9-17,8:4-7</reading>
+        <reading cycle="II">2 Tm 2:8-15</reading>
+        <reading>Mk 12:28b-34</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Tb 11:5-17</reading>
+        <reading cycle="II">2 Tm 3:10-17</reading>
+        <reading>Mk 112:35-37</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Tb 12:1,5-15,20</reading>
+        <reading cycle="II">2 Tm 4:1-8</reading>
+        <reading>Mk 12:38-44</reading>
+      </day>
+    </week>
+    <week name="Week Ten">
+      <day name="Monday">
+        <reading cycle="I">2 Cor 1:1-7</reading>
+        <reading cycle="II">1 Kgs 17:1-6</reading>
+        <reading>Mt 5:1-12</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">2 Cor 1:18-22</reading>
+        <reading cycle="II">1 Kgs 17:7-16</reading>
+        <reading>Mt 5:13-16</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">2 Cor 3:4-11</reading>
+        <reading cycle="II">1 Kgs 18:20-39</reading>
+        <reading>Mt 5:17-19</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">2 Cor 3:15-4:1,3-6</reading>
+        <reading cycle="II">1 Kgs 18:41-46</reading>
+        <reading>Mt 5:20-26</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">2 Cor 4:7-15</reading>
+        <reading cycle="II">1 Kgs 19:9a,11-16</reading>
+        <reading>Mt 5:27-32</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">2 Cor 5:14-21</reading>
+        <reading cycle="II">1 Kgs 19:19-21</reading>
+        <reading>Mt 5:33-37</reading>
+      </day>
+    </week>
+    <week name="Week Eleven">
+      <day name="Monday">
+        <reading cycle="I">2 Cor 6:1-10</reading>
+        <reading cycle="II">1 Kgs 21:1-16</reading>
+        <reading>Mt 5:38-42</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">2 Cor 8:1-9</reading>
+        <reading cycle="II">1 Kgs 21:17-29</reading>
+        <reading>Mt 5:43-48</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">2 Cor 9:6-11</reading>
+        <reading cycle="II">1 Kgs 2:1,6-14</reading>
+        <reading>Mt 6:1-6,16-18</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">2 Cor 11:1-11</reading>
+        <reading cycle="II">Sir 48:1-15</reading>
+        <reading>Mt 6:7-15</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">2 Cor 11:18,21b-30</reading>
+        <reading cycle="II">2 Kgs 11:1-4,9-18,20</reading>
+        <reading>Mt 6:19-23</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">2 Cor 12:1-10</reading>
+        <reading cycle="II">2 Chr 24:17-25</reading>
+        <reading>Mt 6:24-34</reading>
+      </day>
+    </week>
+    <week name="Week Twelve">
+      <day name="Monday">
+        <reading cycle="I">Gn 12:1-9</reading>
+        <reading cycle="II">2 Kgs 17:5-8,13-15a,18</reading>
+        <reading>Mt 7:1-5</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Gn 13:2,5-8</reading>
+        <reading cycle="II">2 Kgs 19:9b-11,14-21,31-35a,36</reading>
+        <reading>Mt 7:6,12-14</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Gn 15:1-12,17-18</reading>
+        <reading cycle="II">2 Kgs 22:8-13,23:1-3</reading>
+        <reading>Mt 7:15-20</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Gn 16:1-12,15-16</reading>
+        <reading cycle="II">2 Kgs 24:8-17</reading>
+        <reading>Mt 7:21-29</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Gn 17:1,9-18,15-22</reading>
+        <reading cycle="II">2 Kgs 25:1-12</reading>
+        <reading>Mt 8:1-4</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Gn 18:1-15</reading>
+        <reading cycle="II">Lam 2:2,10-14,18-19</reading>
+        <reading>Mt 8:5-17</reading>
+      </day>
+    </week>
+    <week name="Week Thirteen">
+      <day name="Monday">
+        <reading cycle="I">Gn 18:16-33</reading>
+        <reading cycle="II">Am 2:6-10,13-16</reading>
+        <reading>Mt 8:18-22</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Gn 19:15-29</reading>
+        <reading cycle="II">Am 3:1-8,4:11-12</reading>
+        <reading>Mt 8:23-27</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Gn 21:5,8-20</reading>
+        <reading cycle="II">Am 5:14-15,21-24</reading>
+        <reading>Mt 8:28-34</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Gn 22:1-19</reading>
+        <reading cycle="II">Am 7:10-17</reading>
+        <reading>Mt 9:1-8</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Gn 23:1-4,19,24:1-8,62-67</reading>
+        <reading cycle="II">Am 8:4-6,9-12</reading>
+        <reading>Mt 9:9-13</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Gn 27:1-5,15-29</reading>
+        <reading cycle="II">Am 9:11-15</reading>
+        <reading>Mt 9:14-17</reading>
+      </day>
+    </week>
+    <week name="Week Fourteen">
+      <day name="Monday">
+        <reading cycle="I">Gn 28:10-22a</reading>
+        <reading cycle="II">Hos 2:16,17b-18,21-22</reading>
+        <reading>Mt 9:18-26</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Gn 32:22-33</reading>
+        <reading cycle="II">Hos 8:4-7,11-13</reading>
+        <reading>Mt 9:32-38</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Gn 41:51-57,42:5-7a,17-24a</reading>
+        <reading cycle="II">Hos 10:1-3,7-8,12</reading>
+        <reading>Mt 10:1-7</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Gn 44:18-21,23b-29,45:1-5</reading>
+        <reading cycle="II">Hos 11:1,3-4,8c-9</reading>
+        <reading>Mt 10:7-15</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Gn 46:1-7,28-30</reading>
+        <reading cycle="II">Hos 14:2-10</reading>
+        <reading>Mt 10:16-23</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Gn 49:29-33,50:15-24</reading>
+        <reading cycle="II">Is 6:1-8</reading>
+        <reading>Mt 10:24-33</reading>
+      </day>
+    </week>
+    <week name="Week Fifteen">
+      <day name="Monday">
+        <reading cycle="I">Ex 1:8-14,22</reading>
+        <reading cycle="II">Is 1:10-17</reading>
+        <reading>Mt 10:34-11:1</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Ex 2:1-15a</reading>
+        <reading cycle="II">Is 7:1-9</reading>
+        <reading>Mt 11:20-24</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Ex 3:1-6,9-12</reading>
+        <reading cycle="II">Is 10:5-7,13-16</reading>
+        <reading>Mt 11:25-27</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Ex 3:13-20</reading>
+        <reading cycle="II">Is 26:7-9,12,16-19</reading>
+        <reading>Mt 11:28-30</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Ex 11:10-12,14</reading>
+        <reading cycle="II">Is 38:1-6,21-22,7-8</reading>
+        <reading>Mt 12:1-8</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Ex 12:37-42</reading>
+        <reading cycle="II">Mi 2:1-5</reading>
+        <reading>Mt 12:14-21</reading>
+      </day>
+    </week>
+    <week name="Week Sixteen">
+      <day name="Monday">
+        <reading cycle="I">Ex 14:5-18</reading>
+        <reading cycle="II">Mi 6:1-4,6-8</reading>
+        <reading>Mt 12:38-42</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Ex 14:21-15:1</reading>
+        <reading cycle="II">Mi 7:14-15,18-20</reading>
+        <reading>Mt 12:46-50</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Ex 16:1-5,9-15</reading>
+        <reading cycle="II">Jer 1:1,4-10</reading>
+        <reading>Mt 13:1-9</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Ex 19:1-2,9-11,16-20b</reading>
+        <reading cycle="II">Jer 2:1-3,7-8,12-13</reading>
+        <reading>Mt 13:10-17</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Ex 20:1-17</reading>
+        <reading cycle="II">Jer 3:14-17</reading>
+        <reading>Mt 13:18-23</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Ex 24:3-8</reading>
+        <reading cycle="II">Jer 7:1-11</reading>
+        <reading>Mt 13:24-30</reading>
+      </day>
+    </week>
+    <week name="Week Seventeen">
+      <day name="Monday">
+        <reading cycle="I">Ex 32:15-24,30-34</reading>
+        <reading cycle="II">Jer 13:1-11</reading>
+        <reading>Mt 13:31-35</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Ex 33:7-11,34;5b-9,28</reading>
+        <reading cycle="II">Jer 14:17-22</reading>
+        <reading>Mt 13:36-43</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Ex 34:29-34</reading>
+        <reading cycle="II">Jer 15:10,16-21</reading>
+        <reading>Mt 13:44-46</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Ex 40:16-21,34-38</reading>
+        <reading cycle="II">Jer 18:1-6</reading>
+        <reading>Mt 13:47-53</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Lv 23:1,4-11,15-16,27,34b-37</reading>
+        <reading cycle="II">Jer 26:1-9</reading>
+        <reading>Mt 13:54-58</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Lv 25:1,8-17</reading>
+        <reading cycle="II">Jer 26:11-16,24</reading>
+        <reading>Mt 14:1-12</reading>
+      </day>
+    </week>
+    <week name="Week Eighteen">
+      <day name="Monday">
+        <reading cycle="I">Nm 11:4b-15</reading>
+        <reading cycle="II">Jer 28:1-17</reading>
+        <chooseOne>
+          <reading>Mt 14:13-21</reading>
+          <reading>Mt 14:22-36</reading>
+        </chooseOne>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Nm 12:1-13</reading>
+        <reading cycle="II">Jer 30:1-2,12-15,18-22</reading>
+        <chooseOne>
+          <reading>Mt 14:22-36</reading>
+          <reading>Mt 15:1-2,10-14</reading>
+        </chooseOne>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Nm 13:1-2a,25-14:1,26-29,34-35</reading>
+        <reading cycle="II">Jer 31:1-7</reading>
+        <reading>Mt 15:21-28</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Nm 20:1-13</reading>
+        <reading cycle="II">Jer 31:31-34</reading>
+        <reading>Mt 16:13-23</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Dt 4:32-40</reading>
+        <reading cycle="II">Na 2:1,3,3:1-3,6-7</reading>
+        <reading>Mt 16:24-28</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Dt 6:4-13</reading>
+        <reading cycle="II">Hb 1:12-2:4</reading>
+        <reading>Mt 17:14-20</reading>
+      </day>
+    </week>
+    <week name="Week Nineteen">
+      <day name="Monday">
+        <reading cycle="I">Dt 10:12-22</reading>
+        <reading cycle="II">Ez 1:2-5,24-28c</reading>
+        <reading>Mt 17:22-27</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Dt 31:1-8</reading>
+        <reading cycle="II">Ez 2:8-3:4</reading>
+        <reading>Mt 18:1-5,10,12-14</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Dt 34:1-2</reading>
+        <reading cycle="II">9:1-7,10:18-22</reading>
+        <reading>Mt 18:15-20</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Jos 3:7-10a,11,13-17</reading>
+        <reading cycle="II">Ez 12:1-12</reading>
+        <reading>Mt 18:21-19:1</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Jos 24:1-13</reading>
+        <reading cycle="II">Ez 16:1-15,60,63</reading>
+        <reading>Mt 19:3-12</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Jos 24:14-29</reading>
+        <reading cycle="II">Ez 18:1-10,13b,30-32</reading>
+        <reading>Mt 19:13-15</reading>
+      </day>
+    </week>
+    <week name="Week Twenty">
+      <day name="Monday">
+        <reading cycle="I">Jgs 2:11-19</reading>
+        <reading cycle="II">Ez 24:15-24</reading>
+        <reading>Mt 19:16-22</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Jgs 6:11-24a</reading>
+        <reading cycle="II">Ez28:1-10</reading>
+        <reading>Mt 19:23-30</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Jgs 9:6-15</reading>
+        <reading cycle="II">Ez 34:1-11</reading>
+        <reading>Mt 20:1-16a</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Jgs 11:29-39a</reading>
+        <reading cycle="II">Ez 36:23-28</reading>
+        <reading>Mt 22:1-14</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Ru 1:1,3-6,14b-16,22</reading>
+        <reading cycle="II">Ez 37:1-14</reading>
+        <reading>Mt 22:34-40</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Ru 2:1-3,8-11,4:13-17</reading>
+        <reading cycle="II">Ez 43:1-7a</reading>
+        <reading>Mt 23:1-12</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-one">
+      <day name="Monday">
+        <reading cycle="I">Thes 1:2b-5,8b-10</reading>
+        <reading cycle="II">2 Thes 1:1-5,11b-12</reading>
+        <reading>Mt 23:13-22</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">1 Thes 2:1-18</reading>
+        <reading cycle="II">2 Thes 2:1-3a,13-17</reading>
+        <reading>Mt 23:23-26</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">1 Thes 2:9-13</reading>
+        <reading cycle="II">2 Thes 3:6-10,16-18</reading>
+        <reading>Mt 23:27-32</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">1 Thes 3:7-13</reading>
+        <reading cycle="II">1 Cor 1:1-9</reading>
+        <reading>Mt 24:42-51</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">1 Thes 4:1-8</reading>
+        <reading cycle="II">1 Cor 1:17-25</reading>
+        <reading>Mt 25:1-13</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">1 Thes 4:9-12</reading>
+        <reading cycle="II">1 Cor 1:26-31</reading>
+        <reading>Mt 25:14-30</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-two">
+      <day name="Monday">
+        <reading cycle="I">Thes 4:13-18</reading>
+        <reading cycle="II">1 Cor 2:1-5</reading>
+        <reading>Lk 4:16-30</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">1 Thes 5:1-6,9-11</reading>
+        <reading cycle="II">1 Cor 2:10b-16</reading>
+        <reading>Lk 4:31-37</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Col 1:1-8</reading>
+        <reading cycle="II">1 Cor 3:1-9</reading>
+        <reading>Lk 4:38-44</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Col 1:9-14</reading>
+        <reading cycle="II">1 Cor 3:18-23</reading>
+        <reading>Lk 5:1-11</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Col 1:15-20</reading>
+        <reading cycle="II">1 Cor 4:1-5</reading>
+        <reading>Lk 5:33-39</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Col 1:21-23</reading>
+        <reading cycle="II">1 Cor 4:9-15</reading>
+        <reading>Lk 6:1-5</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-three">
+      <day name="Monday">
+        <reading cycle="I">Col 1:24-2:3</reading>
+        <reading cycle="II">1 Cor 5:1-8</reading>
+        <reading>Lk 6:6-11</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Col 2:6-15</reading>
+        <reading cycle="II">1 Cor 6:1-11</reading>
+        <reading>Lk 6:12-19</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Col:1-11</reading>
+        <reading cycle="II">1 Cor 7:25-31</reading>
+        <reading>Lk 6:20-26</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Col3:12-17</reading>
+        <reading cycle="II">1 Cor8:1b-7,11-13</reading>
+        <reading>Lk 6:27-38</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">1 Tm 1:1-2,12-14</reading>
+        <reading cycle="II">1 Cor 9:16-19,22b-27</reading>
+        <reading>Lk 6:39-42</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">1 Tm 1:15-17</reading>
+        <reading cycle="II">1 Cor 10:14-22a</reading>
+        <reading>Lk 6:43-49</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-four">
+      <day name="Monday">
+        <reading cycle="I">1 Tm 2:1-8</reading>
+        <reading cycle="II">1 Cor 11:17-26,33</reading>
+        <reading>Lk 7:1-10</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">1 Tm 3:1-13</reading>
+        <reading cycle="II">1 Cor 12:12-14,27-31a</reading>
+        <reading>Lk 7:11-17</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">1 Tm 3:14-16</reading>
+        <reading cycle="II">1 Cor 12:31-13:13</reading>
+        <reading>Lk 7:31-35</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">1 Tm 4:1-16</reading>
+        <reading cycle="II">1 Cor 15:1-11</reading>
+        <reading>Lk 7:36-50</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">1 Tm 6:2c-12</reading>
+        <reading cycle="II">1 Cor 15:12-20</reading>
+        <reading>Lk 8:1-3</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">1 Tm 6:13-16</reading>
+        <reading cycle="II">1 Cor 15:36-37,42-49</reading>
+        <reading>Lk 6:4-15</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-five">
+      <day name="Monday">
+        <reading cycle="I">Ezr 1:1-6</reading>
+        <reading cycle="II">Prv 3:27-34</reading>
+        <reading>Lk 8:16-18</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Ezr 6:7-8,12b,14-20</reading>
+        <reading cycle="II">Prv 21:1-6,10-13</reading>
+        <reading>LK 8:19-21</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Ezr 9:5-9</reading>
+        <reading cycle="II">Prv 30:5-9</reading>
+        <reading>Lk 9:1-6</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Hg 1:1-8</reading>
+        <reading cycle="II">Eccl 1:2-11</reading>
+        <reading>Lk 9:7-9</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Hg 1:15b-2:9</reading>
+        <reading cycle="II">Eccl 3:1-11</reading>
+        <reading>Lk 9:18-22</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Zec 2:5-9a,14-15a</reading>
+        <reading cycle="II">Eccl 11:9-12:8</reading>
+        <reading>Lk 9:43b-45</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-six">
+      <day name="Monday">
+        <reading cycle="I">Zec 8:1-8</reading>
+        <reading cycle="II">Jb 1:6-22</reading>
+        <reading>Lk 9:46-50</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Zec 8:20-23</reading>
+        <reading cycle="II">Jb 3:1-3,11-17,20-23</reading>
+        <reading>LK 9:51-56</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Ne 2:1-8</reading>
+        <reading cycle="II">Jb 9:1-12,14-16</reading>
+        <reading>Lk 9:57-62</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Neh 8:1-4a,5-6,7b-12</reading>
+        <reading cycle="II">Jb 19:12-27</reading>
+        <reading>Lk 10:1-12</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Bar 1:15-22</reading>
+        <reading cycle="II">Jb 38:1,12-21,40:3-5</reading>
+        <reading>Lk 10:13-16</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Bar 4:5-12,27-29</reading>
+        <reading cycle="II">Jb 42:1-3,5-6,12-17</reading>
+        <reading>Lk 10:17-24</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-seven">
+      <day name="Monday">
+        <reading cycle="I">Jon 1:1-2:1,11</reading>
+        <reading cycle="II">Gal 1:6-12</reading>
+        <reading>Lk 10:25-37</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Jon 3:1-10</reading>
+        <reading cycle="II">Gal 1:13-24</reading>
+        <reading>LK 10:38-42</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Jon 4:1-11</reading>
+        <reading cycle="II">Gal 2:1-2,7-14</reading>
+        <reading>Lk 11:1-4</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Mal 3:13-20a</reading>
+        <reading cycle="II">Gal 3:1-5</reading>
+        <reading>Lk 11:5-13</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Jl 1:13-15,2:1-2</reading>
+        <reading cycle="II">Gal 3:7-14</reading>
+        <reading>Lk 11:15-26</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Jl 4:12-21</reading>
+        <reading cycle="II">Gal 3:22-29</reading>
+        <reading>Lk 11:27-28</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-eight">
+      <day name="Monday">
+        <reading cycle="I">Rom 1:1-7</reading>
+        <reading cycle="II">Gal 4:22-24,26-27</reading>
+        <reading>Lk 11:29-32</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Rom 1:16-25</reading>
+        <reading cycle="II">Gal 5:1-6</reading>
+        <reading>Lk 11:37-41</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Rom 2:1-11</reading>
+        <reading cycle="II">Gal 5:18-25</reading>
+        <reading>Lk 11:42-46</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Rom 3:21-29</reading>
+        <reading cycle="II">Eph 1:3-10</reading>
+        <reading>Lk 11:47-54</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Rom 4:1-8</reading>
+        <reading cycle="II">Eph 1:11-14</reading>
+        <reading>Lk 12:1-7</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Rom 4:13,16-18</reading>
+        <reading cycle="II">Eph 1:15-23</reading>
+        <reading>Lk 12:8-12</reading>
+      </day>
+    </week>
+    <week name="Week Twenty-nine">
+      <day name="Monday">
+        <reading cycle="I">Rom 4:20-25</reading>
+        <reading cycle="II">Eph 2:1-10</reading>
+        <reading>Lk 12:13-21</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Rom 5:12,15b,17-19,20b-21</reading>
+        <reading cycle="II">Eph 2:12-22</reading>
+        <reading>Lk 12:35,38</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Rom 6:12-18</reading>
+        <reading cycle="II">Eph 3:2-12</reading>
+        <reading>Lk 12:39-48</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Rom 6:12-18</reading>
+        <reading cycle="II">Eph 3:2-12</reading>
+        <reading>Lk 12:39-48</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Rom 6:19-23</reading>
+        <reading cycle="II">Eph 3:14-21</reading>
+        <reading>Lk 12:49-53</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Rom 7:18-25a</reading>
+        <reading cycle="II">Eph 4:1-6</reading>
+        <reading>Lk 12:54-59</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Rom 8:1-11</reading>
+        <reading cycle="II">Eph 4:7-16</reading>
+        <reading>Lk 13:1-9</reading>
+      </day>
+    </week>
+    <week name="Week Thirty">
+      <day name="Monday">
+        <reading cycle="I">Rom 8:12-17</reading>
+        <reading cycle="II">Eph 4:32-5:8</reading>
+        <reading>Lk 13:10-17</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">rom 8:18-25</reading>
+        <reading cycle="II">Eph 5:21-33</reading>
+        <reading>Lk 13:18-21</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Rom 8:26-30</reading>
+        <reading cycle="II">Eph 6:1-9</reading>
+        <reading>Lk 13:2230</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Rom 3:31b-39</reading>
+        <reading cycle="II">Eph 6:10-20</reading>
+        <reading>Lk 13:31-35</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Rom 9:1-5</reading>
+        <reading cycle="II">Phil 1:1-11</reading>
+        <reading>Lk 14:1-6</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Rom 11:1-2a,11-12,25-29</reading>
+        <reading cycle="II">Phil 1:18b-26</reading>
+        <reading>Lk 14:1,7-11</reading>
+      </day>
+    </week>
+    <week name="Week Thirty-one">
+      <day name="Monday">
+        <reading cycle="I">Rom 11:29-36</reading>
+        <reading cycle="II">Phil:1-4</reading>
+        <reading>LK 14:12-14</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Rom 12:5-16a</reading>
+        <reading cycle="II">Phil 2:5-11</reading>
+        <reading>LK 14:15-24</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Rom 13:8-10</reading>
+        <reading cycle="II">Phil 2:12-18</reading>
+        <reading>Lk 14-25-33;</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Rom 14:7-12</reading>
+        <reading cycle="II">Phil 3:3-8a</reading>
+        <reading>Lk 15:1-10</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Rom 15:14-21</reading>
+        <reading cycle="II">Phil 3:17-4:1</reading>
+        <reading>Lk 16:1-8</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Rom 16:3-9,16,22-27</reading>
+        <reading cycle="II">Phil 4:10-19</reading>
+        <reading>Lk 16:9-15</reading>
+      </day>
+    </week>
+    <week name="Week Thirty-two">
+      <day name="Monday">
+        <reading cycle="I">Wis 1:1-7</reading>
+        <reading cycle="II">Ti 1:1-9</reading>
+        <reading>Lk 17:1-6</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Wis 2:23-3:9</reading>
+        <reading cycle="II">Ti 2:1-8,11-14</reading>
+        <reading>Lk 17:7-10</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Wis 6:1-11</reading>
+        <reading cycle="II">Ti 3:1-7</reading>
+        <reading>Lk 17:11-19</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Wis 7:22-8:1</reading>
+        <reading cycle="II">Phlm 7-20</reading>
+        <reading>Lk 17:20-25</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Wis 13:1-9</reading>
+        <reading cycle="II">2 Jn 4-9</reading>
+        <reading>Lk 17:26-37</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Wis 18:14-16,19:6-9</reading>
+        <reading cycle="II">3 Jn 5-8</reading>
+        <reading>Lk 18:1-8</reading>
+      </day>
+    </week>
+    <week name="Week Thirty-three">
+      <day name="Monday">
+        <reading cycle="I">1 Mc 1:10-15,41-43,54,57,62,64</reading>
+        <reading cycle="II">Rv 1:1-4,2:1-5a</reading>
+        <reading>Lk 18:35-43</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">2 Mc 6:18-31</reading>
+        <reading cycle="II">Rv 3:1-6,14-22</reading>
+        <reading>Lk 19:1-10</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">2 Mc 7:1-,20-31</reading>
+        <reading cycle="II">Rv 4:1-11</reading>
+        <reading>Lk 19:11-28</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">1 Mc 2:15-29</reading>
+        <reading cycle="II">Rv 5:1-10</reading>
+        <reading>Lk 19:41-44</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">1 Mc 4:36-37,52-59</reading>
+        <reading cycle="II">Rv 10:8-11</reading>
+        <reading>Lk 19:45-48</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">1 Mc 6:1-13</reading>
+        <reading cycle="II">Rv 11:4-1</reading>
+        <reading>Lk 20:27-40</reading>
+      </day>
+    </week>
+    <week name="Week Thirty-four">
+      <day name="Monday">
+        <reading cycle="I">Dn 1:1-6,8-20</reading>
+        <reading cycle="II">Rv 14:1-3,4b-5</reading>
+        <reading>Lk 21;1-4</reading>
+      </day>
+      <day name="Tuesday">
+        <reading cycle="I">Dn 2:31-45</reading>
+        <reading cycle="II">Rv 14:14-19</reading>
+        <reading>Lk 21:5-11</reading>
+      </day>
+      <day name="Wednesday">
+        <reading cycle="I">Dn 5:1-6,13-14,16-17,23-28</reading>
+        <reading cycle="II">Rv 15:1-4</reading>
+        <reading>Lk 21:12-19</reading>
+      </day>
+      <day name="Thursday">
+        <reading cycle="I">Dn 6:11-28</reading>
+        <reading cycle="II">Rv 18:1-2,21-23,19:1-3,9a</reading>
+        <reading>Lk 21:20-28</reading>
+      </day>
+      <day name="Friday">
+        <reading cycle="I">Dn 7:2-14</reading>
+        <reading cycle="II">Rv 20:1-4,20:11-21:2</reading>
+        <reading>Lk 21:29-33</reading>
+      </day>
+      <day name="Saturday">
+        <reading cycle="I">Dn 7:15-27</reading>
+        <reading cycle="II">Rv 22:1-7</reading>
+        <reading>Lk 21:34-36</reading>
+      </day>
+    </week>
+  </season>
+</lectionary>
