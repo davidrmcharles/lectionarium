@@ -153,22 +153,22 @@ Saturday after Ash Wednesday
   Lk 5:27-32
 
 # First Week of Lent
-Monday
+Mon
   Lv 19:1-2,11-18
   Mt 25:31-46
-Tuesday
+Tue
   Is 55,10--11
   Mt 6:7-15
-Wednesday
+Wed
   Jon 3:1-10
   Lk 11:29-32
-Thursday
+Thu
   Est C:12,14-16,23-25
   Mt 7:7-12
-Friday
+Fri
   Ez 18:21-28
   Mt 5:20-26
-Saturday
+Sat
   Dt 26:16-19
   Mt 5:43-48
 
@@ -265,3 +265,142 @@ Thursday Chrism Mass
   Is 61:1-3a,6a,8b-9
   Rv 1:5-8
   Lk 4:16-21
+
+# Easter Season
+
+# Octave of Easter
+Mon
+  Acts 2:14,22-32
+  Mt 28:8-15
+Tue
+  Acts 2:36-41
+  Jn 20:11-18
+Wed
+  Acts 3:1-10
+  Lk 24:13-35
+Thu
+  Acts 3:11-26
+  Lk 24:35-48
+Fri
+  Acts 4:1-12
+  Jn 21:1-14
+Sat
+  Acts 4:13-21
+  Mk 16:9-15
+
+# Second Week of Easter
+Mon
+  Acts 4:23-31
+  Jn 3:1-8
+Tue
+  Acts 4:32-37
+  Jn 3:7-15
+Wed
+  Acts 5:17-26
+  Jn 3:16-21
+Thu
+  Acts 5:27-33
+  Jn 3:31-36
+Fri
+  Acts 5:34-42
+  Jn 6:1-15
+Sat
+  Acts 6:1-7
+  Jn 6:16-21
+
+# Third Week of Easter
+Mon
+  Acts 6:8-15
+  Jn 6:22-29
+Tue
+  Acts 7:51-8:1a
+  Jn 6:30-35
+Wed
+  Acts 8:1-8
+  Jn 6:35-40
+Thu
+  Acts 8:26-40
+  Jn 6:44-51
+Fri
+  Acts 9:1-20
+  Jn 6:52-59
+Sat
+  Acts 9:31-42
+  Jn 6:60-69
+
+# Fourth Week of Easter
+Mon
+  Acts 11:1-18
+  Jn 10:1-10  # Year A: Jn 10:11-18
+Tue
+  Acts 11:19-26
+  Jn 10:22-30
+Wed
+  Acts 12:24-13:5a
+  Jn 12:44-50
+Thu
+  Acts 13:13-25
+  Jn 13:16-20
+Fri
+  Acts 13:26-33
+  Jn 14:1-6
+Sat
+  Acts 13:44-52
+  Jn 14:7-14
+
+# Fifth Week of Easter
+Mon
+  Acts 14:5-18
+  Jn 14:21-26
+Tue
+  Acts 14:19-28
+  Jn 14:27-31a
+Wed
+  Acts 15:1-6
+  Jn 15:1-8
+Thu
+  Acts 15:7-21
+  Jn 15:9-11
+Fri
+  Acts 15:22-31
+  Jn 15:12-17
+Sat
+  Acts 16:1-10
+  Jn 15:18-21
+
+# Sixth Week of Easter
+Mon
+  Acts 16:11-15
+  Jn 15:26-16:4a
+Tue
+  Acts 16:22-34
+  Jn 16:5-11
+Wed
+  Acts 17:15,22-18:1
+  Jn 16:12-15
+Thu
+  Acts 18:1-8
+  Jn 16:16-20
+Fri
+  Acts 18:9-18
+  Jn 16:20-23a
+Sat
+  Acts 18:23-28
+  Jn 16:23b-28
+
+# Seventh Week of Easter
+Mon
+  Acts 19:1-8
+  Jn 16:29-33
+Tue
+  Acts 20:17-27
+  Jn 17:1-11a
+Wed
+  Acts 20:30, 23:6-11
+  Jn 17:20-26
+Fri
+  Acts 25:13-21
+  Jn 21:15-19
+Sat
+  Acts 28:16-20,30-13
+  Jn 21:20-25
