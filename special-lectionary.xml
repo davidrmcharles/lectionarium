@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<lectionary name="READINGS FOR THE MAJOR FEASTS OF THE YEAR">
+  <mass date="2-2" name="Presentation of the Lord">
+    <reading>Mal 3:1-4</reading>
+    <reading>Heb 2:14-18</reading>
+    <reading>Lk 2:22-40</reading>
+  </mass>
+  <mass date="3-19" name="Joseph, Husband of Mary">
+    <reading>2 Sm 7:4-5a,12-14a,16</reading>
+    <reading>Rom 4:13,16-18,22</reading>
+    <choice>
+      <reading>Mt 1:16,18-21,24a</reading>
+      <reading>Lk 2:41-51a</reading>
+    </choice>
+  </mass>
+  <mass date="3-25" name="Annunciation">
+    <reading>Is 7:10-14</reading>
+    <reading>Heb 10:4-10</reading>
+    <reading>Lk 1:26-28</reading>
+  </mass>
+  <mass date="6-23" name="John the Baptist (Vigil)">
+    <reading>Jer 1:4-10</reading>
+    <reading>1 Pt 1:8-12</reading>
+    <reading>Lk 1:5-17</reading>
+  </mass>
+  <mass date="6-24" name="John the Baptist">
+    <reading>Is 49:1-6</reading>
+    <reading>Acts 13:22-26</reading>
+    <reading>Lk 1:47-66,80</reading>
+  </mass>
+  <mass date="6-28" name="Peter and Paul (Vigil)">
+    <reading>Acts 3:1-10</reading>
+    <reading>Gal 1:11-20</reading>
+    <reading>Jn 21:15-19</reading>
+  </mass>
+  <mass date="6-29" name="Peter and Paul">
+    <reading>Acts 12:1-11</reading>
+    <reading>2 Tm 4:6-8,17-18</reading>
+    <reading>Mt 16:13-19</reading>
+  </mass>
+  <mass date="8-6" name="Transfiguration">
+    <reading>Dn 7:9-10,13-14</reading>
+    <reading>2 Pt 1:16-19</reading>
+    <choice>
+      <reading cycle="A">Mt 7:1-9</reading>
+      <reading cycle="B">Mk 9:2-10</reading>
+      <reading cycle="C">Lk 9:28b-36</reading>
+    </choice>
+  </mass>
+  <mass date="8-14" name="Assumption (Vigil)">
+    <reading>1 Chr 15:3-4,15,16:1-2</reading>
+    <reading>1 Cor 15:54-57</reading>
+    <reading>Lk 11:27-28</reading>
+  </mass>
+  <mass date="8-15" name="Assumption">
+    <reading>Rv 11:19a,12:1-6a,10ab</reading>
+    <reading>1 Cor 15:20-26</reading>
+    <reading>Lk 1:39-56</reading>
+  </mass>
+  <mass date="9-14" name="Triumph of the Cross">
+    <reading>Nm 21:4-9</reading>
+    <reading>Phil 2:6-11</reading>
+    <reading>Jn 3:13-17</reading>
+  </mass>
+  <mass date="11-1" name="All Saints">
+    <reading>Rv 7:2-4,9-14</reading>
+    <reading>1 Jn 3:1-3</reading>
+    <reading>Mt 5:1-12a</reading>
+  </mass>
+  <mass date="11-2" name="All Souls (First Mass)">
+    <reading>Jb 19:1,23-27</reading>
+    <reading>1 Cor 15:51-57</reading>
+    <reading>Jn 6:37-40</reading>
+  </mass>
+  <mass date="11-2" name="All Souls (Second Mass)">
+    <reading>Wis 3:1-9</reading>
+    <reading>Phil 3:20-21</reading>
+    <reading>Jn 11:17-27</reading>
+  </mass>
+  <mass date="11-2" name="All Souls (Third Mass)">
+    <reading>2 Mc 12:43-46</reading>
+    <reading>Rv 14:13</reading>
+    <reading>Jn 14:1-6</reading>
+  </mass>
+  <mass date="11-9" name="Dedication of St. John Lateran">
+    <reading>2 Chr 5:6-10,13-6:2</reading>
+    <reading>1 Cor 3:9-13,16-17</reading>
+    <reading>Lk 19:1-10</reading>
+  </mass>
+  <mass date="12-8" name="Immaculate Conception">
+    <reading>Gn 3:9-15,20</reading>
+    <reading>Eph 1:3-6,11-12</reading>
+    <reading>Lk 1:26-38</reading>
+  </mass>
+</lectionary>

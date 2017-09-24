@@ -154,35 +154,49 @@ class Lectionary(object):
         self._sundaysInOrdinaryTime = []
         doc = xml.dom.minidom.parse('sunday-lectionary.xml')
         try:
-            # Decode the year-specific masses.
-            for year_node in _children(doc.documentElement, 'year'):
-                year_id = _attr(year_node, 'id')
-                masses = self._decode_year(year_node)
-                for mass in masses:
-                    mass.cycle = year_id
-                    if mass.isSundayInOrdinaryTime:
-                        self._sundaysInOrdinaryTime.append(mass)
-                self._masses.extend(masses)
+            # Decode the cycle-specific masses.
+            masses = self._decode_sunday_lectionary(doc.documentElement)
 
-            self._cycleAMasses = [
+            # Add all the Sunday masses to the master list.
+            self._masses.extend(masses)
+
+            # Pick-out the Sunday masses that are Sundays in ordinary
+            # time.
+            self._sundaysInOrdinaryTime = [
                 mass
-                for mass in self._masses
-                if mass.cycle == 'a'
+                for mass in masses
+                if mass.isSundayInOrdinaryTime
+                ]
+
+            # Pick out the Sunday masses that belong to particular cycles.
+            self._cycleAMasses = [
+                mass for mass in self._masses if mass.cycle == 'a'
                 ]
             self._cycleBMasses = [
-                mass
-                for mass in self._masses
-                if mass.cycle == 'b'
+                mass for mass in self._masses if mass.cycle == 'b'
                 ]
             self._cycleCMasses = [
-                mass
-                for mass in self._masses
-                if mass.cycle == 'c'
+                mass for mass in self._masses if mass.cycle == 'c'
                 ]
+        finally:
+            doc.unlink()
 
-            # Decode the masses that are not year-specific.
-            everyYear_node = _firstChild(doc.documentElement, 'everyYear')
-            self._fixedDateMasses = self._decode_everyYear(everyYear_node)
+        # Further initialize the list of masses by adding the weekday
+        # masses.
+        doc = xml.dom.minidom.parse('weekday-lectionary.xml')
+        try:
+            self._weekdayMasses = self._decode_weekday_lectionary(
+                doc.documentElement)
+        finally:
+            doc.unlink()
+
+        # Finish initialization of the list of masses by adding the
+        # masses from weekday-lectionary.xml.
+        doc = xml.dom.minidom.parse('special-lectionary.xml')
+        try:
+            # Decode the masses that are not cycle-specific.
+            self._fixedDateMasses = self._decode_special_lectionary(
+                doc.documentElement)
             self._masses.extend(self._fixedDateMasses)
         finally:
             doc.unlink()
@@ -194,6 +208,39 @@ class Lectionary(object):
         '''
 
         return self._masses
+
+    @property
+    def cycleASundayMasses(self):
+        '''
+        All Sunday masses in Cycle A
+        '''
+
+        return self._cycleAMasses
+
+    @property
+    def cycleBSundayMasses(self):
+        '''
+        All Sunday masses in Cycle B
+        '''
+
+        return self._cycleBMasses
+
+    @property
+    def cycleCSundayMasses(self):
+        '''
+        All Sunday masses in Cycle C
+        '''
+
+        return self._cycleCMasses
+
+    @property
+    def allSundayMasses(self):
+        '''
+        All Sunday masses that belong to cycles A, B, or C
+        '''
+
+        return itertools.chain(
+            self._cycleAMasses, self._cycleBMasses, self._cycleCMasses)
 
     @property
     def sundaysInOrdinaryTime(self):
@@ -269,14 +316,29 @@ class Lectionary(object):
                     mass1Token, mass2Token))
         return '\n'.join(lines)
 
-    def _decode_year(self, year_node):
+    def _decode_sunday_lectionary(self, lectionary_node):
         '''
-        Decode a <year> element and return all its masses as a
+        Decode a <lectionary> element for the Sunday lectionary and
+        return all of its masses as a list.
+        '''
+
+        result = []
+        for cycle_node in _children(lectionary_node, 'cycle'):
+            cycle_id = _attr(cycle_node, 'id')
+            masses = self._decode_cycle(cycle_node)
+            for mass in masses:
+                mass.cycle = cycle_id
+                result.append(mass)
+        return result
+
+    def _decode_cycle(self, cycle_node):
+        '''
+        Decode a <cycle> element and return all its masses as a
         list.
         '''
 
         result = []
-        for season_node in _children(year_node, 'season'):
+        for season_node in _children(cycle_node, 'season'):
             masses = self._decode_season(season_node)
             result.extend(masses)
         return result
@@ -288,19 +350,53 @@ class Lectionary(object):
         '''
 
         result = []
-        for mass_node in _children(season_node, 'mass'):
-            mass = self._decode_mass(mass_node)
-            result.append(mass)
+        for child_node in _children(season_node, ['mass', 'week']):
+            if child_node.localName == 'mass':
+                result.append(self._decode_mass(child_node))
+            elif child_node.localName == 'week':
+                result.extend(self._decode_week(child_node))
         return result
 
-    def _decode_everyYear(self, everyYear_node):
+    def _decode_weekday_lectionary(self, lectionary_node):
         '''
-        Decode a <everyYear> element and return all its masses
-        as a list.
+        Decode the <lectionary> element for the weekday lectionary and
+        return all its masses as a list.
         '''
 
         result = []
-        for mass_node in _children(everyYear_node, 'mass'):
+        for season_node in _children(lectionary_node, 'season'):
+            result.extend(self._decode_season(season_node))
+        return result
+
+    def _decode_week(self, week_node):
+        '''
+        Decode a <week> element and return all its masses as a list.
+        '''
+
+        result = []
+        for mass_node in _children(week_node, 'mass'):
+            result.append(self._decode_mass(mass_node))
+        return result
+
+    def _decode_choice(self, choice_node):
+        '''
+        Decode a <choice> element and return all its
+        readings as a list.
+        '''
+
+        result = []
+        for reading_node in _children(choice_node, 'reading'):
+            result.append(self._decode_reading(reading_node))
+        return result
+
+    def _decode_special_lectionary(self, lectionary_node):
+        '''
+        Decode the <lectionary> element for the special lectionary
+        and return all its masses as a list.
+        '''
+
+        result = []
+        for mass_node in _children(lectionary_node, 'mass'):
             mass = self._decode_mass(mass_node)
             result.append(mass)
         return result
@@ -317,17 +413,21 @@ class Lectionary(object):
             fixedMonth, fixedDay = fixedDate.split('-')
             fixedMonth, fixedDay = int(fixedMonth), int(fixedDay)
 
-        name = _attr(mass_node, 'name')
+        name = _attr(mass_node, 'name', ifMissing=None)
 
         readings = []
-        for reading_node in _children(mass_node, 'reading'):
-            readings.append(self._decode_reading(reading_node))
+        for child_node in _children(
+            mass_node, ['reading', 'choice']):
+            if child_node.localName == 'reading':
+                readings.append(self._decode_reading(child_node))
+            elif child_node.localName == 'choice':
+                readings.extend(self._decode_choice(child_node))
 
         return Mass(name, readings, fixedMonth, fixedDay)
 
     def _decode_reading(self, reading_node):
         '''
-        Decoe a single <reading> element and return it as a string.
+        Decode a single <reading> element and return it as a string.
         '''
 
         return _text(reading_node)
@@ -351,14 +451,18 @@ def _firstChild(parent_node, localName):
             return child_node
     return None
 
-def _children(parent_node, localName):
+def _children(parent_node, localNames):
     '''
-    Return all children of `parent_node` having `localName`.
+    Return all children of `parent_node` having a localName in
+    `localNames`.
     '''
+
+    if isinstance(localNames, basestring):
+        localNames = [localNames]
 
     result_nodes = []
     for child_node in parent_node.childNodes:
-        if child_node.localName == localName:
+        if child_node.localName in localNames:
             result_nodes.append(child_node)
     return result_nodes
 
@@ -902,8 +1006,7 @@ def getReadings(query):
 
     readings = collections.OrderedDict()
     for reading in mass.readings:
-        for subreading in reading.split(' or '):
-            readings[subreading] = bible.getVerses(subreading)
+        readings[reading] = bible.getVerses(reading)
     return mass.name, readings
 
 def main():

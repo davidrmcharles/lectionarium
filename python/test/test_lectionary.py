@@ -11,6 +11,7 @@ import unittest
 
 # Local imports:
 import lectionary
+import citations
 
 class MassTestCase(unittest.TestCase):
 
@@ -24,8 +25,46 @@ class MassTestCase(unittest.TestCase):
         self.assertFalse(
             lectionary.Mass('4th Sunday of Lent', [], None).isSundayInOrdinaryTime)
 
-class OFSundayLectionaryTestCase(unittest.TestCase):
-    pass  # TODO?
+class LectionaryTestCase(unittest.TestCase):
+    '''
+    This is not really a unit test for :class:`Lectionary`, but
+    something to prove that we can parse all the citations that appear
+    in our XML representation of the lectionaries and that we find the
+    right number of them.
+    '''
+
+    def test_parseSundayCitations(self):
+        readingCount = 0
+        for mass in lectionary._lectionary.allSundayMasses:
+            for reading in mass.readings:
+                readingCount += 1
+                citations.parse(reading)
+
+        # $ grep --count /reading sunday-lectionary.xml
+        self.assertEqual(668, readingCount)
+
+    def test_parseWeekdayCitations(self):
+        readingCount = 0
+        for mass in lectionary._lectionary._weekdayMasses:
+            for reading in mass.readings:
+                readingCount += 1
+                # TODO: Here is one we cannot parse yet!
+                if reading == 'Est C:12,14-16,23-25':
+                    continue
+                citations.parse(reading)
+
+        # $ grep --count /reading weekday-lectionary.xml
+        self.assertEqual(862, readingCount)
+
+    def test_parseSpecialCitations(self):
+        readingCount = 0
+        for mass in lectionary._lectionary._fixedDateMasses:
+            for reading in mass.readings:
+                readingCount += 1
+                citations.parse(reading)
+
+        # $ grep --count /reading special-lectionary.xml
+        self.assertEqual(54, readingCount)
 
 # textTestCase?
 # firstChildTestCase?
