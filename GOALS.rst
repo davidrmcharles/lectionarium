@@ -5,6 +5,11 @@ Goals for ``lectionarium``
 * `Long-Term Goal`_
 * `Short-Term Goal`_
 * `Present Status`_
+
+  * `Retrieve the text associated with a citation`_
+  * `Retrieve all the texts associated with a Sunday or special feast`_
+  * `Retrieve all the texts associated with a date`_
+
 * `Next Steps`_
 
 Long-Term Goal
@@ -26,6 +31,10 @@ And today's readings would come out.
 
 Present Status
 ======================================================================
+
+
+Retrieve the text associated with a citation
+----------------------------------------------------------------------
 
 Presently, I can say:
 
@@ -69,6 +78,9 @@ little massage (``preprocessclemtext.py``) prior to consumption by
 
 The high-level interface onto the whole thing is ``bible.py``.
 
+Retrieve all the texts associated with a Sunday or special feast
+----------------------------------------------------------------------
+
 Furthermore, I can now say:
 
 .. code-block:: sh
@@ -77,8 +89,8 @@ Furthermore, I can now say:
 
 And all the readings for the Easter Vigil, Year A, appear.
 
-Next Steps
-======================================================================
+Retrieve all the texts associated with a date
+----------------------------------------------------------------------
 
 The last step in pursuit of the `Short-Term Goal`_ is to model the
 liturgical calendar so we can map calendar dates onto a particular
@@ -93,7 +105,20 @@ Holy Cross.  Or:
 
 .. code-block:: sh
 
-    $ lectionry.py
+    $ lectionary.py
 
 And we would see the readings for the current day, whatever they
 happen to be.
+
+This is working, for the year 2017, as long as the date happens to be
+associated with a Sunday or a special feast.
+
+Next Steps
+======================================================================
+
+Presently I am putting the weekday lectionary into the model in the
+hope that I can return correct results for any date in the year 2017.
+
+Then, it will be a matter of purgation to ensure that we can return
+correct results for *any* year, and then the `Short-Term Goal`_ will
+be achieved.
