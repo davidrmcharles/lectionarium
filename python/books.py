@@ -125,10 +125,10 @@ class Book(object):
         verseAddrToken, verseText = line.split(' ', 1)
         verseAddrList = locs.parse(verseAddrToken)
         verseAddr = verseAddrList[0]
-        chapterIndex, verseIndex = verseAddr.first, verseAddr.second
-        if chapterIndex not in self._text:
-            self._text[chapterIndex] = collections.OrderedDict()
-        self._text[chapterIndex][verseIndex] = verseText.strip()
+        chapterKey, verseKey = verseAddr.first, verseAddr.second
+        if chapterKey not in self._text:
+            self._text[chapterKey] = collections.OrderedDict()
+        self._text[chapterKey][verseKey] = verseText.strip()
 
     def _validateChapterKey(self, chapterKey):
         '''
@@ -213,131 +213,134 @@ class Book(object):
             if not self.hasChapters:
                 # The book does not have chapters, so normalize the
                 # chapter index to 1.
-                firstChapter, firstVerse = 1, addrRange.first.first
-                lastChapter, lastVerse = 1, addrRange.last.first
-                self._validateVerseKey(firstVerse)
-                self._validateVerseKey(lastVerse)
+                firstChapterKey, firstVerseKey = 1, addrRange.first.first
+                lastChapterKey, lastVerseKey = 1, addrRange.last.first
+                self._validateVerseKey(firstVerseKey)
+                self._validateVerseKey(lastVerseKey)
             else:
                 # The book chapters, to treat the address range as a
                 # range of chapters.
-                firstChapter, lastChapter = \
+                firstChapterKey, lastChapterKey = \
                     addrRange.first.first, addrRange.last.first
-                self._validateChapterKey(firstChapter)
-                self._validateChapterKey(lastChapter)
-                firstVerse, lastVerse = None, None
+                self._validateChapterKey(firstChapterKey)
+                self._validateChapterKey(lastChapterKey)
+                firstVerseKey, lastVerseKey = None, None
         else:
-            firstChapter = addrRange.first.first
-            firstVerse = addrRange.first.second
-            lastChapter = addrRange.last.first
-            lastVerse = addrRange.last.second
-            if firstVerse is None:
-                self._validateChapterKey(firstChapter)
+            firstChapterKey = addrRange.first.first
+            firstVerseKey = addrRange.first.second
+            lastChapterKey = addrRange.last.first
+            lastVerseKey = addrRange.last.second
+            if firstVerseKey is None:
+                self._validateChapterKey(firstChapterKey)
             else:
-                self._validateChapterAndVerseKeys(firstChapter, firstVerse)
-            if lastVerse is None:
-                self._validateChapterKey(lastChapter)
+                self._validateChapterAndVerseKeys(
+                    firstChapterKey, firstVerseKey)
+            if lastVerseKey is None:
+                self._validateChapterKey(lastChapterKey)
             else:
-                self._validateChapterAndVerseKeys(lastChapter, lastVerse)
+                self._validateChapterAndVerseKeys(lastChapterKey, lastVerseKey)
 
-        if firstChapter == lastChapter:
+        if firstChapterKey == lastChapterKey:
             # The entire range of text is in the same book.
-            if (firstVerse is None) and (lastVerse is None):
-                return self._allVersesInChapter(firstChapter)
+            if (firstVerseKey is None) and (lastVerseKey is None):
+                return self._allVersesInChapter(firstChapterKey)
             else:
                 return self._middleVersesInChapter(
-                    firstChapter, firstVerse, lastVerse)
+                    firstChapterKey, firstVerseKey, lastVerseKey)
 
         # Add the verses from the first chapter in the range.
         result = []
-        if firstVerse is None:
-            result.extend(self._allVersesInChapter(firstChapter))
+        if firstVerseKey is None:
+            result.extend(self._allVersesInChapter(firstChapterKey))
         else:
-            result.extend(self._lastVersesInChapter(firstChapter, firstVerse))
+            result.extend(
+                self._lastVersesInChapter(firstChapterKey, firstVerseKey))
 
         # Add all the verses from any interior chapters.
-        for chapter in range(firstChapter + 1, lastChapter):
+        for chapter in range(firstChapterKey + 1, lastChapterKey):
             result.extend(
                 self._allVersesInChapter(
                     chapter))
 
         # Add the verses from the last chapter in the range.
-        if lastVerse is None:
-            result.extend(self._allVersesInChapter(lastChapter))
+        if lastVerseKey is None:
+            result.extend(self._allVersesInChapter(lastChapterKey))
         else:
-            result.extend(self._firstVersesInChapter(lastChapter, lastVerse))
+            result.extend(
+                self._firstVersesInChapter(lastChapterKey, lastVerseKey))
 
         return result
 
-    def _visitAllVersesInChapter(self, chapterIndex):
+    def _visitAllVersesInChapter(self, chapterKey):
         '''
-        Return a visitor onto every verse object in a `chapterIndex`.
+        Return a visitor onto every verse object associated with
+        `chapterKey`.
         '''
-
-        if chapterIndex not in self._text:
-            raise LookupError(
-                'Chapter %d is out of range for book "%s"!' % (
-                    chapterIndex, self.name))
 
         return (
-            ((chapterIndex, verseIndex), verseText)
-            for verseIndex, verseText in self._text[chapterIndex].iteritems()
+            ((chapterKey, verseKey), verseText)
+            for verseKey, verseText in self._text[chapterKey].iteritems()
             )
 
-    def _allVersesInChapter(self, chapter):
-        return list(self._visitAllVersesInChapter(chapter))
+    def _allVersesInChapter(self, chapterKey):
+        return list(self._visitAllVersesInChapter(chapterKey))
 
-    def _visitLastVersesInChapter(self, chapter, firstVerse):
+    def _visitLastVersesInChapter(self, chapterKey, firstVerseKey):
         '''
-        Return a visitor onto every verse object in a `chapter`
-        starting with `firstVerse`.
+        Return a visitor onto every verse object associated with
+        `chapterKey` starting with `firstVerseKey`.
         '''
 
         def isExcluded(item):
             verseAddr, verseText = item
-            chapterIndex, verseIndex = verseAddr
-            return verseIndex < firstVerse
+            chapterKey, verseKey = verseAddr
+            return verseKey < firstVerseKey
 
         return itertools.dropwhile(
-            isExcluded, self._visitAllVersesInChapter(chapter))
+            isExcluded, self._visitAllVersesInChapter(chapterKey))
 
-    def _lastVersesInChapter(self, chapter, firstVerse):
-        return list(self._visitLastVersesInChapter(chapter, firstVerse))
+    def _lastVersesInChapter(self, chapterKey, firstVerseKey):
+        return list(self._visitLastVersesInChapter(chapterKey, firstVerseKey))
 
-    def _visitFirstVersesInChapter(self, chapter, lastVerse):
+    def _visitFirstVersesInChapter(self, chapterKey, lastVerseKey):
         '''
-        Return a visitor onto every verse object in a `chapter` up to
-        an including `lastVerse`.
+        Return a visitor onto every verse object associated with
+        `chapterKey` up to an including `lastVerseKey`.
         '''
 
         def isIncluded(item):
             verseAddr, verseText = item
-            chapterIndex, verseIndex = verseAddr
-            return verseIndex <= lastVerse
+            chapterKey, verseKey = verseAddr
+            return verseKey <= lastVerseKey
 
         return itertools.takewhile(
-            isIncluded, self._visitAllVersesInChapter(chapter))
+            isIncluded, self._visitAllVersesInChapter(chapterKey))
 
-    def _firstVersesInChapter(self, chapter, lastVerse):
-        return list(self._visitFirstVersesInChapter(chapter, lastVerse))
+    def _firstVersesInChapter(self, chapterKey, lastVerseKey):
+        return list(self._visitFirstVersesInChapter(chapterKey, lastVerseKey))
 
-    def _visitMiddleVersesInChapter(self, chapter, firstVerse, lastVerse):
+    def _visitMiddleVersesInChapter(self,
+                                    chapterKey,
+                                    firstVerseKey,
+                                    lastVerseKey):
         '''
         Return a visitor onto the inclusive range of verses,
-        [`firstVerse`, `lastVerse`] in `chapter`.
+        [`firstVerseKey`, `lastVerseKey`] in the chapter having
+        `chapterKey`.
         '''
 
         def isIncluded(item):
             verseAddr, verseText = item
-            chapterIndex, verseIndex = verseAddr
-            return (verseIndex >= firstVerse) and (verseIndex <= lastVerse)
+            chapterKey, verseKey = verseAddr
+            return (verseKey >= firstVerseKey) and (verseKey <= lastVerseKey)
 
         return itertools.ifilter(
-            isIncluded, self._visitAllVersesInChapter(chapter))
+            isIncluded, self._visitAllVersesInChapter(chapterKey))
 
-    def _middleVersesInChapter(self, chapter, firstVerse, lastVerse):
+    def _middleVersesInChapter(self, chapterKey, firstVerseKey, lastVerseKey):
         return list(
             self._visitMiddleVersesInChapter(
-                chapter, firstVerse, lastVerse))
+                chapterKey, firstVerseKey, lastVerseKey))
 
     def getAllVerses(self):
         '''
@@ -345,9 +348,9 @@ class Book(object):
         '''
 
         verses = []
-        for chapterIndex, chapterVerses in self._text.iteritems():
-            for verseIndex, verseText in chapterVerses.iteritems():
-                verses.append(((chapterIndex, verseIndex), verseText))
+        for chapterKey, chapterVerses in self._text.iteritems():
+            for verseKey, verseText in chapterVerses.iteritems():
+                verses.append(((chapterKey, verseKey), verseText))
         return verses
 
     def writeText(self, outputFile=sys.stdout):
@@ -356,10 +359,10 @@ class Book(object):
         that resembles the original input.
         '''
 
-        for chapterIndex, verses in self._text.iteritems():
-            for verseIndex, verseText in verses.iteritems():
+        for chapterKey, verses in self._text.iteritems():
+            for verseKey, verseText in verses.iteritems():
                 outputFile.write(
-                    '%s %s\n' % (Addr(chapterIndex, verseIndex), verseText))
+                    '%s %s\n' % (Addr(chapterKey, verseKey), verseText))
 
 class _Bible(object):
     '''
