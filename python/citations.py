@@ -27,6 +27,10 @@ class Citation(object):
         self._book = book
         self._locs = locs
 
+    def __str__(self):
+        return '%s %s' % (
+            self._book, ','.join([str(loc) for loc in self._locs]))
+
     @property
     def book(self):
         '''

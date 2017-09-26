@@ -35,7 +35,7 @@ class Book(object):
     Represents a single scriptural 'book'.
     '''
 
-    def __init__(self, name, abbreviations=[], hasChapters=False):
+    def __init__(self, name, abbreviations=[], hasChapters=True):
         self.name = name
         self.abbreviations = abbreviations
         self._text = collections.OrderedDict()
@@ -130,36 +130,72 @@ class Book(object):
             self._text[chapterIndex] = collections.OrderedDict()
         self._text[chapterIndex][verseIndex] = verseText.strip()
 
-    def getVerse(self, point):
+    def _validateChapterKey(self, chapterKey):
         '''
-        Return an object representation of the text indicated by
-        `point`.
+        Raise ``KeyError`` if `chapterKey` is out of range.
         '''
 
-        if point.dimensionality == 2:
+        if chapterKey not in self._text:
+            raise KeyError(
+                'There is no chapter "%s" in book "%s"!' % (
+                    chapterKey, self.normalName))
+
+    def _validateChapterAndVerseKeys(self, chapterKey, verseKey):
+        '''
+        Raise ``KeyError`` if either `chapterKey` or `verseKey` are
+        out of range.
+        '''
+
+        self._validateChapterKey(chapterKey)
+        if verseKey not in self._text[chapterKey]:
+            raise KeyError(
+                'There is no verse "%s" in chapter "%s" of book "%s"!' % (
+                    verseKey, chapterKey, self.normalName))
+
+    def _validateVerseKey(self, verseKey):
+        '''
+        Raise ``KeyError`` if `verseKey` is out of range, or if this
+        book has chapters.
+        '''
+
+        if self.hasChapters:
+            raise KeyError(
+                'There are chapters in book "%s"!' % (
+                    self.normalName))
+        self._validateChapterAndVerseKeys(1, verseKey)
+
+    def getVerse(self, addr):
+        '''
+        Return an object representation of the text indicated by
+        `addr`.
+        '''
+
+        if addr.dimensionality == 2:
             # This is a chapter-and-verse reference to a single verse.
-            chapterIndex, verseIndex = point.first, point.second
+            chapterKey, verseKey = addr.first, addr.second
+            self._validateChapterAndVerseKeys(chapterKey, verseKey)
             return [(
-                    (chapterIndex, verseIndex),
-                    self._text[chapterIndex][verseIndex]
+                    (chapterKey, verseKey),
+                    self._text[chapterKey][verseKey]
                     )]
         else:
             if self.hasChapters:
-                # This is a whole-chapter reference.  Add
-                # every single verse in the chapter to the
-                # returned result.
-                chapterIndex = point.first
+                # This is a whole-chapter reference.  Add every single
+                # verse in the chapter to the returned result.
+                chapterKey = addr.first
+                self._validateChapterKey(chapterKey)
                 return [
-                    ((chapterIndex, verseIndex), verseText)
-                    for verseIndex, verseText in \
-                        self._text[chapterIndex].iteritems()
+                    ((chapterKey, verseKey), verseText)
+                    for verseKey, verseText in \
+                        self._text[chapterKey].iteritems()
                     ]
             else:
                 # This is a single-verse reference.
-                verseIndex = point.first
+                verseKey = addr.first
+                self._validateVerseKey(verseKey)
                 return [(
-                        (verseIndex),
-                        self._text[1][verseIndex]
+                        (verseKey),
+                        self._text[1][verseKey]
                         )]
 
     def getRangeOfVerses(self, addrRange):
@@ -179,17 +215,29 @@ class Book(object):
                 # chapter index to 1.
                 firstChapter, firstVerse = 1, addrRange.first.first
                 lastChapter, lastVerse = 1, addrRange.last.first
+                self._validateVerseKey(firstVerse)
+                self._validateVerseKey(lastVerse)
             else:
                 # The book chapters, to treat the address range as a
                 # range of chapters.
                 firstChapter, lastChapter = \
                     addrRange.first.first, addrRange.last.first
+                self._validateChapterKey(firstChapter)
+                self._validateChapterKey(lastChapter)
                 firstVerse, lastVerse = None, None
         else:
             firstChapter = addrRange.first.first
             firstVerse = addrRange.first.second
             lastChapter = addrRange.last.first
             lastVerse = addrRange.last.second
+            if firstVerse is None:
+                self._validateChapterKey(firstChapter)
+            else:
+                self._validateChapterAndVerseKeys(firstChapter, firstVerse)
+            if lastVerse is None:
+                self._validateChapterKey(lastChapter)
+            else:
+                self._validateChapterAndVerseKeys(lastChapter, lastVerse)
 
         if firstChapter == lastChapter:
             # The entire range of text is in the same book.

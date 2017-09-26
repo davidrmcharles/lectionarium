@@ -54,6 +54,117 @@ class BookTestCase(unittest.TestCase):
     def test_str(self):
         self.assertEqual('Genesis (Gn)', str(books.Book('Genesis', ['Gn'])))
 
+    def test_validateChapterKey(self):
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterKey(None)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterKey(0)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterKey('1')
+        bookWithChapters._validateChapterKey(1)
+        bookWithChapters._validateChapterKey(2)
+        bookWithChapters._validateChapterKey(3)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterKey(4)
+
+        bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterKey(None)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterKey(0)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterKey('1')
+
+        # It seems helpful to treat the number 1 as a valid
+        # chapterKey.
+        bookWithoutChapters._validateChapterKey(1)
+
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterKey(2)
+
+    def test_validateChapterAndVerseKeys(self):
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys(None, 1)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys(0, 1)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys('1', 1)
+
+        bookWithChapters._validateChapterAndVerseKeys(1, 1)
+        bookWithChapters._validateChapterAndVerseKeys(1, 2)
+        bookWithChapters._validateChapterAndVerseKeys(1, 3)
+        bookWithChapters._validateChapterAndVerseKeys(2, 1)
+        bookWithChapters._validateChapterAndVerseKeys(2, 2)
+        bookWithChapters._validateChapterAndVerseKeys(2, 3)
+        bookWithChapters._validateChapterAndVerseKeys(3, 1)
+        bookWithChapters._validateChapterAndVerseKeys(3, 2)
+        bookWithChapters._validateChapterAndVerseKeys(3, 3)
+
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys(1, 4)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys(2, 4)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateChapterAndVerseKeys(3, 4)
+
+        bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterAndVerseKeys(None, 1)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterAndVerseKeys(0, 1)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterAndVerseKeys('1', 1)
+
+        # Here again, we treat the number 1 as a valid chapterKey when
+        # the book has no chapters.
+        bookWithoutChapters._validateChapterAndVerseKeys(1, 1)
+        bookWithoutChapters._validateChapterAndVerseKeys(1, 3)
+        bookWithoutChapters._validateChapterAndVerseKeys(1, 3)
+
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterAndVerseKeys(2, 1)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateChapterAndVerseKeys(1, 4)
+
+    def test_validateVerseKey(self):
+        bookWithChapters = books.Book('withchapters', hasChapters=True)
+        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+
+        # If the book has chapters, any verseKey by itself is cause
+        # for an exception.
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateVerseKey(None)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateVerseKey(0)
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateVerseKey('1')
+        with self.assertRaises(KeyError):
+            bookWithChapters._validateVerseKey(1)
+
+        bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
+        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateVerseKey(None)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateVerseKey(0)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateVerseKey('1')
+        bookWithoutChapters._validateVerseKey(1)
+        bookWithoutChapters._validateVerseKey(2)
+        bookWithoutChapters._validateVerseKey(3)
+        with self.assertRaises(KeyError):
+            bookWithoutChapters._validateVerseKey(4)
+
     def test_getVerse(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
         bookWithChapters.loadTextFromString(self.bookWithChaptersText)
