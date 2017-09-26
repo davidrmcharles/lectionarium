@@ -54,7 +54,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading)
 
         # $ grep --count /reading weekday-lectionary.xml
-        self.assertEqual(862, readingCount)
+        self.assertEqual(859, readingCount)
 
     def test_parseSpecialCitations(self):
         readingCount = 0
@@ -65,6 +65,9 @@ class LectionaryTestCase(unittest.TestCase):
 
         # $ grep --count /reading special-lectionary.xml
         self.assertEqual(54, readingCount)
+
+    def test_weekdayMassesInWeek(self):
+        lectionary._lectionary.weekdayMassesInWeek('week-1')
 
 # textTestCase?
 # firstChildTestCase?
@@ -127,16 +130,16 @@ class nextSundayTestCase(unittest.TestCase):
         self.assertEqual(nextSunday1, lectionary._nextSunday(aSaturday, 2))
         self.assertEqual(nextSunday2, lectionary._nextSunday(aSaturday, 3))
 
-class cycleForDateTestCase(unittest.TestCase):
+class sundayCycleForDateTestCase(unittest.TestCase):
 
     def test_early_2017(self):
         self.assertEqual(
-            'A', lectionary._cycleForDate(
+            'A', lectionary._sundayCycleForDate(
                 datetime.date(2017, 1, 1)))
 
     def test_late_2017(self):
         self.assertEqual(
-            'B', lectionary._cycleForDate(
+            'B', lectionary._sundayCycleForDate(
                 datetime.date(2017, 12, 31)))
 
 class CalendarTestCase(unittest.TestCase):
@@ -148,16 +151,60 @@ class CalendarTestCase(unittest.TestCase):
             # January
             (1, 1, ['a/mary-mother-of-god']),
             (1, 8, ['a/epiphany']),
+
             (1, 15, ['a/2nd-sunday']),
+            (1, 16, ['week-2-monday']),
+            (1, 17, ['week-2-tuesday']),
+            (1, 18, ['week-2-wednesday']),
+            (1, 19, ['week-2-thursday']),
+            (1, 20, ['week-2-friday']),
+            (1, 21, ['week-2-saturday']),
+
             (1, 22, ['a/3rd-sunday']),
+            (1, 23, ['week-3-monday']),
+            (1, 24, ['week-3-tuesday']),
+            (1, 25, ['week-3-wednesday']),
+            (1, 26, ['week-3-thursday']),
+            (1, 27, ['week-3-friday']),
+            (1, 28, ['week-3-saturday']),
+
             (1, 29, ['a/4th-sunday']),
+            (1, 30, ['week-4-monday']),
+            (1, 31, ['week-4-tuesday']),
 
             # February
+            (2, 1, ['week-4-wednesday']),
             (2, 2, ['presentation-of-the-lord']),
+            (2, 3, ['week-4-friday']),
+            (2, 4, ['week-4-saturday']),
+
             (2, 5, ['a/5th-sunday']),
+            (2, 6, ['week-5-monday']),
+            (2, 7, ['week-5-tuesday']),
+            (2, 8, ['week-5-wednesday']),
+            (2, 9, ['week-5-thursday']),
+            (2, 10, ['week-5-friday']),
+            (2, 11, ['week-5-saturday']),
+
             (2, 12, ['a/6th-sunday']),
+            (2, 13, ['week-6-monday']),
+            (2, 14, ['week-6-tuesday']),
+            (2, 15, ['week-6-wednesday']),
+            (2, 16, ['week-6-thursday']),
+            (2, 17, ['week-6-friday']),
+            (2, 18, ['week-6-saturday']),
+
             (2, 19, ['a/7th-sunday']),
+            (2, 20, ['week-7-monday']),
+            (2, 21, ['week-7-tuesday']),
+            (2, 22, ['week-7-wednesday']),
+            (2, 23, ['week-7-thursday']),
+            (2, 24, ['week-7-friday']),
+            (2, 25, ['week-7-saturday']),
+
             (2, 26, ['a/8th-sunday']),
+            (2, 27, ['week-8-monday']),
+            (2, 28, ['week-8-tuesday']),
 
             # March
             (3, 5, ['a/1st-sunday-of-lent']),
@@ -192,43 +239,192 @@ class CalendarTestCase(unittest.TestCase):
 
             # July
             (7, 2, ['a/13th-sunday']),
+            (7, 3, ['week-13-monday']),
+            (7, 4, ['week-13-tuesday']),
+            (7, 5, ['week-13-wednesday']),
+            (7, 6, ['week-13-thursday']),
+            (7, 7, ['week-13-friday']),
+            (7, 8, ['week-13-saturday']),
+
             (7, 9, ['a/14th-sunday']),
+            (7, 10, ['week-14-monday']),
+            (7, 11, ['week-14-tuesday']),
+            (7, 12, ['week-14-wednesday']),
+            (7, 13, ['week-14-thursday']),
+            (7, 14, ['week-14-friday']),
+            (7, 15, ['week-14-saturday']),
+
             (7, 16, ['a/15th-sunday']),
+            (7, 17, ['week-15-monday']),
+            (7, 18, ['week-15-tuesday']),
+            (7, 19, ['week-15-wednesday']),
+            (7, 20, ['week-15-thursday']),
+            (7, 21, ['week-15-friday']),
+            (7, 22, ['week-15-saturday']),
+
             (7, 23, ['a/16th-sunday']),
+            (7, 24, ['week-16-monday']),
+            (7, 25, ['week-16-tuesday']),
+            (7, 26, ['week-16-wednesday']),
+            (7, 27, ['week-16-thursday']),
+            (7, 28, ['week-16-friday']),
+            (7, 29, ['week-16-saturday']),
+
             (7, 30, ['a/17th-sunday']),
+            (7, 31, ['week-17-monday']),
 
             # August
+            (8, 1, ['week-17-tuesday']),
+            (8, 2, ['week-17-wednesday']),
+            (8, 3, ['week-17-thursday']),
+            (8, 4, ['week-17-friday']),
+            (8, 5, ['week-17-saturday']),
+
             (8, 6, ['transfiguration']),
+            (8, 7, ['week-18-monday']),
+            (8, 8, ['week-18-tuesday']),
+            (8, 9, ['week-18-wednesday']),
+            (8, 10, ['week-18-thursday']),
+            (8, 11, ['week-18-friday']),
+            (8, 12, ['week-18-saturday']),
+
             (8, 13, ['a/19th-sunday']),
+            # (8, 14, ['week-19-monday']),
             (8, 14, ['assumption-vigil']),
+            # (8, 15, ['week-19-tuesday']),
             (8, 15, ['assumption']),
+            (8, 16, ['week-19-wednesday']),
+            (8, 17, ['week-19-thursday']),
+            (8, 18, ['week-19-friday']),
+            (8, 19, ['week-19-saturday']),
+
             (8, 20, ['a/20th-sunday']),
+            (8, 21, ['week-20-monday']),
+            (8, 22, ['week-20-tuesday']),
+            (8, 23, ['week-20-wednesday']),
+            (8, 24, ['week-20-thursday']),
+            (8, 25, ['week-20-friday']),
+            (8, 26, ['week-20-saturday']),
+
             (8, 27, ['a/21st-sunday']),
+            (8, 28, ['week-21-monday']),
+            (8, 29, ['week-21-tuesday']),
+            (8, 30, ['week-21-wednesday']),
+            (8, 31, ['week-21-thursday']),
 
             # September
+            (9, 1, ['week-21-friday']),
+            (9, 2, ['week-21-saturday']),
+
             (9, 3, ['a/22nd-sunday']),
+            (9, 4, ['week-22-monday']),
+            (9, 5, ['week-22-tuesday']),
+            (9, 6, ['week-22-wednesday']),
+            (9, 7, ['week-22-thursday']),
+            (9, 8, ['week-22-friday']),
+            (9, 9, ['week-22-saturday']),
+
             (9, 10, ['a/23rd-sunday']),
+            (9, 11, ['week-23-monday']),
+            (9, 12, ['week-23-tuesday']),
+            (9, 13, ['week-23-wednesday']),
             (9, 14, ['triumph-of-the-cross']),
+            (9, 15, ['week-23-friday']),
+            (9, 16, ['week-23-saturday']),
+
             (9, 17, ['a/24th-sunday']),
+            (9, 18, ['week-24-monday']),
+            (9, 19, ['week-24-tuesday']),
+            (9, 20, ['week-24-wednesday']),
+            (9, 21, ['week-24-thursday']),
+            (9, 22, ['week-24-friday']),
+            (9, 23, ['week-24-saturday']),
+
             (9, 24, ['a/25th-sunday']),
+            (9, 25, ['week-25-monday']),
+            (9, 26, ['week-25-tuesday']),
+            (9, 27, ['week-25-wednesday']),
+            (9, 28, ['week-25-thursday']),
+            (9, 29, ['week-25-friday']),
+            (9, 30, ['week-25-saturday']),
 
             # October
             (10, 1, ['a/26th-sunday']),
+            (10, 2, ['week-26-monday']),
+            (10, 3, ['week-26-tuesday']),
+            (10, 4, ['week-26-wednesday']),
+            (10, 5, ['week-26-thursday']),
+            (10, 6, ['week-26-friday']),
+            (10, 7, ['week-26-saturday']),
+
             (10, 8, ['a/27th-sunday']),
+            (10, 9, ['week-27-monday']),
+            (10, 10, ['week-27-tuesday']),
+            (10, 11, ['week-27-wednesday']),
+            (10, 12, ['week-27-thursday']),
+            (10, 13, ['week-27-friday']),
+            (10, 14, ['week-27-saturday']),
+
             (10, 15, ['a/28th-sunday']),
+            (10, 16, ['week-28-monday']),
+            (10, 17, ['week-28-tuesday']),
+            (10, 18, ['week-28-wednesday']),
+            (10, 19, ['week-28-thursday']),
+            (10, 20, ['week-28-friday']),
+            (10, 21, ['week-28-saturday']),
+
             (10, 22, ['a/29th-sunday']),
+            (10, 23, ['week-29-monday']),
+            (10, 24, ['week-29-tuesday']),
+            (10, 25, ['week-29-wednesday']),
+            (10, 26, ['week-29-thursday']),
+            (10, 27, ['week-29-friday']),
+            (10, 28, ['week-29-saturday']),
+
             (10, 29, ['a/30th-sunday']),
+            (10, 30, ['week-30-monday']),
+            (10, 31, ['week-30-tuesday']),
 
             # November
             (11, 1, ['all-saints']),
             (11, 2, ['all-souls-first-mass', 'all-souls-second-mass', 'all-souls-third-mass']),
+            (11, 3, ['week-30-friday']),
+            (11, 4, ['week-30-saturday']),
+
             (11, 5, ['a/31st-sunday']),
+            (11, 6, ['week-31-monday']),
+            (11, 7, ['week-31-tuesday']),
+            (11, 8, ['week-31-wednesday']),
             (11, 9, ['dedication-of-st-john-lateran']),
+            (11, 10, ['week-31-friday']),
+            (11, 11, ['week-31-saturday']),
+
             (11, 12, ['a/32nd-sunday']),
+            (11, 13, ['week-32-monday']),
+            (11, 14, ['week-32-tuesday']),
+            (11, 15, ['week-32-wednesday']),
+            (11, 16, ['week-32-thursday']),
+            (11, 17, ['week-32-friday']),
+            (11, 18, ['week-32-saturday']),
+
             (11, 19, ['a/33rd-sunday']),
+            (11, 20, ['week-33-monday']),
+            (11, 21, ['week-33-tuesday']),
+            (11, 22, ['week-33-wednesday']),
+            (11, 23, ['week-33-thursday']),
+            (11, 24, ['week-33-friday']),
+            (11, 25, ['week-33-saturday']),
+
             (11, 26, ['a/34th-sunday-christ-the-king']),
+            (11, 27, ['week-34-monday']),
+            (11, 28, ['week-34-tuesday']),
+            (11, 29, ['week-34-wednesday']),
+            (11, 30, ['week-34-thursday']),
 
             # December
+            (12, 1, ['week-34-friday']),
+            (12, 2, ['week-34-saturday']),
+
             (12, 3, ['b/1st-sunday-of-advent']),
             (12, 8, ['immaculate-conception']),
             (12, 10, ['b/2nd-sunday-of-advent']),
