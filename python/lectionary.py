@@ -936,27 +936,30 @@ def parse(query):
             query,
             'Too many slashes in query "%s"!' % (query))
 
-    # Isolate the year (if any) and the normal name substring.
-    year = None
+    # Isolate the cycle (if any) and the normal name substring.
+    cycle = None
     if len(slash_tokens) == 2:
-        year, normalNameSubstring = slash_tokens
-        if year.lower() not in ('a', 'b', 'c'):
+        cycle, normalNameSubstring = slash_tokens
+        if cycle.lower() not in ('a', 'b', 'c'):
             raise MalformedQueryError(
                 query,
-                'Year is "%s", but must be one of A, B, or C (in either case)!' % (
-                    year))
+                'Cycle is "%s", but must be one of A, B, or C (in either case)!' % (
+                    cycle))
     elif len(slash_tokens) == 1:
         normalNameSubstring = slash_tokens[0]
 
     # Collect all matches and return them.
     def isMatch(mass):
         '''
-        Return ``True`` if `mass` has a matching `year` and contains
+        Return ``True`` if `mass` has a matching `cycle` and contains
         `normalNameSubstring` within its `normalName`.
         '''
 
-        return (mass.cycle == year) and \
-            (normalNameSubstring in mass.normalName)
+        if cycle is None:
+            return normalNameSubstring in mass.normalName
+        else:
+            return (mass.cycle == cycle) and \
+                (normalNameSubstring in mass.normalName)
 
     return [
         mass.uniqueID
