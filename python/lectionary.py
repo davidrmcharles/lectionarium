@@ -929,9 +929,16 @@ class Calendar(object):
             for weekIndex in range(1, 35)
             ]
 
-        # TODO: Add special handling for the weekday masses of the
-        # first week in ordinary time.
-        weekdaysInOrdinaryTime.pop(0)
+        # Handle the weekday masses for the first week of ordinary
+        # time as a special case.
+        for weekdayDate, weekdayMass in zip(
+            _followingDays(self.dateOfEndOfPreviousChristmas, 6),
+            weekdaysInOrdinaryTime.pop(0)):
+            # TODO: This condition exists to allow Baptism of the Lord
+            # to have priority over Monday of the first week of
+            # Ordinary Time, but it doesn't seem to be the best way.
+            if weekdayDate not in self._massesByDate:
+                self._assignMass(weekdayDate, weekdayMass)
 
         sundayDate = _nextSunday(self.dateOfEndOfPreviousChristmas, +1)
         while sundayDate < self.dateOfAshWednesday:
