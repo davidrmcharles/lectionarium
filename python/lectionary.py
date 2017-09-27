@@ -90,11 +90,14 @@ class Mass(object):
         * All other non-alphanumeric characters removed
         '''
 
-        return '-'.join(
-            re.sub(
-                r'[^[A-Za-z0-9 ]',
-                '',
-                self._name).lower().split())
+        if self._name is not None:
+            return '-'.join(
+                re.sub(
+                    r'[^[A-Za-z0-9 ]',
+                    '',
+                    self._name).lower().split())
+        else:
+            return'%02d-%02d' % (self.fixedMonth, self.fixedDay)
 
     @property
     def uniqueID(self):
@@ -188,7 +191,7 @@ class Lectionary(object):
 
     def __init__(self):
         # Initialize the list of masses from sunday-lectionary.xml.
-        self._masses = []
+        self._allMasses = []
         self._cycleAMasses = []
         self._cycleBMasses = []
         self._cycleCMasses = []
@@ -199,7 +202,7 @@ class Lectionary(object):
             masses = self._decode_sunday_lectionary(doc.documentElement)
 
             # Add all the Sunday masses to the master list.
-            self._masses.extend(masses)
+            self._allMasses.extend(masses)
 
             # Pick-out the Sunday masses that are Sundays in ordinary
             # time.
@@ -211,13 +214,13 @@ class Lectionary(object):
 
             # Pick out the Sunday masses that belong to particular cycles.
             self._cycleAMasses = [
-                mass for mass in self._masses if mass.cycle == 'a'
+                mass for mass in self._allMasses if mass.cycle == 'a'
                 ]
             self._cycleBMasses = [
-                mass for mass in self._masses if mass.cycle == 'b'
+                mass for mass in self._allMasses if mass.cycle == 'b'
                 ]
             self._cycleCMasses = [
-                mass for mass in self._masses if mass.cycle == 'c'
+                mass for mass in self._allMasses if mass.cycle == 'c'
                 ]
         finally:
             doc.unlink()
@@ -228,6 +231,7 @@ class Lectionary(object):
         try:
             self._weekdayMasses = self._decode_weekday_lectionary(
                 doc.documentElement)
+            self._allMasses.extend(self._weekdayMasses)
         finally:
             doc.unlink()
 
@@ -238,17 +242,17 @@ class Lectionary(object):
             # Decode the masses that are not cycle-specific.
             self._fixedDateMasses = self._decode_special_lectionary(
                 doc.documentElement)
-            self._masses.extend(self._fixedDateMasses)
+            self._allMasses.extend(self._fixedDateMasses)
         finally:
             doc.unlink()
 
     @property
-    def masses(self):
+    def allMasses(self):
         '''
         All the masses as a list.
         '''
 
-        return self._masses
+        return self._allMasses
 
     @property
     def cycleASundayMasses(self):
@@ -325,7 +329,7 @@ class Lectionary(object):
         Return the mass having `uniqueID`, otherwise return ``None``.
         '''
 
-        for mass in self._masses:
+        for mass in self._allMasses:
             if mass.uniqueID == uniqueID:
                 return mass
         return None
@@ -752,12 +756,12 @@ class Calendar(object):
 
     def _initMassesByDate(self):
         self._massesByDate = {}
+        self._allocateOrdinaryTime()
         self._allocateEarlyChristmasSeason()
         self._allocateLentenSeason()
         self._allocateHolyWeekAndEasterSeason()
         self._allocateAdventSeason()
         self._allocateLateChristmasSeason()
-        self._allocateOrdinaryTime()
         self._allocateFixedDateMasses()
 
     def _allocateEarlyChristmasSeason(self):
@@ -801,35 +805,40 @@ class Calendar(object):
         Allocate the masses of the Lenten season.
         '''
 
-        # TODO: Week of Ash Wednesday
-        self._assignMass(
-            self.dateOfAshWednesday,
-            '%s/ash-wednesday')
+        # Week of Ash Wednesday
+        massDates = [self.dateOfAshWednesday] + \
+            _followingDays(self.dateOfAshWednesday, 3)
+        massKeys = (
+            'ash-wednesday',
+            'thursday-after-ash-wednesday',
+            'friday-after-ash-wednesday',
+            'saturday-after-ash-wednesday',
+            )
+        for massDate, massKey in zip(massDates, massKeys):
+            self._assignMass(
+                massDate, 'lent-week-of-ash-wednesday-%s' % massKey)
 
-        # TODO: First Week of Lent
-        self._assignMass(
+        sundayDates = (
             _nextSunday(self.dateOfEaster, -6),
-            '%s/1st-sunday-of-lent')
-
-        # TODO: Second Week of Lent
-        self._assignMass(
             _nextSunday(self.dateOfEaster, -5),
-            '%s/2nd-sunday-of-lent')
-
-        # TODO: Third Week of Lent
-        self._assignMass(
             _nextSunday(self.dateOfEaster, -4),
-            '%s/3rd-sunday-of-lent')
-
-        # TODO: Fourth Week of Lent
-        self._assignMass(
             _nextSunday(self.dateOfEaster, -3),
-            '%s/4th-sunday-of-lent')
-
-        # TODO: Fifth Week of Lent
-        self._assignMass(
             _nextSunday(self.dateOfEaster, -2),
-            '%s/5th-sunday-of-lent')
+            )
+        ordinals = ('1st', '2nd', '3rd', '4th', '5th')
+        weekKeys = ('week-1', 'week-2', 'week-3', 'week-4', 'week-5')
+
+        for sundayDate, ordinal, weekKey in zip(
+            sundayDates, ordinals, weekKeys):
+            # Assign the Sunday mass.
+            self._assignMass(
+                sundayDate, '%s/' + '%s-sunday-of-lent' % ordinal)
+
+            # Assign the weekday masses.
+            for weekdayDate, weekdayMass in zip(
+                _followingDays(sundayDate, 6),
+                _lectionary.weekdayMassesInWeek('lent', weekKey)):
+                self._assignMass(weekdayDate, weekdayMass)
 
     def _allocateHolyWeekAndEasterSeason(self):
         '''
@@ -971,11 +980,7 @@ class Calendar(object):
         for weekdayDate, weekdayMass in zip(
             _followingDays(self.dateOfEndOfPreviousChristmas, 6),
             weekdaysInOrdinaryTime.pop(0)):
-            # TODO: This condition exists to allow Baptism of the Lord
-            # to have priority over Monday of the first week of
-            # Ordinary Time, but it doesn't seem to be the best way.
-            if weekdayDate not in self._massesByDate:
-                self._assignMass(weekdayDate, weekdayMass)
+            self._assignMass(weekdayDate, weekdayMass)
 
         sundayDate = _nextSunday(self.dateOfEndOfPreviousChristmas, +1)
         while sundayDate < self.dateOfAshWednesday:
@@ -1135,7 +1140,7 @@ def parse(query):
 
     return [
         mass.uniqueID
-        for mass in _lectionary.masses
+        for mass in _lectionary.allMasses
         if isMatch(mass)
         ]
 

@@ -188,8 +188,8 @@
       </mass>
     </week>
   </season>
-  <season name="Lenten Season">
-    <week name="Week of Ash Wednesday">
+  <season key="lent" name="Lenten Season">
+    <week key="week-of-ash-wednesday" name="Week of Ash Wednesday">
       <mass name="Ash Wednesday">
         <reading>Jl 2:12-18</reading>
         <reading>2 Cor 5:20-6:2</reading>
@@ -208,7 +208,7 @@
         <reading>Lk 5:27-32</reading>
       </mass>
     </week>
-    <week name="First Week of Lent">
+    <week key="week-1" name="First Week of Lent">
       <mass name="Monday">
         <reading>Lv 19:1-2,11-18</reading>
         <reading>Mt 25:31-46</reading>
@@ -234,7 +234,7 @@
         <reading>Mt 5:43-48</reading>
       </mass>
     </week>
-    <week name="Second Week of Lent">
+    <week key="week-2" name="Second Week of Lent">
       <mass name="Monday">
         <reading>Dn 9:4b-10</reading>
         <reading>Lk 6:36-38</reading>
@@ -260,7 +260,7 @@
         <reading>Lk 15:1-3,11-32</reading>
       </mass>
     </week>
-    <week name="Third Week of Lent">
+    <week key="week-3" name="Third Week of Lent">
       <mass name="Monday">
         <reading>2 Kgs 5:1-15a</reading>
         <reading>Lk 4:24-30</reading>
@@ -286,7 +286,7 @@
         <reading>Lk 18:19-24</reading>
       </mass>
     </week>
-    <week name="Fourth Week of Lent">
+    <week key="week-4" name="Fourth Week of Lent">
       <mass name="Monday">
         <reading>Is 65:17-21</reading>
         <reading>Jn 4:43-54</reading>
@@ -312,7 +312,7 @@
         <reading>Jn 7:40-53</reading>
       </mass>
     </week>
-    <week name="Fifth Week of Lent">
+    <week key="week-5" name="Fifth Week of Lent">
       <mass name="Monday">
         <reading>Dn 13:1-9,15-17,19-30,33-62</reading>
         <choice>
@@ -341,7 +341,7 @@
         <reading>Jn 11:45-56</reading>
       </mass>
     </week>
-    <week name="Holy Week">
+    <week key="holy-week" name="Holy Week">
       <mass name="Monday">
         <reading>Is 42:1-7</reading>
         <reading>Jn 12:1-11</reading>

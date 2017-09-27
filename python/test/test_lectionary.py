@@ -41,7 +41,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading)
 
         # $ grep --count /reading sunday-lectionary.xml
-        self.assertEqual(668, readingCount)
+        self.assertEqual(659, readingCount)
 
     def test_parseWeekdayCitations(self):
         readingCount = 0
@@ -214,15 +214,55 @@ class CalendarTestCase(unittest.TestCase):
             (2, 28, ['week-8-tuesday']),
 
             # March
+            (3, 1, ['lent-week-of-ash-wednesday-ash-wednesday']),
+            (3, 2, ['lent-week-of-ash-wednesday-thursday-after-ash-wednesday']),
+            (3, 3, ['lent-week-of-ash-wednesday-friday-after-ash-wednesday']),
+            (3, 4, ['lent-week-of-ash-wednesday-saturday-after-ash-wednesday']),
+
             (3, 5, ['a/1st-sunday-of-lent']),
+            (3, 6, ['lent-week-1-monday']),
+            (3, 7, ['lent-week-1-tuesday']),
+            (3, 8, ['lent-week-1-wednesday']),
+            (3, 9, ['lent-week-1-thursday']),
+            (3, 10, ['lent-week-1-friday']),
+            (3, 11, ['lent-week-1-saturday']),
+
             (3, 12, ['a/2nd-sunday-of-lent']),
+            (3, 13, ['lent-week-2-monday']),
+            (3, 14, ['lent-week-2-tuesday']),
+            (3, 15, ['lent-week-2-wednesday']),
+            (3, 16, ['lent-week-2-thursday']),
+            (3, 17, ['lent-week-2-friday']),
+            (3, 18, ['lent-week-2-saturday']),
+
             (3, 19, ['a/3rd-sunday-of-lent']),
+            # (3, 20, ['lent-week-3-monday']),
             (3, 20, ['joseph-husband-of-mary']),
+            (3, 21, ['lent-week-3-tuesday']),
+            (3, 22, ['lent-week-3-wednesday']),
+            (3, 23, ['lent-week-3-thursday']),
+            (3, 24, ['lent-week-3-friday']),
+            # (3, 25, ['lent-week-3-saturday']),
             (3, 25, ['annunciation']),
+
             (3, 26, ['a/4th-sunday-of-lent']),
+            (3, 27, ['lent-week-4-monday']),
+            (3, 28, ['lent-week-4-tuesday']),
+            (3, 29, ['lent-week-4-wednesday']),
+            (3, 30, ['lent-week-4-thursday']),
+            (3, 31, ['lent-week-4-friday']),
 
             # April
+            (4, 1, ['lent-week-4-saturday']),
+
             (4, 2, ['a/5th-sunday-of-lent']),
+            (4, 3, ['lent-week-5-monday']),
+            (4, 4, ['lent-week-5-tuesday']),
+            (4, 5, ['lent-week-5-wednesday']),
+            (4, 6, ['lent-week-5-thursday']),
+            (4, 7, ['lent-week-5-friday']),
+            (4, 8, ['lent-week-5-saturday']),
+
             (4, 9, ['a/palm-sunday']),
             (4, 16, ['a/easter-sunday']),
             (4, 23, ['a/2nd-sunday-of-easter']),

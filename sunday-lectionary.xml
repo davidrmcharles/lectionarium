@@ -71,11 +71,6 @@
       </mass>
     </season>
     <season name="Lenten Season">
-      <mass name="Ash Wednesday">
-        <reading>Jl 2:12-18</reading>
-        <reading>2 Cor 5:20-6:2</reading>
-        <reading>Mt 6:1-6,16-18</reading>
-      </mass>
       <mass name="1st Sunday of Lent">
         <reading>Gn 2:7-9,3:1-7</reading>
         <reading>Rom 5:12-19</reading>
@@ -450,11 +445,6 @@
       </mass>
     </season>
     <season name="Lenten Season">
-      <mass name="Ash Wednesday">
-        <reading>Jl 2:12-18</reading>
-        <reading>2 Cor 5:20-6:2</reading>
-        <reading>Mt 6:1-6,16-18</reading>
-      </mass>
       <mass name="1st Sunday of Lent">
         <reading>Gn 9:8-15</reading>
         <reading>1 Pt 3:18-22</reading>
@@ -839,11 +829,6 @@
       </mass>
     </season>
     <season name="Lenten Season">
-      <mass name="Ash Wednesday">
-        <reading>Jl 2:12-18</reading>
-        <reading>2 Cor 5:20-6:2</reading>
-        <reading>Mt 6:1-6,16-18</reading>
-      </mass>
       <mass name="1st Sunday of Lent">
         <reading>Dt 26:4-10</reading>
         <reading>Rom 10:8-13</reading>
