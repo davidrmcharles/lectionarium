@@ -54,6 +54,7 @@ class Mass(object):
         self._fixedDay = fixedDay
         self._cycle = None
         self._weekKey = None
+        self._seasonKey = None
 
     def __str__(self):
         return self._name
@@ -103,12 +104,23 @@ class Mass(object):
         make it unique.
         '''
 
+        # We identify the fixed-date masses by normalized name alone.
         if self._fixedDay is not None:
             return self.normalName
-        elif self._weekKey is not None:
-            return '%s-%s' % (self.weekKey, self.normalName)
-        else:
-            return '%s/%s' % (self.cycle, self.normalName)
+
+        # We identify the A/B/C cycle masses with a cycle prefix.
+        if self._cycle is not None:
+            return '%s/%s' % (self._cycle, self.normalName)
+
+        # If it's not a fixed-date mass and its not an A/B/C cycle
+        # mass, it's a weekday mass.  For these, we prefix as many
+        # keys are as available to us.
+        tokens = [self.normalName]
+        if self._weekKey is not None:
+            tokens.insert(0, self._weekKey)
+        if self._seasonKey is not None:
+            tokens.insert(0, self._seasonKey)
+        return '-'.join(tokens)
 
     @property
     def cycle(self):
@@ -155,6 +167,19 @@ class Mass(object):
     @weekKey.setter
     def weekKey(self, newValue):
         self._weekKey = newValue
+
+    @property
+    def seasonKey(self):
+        '''
+        For weekday masses, a computer-friendly identifier for the
+        season.  Othewise, ``None``.
+        '''
+
+        return self._seasonKey
+
+    @seasonKey.setter
+    def seasonKey(self, newValue):
+        self._seasonKey = newValue
 
 class Lectionary(object):
     '''
@@ -283,15 +308,16 @@ class Lectionary(object):
 
         return self._weekdayMasses
 
-    def weekdayMassesInWeek(self, weekKey):
+    def weekdayMassesInWeek(self, seasonKey, weekKey):
         '''
-        Return all the weekday masses having the given `weekKey`.
+        Return all the weekday masses having the given `seasonKey` and
+        `weekKey`.
         '''
 
         return [
             mass
             for mass in self._weekdayMasses
-            if mass.weekKey == weekKey
+            if (mass.seasonKey == seasonKey) and (mass.weekKey == weekKey)
             ]
 
     def findMass(self, uniqueID):
@@ -386,11 +412,17 @@ class Lectionary(object):
         '''
 
         result = []
+        seasonKey = _attr(season_node, 'key', ifMissing=None)
         for child_node in _children(season_node, ['mass', 'week']):
             if child_node.localName == 'mass':
-                result.append(self._decode_mass(child_node))
+                mass = self._decode_mass(child_node)
+                mass.seasonKey = seasonKey
+                result.append(mass)
             elif child_node.localName == 'week':
-                result.extend(self._decode_week(child_node))
+                masses = self._decode_week(child_node)
+                for mass in masses:
+                    mass.seasonKey = seasonKey
+                result.extend(masses)
         return result
 
     def _decode_weekday_lectionary(self, lectionary_node):
@@ -868,25 +900,29 @@ class Calendar(object):
         Allocate the masses of the Advent season.
         '''
 
-        # TODO: First Week of Advent
-        self._assignMass(
+        sundayDates = (
             self.dateOfFirstSundayOfAdvent,
-            '%s/1st-sunday-of-advent')
-
-        # TODO: Second Week of Advent
-        self._assignMass(
             _nextSunday(self.dateOfChristmas, -3),
-            '%s/2nd-sunday-of-advent')
-
-        # TODO: Third Week of Advent
-        self._assignMass(
             _nextSunday(self.dateOfChristmas, -2),
-            '%s/3rd-sunday-of-advent')
-
-        # TODO: Fourth Week of Advent
-        self._assignMass(
             _nextSunday(self.dateOfChristmas, -1),
-            '%s/4th-sunday-of-advent')
+            )
+        ordinals = ('1st', '2nd', '3rd', '4th')
+        weekKeys = ('week-1', 'week-2', 'week-3', 'week-4')
+
+        for sundayDate, ordinal, weekKey in zip(
+            sundayDates, ordinals, weekKeys):
+            # Assign the Sunday mass.
+            self._assignMass(
+                sundayDate, '%s/' + '%s-sunday-of-advent' % ordinal)
+
+            # Assign the weekday masses.
+            for weekdayDate, weekdayMass in zip(
+                _followingDays(sundayDate, 6),
+                _lectionary.weekdayMassesInWeek('advent', weekKey)):
+                self._assignMass(weekdayDate, weekdayMass)
+
+        # TODO: Handle the fixed-date masses in Advent starting on
+        # December 17th.
 
     def _allocateLateChristmasSeason(self):
         '''
@@ -925,7 +961,8 @@ class Calendar(object):
             ]
 
         weekdaysInOrdinaryTime = [
-            list(_lectionary.weekdayMassesInWeek('week-%d' % weekIndex))
+            _lectionary.weekdayMassesInWeek(
+                None, 'week-%d' % weekIndex)
             for weekIndex in range(1, 35)
             ]
 

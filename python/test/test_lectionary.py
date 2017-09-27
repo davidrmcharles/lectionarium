@@ -67,7 +67,7 @@ class LectionaryTestCase(unittest.TestCase):
         self.assertEqual(54, readingCount)
 
     def test_weekdayMassesInWeek(self):
-        lectionary._lectionary.weekdayMassesInWeek('week-1')
+        lectionary._lectionary.weekdayMassesInWeek(None, 'week-1')
 
 # textTestCase?
 # firstChildTestCase?
@@ -433,9 +433,24 @@ class CalendarTestCase(unittest.TestCase):
             (12, 2, ['week-34-saturday']),
 
             (12, 3, ['b/1st-sunday-of-advent']),
+            (12, 4, ['advent-week-1-monday']),
+            (12, 5, ['advent-week-1-tuesday']),
+            (12, 6, ['advent-week-1-wednesday']),
+            (12, 7, ['advent-week-1-thursday']),
+            # (12, 8, ['advent-week-1-friday']),
             (12, 8, ['immaculate-conception']),
+            (12, 9, ['advent-week-1-saturday']),
+
             (12, 10, ['b/2nd-sunday-of-advent']),
+            (12, 11, ['advent-week-2-monday']),
+            (12, 12, ['advent-week-2-tuesday']),
+            (12, 13, ['advent-week-2-wednesday']),
+            (12, 14, ['advent-week-2-thursday']),
+            (12, 15, ['advent-week-2-friday']),
+            (12, 16, ['advent-week-2-saturday']),
+
             (12, 17, ['b/3rd-sunday-of-advent']),
+            # TODO
             (12, 24, ['b/4th-sunday-of-advent', 'b/christmas-vigil']),
             (12, 25, ['b/christmas-at-midnight', 'b/christmas-at-dawn', 'b/christmas-during-the-day']),
             ]

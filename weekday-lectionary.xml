@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lectionary name="WEEKDAY READINGS">
-  <season name="Advent Season">
-    <week name="First Week of Advent">
+  <season key="advent" name="Advent Season">
+    <week key="week-1" name="First Week of Advent">
       <mass name="Monday">
         <choice>
           <reading cycle="A">Is 4:2-6</reading>
@@ -30,7 +30,7 @@
         <reading>Mt 9:35-10:1,6-8</reading>
       </mass>
     </week>
-    <week name="Second Week of Advent">
+    <week key="week-2" name="Second Week of Advent">
       <mass name="Monday">
         <reading>Is  35:1-10</reading>
         <reading>Lk 5:17-26</reading>
@@ -56,7 +56,7 @@
         <reading>Mt 17:10-13</reading>
       </mass>
     </week>
-    <week name="Third Week of Advent">
+    <week key="week-3" name="Third Week of Advent">
       <mass name="Monday">
         <reading>Nm 24:2-7,15-17a</reading>
         <reading>Mt 21:23-27</reading>
