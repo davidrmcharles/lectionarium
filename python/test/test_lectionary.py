@@ -264,17 +264,67 @@ class CalendarTestCase(unittest.TestCase):
             (4, 8, ['lent-week-5-saturday']),
 
             (4, 9, ['a/palm-sunday']),
+
             (4, 16, ['a/easter-sunday']),
+            (4, 17, ['easter-octave-monday']),
+            (4, 18, ['easter-octave-tuesday']),
+            (4, 19, ['easter-octave-wednesday']),
+            (4, 20, ['easter-octave-thursday']),
+            (4, 21, ['easter-octave-friday']),
+            (4, 22, ['easter-octave-saturday']),
+
             (4, 23, ['a/2nd-sunday-of-easter']),
+            (4, 24, ['easter-week-2-monday']),
+            (4, 25, ['easter-week-2-tuesday']),
+            (4, 26, ['easter-week-2-wednesday']),
+            (4, 27, ['easter-week-2-thursday']),
+            (4, 28, ['easter-week-2-friday']),
+            (4, 29, ['easter-week-2-saturday']),
+
             (4, 30, ['a/3rd-sunday-of-easter']),
 
             # May
+            (5, 1, ['easter-week-3-monday']),
+            (5, 2, ['easter-week-3-tuesday']),
+            (5, 3, ['easter-week-3-wednesday']),
+            (5, 4, ['easter-week-3-thursday']),
+            (5, 5, ['easter-week-3-friday']),
+            (5, 6, ['easter-week-3-saturday']),
+
             (5, 7, ['a/4th-sunday-of-easter']),
+            (5, 8, ['easter-week-4-monday']),
+            (5, 9, ['easter-week-4-tuesday']),
+            (5, 10, ['easter-week-4-wednesday']),
+            (5, 11, ['easter-week-4-thursday']),
+            (5, 12, ['easter-week-4-friday']),
+            (5, 13, ['easter-week-4-saturday']),
+
             (5, 14, ['a/5th-sunday-of-easter']),
+            (5, 15, ['easter-week-5-monday']),
+            (5, 16, ['easter-week-5-tuesday']),
+            (5, 17, ['easter-week-5-wednesday']),
+            (5, 18, ['easter-week-5-thursday']),
+            (5, 19, ['easter-week-5-friday']),
+            (5, 20, ['easter-week-5-saturday']),
+
             (5, 21, ['a/6th-sunday-of-easter']),
+            (5, 22, ['easter-week-6-monday']),
+            (5, 23, ['easter-week-6-tuesday']),
+            (5, 24, ['easter-week-6-wednesday']),
+            (5, 25, ['easter-week-6-thursday']),
+            (5, 26, ['easter-week-6-friday']),
+            (5, 27, ['easter-week-6-saturday']),
+
             (5, 28, ['a/7th-sunday-of-easter']),
+            (5, 29, ['easter-week-7-monday']),
+            (5, 30, ['easter-week-7-tuesday']),
+            (5, 31, ['easter-week-7-wednesday']),
 
             # June
+            (6, 1, ['easter-week-7-thursday']),
+            (6, 2, ['easter-week-7-friday']),
+            (6, 3, ['easter-week-7-saturday']),
+
             (6, 4, ['a/pentecost']),
             (6, 11, ['a/trinity-sunday']),
             (6, 18, ['a/corpus-christi']),

@@ -859,43 +859,44 @@ class Calendar(object):
             self.dateOfEaster - datetime.timedelta(days=1),
             '%s/easter-vigil')
 
-        # TODO: Octave of Easter
-        self._assignMass(
+        sundayDates = (
             self.dateOfEaster,
-            '%s/easter-sunday')
+            _nextSunday(self.dateOfEaster, 1),
+            _nextSunday(self.dateOfEaster, 2),
+            _nextSunday(self.dateOfEaster, 3),
+            _nextSunday(self.dateOfEaster, 4),
+            _nextSunday(self.dateOfEaster, 5),
+            _nextSunday(self.dateOfEaster, 6),
+            _nextSunday(self.dateOfEaster, 7),
+            )
+        sundayMassKeys = (
+            'easter-sunday',
+            '2nd-sunday-of-easter',
+            '3rd-sunday-of-easter',
+            '4th-sunday-of-easter',
+            '5th-sunday-of-easter',
+            '6th-sunday-of-easter',
+            '7th-sunday-of-easter')
+        weekKeys = (
+            'octave',
+            'week-2',
+            'week-3',
+            'week-4',
+            'week-5',
+            'week-6',
+            'week-7'
+            )
 
-        # TODO: Second Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +1),
-            '%s/2nd-sunday-of-easter')
+        for sundayDate, sundayMassKey, weekKey in zip(
+            sundayDates, sundayMassKeys, weekKeys):
+            # Assign the Sunday mass.
+            self._assignMass(sundayDate, '%s/' + sundayMassKey)
 
-        # TODO: Third Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +2),
-            '%s/3rd-sunday-of-easter')
-
-        # TODO: Fourth Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +3),
-            '%s/4th-sunday-of-easter')
-
-        # TODO: Fifth Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +4),
-            '%s/5th-sunday-of-easter')
-
-        # TODO: Sixth Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +5),
-            '%s/6th-sunday-of-easter')
-        self._assignMass(
-            self.dateOfEaster + datetime.timedelta(days=40),
-            '%s/ascension-of-our-lord')
-
-        # TODO: Seventh Week of Easter
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, +6),
-            '%s/7th-sunday-of-easter')
+            # Assign the weekday masses.
+            for weekdayDate, weekdayMass in zip(
+                _followingDays(sundayDate, 6),
+                _lectionary.weekdayMassesInWeek('easter', weekKey)):
+                self._assignMass(weekdayDate, weekdayMass)
 
         self._assignMass(
             self.dateOfEaster + datetime.timedelta(days=49),

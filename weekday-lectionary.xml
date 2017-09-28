@@ -361,8 +361,8 @@
       </mass>
     </week>
   </season>
-  <season name="Easter Season">
-    <week name="Octave of Easter">
+  <season key="easter" name="Easter Season">
+    <week key="octave" name="Octave of Easter">
       <mass name="Monday">
         <reading>Acts 2:14,22-32</reading>
         <reading>Mt 28:8-15</reading>
@@ -388,7 +388,7 @@
         <reading>Mk 16:9-15</reading>
       </mass>
     </week>
-    <week name="Second Week of Easter">
+    <week key="week-2" name="Second Week of Easter">
       <mass name="Monday">
         <reading>Acts 4:23-31</reading>
         <reading>Jn 3:1-8</reading>
@@ -414,7 +414,7 @@
         <reading>Jn 6:16-21</reading>
       </mass>
     </week>
-    <week name="Third Week of Easter">
+    <week key="week-3" name="Third Week of Easter">
       <mass name="Monday">
         <reading>Acts 6:8-15</reading>
         <reading>Jn 6:22-29</reading>
@@ -440,7 +440,7 @@
         <reading>Jn 6:60-69</reading>
       </mass>
     </week>
-    <week name="Fourth Week of Easter">
+    <week key="week-4" name="Fourth Week of Easter">
       <mass name="Monday">
         <reading>Acts 11:1-18</reading>
         <choice>
@@ -469,7 +469,7 @@
         <reading>Jn 14:7-14</reading>
       </mass>
     </week>
-    <week name="Fifth Week of Easter">
+    <week key="week-5" name="Fifth Week of Easter">
       <mass name="Monday">
         <reading>Acts 14:5-18</reading>
         <reading>Jn 14:21-26</reading>
@@ -495,7 +495,7 @@
         <reading>Jn 15:18-21</reading>
       </mass>
     </week>
-    <week name="Sixth Week of Easter">
+    <week key="week-6" name="Sixth Week of Easter">
       <mass name="Monday">
         <reading>Acts 16:11-15</reading>
         <reading>Jn 15:26-16:4a</reading>
@@ -521,7 +521,7 @@
         <reading>Jn 16:23b-28</reading>
       </mass>
     </week>
-    <week name="Seventh Week of Easter">
+    <week key="week-7" name="Seventh Week of Easter">
       <mass name="Monday">
         <reading>Acts 19:1-8</reading>
         <reading>Jn 16:29-33</reading>
@@ -533,6 +533,9 @@
       <mass name="Wednesday">
         <reading>Acts 20:30,23:6-11</reading>
         <reading>Jn 17:20-26</reading>
+      </mass>
+      <mass name="Thursday">
+        TODO
       </mass>
       <mass name="Friday">
         <reading>Acts 25:13-21</reading>
