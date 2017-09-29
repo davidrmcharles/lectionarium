@@ -150,6 +150,12 @@ class CalendarTestCase(unittest.TestCase):
         testData = [
             # January
             (1, 1, ['a/mary-mother-of-god']),
+            (1, 2, ['01-02']),
+            (1, 3, ['01-03']),
+            (1, 4, ['01-04']),
+            (1, 5, ['01-05']),
+            (1, 6, ['01-06']),
+            # (1, 7, ['???']),
 
             (1, 8, ['a/epiphany']),
             (1, 9, ['a/baptism-of-the-lord']),

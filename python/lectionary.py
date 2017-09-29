@@ -784,8 +784,37 @@ class Calendar(object):
         the previous year.
         '''
 
-        # TODO: The Octave of Christmas.
+        # The Octave of Christmas.
+        massDates = _followingDays(self.dateOfPreviousChristmas, 6)
+        massKeys = (
+            'second-day-st-stephen',
+            'third-day-st-john',
+            'fourth-day-holy-innocents',
+            'fifth-day',
+            'sixth-day',
+            'seventh-day',
+            )
+        for massDate, massKey in zip(massDates, massKeys):
+            if massDate.year < self._year:
+                continue
+            self._assignMass(
+                massDate,
+                _lectionary.findmass('christmas-octave-%s' % massKey))
 
+        # Fixed-date weekday masses following Christmas.
+        massDates = _inclusiveDateRange(
+            datetime.date(self._year, 1, 2),
+            datetime.date(self._year, 1, 6))
+        massKeys = [
+            '01-%02d' % day
+            for day in range(2, 7)
+            ]
+        for massDate, massKey in zip(massDates, massKeys):
+            self._assignMass(
+                massDate,
+                _lectionary.findMass(massKey))
+
+        # The solemnity of Mary, Mother of God.
         self._assignMass(
             datetime.date(self._year, 1, 1),
             '%s/mary-mother-of-god')
