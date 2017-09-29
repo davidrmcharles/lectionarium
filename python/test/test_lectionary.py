@@ -54,7 +54,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading)
 
         # $ grep --count /reading weekday-lectionary.xml
-        self.assertEqual(859, readingCount)
+        self.assertEqual(861, readingCount)
 
     def test_parseSpecialCitations(self):
         readingCount = 0
