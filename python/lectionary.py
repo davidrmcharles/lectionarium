@@ -888,11 +888,20 @@ class Calendar(object):
         Allocate the masses of Holy Week and the Easter Season.
         '''
 
-        # TODO: Holy Week
-        self._assignMass(
-            _nextSunday(self.dateOfEaster, -1),
-            '%s/palm-sunday')
-        self._assignMass(
+        # Holy Week
+        dateOfPalmSunday = _nextSunday(self.dateOfEaster, -1)
+        self._assignMass(dateOfPalmSunday, '%s/palm-sunday')
+
+        massDates = _followingDays(dateOfPalmSunday, 4)
+        massKeys = (
+            'monday', 'tuesday', 'wednesday', 'thursday-chrism-mass'
+            )
+        for massDate, massKey in zip(massDates, massKeys):
+            self._assignMass(
+                massDate,
+                _lectionary.findMass('lent-holy-week-%s' % massKey))
+
+        self._appendMass(
             self.dateOfEaster - datetime.timedelta(days=3),
             '%s/mass-of-lords-supper')
         self._assignMass(

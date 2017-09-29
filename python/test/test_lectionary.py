@@ -270,6 +270,10 @@ class CalendarTestCase(unittest.TestCase):
             (4, 8, ['lent-week-5-saturday']),
 
             (4, 9, ['a/palm-sunday']),
+            (4, 10, ['lent-holy-week-monday']),
+            (4, 11, ['lent-holy-week-tuesday']),
+            (4, 12, ['lent-holy-week-wednesday']),
+            (4, 13, ['lent-holy-week-thursday-chrism-mass', 'a/mass-of-lords-supper']),
 
             (4, 16, ['a/easter-sunday']),
             (4, 17, ['easter-octave-monday']),
