@@ -613,6 +613,20 @@ def _followingDays(d, count):
         for index in range(count)
         ]
 
+def _inclusiveDateRange(firstDate, lastDate):
+    '''
+    Return all the dates from `firstDate` through `lastDate`.
+    '''
+
+    # FIXME: Naiive, but I have no Internet connectivity at the
+    # moment!
+    result = []
+    d = firstDate
+    while d <= lastDate:
+        result.append(d)
+        d += datetime.timedelta(days=1)
+    return result
+
 def _dateOfEaster(year):
     '''
     Return the date of Easter for a given `year`.
@@ -944,7 +958,7 @@ class Calendar(object):
             _nextSunday(self.dateOfChristmas, -1),
             '%s/christmas-vigil')
 
-        # TODO: Octave of Christmas
+        # Octave of Christmas
         self._appendMass(
             self.dateOfChristmas,
             '%s/christmas-at-midnight')
@@ -954,6 +968,27 @@ class Calendar(object):
         self._appendMass(
             self.dateOfChristmas,
             '%s/christmas-during-the-day')
+
+        massDates = _inclusiveDateRange(
+            self.dateOfChristmas + datetime.timedelta(days=1),
+            datetime.date(self._year, 12, 31))
+        massKeys = (
+            'second-day-st-stephen',
+            'third-day-st-john',
+            'fourth-day-holy-innocents',
+            'fifth-day',
+            'sixth-day',
+            'seventh-day',
+            )
+        for massDate, massKey in zip(massDates, massKeys):
+            self._assignMass(
+                massDate,
+                _lectionary.findMass('christmas-octave-%s' % massKey))
+
+        dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
+        if dateOfHolyFamily.year == self._year:
+            self._assignMass(
+                dateOfHolyFamily, '%s/holy-family')
 
     def _allocateOrdinaryTime(self):
         '''

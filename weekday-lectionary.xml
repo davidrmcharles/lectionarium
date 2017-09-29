@@ -114,8 +114,8 @@
       </mass>
     </week>
   </season>
-  <season name="Christmas Season">
-    <week name="Octave of Christmas">
+  <season key="christmas" name="Christmas Season">
+    <week key="octave" name="Octave of Christmas">
       <mass name="Second day (St. Stephen)">
         <reading>Acts 6:8-10,7:54-59</reading>
         <reading>Mt 10:17-22</reading>
