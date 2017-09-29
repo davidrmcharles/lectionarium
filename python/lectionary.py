@@ -804,10 +804,10 @@ class Calendar(object):
         # Fixed-date weekday masses following Christmas.
         massDates = _inclusiveDateRange(
             datetime.date(self._year, 1, 2),
-            datetime.date(self._year, 1, 6))
+            datetime.date(self._year, 1, 7))
         massKeys = [
             '01-%02d' % day
-            for day in range(2, 7)
+            for day in range(2, 8)
             ]
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
@@ -841,7 +841,9 @@ class Calendar(object):
                 self.dateOfEndOfPreviousChristmas,
                 '%s/baptism-of-the-lord')
 
-        # TODO: Week After Epiphany
+        # FIXME: Week After Epiphany.  None of these masses were said
+        # in the US in 2017, but they were, or will be used in other
+        # years.
 
     def _allocateLentenSeason(self):
         '''
@@ -983,8 +985,20 @@ class Calendar(object):
                 _lectionary.weekdayMassesInWeek('advent', weekKey)):
                 self._assignMass(weekdayDate, weekdayMass)
 
-        # TODO: Handle the fixed-date masses in Advent starting on
-        # December 17th.
+        # Handle the fixed-date masses in Advent starting on December
+        # 17th.  These override the other weekday masses of Advent,
+        # but not the Sunday masses of Advent.
+        massDates = _inclusiveDateRange(
+            datetime.date(self._year, 12, 17),
+            datetime.date(self._year, 12, 24))
+        massKeys = [
+            '12-%02d' % day
+            for day in range(17, 25)
+            ]
+        for massDate, massKey in zip(massDates, massKeys):
+            if massDate.weekday() == 6:
+                continue
+            self._assignMass(massDate, massKey)
 
     def _allocateLateChristmasSeason(self):
         '''
@@ -1072,7 +1086,7 @@ class Calendar(object):
         # of Ordinary Time that come between the end of Easter and
         # Advent.
         sundayDate = _nextSunday(self.dateOfFirstSundayOfAdvent, -1)
-        while sundayDate > self.dateOfPentecost:
+        while sundayDate > _nextSunday(self.dateOfPentecost, -1):
             # Assign the Sunday mass.
             self._assignMass(sundayDate, sundaysInOrdinaryTime.pop())
 

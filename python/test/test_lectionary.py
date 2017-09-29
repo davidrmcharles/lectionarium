@@ -54,7 +54,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading)
 
         # $ grep --count /reading weekday-lectionary.xml
-        self.assertEqual(861, readingCount)
+        self.assertEqual(863, readingCount)
 
     def test_parseSpecialCitations(self):
         readingCount = 0
@@ -155,7 +155,7 @@ class CalendarTestCase(unittest.TestCase):
             (1, 4, ['01-04']),
             (1, 5, ['01-05']),
             (1, 6, ['01-06']),
-            # (1, 7, ['???']),
+            (1, 7, ['01-07']),
 
             (1, 8, ['a/epiphany']),
             (1, 9, ['a/baptism-of-the-lord']),
@@ -274,6 +274,8 @@ class CalendarTestCase(unittest.TestCase):
             (4, 11, ['lent-holy-week-tuesday']),
             (4, 12, ['lent-holy-week-wednesday']),
             (4, 13, ['lent-holy-week-thursday-chrism-mass', 'a/mass-of-lords-supper']),
+            (4, 14, ['a/good-friday']),
+            (4, 15, ['a/easter-vigil']),
 
             (4, 16, ['a/easter-sunday']),
             (4, 17, ['easter-octave-monday']),
@@ -336,15 +338,39 @@ class CalendarTestCase(unittest.TestCase):
             (6, 3, ['easter-week-7-saturday']),
 
             (6, 4, ['a/pentecost']),
+            (6, 5, ['week-9-monday']),
+            (6, 6, ['week-9-tuesday']),
+            (6, 7, ['week-9-wednesday']),
+            (6, 8, ['week-9-thursday']),
+            (6, 9, ['week-9-friday']),
+            (6, 10, ['week-9-saturday']),
+
             (6, 11, ['a/trinity-sunday']),
+            (6, 12, ['week-10-monday']),
+            (6, 13, ['week-10-tuesday']),
+            (6, 14, ['week-10-wednesday']),
+            (6, 15, ['week-10-thursday']),
+            (6, 16, ['week-10-friday']),
+            (6, 17, ['week-10-saturday']),
+
             (6, 18, ['a/corpus-christi']),
+            (6, 19, ['week-11-monday']),
+            (6, 20, ['week-11-tuesday']),
+            (6, 21, ['week-11-wednesday']),
+            (6, 22, ['week-11-thursday']),
             (6, 23, ['john-the-baptist-vigil']),
             (6, 24, ['john-the-baptist']),
+
             (6, 25, ['a/12th-sunday']),
+            (6, 26, ['week-12-monday']),
+            (6, 27, ['week-12-tuesday']),
             (6, 28, ['peter-and-paul-vigil']),
             (6, 29, ['peter-and-paul']),
+            (6, 30, ['week-12-friday']),
 
             # July
+            (7, 1, ['week-12-saturday']),
+
             (7, 2, ['a/13th-sunday']),
             (7, 3, ['week-13-monday']),
             (7, 4, ['week-13-tuesday']),
@@ -550,7 +576,12 @@ class CalendarTestCase(unittest.TestCase):
             (12, 16, ['advent-week-2-saturday']),
 
             (12, 17, ['b/3rd-sunday-of-advent']),
-            # TODO
+            (12, 18, ['12-18']),
+            (12, 19, ['12-19']),
+            (12, 20, ['12-20']),
+            (12, 21, ['12-21']),
+            (12, 22, ['12-22']),
+            (12, 23, ['12-23']),
 
             (12, 24, ['b/4th-sunday-of-advent', 'b/christmas-vigil']),
             (12, 25, ['b/christmas-at-midnight',
