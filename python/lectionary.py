@@ -123,7 +123,7 @@ class Mass(object):
             tokens.insert(0, self._weekKey)
         if self._seasonKey is not None:
             tokens.insert(0, self._seasonKey)
-        return '-'.join(tokens)
+        return '/'.join(tokens)
 
     @property
     def cycle(self):
@@ -861,7 +861,7 @@ class Calendar(object):
             )
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
-                massDate, 'lent-week-of-ash-wednesday-%s' % massKey)
+                massDate, 'lent/week-of-ash-wednesday/%s' % massKey)
 
         sundayDates = (
             _nextSunday(self.dateOfEaster, -6),
@@ -901,7 +901,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass('lent-holy-week-%s' % massKey))
+                _lectionary.findMass('lent/holy-week/%s' % massKey))
 
         self._appendMass(
             self.dateOfEaster - datetime.timedelta(days=3),
@@ -1035,7 +1035,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass('christmas-octave-%s' % massKey))
+                _lectionary.findMass('christmas/octave/%s' % massKey))
 
         dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
