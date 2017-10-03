@@ -19,26 +19,26 @@ class MassTestCase(unittest.TestCase):
 
         mass = lectionary.Mass([])
         mass.id = 'sunday'
-        mass.weekKey = 'week-2'
-        mass.seasonKey = 'ordinary'
+        mass.weekid = 'week-2'
+        mass.seasonid = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
         mass = lectionary.Mass([])
         mass.id = 'sunday'
-        mass.weekKey = 'week-22'
-        mass.seasonKey = 'ordinary'
+        mass.weekid = 'week-22'
+        mass.seasonid = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
         mass = lectionary.Mass([])
         mass.id = 'sunday-christ-the-king'
-        mass.weekKey = 'week-34'
-        mass.seasonKey = 'ordinary'
+        mass.weekid = 'week-34'
+        mass.seasonid = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
         mass = lectionary.Mass([])
         mass.id = 'sunday'
-        mass.weekKey = 'week-4'
-        mass.seasonKey = 'lent'
+        mass.weekid = 'week-4'
+        mass.seasonid = 'lent'
         self.assertFalse(mass.isSundayInOrdinaryTime)
 
 class LectionaryTestCase(unittest.TestCase):

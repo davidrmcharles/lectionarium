@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lectionary name="WEEKDAY READINGS">
-  <season key="advent" name="Advent Season">
-    <week key="week-1" name="First Week of Advent">
+  <season id="advent" name="Advent Season">
+    <week id="week-1" name="First Week of Advent">
       <mass name="Monday">
         <choice>
           <reading cycle="A">Is 4:2-6</reading>
@@ -30,7 +30,7 @@
         <reading>Mt 9:35-10:1,6-8</reading>
       </mass>
     </week>
-    <week key="week-2" name="Second Week of Advent">
+    <week id="week-2" name="Second Week of Advent">
       <mass name="Monday">
         <reading>Is  35:1-10</reading>
         <reading>Lk 5:17-26</reading>
@@ -56,7 +56,7 @@
         <reading>Mt 17:10-13</reading>
       </mass>
     </week>
-    <week key="week-3" name="Third Week of Advent">
+    <week id="week-3" name="Third Week of Advent">
       <mass name="Monday">
         <reading>Nm 24:2-7,15-17a</reading>
         <reading>Mt 21:23-27</reading>
@@ -114,8 +114,8 @@
       </mass>
     </week>
   </season>
-  <season key="christmas" name="Christmas Season">
-    <week key="octave" name="Octave of Christmas">
+  <season id="christmas" name="Christmas Season">
+    <week id="octave" name="Octave of Christmas">
       <mass name="Second day (St. Stephen)">
         <reading>Acts 6:8-10,7:54-59</reading>
         <reading>Mt 10:17-22</reading>
@@ -192,8 +192,8 @@
       </mass>
     </week>
   </season>
-  <season key="lent" name="Lenten Season">
-    <week key="week-of-ash-wednesday" name="Week of Ash Wednesday">
+  <season id="lent" name="Lenten Season">
+    <week id="week-of-ash-wednesday" name="Week of Ash Wednesday">
       <mass name="Ash Wednesday">
         <reading>Jl 2:12-18</reading>
         <reading>2 Cor 5:20-6:2</reading>
@@ -212,7 +212,7 @@
         <reading>Lk 5:27-32</reading>
       </mass>
     </week>
-    <week key="week-1" name="First Week of Lent">
+    <week id="week-1" name="First Week of Lent">
       <mass name="Monday">
         <reading>Lv 19:1-2,11-18</reading>
         <reading>Mt 25:31-46</reading>
@@ -238,7 +238,7 @@
         <reading>Mt 5:43-48</reading>
       </mass>
     </week>
-    <week key="week-2" name="Second Week of Lent">
+    <week id="week-2" name="Second Week of Lent">
       <mass name="Monday">
         <reading>Dn 9:4b-10</reading>
         <reading>Lk 6:36-38</reading>
@@ -264,7 +264,7 @@
         <reading>Lk 15:1-3,11-32</reading>
       </mass>
     </week>
-    <week key="week-3" name="Third Week of Lent">
+    <week id="week-3" name="Third Week of Lent">
       <mass name="Monday">
         <reading>2 Kgs 5:1-15a</reading>
         <reading>Lk 4:24-30</reading>
@@ -290,7 +290,7 @@
         <reading>Lk 18:19-24</reading>
       </mass>
     </week>
-    <week key="week-4" name="Fourth Week of Lent">
+    <week id="week-4" name="Fourth Week of Lent">
       <mass name="Monday">
         <reading>Is 65:17-21</reading>
         <reading>Jn 4:43-54</reading>
@@ -316,7 +316,7 @@
         <reading>Jn 7:40-53</reading>
       </mass>
     </week>
-    <week key="week-5" name="Fifth Week of Lent">
+    <week id="week-5" name="Fifth Week of Lent">
       <mass name="Monday">
         <reading>Dn 13:1-9,15-17,19-30,33-62</reading>
         <choice>
@@ -345,7 +345,7 @@
         <reading>Jn 11:45-56</reading>
       </mass>
     </week>
-    <week key="holy-week" name="Holy Week">
+    <week id="holy-week" name="Holy Week">
       <mass name="Monday">
         <reading>Is 42:1-7</reading>
         <reading>Jn 12:1-11</reading>
@@ -365,8 +365,8 @@
       </mass>
     </week>
   </season>
-  <season key="easter" name="Easter Season">
-    <week key="octave" name="Octave of Easter">
+  <season id="easter" name="Easter Season">
+    <week id="octave" name="Octave of Easter">
       <mass name="Monday">
         <reading>Acts 2:14,22-32</reading>
         <reading>Mt 28:8-15</reading>
@@ -392,7 +392,7 @@
         <reading>Mk 16:9-15</reading>
       </mass>
     </week>
-    <week key="week-2" name="Second Week of Easter">
+    <week id="week-2" name="Second Week of Easter">
       <mass name="Monday">
         <reading>Acts 4:23-31</reading>
         <reading>Jn 3:1-8</reading>
@@ -418,7 +418,7 @@
         <reading>Jn 6:16-21</reading>
       </mass>
     </week>
-    <week key="week-3" name="Third Week of Easter">
+    <week id="week-3" name="Third Week of Easter">
       <mass name="Monday">
         <reading>Acts 6:8-15</reading>
         <reading>Jn 6:22-29</reading>
@@ -444,7 +444,7 @@
         <reading>Jn 6:60-69</reading>
       </mass>
     </week>
-    <week key="week-4" name="Fourth Week of Easter">
+    <week id="week-4" name="Fourth Week of Easter">
       <mass name="Monday">
         <reading>Acts 11:1-18</reading>
         <choice>
@@ -473,7 +473,7 @@
         <reading>Jn 14:7-14</reading>
       </mass>
     </week>
-    <week key="week-5" name="Fifth Week of Easter">
+    <week id="week-5" name="Fifth Week of Easter">
       <mass name="Monday">
         <reading>Acts 14:5-18</reading>
         <reading>Jn 14:21-26</reading>
@@ -499,7 +499,7 @@
         <reading>Jn 15:18-21</reading>
       </mass>
     </week>
-    <week key="week-6" name="Sixth Week of Easter">
+    <week id="week-6" name="Sixth Week of Easter">
       <mass name="Monday">
         <reading>Acts 16:11-15</reading>
         <reading>Jn 15:26-16:4a</reading>
@@ -525,7 +525,7 @@
         <reading>Jn 16:23b-28</reading>
       </mass>
     </week>
-    <week key="week-7" name="Seventh Week of Easter">
+    <week id="week-7" name="Seventh Week of Easter">
       <mass name="Monday">
         <reading>Acts 19:1-8</reading>
         <reading>Jn 16:29-33</reading>
@@ -553,7 +553,7 @@
     </week>
   </season>
   <season name="Season of the Year">
-    <week key="week-1" name="Week One">
+    <week id="week-1" name="Week One">
       <mass name="Monday">
         <reading cycle="I">Heb 1:1-6</reading>
         <reading cycle="II">1 Sm 1:1-8</reading>
@@ -585,7 +585,7 @@
         <reading>Mk 2:13-17</reading>
       </mass>
     </week>
-    <week key="week-2" name="Week Two">
+    <week id="week-2" name="Week Two">
       <mass name="Monday">
         <reading cycle="I">Heb 5:1-10</reading>
         <reading cycle="II">1 Sm 15:16-23</reading>
@@ -617,7 +617,7 @@
         <reading>Mk 3:20-21</reading>
       </mass>
     </week>
-    <week key="week-3" name="Week Three">
+    <week id="week-3" name="Week Three">
       <mass name="Monday">
         <reading cycle="I">Heb 9:15,24-28</reading>
         <reading cycle="II">2 Sm 5:1-7,10</reading>
@@ -649,7 +649,7 @@
         <reading>Mk 4:35-41</reading>
       </mass>
     </week>
-    <week key="week-4" name="Week Four">
+    <week id="week-4" name="Week Four">
       <mass name="Monday">
         <reading cycle="I">Heb 11:32-40</reading>
         <reading cycle="II">2 Sm 15:13-14,30,16:5-13a</reading>
@@ -681,7 +681,7 @@
         <reading>Mk 6:30-34</reading>
       </mass>
     </week>
-    <week key="week-5" name="Week Five">
+    <week id="week-5" name="Week Five">
       <mass name="Monday">
         <reading cycle="I">Gn 1:1-19</reading>
         <reading cycle="II">1 Kgs 8:1-7,9-13</reading>
@@ -713,7 +713,7 @@
         <reading>Mk 8:1-10</reading>
       </mass>
     </week>
-    <week key="week-6" name="Week Six">
+    <week id="week-6" name="Week Six">
       <mass name="Monday">
         <reading cycle="I">Gn 4:1-15,25</reading>
         <reading cycle="II">Jas 1:1-11</reading>
@@ -745,7 +745,7 @@
         <reading>Mk 9:2-13</reading>
       </mass>
     </week>
-    <week key="week-7" name="Week Seven">
+    <week id="week-7" name="Week Seven">
       <mass name="Monday">
         <reading cycle="I">Sir 1:1-10</reading>
         <reading cycle="II">Jas 3:13-18</reading>
@@ -777,7 +777,7 @@
         <reading>Mk 10:13-16</reading>
       </mass>
     </week>
-    <week key="week-8" name="Week Eight">
+    <week id="week-8" name="Week Eight">
       <mass name="Monday">
         <reading cycle="I">Sir 17:19-27</reading>
         <reading cycle="II">1 Pt 1:3-9</reading>
@@ -804,7 +804,7 @@
         <reading>Mk 11:27-33</reading>
       </mass>
     </week>
-    <week key="week-9" name="Week Nine">
+    <week id="week-9" name="Week Nine">
       <mass name="Monday">
         <reading cycle="I">Tb 1:1a-2,2:1-9</reading>
         <reading cycle="II">2 Pt 1:2-7</reading>
@@ -836,7 +836,7 @@
         <reading>Mk 12:38-44</reading>
       </mass>
     </week>
-    <week key="week-10" name="Week Ten">
+    <week id="week-10" name="Week Ten">
       <mass name="Monday">
         <reading cycle="I">2 Cor 1:1-7</reading>
         <reading cycle="II">1 Kgs 17:1-6</reading>
@@ -868,7 +868,7 @@
         <reading>Mt 5:33-37</reading>
       </mass>
     </week>
-    <week key="week-11" name="Week Eleven">
+    <week id="week-11" name="Week Eleven">
       <mass name="Monday">
         <reading cycle="I">2 Cor 6:1-10</reading>
         <reading cycle="II">1 Kgs 21:1-16</reading>
@@ -900,7 +900,7 @@
         <reading>Mt 6:24-34</reading>
       </mass>
     </week>
-    <week key="week-12" name="Week Twelve">
+    <week id="week-12" name="Week Twelve">
       <mass name="Monday">
         <reading cycle="I">Gn 12:1-9</reading>
         <reading cycle="II">2 Kgs 17:5-8,13-15a,18</reading>
@@ -932,7 +932,7 @@
         <reading>Mt 8:5-17</reading>
       </mass>
     </week>
-    <week key="week-13" name="Week Thirteen">
+    <week id="week-13" name="Week Thirteen">
       <mass name="Monday">
         <reading cycle="I">Gn 18:16-33</reading>
         <reading cycle="II">Am 2:6-10,13-16</reading>
@@ -964,7 +964,7 @@
         <reading>Mt 9:14-17</reading>
       </mass>
     </week>
-    <week key="week-14" name="Week Fourteen">
+    <week id="week-14" name="Week Fourteen">
       <mass name="Monday">
         <reading cycle="I">Gn 28:10-22a</reading>
         <reading cycle="II">Hos 2:16,17b-18,21-22</reading>
@@ -996,7 +996,7 @@
         <reading>Mt 10:24-33</reading>
       </mass>
     </week>
-    <week key="week-15" name="Week Fifteen">
+    <week id="week-15" name="Week Fifteen">
       <mass name="Monday">
         <reading cycle="I">Ex 1:8-14,22</reading>
         <reading cycle="II">Is 1:10-17</reading>
@@ -1028,7 +1028,7 @@
         <reading>Mt 12:14-21</reading>
       </mass>
     </week>
-    <week key="week-16" name="Week Sixteen">
+    <week id="week-16" name="Week Sixteen">
       <mass name="Monday">
         <reading cycle="I">Ex 14:5-18</reading>
         <reading cycle="II">Mi 6:1-4,6-8</reading>
@@ -1060,7 +1060,7 @@
         <reading>Mt 13:24-30</reading>
       </mass>
     </week>
-    <week key="week-17" name="Week Seventeen">
+    <week id="week-17" name="Week Seventeen">
       <mass name="Monday">
         <reading cycle="I">Ex 32:15-24,30-34</reading>
         <reading cycle="II">Jer 13:1-11</reading>
@@ -1092,7 +1092,7 @@
         <reading>Mt 14:1-12</reading>
       </mass>
     </week>
-    <week key="week-18" name="Week Eighteen">
+    <week id="week-18" name="Week Eighteen">
       <mass name="Monday">
         <reading cycle="I">Nm 11:4b-15</reading>
         <reading cycle="II">Jer 28:1-17</reading>
@@ -1130,7 +1130,7 @@
         <reading>Mt 17:14-20</reading>
       </mass>
     </week>
-    <week key="week-19" name="Week Nineteen">
+    <week id="week-19" name="Week Nineteen">
       <mass name="Monday">
         <reading cycle="I">Dt 10:12-22</reading>
         <reading cycle="II">Ez 1:2-5,24-28c</reading>
@@ -1162,7 +1162,7 @@
         <reading>Mt 19:13-15</reading>
       </mass>
     </week>
-    <week key="week-20" name="Week Twenty">
+    <week id="week-20" name="Week Twenty">
       <mass name="Monday">
         <reading cycle="I">Jgs 2:11-19</reading>
         <reading cycle="II">Ez 24:15-24</reading>
@@ -1194,7 +1194,7 @@
         <reading>Mt 23:1-12</reading>
       </mass>
     </week>
-    <week key="week-21" name="Week Twenty-one">
+    <week id="week-21" name="Week Twenty-one">
       <mass name="Monday">
         <reading cycle="I">1 Thes 1:2b-5,8b-10</reading>
         <reading cycle="II">2 Thes 1:1-5,11b-12</reading>
@@ -1226,7 +1226,7 @@
         <reading>Mt 25:14-30</reading>
       </mass>
     </week>
-    <week key="week-22" name="Week Twenty-two">
+    <week id="week-22" name="Week Twenty-two">
       <mass name="Monday">
         <reading cycle="I">1 Thes 4:13-18</reading>
         <reading cycle="II">1 Cor 2:1-5</reading>
@@ -1258,7 +1258,7 @@
         <reading>Lk 6:1-5</reading>
       </mass>
     </week>
-    <week key="week-23" name="Week Twenty-three">
+    <week id="week-23" name="Week Twenty-three">
       <mass name="Monday">
         <reading cycle="I">Col 1:24-2:3</reading>
         <reading cycle="II">1 Cor 5:1-8</reading>
@@ -1290,7 +1290,7 @@
         <reading>Lk 6:43-49</reading>
       </mass>
     </week>
-    <week key="week-24" name="Week Twenty-four">
+    <week id="week-24" name="Week Twenty-four">
       <mass name="Monday">
         <reading cycle="I">1 Tm 2:1-8</reading>
         <reading cycle="II">1 Cor 11:17-26,33</reading>
@@ -1322,7 +1322,7 @@
         <reading>Lk 6:4-15</reading>
       </mass>
     </week>
-    <week key="week-25" name="Week Twenty-five">
+    <week id="week-25" name="Week Twenty-five">
       <mass name="Monday">
         <reading cycle="I">Ezr 1:1-6</reading>
         <reading cycle="II">Prv 3:27-34</reading>
@@ -1354,7 +1354,7 @@
         <reading>Lk 9:43b-45</reading>
       </mass>
     </week>
-    <week key="week-26" name="Week Twenty-six">
+    <week id="week-26" name="Week Twenty-six">
       <mass name="Monday">
         <reading cycle="I">Zec 8:1-8</reading>
         <reading cycle="II">Jb 1:6-22</reading>
@@ -1386,7 +1386,7 @@
         <reading>Lk 10:17-24</reading>
       </mass>
     </week>
-    <week key="week-27" name="Week Twenty-seven">
+    <week id="week-27" name="Week Twenty-seven">
       <mass name="Monday">
         <reading cycle="I">Jon 1:1-2:1,11</reading>
         <reading cycle="II">Gal 1:6-12</reading>
@@ -1418,7 +1418,7 @@
         <reading>Lk 11:27-28</reading>
       </mass>
     </week>
-    <week key="week-28" name="Week Twenty-eight">
+    <week id="week-28" name="Week Twenty-eight">
       <mass name="Monday">
         <reading cycle="I">Rom 1:1-7</reading>
         <reading cycle="II">Gal 4:22-24,26-27</reading>
@@ -1450,7 +1450,7 @@
         <reading>Lk 12:8-12</reading>
       </mass>
     </week>
-    <week key="week-29" name="Week Twenty-nine">
+    <week id="week-29" name="Week Twenty-nine">
       <mass name="Monday">
         <reading cycle="I">Rom 4:20-25</reading>
         <reading cycle="II">Eph 2:1-10</reading>
@@ -1482,7 +1482,7 @@
         <reading>Lk 13:1-9</reading>
       </mass>
     </week>
-    <week key="week-30" name="Week Thirty">
+    <week id="week-30" name="Week Thirty">
       <mass name="Monday">
         <reading cycle="I">Rom 8:12-17</reading>
         <reading cycle="II">Eph 4:32-5:8</reading>
@@ -1514,7 +1514,7 @@
         <reading>Lk 14:1,7-11</reading>
       </mass>
     </week>
-    <week key="week-31" name="Week Thirty-one">
+    <week id="week-31" name="Week Thirty-one">
       <mass name="Monday">
         <reading cycle="I">Rom 11:29-36</reading>
         <reading cycle="II">Phil 2:1-4</reading>
@@ -1546,7 +1546,7 @@
         <reading>Lk 16:9-15</reading>
       </mass>
     </week>
-    <week key="week-32" name="Week Thirty-two">
+    <week id="week-32" name="Week Thirty-two">
       <mass name="Monday">
         <reading cycle="I">Wis 1:1-7</reading>
         <reading cycle="II">Ti 1:1-9</reading>
@@ -1578,7 +1578,7 @@
         <reading>Lk 18:1-8</reading>
       </mass>
     </week>
-    <week key="week-33" name="Week Thirty-three">
+    <week id="week-33" name="Week Thirty-three">
       <mass name="Monday">
         <reading cycle="I">1 Mc 1:10-15,41-43,54,57,62,64</reading>
         <reading cycle="II">Rv 1:1-4,2:1-5a</reading>
@@ -1610,7 +1610,7 @@
         <reading>Lk 20:27-40</reading>
       </mass>
     </week>
-    <week key="week-34" name="Week Thirty-four">
+    <week id="week-34" name="Week Thirty-four">
       <mass name="Monday">
         <reading cycle="I">Dn 1:1-6,8-20</reading>
         <reading cycle="II">Rv 14:1-3,4b-5</reading>
