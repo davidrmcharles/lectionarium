@@ -46,13 +46,13 @@ class Mass(object):
     technically isn't a mass).
     '''
 
-    def __init__(self, name, readings, fixedMonth=None, fixedDay=None):
-        self._id = None
-        self._name = name
+    def __init__(self, readings):
         self._readings = readings
+        self._id = None
+        self._name = None
         self._normalName = None
-        self._fixedMonth = fixedMonth
-        self._fixedDay = fixedDay
+        self._fixedMonth = None
+        self._fixedDay = None
         self._cycle = None
         self._weekKey = None
         self._seasonKey = None
@@ -85,6 +85,10 @@ class Mass(object):
 
         return self._name
 
+    @name.setter
+    def name(self, newValue):
+        self._name = newValue
+
     @property
     def readings(self):
         '''
@@ -113,7 +117,7 @@ class Mass(object):
                     '',
                     self._name).lower().split())
         else:
-            return'%02d-%02d' % (self.fixedMonth, self.fixedDay)
+            return '%02d-%02d' % (self.fixedMonth, self.fixedDay)
 
     @property
     def uniqueID(self):
@@ -161,9 +165,17 @@ class Mass(object):
     def fixedMonth(self):
         return self._fixedMonth
 
+    @fixedMonth.setter
+    def fixedMonth(self, newValue):
+        self._fixedMonth = newValue
+
     @property
     def fixedDay(self):
         return self._fixedDay
+
+    @fixedDay.setter
+    def fixedDay(self, newValue):
+        self._fixedDay = newValue
 
     @property
     def isSundayInOrdinaryTime(self):
@@ -173,12 +185,6 @@ class Mass(object):
 
         return self.normalName.startswith('sunday') and \
             (self._seasonKey == 'ordinary')
-
-        # if 'christ-the-king' in self.normalName:
-        #     return True
-        # else:
-        #     return re.match(
-        #         r'[0-9][0-9]?..-sunday$', self.normalName) is not None
 
     @property
     def weekKey(self):
@@ -521,7 +527,10 @@ class Lectionary(object):
             elif child_node.localName == 'choice':
                 readings.extend(self._decode_choice(child_node))
 
-        mass = Mass(name, readings, fixedMonth, fixedDay)
+        mass = Mass(readings)
+        mass.name = name
+        mass.fixedMonth = fixedMonth
+        mass.fixedDay = fixedDay
         mass.id = id_
         mass.weekKey = weekid
         return mass

@@ -17,27 +17,25 @@ class MassTestCase(unittest.TestCase):
 
     def test_isSundayInOrdinaryTime(self):
 
-        mass = lectionary.Mass('2nd Sunday', [], None)
+        mass = lectionary.Mass([])
         mass.id = 'sunday'
         mass.weekKey = 'week-2'
         mass.seasonKey = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
-        mass = lectionary.Mass('22nd Sunday', [], None)
+        mass = lectionary.Mass([])
         mass.id = 'sunday'
         mass.weekKey = 'week-22'
         mass.seasonKey = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
-        mass = lectionary.Mass(
-            '34th Sunday (Christ the King)', [], None)
+        mass = lectionary.Mass([])
         mass.id = 'sunday-christ-the-king'
         mass.weekKey = 'week-34'
         mass.seasonKey = 'ordinary'
         self.assertTrue(mass.isSundayInOrdinaryTime)
 
-        mass = lectionary.Mass(
-            '4th Sunday of Lent', [], None)
+        mass = lectionary.Mass([])
         mass.id = 'sunday'
         mass.weekKey = 'week-4'
         mass.seasonKey = 'lent'
