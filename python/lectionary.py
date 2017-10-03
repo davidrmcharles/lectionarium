@@ -47,6 +47,7 @@ class Mass(object):
     '''
 
     def __init__(self, name, readings, fixedMonth=None, fixedDay=None):
+        self._id = None
         self._name = name
         self._readings = readings
         self._normalName = None
@@ -62,6 +63,19 @@ class Mass(object):
     def __repr__(self):
         return '<lectionary.Mass object %s at 0x%x>' % (
             self.uniqueID, id(self))
+
+    @property
+    def id(self):
+        '''
+        A computer-friendly name for the mass (appearing in the XML
+        file).
+        '''
+
+        return self._id
+
+    @id.setter
+    def id(self, newValue):
+        self._id = newValue
 
     @property
     def name(self):
@@ -90,7 +104,9 @@ class Mass(object):
         * All other non-alphanumeric characters removed
         '''
 
-        if self._name is not None:
+        if self._id is not None:
+            return self._id
+        elif self._name is not None:
             return '-'.join(
                 re.sub(
                     r'[^[A-Za-z0-9 ]',
@@ -113,6 +129,9 @@ class Mass(object):
 
         # We identify the A/B/C cycle masses with a cycle prefix.
         if self._cycle is not None:
+            if self._weekKey is not None:
+                return '%s/%s/%s' % (
+                    self._cycle, self._weekKey, self.normalName)
             return '%s/%s' % (self._cycle, self.normalName)
 
         # If it's not a fixed-date mass and its not an A/B/C cycle
@@ -152,11 +171,14 @@ class Mass(object):
         ``True`` if this mass is a Sunday in Ordinary Time.
         '''
 
-        if 'christ-the-king' in self.normalName:
-            return True
-        else:
-            return re.match(
-                r'[0-9][0-9]?..-sunday$', self.normalName) is not None
+        return self.normalName.startswith('sunday') and \
+            (self._seasonKey == 'ordinary')
+
+        # if 'christ-the-king' in self.normalName:
+        #     return True
+        # else:
+        #     return re.match(
+        #         r'[0-9][0-9]?..-sunday$', self.normalName) is not None
 
     @property
     def weekKey(self):
@@ -487,6 +509,8 @@ class Lectionary(object):
             fixedMonth, fixedDay = fixedDate.split('-')
             fixedMonth, fixedDay = int(fixedMonth), int(fixedDay)
 
+        weekid = _attr(mass_node, 'weekid', ifMissing=None)
+        id_ = _attr(mass_node, 'id', ifMissing=None)
         name = _attr(mass_node, 'name', ifMissing=None)
 
         readings = []
@@ -497,7 +521,10 @@ class Lectionary(object):
             elif child_node.localName == 'choice':
                 readings.extend(self._decode_choice(child_node))
 
-        return Mass(name, readings, fixedMonth, fixedDay)
+        mass = Mass(name, readings, fixedMonth, fixedDay)
+        mass.id = id_
+        mass.weekKey = weekid
+        return mass
 
     def _decode_reading(self, reading_node):
         '''
