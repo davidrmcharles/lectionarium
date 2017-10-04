@@ -50,7 +50,6 @@ class Mass(object):
         self._readings = readings
         self._id = None
         self._name = None
-        self._normalName = None
         self._fixedMonth = None
         self._fixedDay = None
         self._cycle = None
@@ -62,16 +61,28 @@ class Mass(object):
 
     def __repr__(self):
         return '<lectionary.Mass object %s at 0x%x>' % (
-            self.uniqueID, id(self))
+            self.fqid, id(self))
 
     @property
     def id(self):
         '''
-        A computer-friendly name for the mass (appearing in the XML
-        file).
+        A computer-friendly identifier for the mass.
+
+        * All lowercase
+        * All spaces converted to hyphens
+        * All other non-alphanumeric characters removed
         '''
 
-        return self._id
+        if self._id is not None:
+            return self._id
+        elif self._name is not None:
+            return '-'.join(
+                re.sub(
+                    r'[^[A-Za-z0-9 ]',
+                    '',
+                    self._name).lower().split())
+        else:
+            return '%02d-%02d' % (self.fixedMonth, self.fixedDay)
 
     @id.setter
     def id(self, newValue):
@@ -98,43 +109,20 @@ class Mass(object):
         return self._readings
 
     @property
-    def normalName(self):
+    def fqid(self):
         '''
-        An computer-friendly name for the mass, but not necessarily a
-        unique identifier:
-
-        * All lowercase
-        * All spaces converted to hyphens
-        * All other non-alphanumeric characters removed
+        A fully-qualified identifier for the mass that builds upon
+        ``id``.
         '''
 
-        if self._id is not None:
-            return self._id
-        elif self._name is not None:
-            return '-'.join(
-                re.sub(
-                    r'[^[A-Za-z0-9 ]',
-                    '',
-                    self._name).lower().split())
-        else:
-            return '%02d-%02d' % (self.fixedMonth, self.fixedDay)
-
-    @property
-    def uniqueID(self):
-        '''
-        A unique identifier for the mass that builds upon
-        ``normalName``, adding the additional context necessary to
-        make it unique.
-        '''
-
-        # We identify the fixed-date masses by normalized name alone.
+        # We identify the fixed-date masses by id alone.
         if self._fixedDay is not None:
-            return self.normalName
+            return self.id
 
         # If it's not a fixed-date mass, we qualify it as much as
-        # possible.  One exception for the moment is that we don't
+        # possible.  One exception (for the moment) is that we don't
         # indicate ordinary-time masses as such.
-        tokens = [self.normalName]
+        tokens = [self.id]
         if self._weekid is not None:
             tokens.insert(0, self._weekid)
         if self._seasonid is not None and self._seasonid != 'ordinary':
@@ -158,6 +146,11 @@ class Mass(object):
 
     @property
     def fixedMonth(self):
+        '''
+        The month as an ``int``, if this is a fixed-date mass.
+        Otherwise, ``None``.
+        '''
+
         return self._fixedMonth
 
     @fixedMonth.setter
@@ -166,6 +159,11 @@ class Mass(object):
 
     @property
     def fixedDay(self):
+        '''
+        The day as an ``int``, if this is a fixed-date mass.
+        Otherwise, ``None``.
+        '''
+
         return self._fixedDay
 
     @fixedDay.setter
@@ -178,14 +176,14 @@ class Mass(object):
         ``True`` if this mass is a Sunday in Ordinary Time.
         '''
 
-        return self.normalName.startswith('sunday') and \
+        return self.id.startswith('sunday') and \
             (self._seasonid == 'ordinary')
 
     @property
     def weekid(self):
         '''
-        For weekday masses, a computer-friendly identifier for the
-        week.  Otherwise, ``None``.
+        A computer-friendly identifier for the week.  Otherwise,
+        ``None``.
         '''
 
         return self._weekid
@@ -197,8 +195,8 @@ class Mass(object):
     @property
     def seasonid(self):
         '''
-        For weekday masses, a computer-friendly identifier for the
-        season.  Othewise, ``None``.
+        A computer-friendly identifier for the season.  Othewise,
+        ``None``.
         '''
 
         return self._seasonid
@@ -347,13 +345,13 @@ class Lectionary(object):
             if (mass.seasonid == seasonid) and (mass.weekid == weekid)
             ]
 
-    def findMass(self, uniqueID):
+    def findMass(self, fqid):
         '''
-        Return the mass having `uniqueID`, otherwise return ``None``.
+        Return the mass having `fqid`, otherwise return ``None``.
         '''
 
         for mass in self._allMasses:
-            if mass.uniqueID == uniqueID:
+            if mass.fqid == fqid:
                 return mass
         return None
 
@@ -382,9 +380,9 @@ class Lectionary(object):
         lines.append('=' * 80)
         for massA, massB, massC in zip(
             self._cycleAMasses, self._cycleBMasses, self._cycleCMasses):
-            massAToken = truncateToken(massA.uniqueID, 24)
-            massBToken = truncateToken(massB.uniqueID, 24)
-            massCToken = truncateToken(massC.uniqueID, 24)
+            massAToken = truncateToken(massA.fqid, 24)
+            massBToken = truncateToken(massB.fqid, 24)
+            massCToken = truncateToken(massC.fqid, 24)
             lines.append(
                 '* %-24s * %-24s * %-24s' % (
                     massAToken, massBToken, massCToken))
@@ -395,11 +393,11 @@ class Lectionary(object):
         lines.append('=' * 80)
         for index in range(0, len(self._fixedDateMasses), 2):
             mass1 = self._fixedDateMasses[index]
-            mass1Token = '* %s' % mass1.uniqueID
+            mass1Token = '* %s' % mass1.fqid
             mass2Token = ''
             if (index + 1) < len(self._fixedDateMasses):
                 mass2 = self.fixedDateMasses[index + 1]
-                mass2Token = '* %s' % mass2.uniqueID
+                mass2Token = '* %s' % mass2.fqid
             lines.append(
                 '     %-28s          %-28s' % (
                     mass1Token, mass2Token))
@@ -1136,15 +1134,15 @@ class Calendar(object):
         for mass in _lectionary.fixedDateMasses:
             d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
 
-            if (mass.normalName == 'joseph-husband-of-mary') and \
+            if (mass.id == 'joseph-husband-of-mary') and \
                     (d.weekday() == 6):
                 d += datetime.timedelta(days=1)
 
-            if mass.normalName in (
+            if mass.id in (
                 'all-souls-second-mass', 'all-souls-third-mass'):
-                self._appendMass(d, mass.normalName)
+                self._appendMass(d, mass.id)
             else:
-                self._assignMass(d, mass.normalName)
+                self._assignMass(d, mass.id)
 
     def _assignMass(self, d, mass):
         '''
@@ -1186,7 +1184,7 @@ class MalformedQueryError(ValueError):
 def parse(query):
     '''
     Parse `query` and return all possible matching masses as a list of
-    unique identifiers.
+    fully-qualified identifiers.
 
     :raises TypeError: if `query` is not a string
     :raises MalformedQueryError: if `query` cannot be parsed
@@ -1214,33 +1212,33 @@ def parse(query):
             query,
             'Too many slashes in query "%s"!' % (query))
 
-    # Isolate the cycle (if any) and the normal name substring.
+    # Isolate the cycle (if any) and the id substring.
     cycle = None
     if len(slash_tokens) == 2:
-        cycle, normalNameSubstring = slash_tokens
+        cycle, idSubstring = slash_tokens
         if cycle.lower() not in ('a', 'b', 'c'):
             raise MalformedQueryError(
                 query,
                 'Cycle is "%s", but must be one of A, B, or C (in either case)!' % (
                     cycle))
     elif len(slash_tokens) == 1:
-        normalNameSubstring = slash_tokens[0]
+        idSubstring = slash_tokens[0]
 
     # Collect all matches and return them.
     def isMatch(mass):
         '''
         Return ``True`` if `mass` has a matching `cycle` and contains
-        `normalNameSubstring` within its `normalName`.
+        `idSubstring` within its `id`.
         '''
 
         if cycle is None:
-            return normalNameSubstring in mass.normalName
+            return idSubstring in mass.id
         else:
             return (mass.cycle == cycle) and \
-                (normalNameSubstring in mass.normalName)
+                (idSubstring in mass.id)
 
     return [
-        mass.uniqueID
+        mass.fqid
         for mass in _lectionary.allMasses
         if isMatch(mass)
         ]
@@ -1252,10 +1250,10 @@ class NonSingularResultsError(ValueError):
     single result.
     '''
 
-    def __init__(self, query, massUniqueIDs):
+    def __init__(self, query, fqids):
         self.query = query
-        self.massUniqueIDs = massUniqueIDs
-        if len(self.massUniqueIDs) == 0:
+        self.fqids = fqids
+        if len(self.fqids) == 0:
             message = 'Query "%s" doesn\'t match anything!' % self.query
         else:
             message = '''\
@@ -1265,8 +1263,8 @@ Query "%s" matches multiple masses.  Did you mean?
 
 Provide additional query text to disambiguate.
 ''' % (self.query, '\n'.join([
-                        '* %s' % uniqueID
-                        for uniqueID in self.massUniqueIDs
+                        '* %s' % fqid
+                        for fqid in self.fqids
                         ]))
         ValueError.__init__(self, message)
 
@@ -1278,11 +1276,11 @@ def getReadings(query):
 
     # Parse the query and fail if it returns anything but exactly one
     # result.
-    massUniqueIDs = parse(query)
-    if len(massUniqueIDs) != 1:
-        raise NonSingularResultsError(query, massUniqueIDs)
+    fqids = parse(query)
+    if len(fqids) != 1:
+        raise NonSingularResultsError(query, fqids)
 
-    massUniqueID = massUniqueIDs[0]
+    massUniqueID = fqids[0]
     mass = _lectionary.findMass(massUniqueID)
 
     readings = collections.OrderedDict()
