@@ -366,7 +366,7 @@
     </week>
   </season>
   <season id="easter" name="Easter Season">
-    <week id="octave" name="Octave of Easter">
+    <week id="week-1" name="Octave of Easter">
       <mass name="Monday">
         <reading>Acts 2:14,22-32</reading>
         <reading>Mt 28:8-15</reading>

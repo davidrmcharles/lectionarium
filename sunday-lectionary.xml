@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <lectionary name="THE NEW 3-YEAR CYCLE OF READINGS FOR SUNDAY MASS">
   <cycle id="A" name="Year A" desc="2015 2008 2011 2014 2017 2020 2023">
-    <season name="Advent Season">
-      <mass name="1st Sunday of Advent">
+    <season id="advent" name="Advent Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
         <reading>Is 2:1-5</reading>
         <reading>Rom 13:11-14</reading>
         <reading>Mt 24:37-44</reading>
       </mass>
-      <mass name="2nd Sunday of Advent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
         <reading>Is 11:1-10</reading>
         <reading>Rom 15:4-9</reading>
         <reading>Mt 3:1-12</reading>
       </mass>
-      <mass name="3rd Sunday of Advent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
         <reading>Is 35:1-6a,10</reading>
         <reading>Jas 5:7-10</reading>
         <reading>Mt 11:2-11</reading>
       </mass>
-      <mass name="4th Sunday of Advent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Advent">
         <reading>Is 7:10-14</reading>
         <reading>Rom 1:1-7</reading>
         <reading>Mt 1:18-24</reading>
@@ -70,28 +70,28 @@
         <reading>Mt 3:13-17</reading>
       </mass>
     </season>
-    <season name="Lenten Season">
-      <mass name="1st Sunday of Lent">
+    <season id="lent" name="Lenten Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
         <reading>Gn 2:7-9,3:1-7</reading>
         <reading>Rom 5:12-19</reading>
         <reading>Mt 4:1-11</reading>
       </mass>
-      <mass name="2nd Sunday of Lent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
         <reading>Gn 12:1-4a</reading>
         <reading>2 Tm 1:8b-10</reading>
         <reading>Mt 17:1-9</reading>
       </mass>
-      <mass name="3rd Sunday of Lent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
         <reading>Ex 17:3-7</reading>
         <reading>Rom 5:1-2,5-8</reading>
         <reading>Jn 4:5-42</reading>
       </mass>
-      <mass name="4th Sunday of Lent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
         <reading>1 Sm 16:1b,6-7,10-13a</reading>
         <reading>Eph 5:8-14</reading>
         <reading>Jn 9:1-41</reading>
       </mass>
-      <mass name="5th Sunday of Lent">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
         <reading>Ez 37:12-14</reading>
         <reading>Rom 8:8-11</reading>
         <reading>Jn 11:1-45</reading>
@@ -102,8 +102,8 @@
         <reading>Mt 26:14-27,66</reading>
       </mass>
     </season>
-    <season name="Easter Triduum and Easter Season">
-      <mass name="Mass of Lord's Supper">
+    <season id="easter" name="Easter Triduum and Easter Season">
+      <mass name="Mass of the Lord's Supper">
         <reading>Ex 12:1-8,11-14</reading>
         <reading>1 Cor 11:23-26</reading>
         <reading>Jn 13:1-15</reading>
@@ -124,7 +124,7 @@
         <reading>Rom 6:3-11</reading>
         <reading>Mt 28:1-10</reading>
       </mass>
-      <mass name="Easter Sunday">
+      <mass weekid="week-1" id="sunday" name="Easter Sunday">
         <reading>Acts 10:34a,37-43</reading>
         <choice>
           <reading>Col 3:1-4</reading>
@@ -136,27 +136,27 @@
           <reading>Lk 24:13-35</reading>
         </choice>
       </mass>
-      <mass name="2nd Sunday of Easter">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
         <reading>Acts 2:42-47</reading>
         <reading>1 Pt 1:3-9</reading>
         <reading>Jn 20:19-31</reading>
       </mass>
-      <mass name="3rd Sunday of Easter">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
         <reading>Acts 2:14,22-33</reading>
         <reading>1 Pt 1:17-21</reading>
         <reading>Lk 24:13-35</reading>
       </mass>
-      <mass name="4th Sunday of Easter">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
         <reading>Acts 2:14a,36-41</reading>
         <reading>1 Pt 2:20b-25</reading>
         <reading>Jn 10,1-10</reading>
       </mass>
-      <mass name="5th Sunday of Easter">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
         <reading>Acts 6:1-7</reading>
         <reading>1 Pt 2:4-9</reading>
         <reading>Jn 14:1-12</reading>
       </mass>
-      <mass name="6th Sunday of Easter">
+      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
         <reading>Acts 8:5-8,14-17</reading>
         <reading>1 Pt 3:15-18</reading>
         <reading>Jn 14:15-21</reading>
@@ -166,7 +166,7 @@
         <reading>Eph 1:17-23</reading>
         <reading>Mt 28:16-20</reading>
       </mass>
-      <mass name="7th Sunday of Easter">
+      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
         <reading>Acts 1:12-14</reading>
         <reading>1 Pt 4:13-16</reading>
         <reading>Jn 17:1-11a</reading>
@@ -372,23 +372,23 @@
     </season>
   </cycle>
   <cycle id="B" name="Year B" desc="2006 2009 2012 2015 2018 2021 2024">
-    <season name="Advent Season">
-      <mass name="1st Sunday of Advent">
+    <season id="advent" name="Advent Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
         <reading>Is 63:16b-17,19b,64:2b-7</reading>
         <reading>1 Cor 1:3-9</reading>
         <reading>Mk 13:33-37</reading>
       </mass>
-      <mass name="2nd Sunday of Advent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
         <reading>Is 40:1-5,9-11</reading>
         <reading>2 Pt 3:8-14</reading>
         <reading>Mk 1:1-8</reading>
       </mass>
-      <mass name="3rd Sunday of Advent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
         <reading>Is 61:1-2a,10-11</reading>
         <reading>1 Thes 5:16-24</reading>
         <reading>Jn 1:6-8,19-28</reading>
       </mass>
-      <mass name="4th Sunday of Advent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Advent">
         <reading>2 Sm 7:1-5,8b-12,14a,16</reading>
         <reading>Rom 16:25-27</reading>
         <reading>Lk 1:26-38</reading>
@@ -444,28 +444,28 @@
         <reading>Mk 1:7-11</reading>
       </mass>
     </season>
-    <season name="Lenten Season">
-      <mass name="1st Sunday of Lent">
+    <season id="lent" name="Lenten Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
         <reading>Gn 9:8-15</reading>
         <reading>1 Pt 3:18-22</reading>
         <reading>Mk 1:12-15</reading>
       </mass>
-      <mass name="2nd Sunday of Lent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
         <reading>Gn 22:1-2,9a,10-13,15-18</reading>
         <reading>Rom 8:31b-34</reading>
         <reading>Mk 9:2-10</reading>
       </mass>
-      <mass name="3rd Sunday of Lent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
         <reading>Ex 20:1-17</reading>
         <reading>1 Cor 1:22-25</reading>
         <reading>Jn 2:13-25</reading>
       </mass>
-      <mass name="4th Sunday of Lent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
         <reading>2 Chr 36:14-16,19-23</reading>
         <reading>Eph 2:4-10</reading>
         <reading>Jn 3:14-21</reading>
       </mass>
-      <mass name="5th Sunday of Lent">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
         <reading>Jer 31:31-34</reading>
         <reading>Heb 5:7-9</reading>
         <reading>Jn 12:20-33</reading>
@@ -480,7 +480,7 @@
         <reading>Mk 14:1-15:47</reading>
       </mass>
     </season>
-    <season name="Easter Triduum and Easter Season">
+    <season id="easter" name="Easter Triduum and Easter Season">
       <mass name="Mass of the Lord's Supper">
         <reading>Ex 12:1-8,11-14</reading>
         <reading>1 Cor 11:23-26</reading>
@@ -502,7 +502,7 @@
         <reading>Rom 6:3-11</reading>
         <reading>Mk 16:1-7</reading>
       </mass>
-      <mass name="Easter Sunday">
+      <mass weekid="week-1" id="sunday" name="Easter Sunday">
         <reading>Acts 10:34a,37-43</reading>
         <choice>
           <reading>Col 3:1-4</reading>
@@ -514,27 +514,27 @@
           <reading>Lk 24:13-35</reading>
         </choice>
       </mass>
-      <mass name="2nd Sunday of Easter">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
         <reading>Acts 4:32-35</reading>
         <reading>1 Jn 5:1-6</reading>
         <reading>Jn 20:19-31</reading>
       </mass>
-      <mass name="3rd Sunday of Easter">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
         <reading>Acts 3:13-15,17-19</reading>
         <reading>1 Jn 2:1-5a</reading>
         <reading>Lk 24:35-48</reading>
       </mass>
-      <mass name="4th Sunday of Easter">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
         <reading>Acts 4:8-12</reading>
         <reading>1 Jn 3:1-2</reading>
         <reading>Jn 10:11-18</reading>
       </mass>
-      <mass name="5th Sunday of Easter">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
         <reading>Acts 9:26-31</reading>
         <reading>1 Jn 3:18-24</reading>
         <reading>Jn 15:1-8</reading>
       </mass>
-      <mass name="6th Sunday of Easter">
+      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
         <reading>Acts 10:25-26,34-35,44-48</reading>
         <reading>1 Jn 4:7-10</reading>
         <reading>Jn 15:9-17</reading>
@@ -547,7 +547,7 @@
         </choice>
         <reading>Mk 16:15-20</reading>
       </mass>
-      <mass name="7th Sunday of Easter">
+      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
         <reading>Acts 1:15-17,20a,20c-26</reading>
         <reading>1 Jn 4:11-16</reading>
         <reading>Jn 17:11b-19</reading>
@@ -759,23 +759,23 @@
     </season>
   </cycle>
   <cycle id="C" name="Year C" desc="2007 2010 2013 2016 2019 2022 2025">
-    <season name="Advent Season">
-      <mass name="1st Sunday of Advent">
+    <season id="advent" name="Advent Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
         <reading>Jer 33:14-16</reading>
         <reading>1 Thes 3:12-4:2</reading>
         <reading>Lk 21:25-28,34-36</reading>
       </mass>
-      <mass name="2nd Sunday of Advent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
         <reading>Bar 5:1-9</reading>
         <reading>Phil 1:4-6,8-11</reading>
         <reading>Lk 3:1-6</reading>
       </mass>
-      <mass name="3rd Sunday of Advent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
         <reading>Zep 3:14-18a</reading>
         <reading>Phil 4:4-7</reading>
         <reading>Lk 3:10-18</reading>
       </mass>
-      <mass name="4th Sunday Advent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday Advent">
         <reading>Mi 5:1-4a</reading>
         <reading>Heb 10:5-10</reading>
         <reading>Lk 1:39-45</reading>
@@ -828,28 +828,28 @@
         <reading>Lk 3:15-16,21-22</reading>
       </mass>
     </season>
-    <season name="Lenten Season">
-      <mass name="1st Sunday of Lent">
+    <season id="lent" name="Lenten Season">
+      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
         <reading>Dt 26:4-10</reading>
         <reading>Rom 10:8-13</reading>
         <reading>Lk 4:1-13</reading>
       </mass>
-      <mass name="2nd Sunday of Lent">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
         <reading>Gn 15:5-12,17-18</reading>
         <reading>Phil 3:17-4:1</reading>
         <reading>Lk 9:28b-36</reading>
       </mass>
-      <mass name="3rd Sunday of Lent">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
         <reading>Ex 3:1-8a,13-15</reading>
         <reading>1 Cor 10:1-6,10-12</reading>
         <reading>Lk 13:1-9</reading>
       </mass>
-      <mass name="4th Sunday of Lent">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
         <reading>Jos 5:9a,10-12</reading>
         <reading>2 Cor 5:17-21</reading>
         <reading>Lk 15:1-3,11-32</reading>
       </mass>
-      <mass name="5th Sunday of Lent">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
         <reading>Is 43:16-21</reading>
         <reading>Phil 3:8-14</reading>
         <reading>Jn 8:1-11</reading>
@@ -861,8 +861,8 @@
         <reading>Lk 22:14-23:56</reading>
       </mass>
     </season>
-    <season name="Easter Triduum and Easter Season">
-      <mass name="Mass of Lord's Supper">
+    <season id="easter" name="Easter Triduum and Easter Season">
+      <mass name="Mass of the Lord's Supper">
         <reading>Ex 12:1-8,11-14</reading>
         <reading>1 Cor 11:23-26</reading>
         <reading>Jn 13:1-15</reading>
@@ -883,7 +883,7 @@
         <reading>Rom 6:3-11</reading>
         <reading>Lk 24:1-12</reading>
       </mass>
-      <mass name="Easter Sunday">
+      <mass weekid="week-1" id="sunday" name="Easter Sunday">
         <reading>Acts 10:34a,37-43</reading>
         <choice>
           <reading>Col 3:1-4</reading>
@@ -895,12 +895,12 @@
           <reading>Lk 24:13-35</reading>
         </choice>
       </mass>
-      <mass name="2nd Sunday of Easter">
+      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
         <reading>Acts 5:12-16</reading>
         <reading>Rv 1:9-11a,12-13,17-19</reading>
         <reading>Jn 20:19-31</reading>
       </mass>
-      <mass name="3rd Sunday of Easter">
+      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
         <reading>Acts 5:27b-32,40b-41</reading>
         <reading>Rv 5:11-14</reading>
         <choice>
@@ -908,17 +908,17 @@
           <reading>Jn 21:1-14</reading>
         </choice>
       </mass>
-      <mass name="4th Sunday of Easter">
+      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
         <reading>Acts 13:14,43-52</reading>
         <reading>Rv 7:9,14b-17</reading>
         <reading>Jn 10:27-30</reading>
       </mass>
-      <mass name="5th Sunday of Easter">
+      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
         <reading>Acts 14:21b-27</reading>
         <reading>Rv 21:1-5a</reading>
         <reading>Jn 13:31-33a,34-35</reading>
       </mass>
-      <mass name="6th Sunday of Easter">
+      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
         <reading>Acts 15:1-2,22-27</reading>
         <reading>Rv 21:10-14,22-23</reading>
         <reading>Jn 14:23-29</reading>
@@ -931,7 +931,7 @@
         </choice>
         <reading>Lk 24:46-53</reading>
       </mass>
-      <mass name="7th Sunday of Easter">
+      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
         <reading>Acts 7:55-60</reading>
         <reading>Rv 22:12-14,16-17,20</reading>
         <reading>Jn 17:20-26</reading>
