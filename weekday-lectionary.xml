@@ -345,25 +345,25 @@
         <reading>Jn 11:45-56</reading>
       </mass>
     </week>
-    <week id="holy-week" name="Holy Week">
-      <mass name="Monday">
-        <reading>Is 42:1-7</reading>
-        <reading>Jn 12:1-11</reading>
-      </mass>
-      <mass name="Tuesday">
-        <reading>Is 49:1-6</reading>
-        <reading>Jn 13:21-33,36-38</reading>
-      </mass>
-      <mass name="Wednesday">
-        <reading>Is 50:4-9a</reading>
-        <reading>Mt 26:14-25</reading>
-      </mass>
-      <mass name="Thursday Chrism Mass">
-        <reading>Is 61:1-3a,6a,8b-9</reading>
-        <reading>Rv 1:5-8</reading>
-        <reading>Lk 4:16-21</reading>
-      </mass>
-    </week>
+  </season>
+  <season id="holy-week" name="Holy Week">>
+    <mass name="Monday">
+      <reading>Is 42:1-7</reading>
+      <reading>Jn 12:1-11</reading>
+    </mass>
+    <mass name="Tuesday">
+      <reading>Is 49:1-6</reading>
+      <reading>Jn 13:21-33,36-38</reading>
+    </mass>
+    <mass name="Wednesday">
+      <reading>Is 50:4-9a</reading>
+      <reading>Mt 26:14-25</reading>
+    </mass>
+    <mass name="Thursday Chrism Mass">
+      <reading>Is 61:1-3a,6a,8b-9</reading>
+      <reading>Rv 1:5-8</reading>
+      <reading>Lk 4:16-21</reading>
+    </mass>
   </season>
   <season id="easter" name="Easter Season">
     <week id="week-1" name="Octave of Easter">

@@ -96,13 +96,13 @@
         <reading>Rom 8:8-11</reading>
         <reading>Jn 11:1-45</reading>
       </mass>
+    </season>
+    <season id="holy-week">
       <mass name="Palm Sunday">
         <reading>Mt 21:1-11</reading>
         <reading>Is 50:4-7</reading>
         <reading>Mt 26:14-27,66</reading>
       </mass>
-    </season>
-    <season id="easter" name="Easter Triduum and Easter Season">
       <mass name="Mass of the Lord's Supper">
         <reading>Ex 12:1-8,11-14</reading>
         <reading>1 Cor 11:23-26</reading>
@@ -113,6 +113,8 @@
         <reading>Heb 4:14-16,5:7-9</reading>
         <reading>Jn 18:1-19,42</reading>
       </mass>
+    </season>
+    <season id="easter" name="Easter Triduum and Easter Season">
       <mass name="Easter Vigil">
         <reading>Gn 1:1-2:2</reading>
         <reading>Gn 22:1-18</reading>

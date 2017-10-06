@@ -920,24 +920,24 @@ class Calendar(object):
 
         # Holy Week
         dateOfPalmSunday = _nextSunday(self.dateOfEaster, -1)
-        self._assignMass(dateOfPalmSunday, '%s/lent/palm-sunday')
+        self._assignMass(dateOfPalmSunday, '%s/holy-week/palm-sunday')
 
         massDates = _followingDays(dateOfPalmSunday, 4)
         massKeys = (
             'monday', 'tuesday', 'wednesday', 'thursday-chrism-mass'
             )
         for massDate, massKey in zip(massDates, massKeys):
-            mass = _lectionary.findMass('lent/holy-week/%s' % massKey)
+            mass = _lectionary.findMass('holy-week/%s' % massKey)
             self._assignMass(
                 massDate,
                 mass)
 
         self._appendMass(
             self.dateOfEaster - datetime.timedelta(days=3),
-            '%s/easter/mass-of-the-lords-supper')
+            '%s/holy-week/mass-of-the-lords-supper')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=2),
-            '%s/easter/good-friday')
+            '%s/holy-week/good-friday')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=1),
             '%s/easter/easter-vigil')
