@@ -116,27 +116,27 @@
   </season>
   <season id="christmas" name="Christmas Season">
     <week id="octave" name="Octave of Christmas">
-      <mass name="Second day (St. Stephen)">
+      <mass id="day-2-st-stephen" name="Second day (St. Stephen)">
         <reading>Acts 6:8-10,7:54-59</reading>
         <reading>Mt 10:17-22</reading>
       </mass>
-      <mass name="Third day (St. John)">
+      <mass id="day-3-st-john" name="Third day (St. John)">
         <reading>1 Jn 1:1-4</reading>
         <reading>Jn 20:2-8</reading>
       </mass>
-      <mass name="Fourth day (Holy Innocents)">
+      <mass id="day-4-holy-innocents" name="Fourth day (Holy Innocents)">
         <reading>1 Jn 1:5-2:2</reading>
         <reading>Mt 2:13-18</reading>
       </mass>
-      <mass name="Fifth day">
+      <mass id="day-5" name="Fifth day">
         <reading>1 Jn 2:3-11</reading>
         <reading>Lk 2:22-35</reading>
       </mass>
-      <mass name="Sixth day">
+      <mass id="day-6" name="Sixth day">
         <reading>1 Jn 2:12-17</reading>
         <reading>Lk 2:36-40</reading>
       </mass>
-      <mass name="Seventh day">
+      <mass id="day-7" name="Seventh day">
         <reading>1 Jn 2:18-21</reading>
         <reading>Jn 1:1-18</reading>
       </mass>

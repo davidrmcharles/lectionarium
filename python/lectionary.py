@@ -816,12 +816,12 @@ class Calendar(object):
         # The Octave of Christmas.
         massDates = _followingDays(self.dateOfPreviousChristmas, 6)
         massKeys = (
-            'second-day-st-stephen',
-            'third-day-st-john',
-            'fourth-day-holy-innocents',
-            'fifth-day',
-            'sixth-day',
-            'seventh-day',
+            'day-2-st-stephen',
+            'day-3-st-john',
+            'day-4-holy-innocents',
+            'day-5',
+            'day-6',
+            'day-7',
             )
         for massDate, massKey in zip(massDates, massKeys):
             if massDate.year < self._year:
@@ -1035,12 +1035,12 @@ class Calendar(object):
             self.dateOfChristmas + datetime.timedelta(days=1),
             datetime.date(self._year, 12, 31))
         massKeys = (
-            'second-day-st-stephen',
-            'third-day-st-john',
-            'fourth-day-holy-innocents',
-            'fifth-day',
-            'sixth-day',
-            'seventh-day',
+            'day-2-st-stephen',
+            'day-3-st-john',
+            'day-4-holy-innocents',
+            'day-5',
+            'day-6',
+            'day-7',
             )
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
