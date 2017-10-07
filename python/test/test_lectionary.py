@@ -376,7 +376,7 @@ class CalendarTestCase(unittest.TestCase):
             # June
             (6, 1, ['easter/week-7/thursday']),
             (6, 2, ['easter/week-7/friday']),
-            (6, 3, ['easter/week-7/saturday']),
+            (6, 3, ['easter/week-7/saturday', 'a/easter/pentecost-vigil']),
 
             (6, 4, ['a/easter/pentecost']),
             (6, 5, ['week-9/monday']),

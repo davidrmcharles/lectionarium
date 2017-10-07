@@ -950,7 +950,6 @@ class Calendar(object):
             _nextSunday(self.dateOfEaster, 4),
             _nextSunday(self.dateOfEaster, 5),
             _nextSunday(self.dateOfEaster, 6),
-            _nextSunday(self.dateOfEaster, 7),
             )
         for sundayIndex, sundayDate in enumerate(sundayDates):
             # Assign the Sunday mass.
@@ -965,8 +964,8 @@ class Calendar(object):
                     'easter', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
-        self._assignMass(
-            self.dateOfEaster + datetime.timedelta(days=49),
+        self._appendMass(
+            self.dateOfPentecost - datetime.timedelta(days=1),
             '%s/easter/pentecost-vigil')
         self._assignMass(
             self.dateOfPentecost,
@@ -1151,9 +1150,12 @@ class Calendar(object):
         '''
 
         if isinstance(mass, basestring):
-            if '%s' in mass:
-                mass = mass % _sundayCycleForDate(d).lower()
-            mass = _lectionary.findMass(mass)
+            massid = mass
+            if '%s' in massid:
+                massid = massid % _sundayCycleForDate(d).lower()
+            mass = _lectionary.findMass(massid)
+            if mass is None:
+                raise ValueError('No mass with id "%s"!' % massid)
 
         self._massesByDate[d] = [mass]
 
