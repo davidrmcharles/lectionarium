@@ -1138,7 +1138,7 @@ class Calendar(object):
                 d += datetime.timedelta(days=1)
 
             if mass.id in (
-                'all-souls-second-mass', 'all-souls-third-mass'):
+                'all-souls-2', 'all-souls-3'):
                 self._appendMass(d, mass.id)
             else:
                 self._assignMass(d, mass.id)

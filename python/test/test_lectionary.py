@@ -561,9 +561,9 @@ class CalendarTestCase(unittest.TestCase):
 
             # November
             (11, 1, ['all-saints']),
-            (11, 2, ['all-souls-first-mass',
-                     'all-souls-second-mass',
-                     'all-souls-third-mass']),
+            (11, 2, ['all-souls-1',
+                     'all-souls-2',
+                     'all-souls-3']),
             (11, 3, ['week-30/friday']),
             (11, 4, ['week-30/saturday']),
 

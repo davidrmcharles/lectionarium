@@ -67,17 +67,17 @@
     <reading>1 Jn 3:1-3</reading>
     <reading>Mt 5:1-12a</reading>
   </mass>
-  <mass date="11-2" name="All Souls (First Mass)">
+  <mass date="11-2" id="all-souls-1" name="All Souls (First Mass)">
     <reading>Jb 19:1,23-27</reading>
     <reading>1 Cor 15:51-57</reading>
     <reading>Jn 6:37-40</reading>
   </mass>
-  <mass date="11-2" name="All Souls (Second Mass)">
+  <mass date="11-2" id="all-souls-2" name="All Souls (Second Mass)">
     <reading>Wis 3:1-9</reading>
     <reading>Phil 3:20-21</reading>
     <reading>Jn 11:17-27</reading>
   </mass>
-  <mass date="11-2" name="All Souls (Third Mass)">
+  <mass date="11-2" id="all-souls-3" name="All Souls (Third Mass)">
     <reading>2 Mc 12:43-46</reading>
     <reading>Rv 14:13</reading>
     <reading>Jn 14:1-6</reading>
