@@ -199,15 +199,15 @@
         <reading>2 Cor 5:20-6:2</reading>
         <reading>Mt 6:1-16,16-18</reading>
       </mass>
-      <mass name="Thursday after Ash Wednesday">
+      <mass id="thursday" name="Thursday after Ash Wednesday">
         <reading>Dt 30:15-20</reading>
         <reading>Lk 9:22-25</reading>
       </mass>
-      <mass name="Friday after Ash Wednesday">
+      <mass id="friday" name="Friday after Ash Wednesday">
         <reading>Is 58:1-9a</reading>
         <reading>Mt 9:14-15</reading>
       </mass>
-      <mass name="Saturday after Ash Wednesday">
+      <mass id="saturday" name="Saturday after Ash Wednesday">
         <reading>Is 58:9b-14</reading>
         <reading>Lk 5:27-32</reading>
       </mass>

@@ -261,9 +261,9 @@ class CalendarTestCase(unittest.TestCase):
 
             # March
             (3, 1, ['lent/week-of-ash-wednesday/ash-wednesday']),
-            (3, 2, ['lent/week-of-ash-wednesday/thursday-after-ash-wednesday']),
-            (3, 3, ['lent/week-of-ash-wednesday/friday-after-ash-wednesday']),
-            (3, 4, ['lent/week-of-ash-wednesday/saturday-after-ash-wednesday']),
+            (3, 2, ['lent/week-of-ash-wednesday/thursday']),
+            (3, 3, ['lent/week-of-ash-wednesday/friday']),
+            (3, 4, ['lent/week-of-ash-wednesday/saturday']),
 
             (3, 5, ['a/lent/week-1/sunday']),
             (3, 6, ['lent/week-1/monday']),

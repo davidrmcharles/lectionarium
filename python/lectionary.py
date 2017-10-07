@@ -884,9 +884,9 @@ class Calendar(object):
             _followingDays(self.dateOfAshWednesday, 3)
         massKeys = (
             'ash-wednesday',
-            'thursday-after-ash-wednesday',
-            'friday-after-ash-wednesday',
-            'saturday-after-ash-wednesday',
+            'thursday',
+            'friday',
+            'saturday',
             )
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
