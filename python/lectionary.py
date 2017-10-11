@@ -127,9 +127,10 @@ class Mass(object):
             tokens.insert(0, self._weekid)
         if self._seasonid is not None and self._seasonid != 'ordinary':
             tokens.insert(0, self._seasonid)
+        result = '/'.join(tokens)
         if self._cycle is not None:
-            tokens.insert(0, self._cycle)
-        return '/'.join(tokens)
+            return result + ('#%s' % self._cycle)
+        return result
 
     @property
     def cycle(self):
@@ -846,29 +847,29 @@ class Calendar(object):
         # The solemnity of Mary, Mother of God.
         self._assignMass(
             datetime.date(self._year, 1, 1),
-            '%s/mary-mother-of-god')
+            'mary-mother-of-god#%s')
 
         if self.dateOfPreviousChristmas.weekday() == 6:
             # Make adjustments for when Christmas falls on a Sunday.
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                '%s/epiphany')
+                'epiphany#%s')
             self._assignMass(
                 datetime.date(self._year, 1, 9),
-                '%s/baptism-of-the-lord')
+                'baptism-of-the-lord#%s')
         else:
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +1),
-                '%s/holy-family')
+                'holy-family#%s')
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +2),
-                '%s/2nd-sunday-after-christmas')
+                '2nd-sunday-after-christmas#%s')
             self._assignMass(
                 datetime.date(self._year, 1, 6),
-                '%s/epiphany')
+                'epiphany#%s')
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                '%s/baptism-of-the-lord')
+                'baptism-of-the-lord#%s')
 
         # FIXME: Week After Epiphany.  None of these masses were said
         # in the US in 2017, but they were, or will be used in other
@@ -904,7 +905,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                '%s/' + 'lent/week-%d/sunday' % (sundayIndex + 1))
+                'lent/week-%d/sunday' % (sundayIndex + 1) + '#%s')
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -920,7 +921,7 @@ class Calendar(object):
 
         # Holy Week
         dateOfPalmSunday = _nextSunday(self.dateOfEaster, -1)
-        self._assignMass(dateOfPalmSunday, '%s/holy-week/palm-sunday')
+        self._assignMass(dateOfPalmSunday, 'holy-week/palm-sunday#%s')
 
         massDates = _followingDays(dateOfPalmSunday, 4)
         massKeys = (
@@ -934,13 +935,13 @@ class Calendar(object):
 
         self._appendMass(
             self.dateOfEaster - datetime.timedelta(days=3),
-            '%s/holy-week/mass-of-the-lords-supper')
+            'holy-week/mass-of-the-lords-supper#%s')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=2),
-            '%s/holy-week/good-friday')
+            'holy-week/good-friday#%s')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=1),
-            '%s/easter/easter-vigil')
+            'easter/easter-vigil#%s')
 
         sundayDates = (
             self.dateOfEaster,
@@ -955,7 +956,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                '%s/' + 'easter/week-%d/sunday' % (sundayIndex + 1))
+                'easter/week-%d/sunday' % (sundayIndex + 1) + '#%s')
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -966,10 +967,10 @@ class Calendar(object):
 
         self._appendMass(
             self.dateOfPentecost - datetime.timedelta(days=1),
-            '%s/easter/pentecost-vigil')
+            'easter/pentecost-vigil#%s')
         self._assignMass(
             self.dateOfPentecost,
-            '%s/easter/pentecost')
+            'easter/pentecost#%s')
 
     def _allocateAdventSeason(self):
         '''
@@ -986,7 +987,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                '%s/' + 'advent/week-%d/sunday' % (sundayIndex + 1))
+                'advent/week-%d/sunday' % (sundayIndex + 1) + '#%s')
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -1018,18 +1019,18 @@ class Calendar(object):
 
         self._appendMass(
             _nextSunday(self.dateOfChristmas, -1),
-            '%s/christmas-vigil')
+            'christmas-vigil#%s')
 
         # Octave of Christmas
         self._appendMass(
             self.dateOfChristmas,
-            '%s/christmas-at-midnight')
+            'christmas-at-midnight#%s')
         self._appendMass(
             self.dateOfChristmas,
-            '%s/christmas-at-dawn')
+            'christmas-at-dawn#%s')
         self._appendMass(
             self.dateOfChristmas,
-            '%s/christmas-during-the-day')
+            'christmas-during-the-day#%s')
 
         massDates = _inclusiveDateRange(
             self.dateOfChristmas + datetime.timedelta(days=1),
@@ -1050,7 +1051,7 @@ class Calendar(object):
         dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
             self._assignMass(
-                dateOfHolyFamily, '%s/holy-family')
+                dateOfHolyFamily, 'holy-family#%s')
 
     def _allocateOrdinaryTime(self):
         '''
@@ -1111,7 +1112,7 @@ class Calendar(object):
         # whatever else is being celebrated that day.
         self._assignMass(
             _nextSunday(self.dateOfEaster, +8),
-            '%s/trinity-sunday')
+            'trinity-sunday#%s')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
         if corpusChristiDate.weekday() in (5, 4, 3):
@@ -1119,11 +1120,11 @@ class Calendar(object):
                 days=6 - corpusChristiDate.weekday())
         self._assignMass(
             corpusChristiDate,
-            '%s/corpus-christi')
+            'corpus-christi#%s')
 
         self._assignMass(
             self.dateOfEaster + datetime.timedelta(days=68),
-            '%s/sacred-heart-of-jesus')
+            'sacred-heart-of-jesus#%s')
 
     def _allocateFixedDateMasses(self):
         '''
@@ -1206,25 +1207,26 @@ def parse(query):
             query,
             'No non-white characters passed to lectionary.parse()!')
 
-    # Split the query at the slash, if any, and fail if there is more
-    # than one slash.
-    slash_tokens = query.split('/')
-    if len(slash_tokens) > 2:
+    # Split the query at the sharp, if any, and fail if there is more
+    # than one sharp.
+    sharp_tokens = query.split('#')
+    if len(sharp_tokens) > 2:
         raise MalformedQueryError(
             query,
-            'Too many slashes in query "%s"!' % (query))
+            'Too many sharps in query "%s"!' % (query))
 
     # Isolate the cycle (if any) and the id substring.
     cycle = None
-    if len(slash_tokens) == 2:
-        cycle, idSubstring = slash_tokens
+    if len(sharp_tokens) == 2:
+        idSubstring, cycle = sharp_tokens
         if cycle.lower() not in ('a', 'b', 'c'):
             raise MalformedQueryError(
                 query,
-                'Cycle is "%s", but must be one of A, B, or C (in either case)!' % (
+                'Cycle is "%s", but must be one of A, B, or C'
+                ' (in either case)!' % (
                     cycle))
-    elif len(slash_tokens) == 1:
-        idSubstring = slash_tokens[0]
+    elif len(sharp_tokens) == 1:
+        idSubstring = sharp_tokens[0]
 
     # Collect all matches and return them.
     def isMatch(mass):
