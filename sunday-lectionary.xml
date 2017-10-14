@@ -1,478 +1,244 @@
 <?xml version="1.0"?>
 <lectionary name="THE NEW 3-YEAR CYCLE OF READINGS FOR SUNDAY MASS">
-  <cycle id="A" name="Year A" desc="2015 2008 2011 2014 2017 2020 2023">
-    <season id="advent" name="Advent Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
+  <season id="advent" name="Advent Season">
+    <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
+      <choice cycle="A">
         <reading>Is 2:1-5</reading>
         <reading>Rom 13:11-14</reading>
         <reading>Mt 24:37-44</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
-        <reading>Is 11:1-10</reading>
-        <reading>Rom 15:4-9</reading>
-        <reading>Mt 3:1-12</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
-        <reading>Is 35:1-6a,10</reading>
-        <reading>Jas 5:7-10</reading>
-        <reading>Mt 11:2-11</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Advent">
-        <reading>Is 7:10-14</reading>
-        <reading>Rom 1:1-7</reading>
-        <reading>Mt 1:18-24</reading>
-      </mass>
-    </season>
-    <season name="Christmas Season">
-      <mass name="Christmas Vigil">
-        <reading>Is 62:1-5</reading>
-        <reading>Acts 13:16-17,22-25</reading>
-        <reading>Mt 1:1-25</reading>
-      </mass>
-      <mass name="Christmas (At Midnight)">
-        <reading>Is 9:1-6</reading>
-        <reading>Ti 2:11-14</reading>
-        <reading>Lk 2:1-14</reading>
-      </mass>
-      <mass name="Christmas (At Dawn)">
-        <reading>Is 62:11-12</reading>
-        <reading>Ti 3:4-7</reading>
-        <reading>Lk 2:15-20</reading>
-      </mass>
-      <mass name="Christmas (During the Day)">
-        <reading>Is 52:7-10</reading>
-        <reading>Heb 1:1-6</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Holy Family">
-        <reading>Sir 3:3-7,14-17a</reading>
-        <reading>Col 3:12-21</reading>
-        <reading>Mt 2:13-15,19-23</reading>
-      </mass>
-      <mass name="Mary, Mother of God">
-        <reading>Nm 6:22-27</reading>
-        <reading>Gal 4:4-7</reading>
-        <reading>Lk 2:16-21</reading>
-      </mass>
-      <mass name="2nd Sunday After Christmas">
-        <reading>Sir 24:1-4,12-16</reading>
-        <reading>Eph 1:3-6,15-18</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Epiphany">
-        <reading>Is 60:1-6</reading>
-        <reading>Eph 3:2-3a,5-6</reading>
-        <reading>Mt 2:1-12</reading>
-      </mass>
-      <mass name="Baptism of the Lord">
-        <reading>Is 42:1-4,6-7</reading>
-        <reading>Acts 10:34-38</reading>
-        <reading>Mt 3:13-17</reading>
-      </mass>
-    </season>
-    <season id="lent" name="Lenten Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
-        <reading>Gn 2:7-9,3:1-7</reading>
-        <reading>Rom 5:12-19</reading>
-        <reading>Mt 4:1-11</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
-        <reading>Gn 12:1-4a</reading>
-        <reading>2 Tm 1:8b-10</reading>
-        <reading>Mt 17:1-9</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
-        <reading>Ex 17:3-7</reading>
-        <reading>Rom 5:1-2,5-8</reading>
-        <reading>Jn 4:5-42</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
-        <reading>1 Sm 16:1b,6-7,10-13a</reading>
-        <reading>Eph 5:8-14</reading>
-        <reading>Jn 9:1-41</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
-        <reading>Ez 37:12-14</reading>
-        <reading>Rom 8:8-11</reading>
-        <reading>Jn 11:1-45</reading>
-      </mass>
-    </season>
-    <season id="holy-week">
-      <mass name="Palm Sunday">
-        <reading>Mt 21:1-11</reading>
-        <reading>Is 50:4-7</reading>
-        <reading>Mt 26:14-27,66</reading>
-      </mass>
-      <mass name="Mass of the Lord's Supper">
-        <reading>Ex 12:1-8,11-14</reading>
-        <reading>1 Cor 11:23-26</reading>
-        <reading>Jn 13:1-15</reading>
-      </mass>
-      <mass name="Good Friday">
-        <reading>Is 52:13-53:12</reading>
-        <reading>Heb 4:14-16,5:7-9</reading>
-        <reading>Jn 18:1-19,42</reading>
-      </mass>
-    </season>
-    <season id="easter" name="Easter Triduum and Easter Season">
-      <mass name="Easter Vigil">
-        <reading>Gn 1:1-2:2</reading>
-        <reading>Gn 22:1-18</reading>
-        <reading>Ex 14:15-15:1</reading>
-        <reading>Is 54:5-14</reading>
-        <reading>Is 55:1-11</reading>
-        <reading>Bar 3:9-15,32-4:4</reading>
-        <reading>Ez 36:16-17a,18-28</reading>
-        <reading>Rom 6:3-11</reading>
-        <reading>Mt 28:1-10</reading>
-      </mass>
-      <mass weekid="week-1" id="sunday" name="Easter Sunday">
-        <reading>Acts 10:34a,37-43</reading>
-        <choice>
-          <reading>Col 3:1-4</reading>
-          <reading>1 Cor 5,6b-8</reading>
-        </choice>
-        <choice>
-          <reading>Jn 20:1-9</reading>
-          <reading>Mt 28:1-10</reading>
-          <reading>Lk 24:13-35</reading>
-        </choice>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
-        <reading>Acts 2:42-47</reading>
-        <reading>1 Pt 1:3-9</reading>
-        <reading>Jn 20:19-31</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
-        <reading>Acts 2:14,22-33</reading>
-        <reading>1 Pt 1:17-21</reading>
-        <reading>Lk 24:13-35</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
-        <reading>Acts 2:14a,36-41</reading>
-        <reading>1 Pt 2:20b-25</reading>
-        <reading>Jn 10,1-10</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
-        <reading>Acts 6:1-7</reading>
-        <reading>1 Pt 2:4-9</reading>
-        <reading>Jn 14:1-12</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
-        <reading>Acts 8:5-8,14-17</reading>
-        <reading>1 Pt 3:15-18</reading>
-        <reading>Jn 14:15-21</reading>
-      </mass>
-      <mass name="Ascension of Our Lord">
-        <reading>Acts 1:1-111</reading>
-        <reading>Eph 1:17-23</reading>
-        <reading>Mt 28:16-20</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
-        <reading>Acts 1:12-14</reading>
-        <reading>1 Pt 4:13-16</reading>
-        <reading>Jn 17:1-11a</reading>
-      </mass>
-      <mass name="Pentecost Vigil">
-        <choice>
-          <reading>Gn 11:1-9</reading>
-          <reading>Ex 19:3-8a,16-20b</reading>
-          <reading>Ez 37:1-14</reading>
-          <reading>Jl 3:1-15</reading>
-        </choice>
-        <reading>Rom 8:22-27</reading>
-        <reading>Jn 7:37-39</reading>
-      </mass>
-      <mass name="Pentecost">
-        <reading>Acts 2:1-11</reading>
-        <reading>1 Cor 12:3b-7,12-13</reading>
-        <reading>Jn 20:19-23</reading>
-      </mass>
-    </season>
-    <season id="ordinary" name="Ordinary Time">
-      <mass name="Trinity Sunday">
-        <reading>Ex 34:4b-6,8-9</reading>
-        <reading>2 Cor 13:11-13</reading>
-        <reading>Jn 3:16-18</reading>
-      </mass>
-      <mass name="Corpus Christi">
-        <reading>Dt 8:2-8,14b-16a</reading>
-        <reading>1 Cor 10:16-17</reading>
-        <reading>Jn 6:51-58</reading>
-      </mass>
-      <mass name="Sacred Heart of Jesus">
-        <reading>Dt 7:6-11</reading>
-        <reading>1 Jn 4:7-16</reading>
-        <reading>Mt 11:25-30</reading>
-      </mass>
-1st Sunday (See Baptism of the Lord, above)
-      <mass weekid="week-2" id="sunday" name="2nd Sunday">
-        <reading>Is 49:3,5-6</reading>
-        <reading>1 Cor 1:1-3</reading>
-        <reading>Jn 1:29-34</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday">
-        <reading>Is 8:23b-9:3</reading>
-        <reading>1 Cor 1:10-13,17</reading>
-        <reading>Mt 4:12-23</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday">
-        <reading>Zep 2:3,3:12-13</reading>
-        <reading>1 Cor 1:26-31</reading>
-        <reading>Mt 5:1-12a</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday">
-        <reading>Is 58:7-10</reading>
-        <reading>1 Cor 2:1-5</reading>
-        <reading>Mt 5:13-16</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday">
-        <reading>Sir 15:16-21</reading>
-        <reading>1 Cor 2:6-10</reading>
-        <reading>Mt 5:17-37</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday">
-        <reading>Lv 19:1-2,17-18</reading>
-        <reading>1 Cor 3:16-23</reading>
-        <reading>Mt 5:38-48</reading>
-      </mass>
-      <mass weekid="week-8" id="sunday" name="8th Sunday">
-        <reading>Is 49:14-15</reading>
-        <reading>1 Cor 1:1-5</reading>
-        <reading>Mt 6:24-34</reading>
-      </mass>
-      <mass weekid="week-9" id="sunday" name="9th Sunday">
-        <reading>Dt 11:18,26-28,32</reading>
-        <reading>Rom 3:21-25a,28</reading>
-        <reading>Mt 7,21-27</reading>
-      </mass>
-      <mass weekid="week-10" id="sunday" name="10th Sunday">
-        <reading>Hos 6:3-6</reading>
-        <reading>Rom 4:18-26</reading>
-        <reading>Mt 9:9-13</reading>
-      </mass>
-      <mass weekid="week-11" id="sunday" name="11th Sunday">
-        <reading>Ex 19:2-6a</reading>
-        <reading>Rom 5:6-11</reading>
-        <reading>Mt 9:36-10:8</reading>
-      </mass>
-      <mass weekid="week-12" id="sunday" name="12th Sunday">
-        <reading>Jer 20:10-13</reading>
-        <reading>Rom 5:12-15</reading>
-        <reading>Mt 10:26-33</reading>
-      </mass>
-      <mass weekid="week-13" id="sunday" name="13th Sunday">
-        <reading>2 Kgs 4:8-11,14-16a</reading>
-        <reading>Rom 6:3-4,8-11</reading>
-        <reading>Mt 10:37-42</reading>
-      </mass>
-      <mass weekid="week-14" id="sunday" name="14th Sunday">
-        <reading>Zec 9:9-10</reading>
-        <reading>Rom 8:9,11-13</reading>
-        <reading>Mt 11:25-30</reading>
-      </mass>
-      <mass weekid="week-15" id="sunday" name="15th Sunday">
-        <reading>Is 55:10-11</reading>
-        <reading>Rom 8:18-23</reading>
-        <reading>Mt 13:1-23</reading>
-      </mass>
-      <mass weekid="week-16" id="sunday" name="16th Sunday">
-        <reading>Wis 12:13,16-19</reading>
-        <reading>Rom 8:26-27</reading>
-        <reading>Mt 13:24-43</reading>
-      </mass>
-      <mass weekid="week-17" id="sunday" name="17th Sunday">
-        <reading>1 Kgs 3:5,7-12</reading>
-        <reading>Rom 8:28-30</reading>
-        <reading>Mt 13:44-52</reading>
-      </mass>
-      <mass weekid="week-18" id="sunday" name="18th Sunday">
-        <reading>Is 55:1-3</reading>
-        <reading>Rom 8:35,37-39</reading>
-        <reading>Mt 14:13-21</reading>
-      </mass>
-      <mass weekid="week-19" id="sunday" name="19th Sunday">
-        <reading>1 Kgs 19,9a,11-13a</reading>
-        <reading>Rom 9:1-5</reading>
-        <reading>Mt 14:22-33</reading>
-      </mass>
-      <mass weekid="week-20" id="sunday" name="20th Sunday">
-        <reading>Is 56:1,6-7</reading>
-        <reading>Rom 11:13-15,29-32</reading>
-        <reading>Mt 15:21-28</reading>
-      </mass>
-      <mass weekid="week-21" id="sunday" name="21st Sunday">
-        <reading>Is 22:19-23</reading>
-        <reading>Rom 11:33-36</reading>
-        <reading>Mt 16:13-20</reading>
-      </mass>
-      <mass weekid="week-22" id="sunday" name="22nd Sunday">
-        <reading>Jer 20:7-9</reading>
-        <reading>Rom 12:1-2</reading>
-        <reading>Mt 16:21-27</reading>
-      </mass>
-      <mass weekid="week-23" id="sunday" name="23rd Sunday">
-        <reading>Ez 33:7-9</reading>
-        <reading>Rom 8:8-10</reading>
-        <reading>Mt 18:15-20</reading>
-      </mass>
-      <mass weekid="week-24" id="sunday" name="24th Sunday">
-        <reading>Sir 27:30-28:7</reading>
-        <reading>Rom 14:7-9</reading>
-        <reading>Mt 18:21-35</reading>
-      </mass>
-      <mass weekid="week-25" id="sunday" name="25th Sunday">
-        <reading>Is 55:6-9</reading>
-        <reading>Phil 1:20c-24,27a</reading>
-        <reading>Mt 20,1-16a</reading>
-      </mass>
-      <mass weekid="week-26" id="sunday" name="26th Sunday">
-        <reading>Ez 18:25-28</reading>
-        <reading>Phil 2:1-11</reading>
-        <reading>Mt 21:28-32</reading>
-      </mass>
-      <mass weekid="week-27" id="sunday" name="27th Sunday">
-        <reading>Is 5:1-7</reading>
-        <reading>Phil 4:6-9</reading>
-        <reading>Mt 21:33-43</reading>
-      </mass>
-      <mass weekid="week-28" id="sunday" name="28th Sunday">
-        <reading>Is 25:6-10a</reading>
-        <reading>Phil 4:12-14,19-20</reading>
-        <reading>Mt 22:1-14</reading>
-      </mass>
-      <mass weekid="week-29" id="sunday" name="29th Sunday">
-        <reading>Is 45:1,4-6</reading>
-        <reading>1 Thes 1:1-5b</reading>
-        <reading>Mt 22:15-21</reading>
-      </mass>
-      <mass weekid="week-30" id="sunday" name="30th Sunday">
-        <reading>Ex 22:20-26</reading>
-        <reading>1 Thes 1:5c-10</reading>
-        <reading>Mt 22:34-40</reading>
-      </mass>
-      <mass weekid="week-31" id="sunday" name="31st Sunday">
-        <reading>Mal 1:14b-2:2b,8-10</reading>
-        <reading>1 Thes 2:7b-9,13</reading>
-        <reading>Mt 23:1-12</reading>
-      </mass>
-      <mass weekid="week-32" id="sunday" name="32nd Sunday">
-        <reading>Wis 6:12-16</reading>
-        <reading>1 Thes 4:13-18</reading>
-        <reading>Mt 25:1-13</reading>
-      </mass>
-      <mass weekid="week-33" id="sunday" name="33rd Sunday">
-        <reading>Prv 31:10-13,19-20,30-31</reading>
-        <reading>1 Thes 5:1-6</reading>
-        <reading>Mt 25:14-30</reading>
-      </mass>
-      <mass weekid="week-34" id="sunday-christ-the-king" name="34th Sunday (Christ the King)">
-        <reading>Ez 34:11-12,15-17</reading>
-        <reading>1 Cor 15:20-26,28</reading>
-        <reading>Mt 25:31-46</reading>
-      </mass>
-    </season>
-  </cycle>
-  <cycle id="B" name="Year B" desc="2006 2009 2012 2015 2018 2021 2024">
-    <season id="advent" name="Advent Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
+      </choice>
+      <choice cycle="B">
         <reading>Is 63:16b-17,19b,64:2b-7</reading>
         <reading>1 Cor 1:3-9</reading>
         <reading>Mk 13:33-37</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
+      </choice>
+      <choice cycle="C">
+        <reading>Jer 33:14-16</reading>
+        <reading>1 Thes 3:12-4:2</reading>
+        <reading>Lk 21:25-28,34-36</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
+      <choice cycle="A">
+        <reading>Is 11:1-10</reading>
+        <reading>Rom 15:4-9</reading>
+        <reading>Mt 3:1-12</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Is 40:1-5,9-11</reading>
         <reading>2 Pt 3:8-14</reading>
         <reading>Mk 1:1-8</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
+      </choice>
+      <choice cycle="C">
+        <reading>Bar 5:1-9</reading>
+        <reading>Phil 1:4-6,8-11</reading>
+        <reading>Lk 3:1-6</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
+      <choice cycle="A">
+        <reading>Is 35:1-6a,10</reading>
+        <reading>Jas 5:7-10</reading>
+        <reading>Mt 11:2-11</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Is 61:1-2a,10-11</reading>
         <reading>1 Thes 5:16-24</reading>
         <reading>Jn 1:6-8,19-28</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Advent">
+      </choice>
+      <choice cycle="C">
+        <reading>Zep 3:14-18a</reading>
+        <reading>Phil 4:4-7</reading>
+        <reading>Lk 3:10-18</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-4" id="sunday" name="4th Sunday of Advent">
+      <choice cycle="A">
+        <reading>Is 7:10-14</reading>
+        <reading>Rom 1:1-7</reading>
+        <reading>Mt 1:18-24</reading>
+      </choice>
+      <choice cycle="B">
         <reading>2 Sm 7:1-5,8b-12,14a,16</reading>
         <reading>Rom 16:25-27</reading>
         <reading>Lk 1:26-38</reading>
-      </mass>
-    </season>
-    <season name="Christmas Season">
-      <mass name="Christmas Vigil">
-        <reading>Is 62:1-5</reading>
-        <reading>Acts 13:16-17,22-25</reading>
-        <reading>Mt 1:1-25</reading>
-      </mass>
-      <mass name="Christmas (At Midnight)">
-        <reading>Is 9:1-6</reading>
-        <reading>Ti 2:11-14</reading>
-        <reading>Lk 2:1-14</reading>
-      </mass>
-      <mass name="Christmas (At Dawn)">
-        <reading>Is 62:11-12</reading>
-        <reading>Ti 3:4-7</reading>
-        <reading>Lk 2:15-20</reading>
-      </mass>
-      <mass name="Christmas (During the Day)">
-        <reading>Is 52:7-10</reading>
-        <reading>Heb 1:1-16</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Holy Family">
+      </choice>
+      <choice cycle="C">
+        <reading>Mi 5:1-4a</reading>
+        <reading>Heb 10:5-10</reading>
+        <reading>Lk 1:39-45</reading>
+      </choice>
+    </mass>
+  </season>
+  <season name="Christmas Season">
+    <mass name="Christmas Vigil">
+      <reading>Is 62:1-5</reading>  ### Check this!
+      <reading>Acts 13:16-17,22-25</reading>
+      <reading>Mt 1:1-25</reading>
+    </mass>
+    <mass name="Christmas (At Midnight)">
+      <reading>Is 9:1-6</reading>
+      <reading>Ti 2:11-14</reading>
+      <reading>Lk 2:1-14</reading>
+    </mass>
+    <mass name="Christmas (At Dawn)">
+      <reading>Is 62:11-12</reading>
+      <reading>Ti 3:4-7</reading>
+      <reading>Lk 2:15-20</reading>
+    </mass>
+    <mass name="Christmas (During the Day)">
+      <reading>Is 52:7-10</reading>  ### Check this!
+      <reading>Heb 1:1-6</reading>
+      <reading>Jn 1:1-18</reading>
+    </mass>
+    <mass name="Holy Family">
+      <choice cycle="A">
+        <reading>Sir 3:3-7,14-17a</reading>
+        <reading>Col 3:12-21</reading>
+        <reading>Mt 2:13-15,19-23</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Gn 15:1-6,21:1-3</reading>
         <reading>Heb 11:8,11-12,17-19</reading>
         <choice>
           <reading>Lk 2:22-40</reading>
           <reading>Lk 2:22,39-40</reading>
         </choice>
-      </mass>
-      <mass name="Mary, Mother of God">
-        <reading>Nm 6:22-27</reading>
-        <reading>Gal 4:4-7</reading>
-        <reading>Lk 2:16-21</reading>
-      </mass>
-      <mass name="2nd Sunday After Christmas">
-        <reading>Sir 24:1-2,8-12</reading>
-        <reading>Eph 1:3-6,15-18</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Epiphany">
-        <reading>Is 16:1-6</reading>
-        <reading>Eph 3:2-3a,5-6</reading>
-        <reading>Mt 2:1-12</reading>
-      </mass>
-      <mass name="Baptism of the Lord">
+      </choice>
+      <choice cycle="C">
+        <reading>1 Sm 1:20-22,24-28</reading>
+        <reading>1 Jn 3:1-2,21-24</reading>
+        <reading>Lk 2:41-52</reading>
+      </choice>
+    </mass>
+    <mass name="Mary, Mother of God">
+      <reading>Nm 6:22-27</reading>
+      <reading>Gal 4:4-7</reading>
+      <reading>Lk 2:16-21</reading>
+    </mass>
+    <mass name="2nd Sunday After Christmas">
+      <reading>Sir 24:1-4,12-16</reading>  ### Check this!
+      <reading>Eph 1:3-6,15-18</reading>
+      <reading>Jn 1:1-18</reading>
+    </mass>
+    <mass name="Epiphany">
+      <reading>Is 60:1-6</reading>
+      <reading>Eph 3:2-3a,5-6</reading>
+      <reading>Mt 2:1-12</reading>
+    </mass>
+    <mass name="Baptism of the Lord">
+      <choice cycle="A">
+        <reading>Is 42:1-4,6-7</reading>
+        <reading>Acts 10:34-38</reading>
+        <reading>Mt 3:13-17</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Is 55:1-11</reading>
         <reading>1 Jn 5:1-9</reading>
         <reading>Mk 1:7-11</reading>
-      </mass>
-    </season>
-    <season id="lent" name="Lenten Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
+      </choice>
+      <choice cycle="C">
+        <reading>Is 40:1-5,9-11</reading>
+        <reading>Ti 2:11-14,3:4-7</reading>
+        <reading>Lk 3:15-16,21-22</reading>
+      </choice>
+    </mass>
+  </season>
+  <season id="lent" name="Lenten Season">
+    <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
+      <choice cycle="A">
+        <reading>Gn 2:7-9,3:1-7</reading>
+        <reading>Rom 5:12-19</reading>
+        <reading>Mt 4:1-11</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Gn 9:8-15</reading>
         <reading>1 Pt 3:18-22</reading>
         <reading>Mk 1:12-15</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
+      </choice>
+      <choice cycle="C">
+        <reading>Dt 26:4-10</reading>
+        <reading>Rom 10:8-13</reading>
+        <reading>Lk 4:1-13</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
+      <choice cycle="A">
+        <reading>Gn 12:1-4a</reading>
+        <reading>2 Tm 1:8b-10</reading>
+        <reading>Mt 17:1-9</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Gn 22:1-2,9a,10-13,15-18</reading>
         <reading>Rom 8:31b-34</reading>
         <reading>Mk 9:2-10</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
+      </choice>
+      <choice cycle="C">
+        <reading>Gn 15:5-12,17-18</reading>
+        <reading>Phil 3:17-4:1</reading>
+        <reading>Lk 9:28b-36</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
+      <choice cycle="A">
+        <reading>Ex 17:3-7</reading>
+        <reading>Rom 5:1-2,5-8</reading>
+        <reading>Jn 4:5-42</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Ex 20:1-17</reading>
         <reading>1 Cor 1:22-25</reading>
         <reading>Jn 2:13-25</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
+      </choice>
+      <choice cycle="C">
+        <reading>Ex 3:1-8a,13-15</reading>
+        <reading>1 Cor 10:1-6,10-12</reading>
+        <reading>Lk 13:1-9</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
+      <choice cycle="A">
+        <reading>1 Sm 16:1b,6-7,10-13a</reading>
+        <reading>Eph 5:8-14</reading>
+        <reading>Jn 9:1-41</reading>
+      </choice>
+      <choice cycle="B">
         <reading>2 Chr 36:14-16,19-23</reading>
         <reading>Eph 2:4-10</reading>
         <reading>Jn 3:14-21</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
+      </choice>
+      <choice cycle="C">
+        <reading>Jos 5:9a,10-12</reading>
+        <reading>2 Cor 5:17-21</reading>
+        <reading>Lk 15:1-3,11-32</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
+      <choice cycle="A">
+        <reading>Ez 37:12-14</reading>
+        <reading>Rom 8:8-11</reading>
+        <reading>Jn 11:1-45</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Jer 31:31-34</reading>
         <reading>Heb 5:7-9</reading>
         <reading>Jn 12:20-33</reading>
-      </mass>
-      <mass name="Palm Sunday">
+      </choice>
+      <choice cycle="C">
+        <reading>Is 43:16-21</reading>
+        <reading>Phil 3:8-14</reading>
+        <reading>Jn 8:1-11</reading>
+      </choice>
+    </mass>
+  </season>
+  <season id="holy-week">
+    <mass name="Palm Sunday">
+      <choice cycle="A">
+        <reading>Mt 21:1-11</reading>
+        <reading>Is 50:4-7</reading>
+        <reading>Mt 26:14-27,66</reading>
+      </choice>
+      <choice cycle="B">
         <choice>
           <reading>Mk 11:1-10</reading>
           <reading>Jn 12:12-16</reading>
@@ -480,92 +246,214 @@
         <reading>Is 50:4-7</reading>
         <reading>Phil 2:6-11</reading>
         <reading>Mk 14:1-15:47</reading>
-      </mass>
-    </season>
-    <season id="easter" name="Easter Triduum and Easter Season">
-      <mass name="Mass of the Lord's Supper">
-        <reading>Ex 12:1-8,11-14</reading>
-        <reading>1 Cor 11:23-26</reading>
-        <reading>Jn 13:1-15</reading>
-      </mass>
-      <mass name="Good Friday">
-        <reading>Is 52:13-53:12</reading>
-        <reading>Heb 4:14-16,5:7-9</reading>
-        <reading>Jn 18:1-19:42</reading>
-      </mass>
-      <mass name="Easter Vigil">
-        <reading>Gn 1:1-2:2</reading>
-        <reading>Gn 22:1-18</reading>
-        <reading>Ex 14:15-15:1</reading>
-        <reading>Is 54:5-14</reading>
-        <reading>Is 55:1-11</reading>
-        <reading>Bar 3:9-15,32-4:4</reading>
-        <reading>Ez 36:16-28</reading>
-        <reading>Rom 6:3-11</reading>
+      </choice>
+      <choice cycle="C">
+        <reading>Lk 19:28-40</reading>
+        <reading>Is 50:4-7</reading>
+        <reading>Phil 2:6-11</reading>
+        <reading>Lk 22:14-23:56</reading>
+      </choice>
+    </mass>
+    <mass name="Mass of the Lord's Supper">
+      <reading>Ex 12:1-8,11-14</reading>
+      <reading>1 Cor 11:23-26</reading>
+      <reading>Jn 13:1-15</reading>
+    </mass>
+    <mass name="Good Friday">
+      <reading>Is 52:13-53:12</reading>
+      <reading>Heb 4:14-16,5:7-9</reading>
+      <reading>Jn 18:1-19,42</reading>
+    </mass>
+  </season>
+  <season id="easter" name="Easter Triduum and Easter Season">
+    <mass name="Easter Vigil">
+      <reading>Gn 1:1-2:2</reading>
+      <reading>Gn 22:1-18</reading>
+      <reading>Ex 14:15-15:1</reading>
+      <reading>Is 54:5-14</reading>
+      <reading>Is 55:1-11</reading>
+      <reading>Bar 3:9-15,32-4:4</reading>
+      <reading>Ez 36:16-28</reading>
+      <reading>Rom 6:3-11</reading>
+      <choice cycle="A">
+        <reading>Mt 28:1-10</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Mk 16:1-7</reading>
-      </mass>
-      <mass weekid="week-1" id="sunday" name="Easter Sunday">
-        <reading>Acts 10:34a,37-43</reading>
+      </choice>
+      <choice cycle="C">
+        <reading>Lk 24:1-12</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-1" id="sunday" name="Easter Sunday">
+      <reading>Acts 10:34a,37-43</reading>
+      <choice>
+        <reading>Col 3:1-4</reading>
+        <reading>1 Cor 5:6b-8</reading>
+      </choice>
+      <choice cycle="A">
         <choice>
-          <reading>Col 3:1-4</reading>
-          <reading>1 Cor 5:6b-8</reading>
+          <reading>Jn 20:1-9</reading>
+          <reading>Mt 28:1-10</reading>
+          <reading>Lk 24:13-35</reading>
         </choice>
+      </choice>
+      <choice cycle="B">
         <choice>
           <reading>Jn 20:1-8</reading>
           <reading>Mk 16:1-8</reading>
           <reading>Lk 24:13-35</reading>
         </choice>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <choice>
+          <reading>Jn 20:1-9</reading>
+          <reading>Lk 24:1-12</reading>
+          <reading>Lk 24:13-35</reading>
+        </choice>
+      </choice>
+    </mass>
+    <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 2:42-47</reading>
+        <reading>1 Pt 1:3-9</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 4:32-35</reading>
         <reading>1 Jn 5:1-6</reading>
-        <reading>Jn 20:19-31</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 5:12-16</reading>
+        <reading>Rv 1:9-11a,12-13,17-19</reading>
+      </choice>
+      <reading>Jn 20:19-31</reading>
+    </mass>
+    <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 2:14,22-33</reading>
+        <reading>1 Pt 1:17-21</reading>
+        <reading>Lk 24:13-35</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 3:13-15,17-19</reading>
         <reading>1 Jn 2:1-5a</reading>
         <reading>Lk 24:35-48</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 5:27b-32,40b-41</reading>
+        <reading>Rv 5:11-14</reading>
+        <choice>
+          <reading>Jn 21:1-19</reading>
+          <reading>Jn 21:1-14</reading>
+        </choice>
+      </choice>
+    </mass>
+    <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 2:14a,36-41</reading>
+        <reading>1 Pt 2:20b-25</reading>
+        <reading>Jn 10:1-10</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 4:8-12</reading>
         <reading>1 Jn 3:1-2</reading>
         <reading>Jn 10:11-18</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 13:14,43-52</reading>
+        <reading>Rv 7:9,14b-17</reading>
+        <reading>Jn 10:27-30</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 6:1-7</reading>
+        <reading>1 Pt 2:4-9</reading>
+        <reading>Jn 14:1-12</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 9:26-31</reading>
         <reading>1 Jn 3:18-24</reading>
         <reading>Jn 15:1-8</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 14:21b-27</reading>
+        <reading>Rv 21:1-5a</reading>
+        <reading>Jn 13:31-33a,34-35</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 8:5-8,14-17</reading>
+        <reading>1 Pt 3:15-18</reading>
+        <reading>Jn 14:15-21</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 10:25-26,34-35,44-48</reading>
         <reading>1 Jn 4:7-10</reading>
         <reading>Jn 15:9-17</reading>
-      </mass>
-      <mass name="Ascension of Our Lord">
-        <reading>Acts 1:1-11</reading>
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 15:1-2,22-27</reading>
+        <reading>Rv 21:10-14,22-23</reading>
+        <reading>Jn 14:23-29</reading>
+      </choice>
+    </mass>
+    <mass name="Ascension of Our Lord">
+      <reading>Acts 1:1-11</reading>
+      <choice cycle="A">
+        <reading>Eph 1:17-23</reading>
+        <reading>Mt 28:16-20</reading>
+      </choice>
+      <choice cycle="B">
         <choice>
           <reading>Eph 1:17-28</reading>
           <reading>Eph 4:1-13</reading>
         </choice>
         <reading>Mk 16:15-20</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
+      </choice>
+      <choice cycle="C">
+        <choice>
+          <reading>Eph 1:17-23</reading>
+          <reading>Heb 9:24-28,10:19-23</reading>
+        </choice>
+        <reading>Lk 24:46-53</reading>
+      </choice>
+    </mass>
+    <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
+      <choice cycle="A">
+        <reading>Acts 1:12-14</reading>
+        <reading>1 Pt 4:13-16</reading>
+        <reading>Jn 17:1-11a</reading>
+      </choice>
+      <choice cycle="B">
         <reading>Acts 1:15-17,20a,20c-26</reading>
         <reading>1 Jn 4:11-16</reading>
         <reading>Jn 17:11b-19</reading>
-      </mass>
-      <mass name="Pentecost Vigil">
-        <choice>
-          <reading>Gn 11:1-9</reading>
-          <reading>Ex 19:3-8a,16-20b</reading>
-          <reading>Ez 37:1-14</reading>
-          <reading>Jl 3:1-5</reading>
-        </choice>
-        <reading>Rom 8:22-27</reading>
-        <reading>Jn 7:37-39</reading>
-      </mass>
-      <mass name="Pentecost">
-        <reading>Acts 2:1-11</reading>
+      </choice>
+      <choice cycle="C">
+        <reading>Acts 7:55-60</reading>
+        <reading>Rv 22:12-14,16-17,20</reading>
+        <reading>Jn 17:20-26</reading>
+      </choice>
+    </mass>
+    <mass name="Pentecost Vigil">
+      <choice>
+        <reading>Gn 11:1-9</reading>
+        <reading>Ex 19:3-8a,16-20b</reading>
+        <reading>Ez 37:1-14</reading>
+        <reading>Jl 3:1-15</reading>
+      </choice>
+      <reading>Rom 8:22-27</reading>
+      <reading>Jn 7:37-39</reading>
+    </mass>
+    <mass name="Pentecost">
+      <reading>Acts 2:1-11</reading>
+      <choice cycle="A">
+        <reading>1 Cor 12:3b-7,12-13</reading>
+        <reading>Jn 20:19-23</reading>
+      </choice>
+      <choice cycle="B">
         <choice>
           <reading>1 Cor 12:3b-7,12-13</reading>
           <reading>Gal 5:16-25</reading>
@@ -574,382 +462,8 @@
           <reading>Jn 20:19-23</reading>
           <reading>Jn 15:26-27,16:12-15</reading>
         </choice>
-      </mass>
-    </season>
-    <season id="ordinary" name="Ordinary Time">
-      <mass name="Trinity Sunday">
-        <reading>Dt 4:32-34,39-40</reading>
-        <reading>Rom 8:14-17</reading>
-        <reading>Mt 28:16-20</reading>
-      </mass>
-      <mass name="Corpus Christi">
-        <reading>Ex 24:3-8</reading>
-        <reading>Heb 9:11-15</reading>
-        <reading>Mk 14:12-16,22-26</reading>
-      </mass>
-      <mass name="Sacred Heart of Jesus">
-        <reading>Hos 11:1,3-4,8c-9</reading>
-        <reading>Eph 3:8-12,14-19</reading>
-        <reading>Jn 19:31-37</reading>
-      </mass>
-1st Sunday (See Baptism of the Lord, above)
-      <mass weekid="week-2" id="sunday" name="2nd Sunday">
-        <reading>1 Sm 3:3b-10,19</reading>
-        <reading>1 Cor 6:13c-15a,17-20</reading>
-        <reading>Jn 1:35-42</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday">
-        <reading>Jn 3:1-5,10</reading>
-        <reading>1 Cor 7:29-31</reading>
-        <reading>Mk 1:14-20</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday">
-        <reading>Dt 18:15-20</reading>
-        <reading>1 Cor 7:32-35</reading>
-        <reading>Mk 1:21-28</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday">
-        <reading>Jb 7:1-4,6-7</reading>
-        <reading>1 Cor 9:16-19,22-23</reading>
-        <reading>Mk 1:29-39</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday">
-        <reading>Lv 13:1-2,45-56</reading>
-        <reading>1 Cor 10:31-11,1</reading>
-        <reading>Mk 1:40-45</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday">
-        <reading>Is 43:18-19,21-22,24b-25</reading>
-        <reading>2 Cor 1:18-22</reading>
-        <reading>Mk 2:1-12</reading>
-      </mass>
-      <mass weekid="week-8" id="sunday" name="8th Sunday">
-        <reading>Hos 2:16b,17b,21-22</reading>
-        <reading>2 Cor 3:1b-6</reading>
-        <reading>Mk 2:18-22</reading>
-      </mass>
-      <mass weekid="week-9" id="sunday" name="9th Sunday">
-        <reading>Dt 5:12-15</reading>
-        <reading>2 Cor 4:6-11</reading>
-        <reading>Mk 2:23-3:6</reading>
-      </mass>
-      <mass weekid="week-10" id="sunday" name="10th Sunday">
-        <reading>Gn 3:9-15</reading>
-        <reading>2 Cor 4:13-5:1</reading>
-        <reading>Mk 3:20-35</reading>
-      </mass>
-      <mass weekid="week-11" id="sunday" name="11th Sunday">
-        <reading>Ez 17:22-24</reading>
-        <reading>2 Cor 5:6-10</reading>
-        <reading>Mk 4:25-34</reading>
-      </mass>
-      <mass weekid="week-12" id="sunday" name="12th Sunday">
-        <reading>Jb 38:1,8-11</reading>
-        <reading>2 Cor 5:14-17</reading>
-        <reading>Mk 4:35-41</reading>
-      </mass>
-      <mass weekid="week-13" id="sunday" name="13th Sunday">
-        <reading>Wis 1:13-15,2:23-24</reading>
-        <reading>2 Cor 8:7,9,13-15</reading>
-        <reading>Mk 5:21-43</reading>
-      </mass>
-      <mass weekid="week-14" id="sunday" name="14th Sunday">
-        <reading>Ez 2:2-5</reading>
-        <reading>2 Cor 12:7-10</reading>
-        <reading>Mk 6:1-6</reading>
-      </mass>
-      <mass weekid="week-15" id="sunday" name="15th Sunday">
-        <reading>Am 7:12-15</reading>
-        <reading>Eph 1:3-14</reading>
-        <reading>Mk 6:7-13</reading>
-      </mass>
-      <mass weekid="week-16" id="sunday" name="16th Sunday">
-        <reading>Jer 23:1-6</reading>
-        <reading>Eph 2:13-18</reading>
-        <reading>Mk 6:30-34</reading>
-      </mass>
-      <mass weekid="week-17" id="sunday" name="17th Sunday">
-        <reading>2 Kgs 4:42-44</reading>
-        <reading>Eph 4:1-6</reading>
-        <reading>Jn 6:1-15</reading>
-      </mass>
-      <mass weekid="week-18" id="sunday" name="18th Sunday">
-        <reading>Ex 16:2-4,12-15</reading>
-        <reading>Eph 4:14,20-24</reading>
-        <reading>Jn 6:24-35</reading>
-      </mass>
-      <mass weekid="week-19" id="sunday" name="19th Sunday">
-        <reading>1 Kgs 19:4-8</reading>
-        <reading>Eph 4:30-5:2</reading>
-        <reading>Jn 6:41-51</reading>
-      </mass>
-      <mass weekid="week-20" id="sunday" name="20th Sunday">
-        <reading>Prv 9:1-6</reading>
-        <reading>Eph 5:15-20</reading>
-        <reading>Jn 6:51-58</reading>
-      </mass>
-      <mass weekid="week-21" id="sunday" name="21st Sunday">
-        <reading>Jos 24:1-2a,15-17,18b</reading>
-        <reading>Eph 5:21-32</reading>
-        <reading>Jn 6:60-69</reading>
-      </mass>
-      <mass weekid="week-22" id="sunday" name="22nd Sunday">
-        <reading>Dt 4:1-2,6-8</reading>
-        <reading>Jas 1:17-18,21b-22,27</reading>
-        <reading>Mk 7:1-8,14-15,21-23</reading>
-      </mass>
-      <mass weekid="week-23" id="sunday" name="23rd Sunday">
-        <reading>Is 35:4-7a</reading>
-        <reading>Jas 2:1-5</reading>
-        <reading>Mk 7:31-37</reading>
-      </mass>
-      <mass weekid="week-24" id="sunday" name="24th Sunday">
-        <reading>Is 50:5-9a</reading>
-        <reading>Jas 2:14-18</reading>
-        <reading>Mk 8:27-35</reading>
-      </mass>
-      <mass weekid="week-25" id="sunday" name="25th Sunday">
-        <reading>Wis 2:12,17-20</reading>
-        <reading>Jas 3:16-4:3</reading>
-        <reading>Mk 9:30-37</reading>
-      </mass>
-      <mass weekid="week-26" id="sunday" name="26th Sunday">
-        <reading>Nm 11:25-29</reading>
-        <reading>Jas 5:1-6</reading>
-        <reading>Mk 9:38-43,45,47-48</reading>
-      </mass>
-      <mass weekid="week-27" id="sunday" name="27th Sunday">
-        <reading>Gn 2:18-24</reading>
-        <reading>Hb 2:9-11</reading>
-        <reading>Mk 10:2-16</reading>
-      </mass>
-      <mass weekid="week-28" id="sunday" name="28th Sunday">
-        <reading>Wis 7:7-11</reading>
-        <reading>Heb 4:12-13</reading>
-        <reading>Mk 10:17-30</reading>
-      </mass>
-      <mass weekid="week-29" id="sunday" name="29th Sunday">
-        <reading>Is 53:10-11</reading>
-        <reading>Heb 4:14-16</reading>
-        <reading>Mk 10:35-45</reading>
-      </mass>
-      <mass weekid="week-30" id="sunday" name="30th Sunday">
-        <reading>Jer 31:7-9</reading>
-        <reading>Heb 5:1-6</reading>
-        <reading>Mk 10:45-52</reading>
-      </mass>
-      <mass weekid="week-31" id="sunday" name="31st Sunday">
-        <reading>Dt 6:2-6</reading>
-        <reading>Heb 7:23-28</reading>
-        <reading>Mk 12:28b-34</reading>
-      </mass>
-      <mass weekid="week-32" id="sunday" name="32nd Sunday">
-        <reading>1 Kgs 17:10-16</reading>
-        <reading>Heb 9:24-28</reading>
-        <reading>Mk 12:38-44</reading>
-      </mass>
-      <mass weekid="week-33" id="sunday" name="33rd Sunday">
-        <reading>Dn 12:1-3</reading>
-        <reading>Heb 10:11-14,18</reading>
-        <reading>Mk 13:24-32</reading>
-      </mass>
-      <mass weekid="week-34" id="sunday-christ-the-king" name="34th Sunday (Christ the King)">
-        <reading>Dn 7:13-14</reading>
-        <reading>Rv 1:5-8</reading>
-        <reading>Jn 18:33b-37</reading>
-      </mass>
-    </season>
-  </cycle>
-  <cycle id="C" name="Year C" desc="2007 2010 2013 2016 2019 2022 2025">
-    <season id="advent" name="Advent Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
-        <reading>Jer 33:14-16</reading>
-        <reading>1 Thes 3:12-4:2</reading>
-        <reading>Lk 21:25-28,34-36</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent">
-        <reading>Bar 5:1-9</reading>
-        <reading>Phil 1:4-6,8-11</reading>
-        <reading>Lk 3:1-6</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent">
-        <reading>Zep 3:14-18a</reading>
-        <reading>Phil 4:4-7</reading>
-        <reading>Lk 3:10-18</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday Advent">
-        <reading>Mi 5:1-4a</reading>
-        <reading>Heb 10:5-10</reading>
-        <reading>Lk 1:39-45</reading>
-      </mass>
-    </season>
-    <season name="Christmas Season">
-      <mass name="Christmas Vigil">
-        <reading>Is 62:1-6</reading>
-        <reading>Acts 13:16-17,22-25</reading>
-        <reading>Mt 1:1-25</reading>
-      </mass>
-      <mass name="Christmas (At Midnight)">
-        <reading>Is 9:1-6</reading>
-        <reading>Ti 2:11-14</reading>
-        <reading>Lk 2:1-14</reading>
-      </mass>
-      <mass name="Christmas (At Dawn)">
-        <reading>Is 62:11-12</reading>
-        <reading>Ti 3:4-7</reading>
-        <reading>Lk 2:15-20</reading>
-      </mass>
-      <mass name="Christmas (During the Day)">
-        <reading>Is 57:7-10</reading>
-        <reading>Heb 1:1-6</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Holy Family">
-        <reading>1 Sm 1:20-22,24-28</reading>
-        <reading>1 Jn 3:1-2,21-24</reading>
-        <reading>Lk 2:41-52</reading>
-      </mass>
-      <mass name="Mary, Mother of God">
-        <reading>Nm 6:22-27</reading>
-        <reading>Gal 4:4-7</reading>
-        <reading>Lk 2:16-21</reading>
-      </mass>
-      <mass name="2nd Sunday After Christmas">
-        <reading>Sir 24:1-2,8-12</reading>
-        <reading>Eph 1:3-6,15-18</reading>
-        <reading>Jn 1:1-18</reading>
-      </mass>
-      <mass name="Epiphany">
-        <reading>Is 60:1-6</reading>
-        <reading>Eph 3:2-3a,5-6</reading>
-        <reading>Mt 2:1-12</reading>
-      </mass>
-      <mass name="Baptism of the Lord">
-        <reading>Is 40:1-5,9-11</reading>
-        <reading>Ti 2:11-14,3:4-7</reading>
-        <reading>Lk 3:15-16,21-22</reading>
-      </mass>
-    </season>
-    <season id="lent" name="Lenten Season">
-      <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
-        <reading>Dt 26:4-10</reading>
-        <reading>Rom 10:8-13</reading>
-        <reading>Lk 4:1-13</reading>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent">
-        <reading>Gn 15:5-12,17-18</reading>
-        <reading>Phil 3:17-4:1</reading>
-        <reading>Lk 9:28b-36</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent">
-        <reading>Ex 3:1-8a,13-15</reading>
-        <reading>1 Cor 10:1-6,10-12</reading>
-        <reading>Lk 13:1-9</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Lent">
-        <reading>Jos 5:9a,10-12</reading>
-        <reading>2 Cor 5:17-21</reading>
-        <reading>Lk 15:1-3,11-32</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Lent">
-        <reading>Is 43:16-21</reading>
-        <reading>Phil 3:8-14</reading>
-        <reading>Jn 8:1-11</reading>
-      </mass>
-      <mass name="Palm Sunday">
-        <reading>Lk 19:28-40</reading>
-        <reading>Is 50:4-7</reading>
-        <reading>Phil 2:6-11</reading>
-        <reading>Lk 22:14-23:56</reading>
-      </mass>
-    </season>
-    <season id="easter" name="Easter Triduum and Easter Season">
-      <mass name="Mass of the Lord's Supper">
-        <reading>Ex 12:1-8,11-14</reading>
-        <reading>1 Cor 11:23-26</reading>
-        <reading>Jn 13:1-15</reading>
-      </mass>
-      <mass name="Good Friday">
-        <reading>Is 52:13-53:12</reading>
-        <reading>Heb 4:14-16,5:7-9</reading>
-        <reading>Jn 18:1-19:42</reading>
-      </mass>
-      <mass name="Easter Vigil">
-        <reading>Gn 1:1-2:2</reading>
-        <reading>Gn 22:1-18</reading>
-        <reading>Ex 14:15-15:1</reading>
-        <reading>Is 54:5-14</reading>
-        <reading>Is 55:1-11</reading>
-        <reading>Bar 3:9-15,32-4:4</reading>
-        <reading>Ez 36:16-28</reading>
-        <reading>Rom 6:3-11</reading>
-        <reading>Lk 24:1-12</reading>
-      </mass>
-      <mass weekid="week-1" id="sunday" name="Easter Sunday">
-        <reading>Acts 10:34a,37-43</reading>
-        <choice>
-          <reading>Col 3:1-4</reading>
-          <reading>1 Cor 5:6b-8</reading>
-        </choice>
-        <choice>
-          <reading>Jn 20:1-9</reading>
-          <reading>Lk 24:1-12</reading>
-          <reading>Lk 24:13-35</reading>
-        </choice>
-      </mass>
-      <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter">
-        <reading>Acts 5:12-16</reading>
-        <reading>Rv 1:9-11a,12-13,17-19</reading>
-        <reading>Jn 20:19-31</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter">
-        <reading>Acts 5:27b-32,40b-41</reading>
-        <reading>Rv 5:11-14</reading>
-        <choice>
-          <reading>Jn 21:1-19</reading>
-          <reading>Jn 21:1-14</reading>
-        </choice>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday of Easter">
-        <reading>Acts 13:14,43-52</reading>
-        <reading>Rv 7:9,14b-17</reading>
-        <reading>Jn 10:27-30</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday of Easter">
-        <reading>Acts 14:21b-27</reading>
-        <reading>Rv 21:1-5a</reading>
-        <reading>Jn 13:31-33a,34-35</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday of Easter">
-        <reading>Acts 15:1-2,22-27</reading>
-        <reading>Rv 21:10-14,22-23</reading>
-        <reading>Jn 14:23-29</reading>
-      </mass>
-      <mass name="Ascension of the Lord">
-        <reading>Acts 1:1-11</reading>
-        <choice>
-          <reading>Eph 1:17-23</reading>
-          <reading>Heb 9:24-28,10:19-23</reading>
-        </choice>
-        <reading>Lk 24:46-53</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday of Easter">
-        <reading>Acts 7:55-60</reading>
-        <reading>Rv 22:12-14,16-17,20</reading>
-        <reading>Jn 17:20-26</reading>
-      </mass>
-      <mass name="Pentecost Vigil">
-        <choice>
-          <reading>Gn 11:1-9</reading>
-          <reading>Ex 19:3-8a,16-20b</reading>
-          <reading>Ez 37:1-14</reading>
-          <reading>Jl 3:1-5</reading>
-        </choice>
-        <reading>Rom 8:22-27</reading>
-        <reading>Jn 7:37-39</reading>
-      </mass>
-      <mass name="Pentecost">
-        <reading>Acts 2:1-11</reading>
+      </choice>
+      <choice cycle="C">
         <choice>
           <reading>1 Cor 12:3b-7,12-13</reading>
           <reading>Rom 8:8-27</reading>
@@ -958,190 +472,621 @@
           <reading>Jn 20:19-23</reading>
           <reading>Jn 14:15-16,23b-26</reading>
         </choice>
-      </mass>
-    </season>
-    <season id="ordinary" name="Ordinary Time">
-      <mass name="Trinity Sunday">
+      </choice>
+    </mass>
+  </season>
+  <season id="ordinary" name="Ordinary Time">
+    <mass name="Trinity Sunday">
+      <choice cycle="A">
+        <reading>Ex 34:4b-6,8-9</reading>
+        <reading>2 Cor 13:11-13</reading>
+        <reading>Jn 3:16-18</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dt 4:32-34,39-40</reading>
+        <reading>Rom 8:14-17</reading>
+        <reading>Mt 28:16-20</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Prv 8:22-31</reading>
         <reading>Rom 5:1-5</reading>
         <reading>Jn 16:12-15</reading>
-      </mass>
-      <mass name="Corpus Christi">
+      </choice>
+    </mass>
+    <mass name="Corpus Christi">
+      <choice cycle="A">
+        <reading>Dt 8:2-8,14b-16a</reading>
+        <reading>1 Cor 10:16-17</reading>
+        <reading>Jn 6:51-58</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Ex 24:3-8</reading>
+        <reading>Heb 9:11-15</reading>
+        <reading>Mk 14:12-16,22-26</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Gn 14:18-20</reading>
         <reading>1 Cor 11:23-26</reading>
         <reading>Lk 9:11b-17</reading>
-      </mass>
-      <mass name="Sacred Heart of Jesus">
+      </choice>
+    </mass>
+    <mass name="Sacred Heart of Jesus">
+      <choice cycle="A">
+        <reading>Dt 7:6-11</reading>
+        <reading>1 Jn 4:7-16</reading>
+        <reading>Mt 11:25-30</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Hos 11:1,3-4,8c-9</reading>
+        <reading>Eph 3:8-12,14-19</reading>
+        <reading>Jn 19:31-37</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Ez 34:11-16</reading>
         <reading>Rom 5:5b-11</reading>
         <reading>Lk 15:3-7</reading>
-      </mass>
-1st Sunday (See Baptism of the Lord, above)
-      <mass weekid="week-2" id="sunday" name="2nd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-2" id="sunday" name="2nd Sunday">
+      <choice cycle="A">
+        <reading>Is 49:3,5-6</reading>
+        <reading>1 Cor 1:1-3</reading>
+        <reading>Jn 1:29-34</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>1 Sm 3:3b-10,19</reading>
+        <reading>1 Cor 6:13c-15a,17-20</reading>
+        <reading>Jn 1:35-42</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Is 62:1-5</reading>
         <reading>1 Cor 12:4-11</reading>
         <reading>Jn 2:1-12</reading>
-      </mass>
-      <mass weekid="week-3" id="sunday" name="3rd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-3" id="sunday" name="3rd Sunday">
+      <choice cycle="A">
+        <reading>Is 8:23b-9:3</reading>
+        <reading>1 Cor 1:10-13,17</reading>
+        <reading>Mt 4:12-23</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jn 3:1-5,10</reading>
+        <reading>1 Cor 7:29-31</reading>
+        <reading>Mk 1:14-20</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Neh 8:2-4a,5-6,8-10</reading>
         <reading>1 Cor 12:12-30</reading>
         <reading>Lk 1:1-4,4:14-21</reading>
-      </mass>
-      <mass weekid="week-4" id="sunday" name="4th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-4" id="sunday" name="4th Sunday">
+      <choice cycle="A">
+        <reading>Zep 2:3,3:12-13</reading>
+        <reading>1 Cor 1:26-31</reading>
+        <reading>Mt 5:1-12a</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dt 18:15-20</reading>
+        <reading>1 Cor 7:32-35</reading>
+        <reading>Mk 1:21-28</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Jer 1:4-5,17-19</reading>
         <reading>1 Cor 12:31-13:13</reading>
         <reading>Lk 4:21-30</reading>
-      </mass>
-      <mass weekid="week-5" id="sunday" name="5th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-5" id="sunday" name="5th Sunday">
+      <choice cycle="A">
+        <reading>Is 58:7-10</reading>
+        <reading>1 Cor 2:1-5</reading>
+        <reading>Mt 5:13-16</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jb 7:1-4,6-7</reading>
+        <reading>1 Cor 9:16-19,22-23</reading>
+        <reading>Mk 1:29-39</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Is 6:1-2a,3-8</reading>
         <reading>1 Cor 15:1-11</reading>
         <reading>Lk 5:1-11</reading>
-      </mass>
-      <mass weekid="week-6" id="sunday" name="6th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-6" id="sunday" name="6th Sunday">
+      <choice cycle="A">
+        <reading>Sir 15:16-21</reading>
+        <reading>1 Cor 2:6-10</reading>
+        <reading>Mt 5:17-37</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Lv 13:1-2,45-56</reading>
+        <reading>1 Cor 10:31-11,1</reading>
+        <reading>Mk 1:40-45</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Jer 17:5-8</reading>
         <reading>1 Cor 15:12,16-20</reading>
         <reading>Lk 6:17,20-26</reading>
-      </mass>
-      <mass weekid="week-7" id="sunday" name="7th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-7" id="sunday" name="7th Sunday">
+      <choice cycle="A">
+        <reading>Lv 19:1-2,17-18</reading>
+        <reading>1 Cor 3:16-23</reading>
+        <reading>Mt 5:38-48</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Is 43:18-19,21-22,24b-25</reading>
+        <reading>2 Cor 1:18-22</reading>
+        <reading>Mk 2:1-12</reading>
+      </choice>
+      <choice cycle="C">
         <reading>1 Sm 26:2,7-9,12-13,22-23</reading>
         <reading>1 Cor 15:45-49</reading>
         <reading>Lk 6:27-38</reading>
-      </mass>
-      <mass weekid="week-8" id="sunday" name="8th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-8" id="sunday" name="8th Sunday">
+      <choice cycle="A">
+        <reading>Is 49:14-15</reading>
+        <reading>1 Cor 1:1-5</reading>
+        <reading>Mt 6:24-34</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Hos 2:16b,17b,21-22</reading>
+        <reading>2 Cor 3:1b-6</reading>
+        <reading>Mk 2:18-22</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Sir 27:5-8</reading>
         <reading>1 Cor 16:54-58</reading>
         <reading>Lk 6:39-45</reading>
-      </mass>
-      <mass weekid="week-9" id="sunday" name="9th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-9" id="sunday" name="9th Sunday">
+      <choice cycle="A">
+        <reading>Dt 11:18,26-28,32</reading>
+        <reading>Rom 3:21-25a,28</reading>
+        <reading>Mt 7,21-27</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dt 5:12-15</reading>
+        <reading>2 Cor 4:6-11</reading>
+        <reading>Mk 2:23-3:6</reading>
+      </choice>
+      <choice cycle="C">
         <reading>1 Kgs 8:41-43</reading>
         <reading>Gal 1:1-2,6-10</reading>
         <reading>Lk 7:1-10</reading>
-      </mass>
-      <mass weekid="week-10" id="sunday" name="10th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-10" id="sunday" name="10th Sunday">
+      <choice cycle="A">
+        <reading>Hos 6:3-6</reading>
+        <reading>Rom 4:18-26</reading>
+        <reading>Mt 9:9-13</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Gn 3:9-15</reading>
+        <reading>2 Cor 4:13-5:1</reading>
+        <reading>Mk 3:20-35</reading>
+      </choice>
+      <choice cycle="C">
         <reading>1 Kgs 17:17-24</reading>
         <reading>Gal 1:11-19</reading>
         <reading>Lk 7:11-17</reading>
-      </mass>
-      <mass weekid="week-11" id="sunday" name="11th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-11" id="sunday" name="11th Sunday">
+      <choice cycle="A">
+        <reading>Ex 19:2-6a</reading>
+        <reading>Rom 5:6-11</reading>
+        <reading>Mt 9:36-10:8</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Ez 17:22-24</reading>
+        <reading>2 Cor 5:6-10</reading>
+        <reading>Mk 4:25-34</reading>
+      </choice>
+      <choice cycle="C">
         <reading>2 Sm 12:7-10,13</reading>
         <reading>Gal 2:16,19-21</reading>
         <reading>Lk 7:36-8:3</reading>
-      </mass>
-      <mass weekid="week-12" id="sunday" name="12th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-12" id="sunday" name="12th Sunday">
+      <choice cycle="A">
+        <reading>Jer 20:10-13</reading>
+        <reading>Rom 5:12-15</reading>
+        <reading>Mt 10:26-33</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jb 38:1,8-11</reading>
+        <reading>2 Cor 5:14-17</reading>
+        <reading>Mk 4:35-41</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Zec 12:10-11</reading>
         <reading>Gal 3:23-29</reading>
         <reading>Lk 9:18-24</reading>
-      </mass>
-      <mass weekid="week-13" id="sunday" name="13th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-13" id="sunday" name="13th Sunday">
+      <choice cycle="A">
+        <reading>2 Kgs 4:8-11,14-16a</reading>
+        <reading>Rom 6:3-4,8-11</reading>
+        <reading>Mt 10:37-42</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Wis 1:13-15,2:23-24</reading>
+        <reading>2 Cor 8:7,9,13-15</reading>
+        <reading>Mk 5:21-43</reading>
+      </choice>
+      <choice cycle="C">
         <reading>1 Kgs 19:16b,19-21</reading>
         <reading>Gal 5:1,13-18</reading>
         <reading>Lk 9:51-62</reading>
-      </mass>
-      <mass weekid="week-14" id="sunday" name="14th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-14" id="sunday" name="14th Sunday">
+      <choice cycle="A">
+        <reading>Zec 9:9-10</reading>
+        <reading>Rom 8:9,11-13</reading>
+        <reading>Mt 11:25-30</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Ez 2:2-5</reading>
+        <reading>2 Cor 12:7-10</reading>
+        <reading>Mk 6:1-6</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Is 66:10-14c</reading>
         <reading>Gal 6:14-18</reading>
         <reading>Lk 10:1-12,17-20</reading>
-      </mass>
-      <mass weekid="week-15" id="sunday" name="15th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-15" id="sunday" name="15th Sunday">
+      <choice cycle="A">
+        <reading>Is 55:10-11</reading>
+        <reading>Rom 8:18-23</reading>
+        <reading>Mt 13:1-23</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Am 7:12-15</reading>
+        <reading>Eph 1:3-14</reading>
+        <reading>Mk 6:7-13</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Dt 30:10-14</reading>
         <reading>Col 1:15-20</reading>
         <reading>Lk 10:25-37</reading>
-      </mass>
-      <mass weekid="week-16" id="sunday" name="16th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-16" id="sunday" name="16th Sunday">
+      <choice cycle="A">
+        <reading>Wis 12:13,16-19</reading>
+        <reading>Rom 8:26-27</reading>
+        <reading>Mt 13:24-43</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jer 23:1-6</reading>
+        <reading>Eph 2:13-18</reading>
+        <reading>Mk 6:30-34</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Gn 18:1-10a</reading>
         <reading>Col 1:24-28</reading>
         <reading>Lk 10:38-42</reading>
-      </mass>
-      <mass weekid="week-17" id="sunday" name="17th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-17" id="sunday" name="17th Sunday">
+      <choice cycle="A">
+        <reading>1 Kgs 3:5,7-12</reading>
+        <reading>Rom 8:28-30</reading>
+        <reading>Mt 13:44-52</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>2 Kgs 4:42-44</reading>
+        <reading>Eph 4:1-6</reading>
+        <reading>Jn 6:1-15</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Gn 18:20-32</reading>
         <reading>Col 2:12-14</reading>
         <reading>Lk 11:1-13</reading>
-      </mass>
-      <mass weekid="week-18" id="sunday" name="18th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-18" id="sunday" name="18th Sunday">
+      <choice cycle="A">
+        <reading>Is 55:1-3</reading>
+        <reading>Rom 8:35,37-39</reading>
+        <reading>Mt 14:13-21</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Ex 16:2-4,12-15</reading>
+        <reading>Eph 4:14,20-24</reading>
+        <reading>Jn 6:24-35</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Eccl 1:2,2:21-23</reading>
         <reading>Col 3:1-5,9-11</reading>
         <reading>Lk 12:13-31</reading>
-      </mass>
-      <mass weekid="week-19" id="sunday" name="19th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-19" id="sunday" name="19th Sunday">
+      <choice cycle="A">
+        <reading>1 Kgs 19,9a,11-13a</reading>
+        <reading>Rom 9:1-5</reading>
+        <reading>Mt 14:22-33</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>1 Kgs 19:4-8</reading>
+        <reading>Eph 4:30-5:2</reading>
+        <reading>Jn 6:41-51</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Wis 18:6-9</reading>
         <reading>Heb 11:1-2,8-19</reading>
         <reading>Lk 12:32-48</reading>
-      </mass>
-      <mass weekid="week-20" id="sunday" name="20th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-20" id="sunday" name="20th Sunday">
+      <choice cycle="A">
+        <reading>Is 56:1,6-7</reading>
+        <reading>Rom 11:13-15,29-32</reading>
+        <reading>Mt 15:21-28</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Prv 9:1-6</reading>
+        <reading>Eph 5:15-20</reading>
+        <reading>Jn 6:51-58</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Jer 38:4-6,8-10</reading>
         <reading>Heb 12:1-4</reading>
         <reading>Lk 12:49-53</reading>
-      </mass>
-      <mass weekid="week-21" id="sunday" name="21st Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-21" id="sunday" name="21st Sunday">
+      <choice cycle="A">
+        <reading>Is 22:19-23</reading>
+        <reading>Rom 11:33-36</reading>
+        <reading>Mt 16:13-20</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jos 24:1-2a,15-17,18b</reading>
+        <reading>Eph 5:21-32</reading>
+        <reading>Jn 6:60-69</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Is 66:18-21</reading>
         <reading>Heb 12:5-7,11-13</reading>
         <reading>Lk 13:22-30</reading>
-      </mass>
-      <mass weekid="week-22" id="sunday" name="22nd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-22" id="sunday" name="22nd Sunday">
+      <choice cycle="A">
+        <reading>Jer 20:7-9</reading>
+        <reading>Rom 12:1-2</reading>
+        <reading>Mt 16:21-27</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dt 4:1-2,6-8</reading>
+        <reading>Jas 1:17-18,21b-22,27</reading>
+        <reading>Mk 7:1-8,14-15,21-23</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Sir 3:19-21,30-31</reading>
         <reading>Heb 12:18-19,22-24a</reading>
         <reading>Lk 14:1,7-14</reading>
-      </mass>
-      <mass weekid="week-23" id="sunday" name="23rd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-23" id="sunday" name="23rd Sunday">
+      <choice cycle="A">
+        <reading>Ez 33:7-9</reading>
+        <reading>Rom 8:8-10</reading>
+        <reading>Mt 18:15-20</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Is 35:4-7a</reading>
+        <reading>Jas 2:1-5</reading>
+        <reading>Mk 7:31-37</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Wis 9:13-19</reading>
         <reading>Phlm 9b-10,12-17</reading>
         <reading>Lk 14:25-33</reading>
-      </mass>
-      <mass weekid="week-24" id="sunday" name="24th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-24" id="sunday" name="24th Sunday">
+      <choice cycle="A">
+        <reading>Sir 27:30-28:7</reading>
+        <reading>Rom 14:7-9</reading>
+        <reading>Mt 18:21-35</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Is 50:5-9a</reading>
+        <reading>Jas 2:14-18</reading>
+        <reading>Mk 8:27-35</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Ex 32:7-11,13-14</reading>
         <reading>1 Tm 1:12-17</reading>
         <reading>Lk 15:1-32</reading>
-      </mass>
-      <mass weekid="week-25" id="sunday" name="25th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-25" id="sunday" name="25th Sunday">
+      <choice cycle="A">
+        <reading>Is 55:6-9</reading>
+        <reading>Phil 1:20c-24,27a</reading>
+        <reading>Mt 20,1-16a</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Wis 2:12,17-20</reading>
+        <reading>Jas 3:16-4:3</reading>
+        <reading>Mk 9:30-37</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Am 8:4-7</reading>
         <reading>1 Tm 2:1-8</reading>
         <reading>Lk 16:1-13</reading>
-      </mass>
-      <mass weekid="week-26" id="sunday" name="26th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-26" id="sunday" name="26th Sunday">
+      <choice cycle="A">
+        <reading>Ez 18:25-28</reading>
+        <reading>Phil 2:1-11</reading>
+        <reading>Mt 21:28-32</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Nm 11:25-29</reading>
+        <reading>Jas 5:1-6</reading>
+        <reading>Mk 9:38-43,45,47-48</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Am 6:1a,4-7</reading>
         <reading>1 Tm 6:11-16</reading>
         <reading>Lk 16:19-31</reading>
-      </mass>
-      <mass weekid="week-27" id="sunday" name="27th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-27" id="sunday" name="27th Sunday">
+      <choice cycle="A">
+        <reading>Is 5:1-7</reading>
+        <reading>Phil 4:6-9</reading>
+        <reading>Mt 21:33-43</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Gn 2:18-24</reading>
+        <reading>Hb 2:9-11</reading>
+        <reading>Mk 10:2-16</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Hb 1:2-3,2:2-4</reading>
         <reading>2 Tm 1:6-8,13-14</reading>
         <reading>Lk 17:5-10</reading>
-      </mass>
-      <mass weekid="week-28" id="sunday" name="28th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-28" id="sunday" name="28th Sunday">
+      <choice cycle="A">
+        <reading>Is 25:6-10a</reading>
+        <reading>Phil 4:12-14,19-20</reading>
+        <reading>Mt 22:1-14</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Wis 7:7-11</reading>
+        <reading>Heb 4:12-13</reading>
+        <reading>Mk 10:17-30</reading>
+      </choice>
+      <choice cycle="C">
         <reading>2 Kgs 5:14-17</reading>
         <reading>2 Tm 2:8-13</reading>
         <reading>Lk 17:11-19</reading>
-      </mass>
-      <mass weekid="week-29" id="sunday" name="29th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-29" id="sunday" name="29th Sunday">
+      <choice cycle="A">
+        <reading>Is 45:1,4-6</reading>
+        <reading>1 Thes 1:1-5b</reading>
+        <reading>Mt 22:15-21</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Is 53:10-11</reading>
+        <reading>Heb 4:14-16</reading>
+        <reading>Mk 10:35-45</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Ex 17:8-13</reading>
         <reading>2 Tm 3:14-4:2</reading>
         <reading>Lk 18:1-8</reading>
-      </mass>
-      <mass weekid="week-30" id="sunday" name="30th Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-30" id="sunday" name="30th Sunday">
+      <choice cycle="A">
+        <reading>Ex 22:20-26</reading>
+        <reading>1 Thes 1:5c-10</reading>
+        <reading>Mt 22:34-40</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Jer 31:7-9</reading>
+        <reading>Heb 5:1-6</reading>
+        <reading>Mk 10:45-52</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Sir 35:15b-17,20-22a</reading>
         <reading>2 Tm 4:6-8,16-18</reading>
         <reading>Lk 18:9-14</reading>
-      </mass>
-      <mass weekid="week-31" id="sunday" name="31st Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-31" id="sunday" name="31st Sunday">
+      <choice cycle="A">
+        <reading>Mal 1:14b-2:2b,8-10</reading>
+        <reading>1 Thes 2:7b-9,13</reading>
+        <reading>Mt 23:1-12</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dt 6:2-6</reading>
+        <reading>Heb 7:23-28</reading>
+        <reading>Mk 12:28b-34</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Wis 11:23-12:2</reading>
         <reading>2 Thes 1:11-2:2</reading>
         <reading>Lk 19:1-10</reading>
-      </mass>
-      <mass weekid="week-32" id="sunday" name="32nd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-32" id="sunday" name="32nd Sunday">
+      <choice cycle="A">
+        <reading>Wis 6:12-16</reading>
+        <reading>1 Thes 4:13-18</reading>
+        <reading>Mt 25:1-13</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>1 Kgs 17:10-16</reading>
+        <reading>Heb 9:24-28</reading>
+        <reading>Mk 12:38-44</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Mk 7:1-2,9-14</reading>
         <reading>2 Thes 2:16-3:5</reading>
         <reading>Lk 20:27-38</reading>
-      </mass>
-      <mass weekid="week-33" id="sunday" name="33rd Sunday">
+      </choice>
+    </mass>
+    <mass weekid="week-33" id="sunday" name="33rd Sunday">
+      <choice cycle="A">
+        <reading>Prv 31:10-13,19-20,30-31</reading>
+        <reading>1 Thes 5:1-6</reading>
+        <reading>Mt 25:14-30</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dn 12:1-3</reading>
+        <reading>Heb 10:11-14,18</reading>
+        <reading>Mk 13:24-32</reading>
+      </choice>
+      <choice cycle="C">
         <reading>Mal 3:19-20a</reading>
         <reading>2 Thes 3:7-12</reading>
         <reading>Lk 21:5-19</reading>
-      </mass>
-      <mass weekid="week-34" id="sunday-christ-the-king" name="34th Sunday (Christ the King)">
+      </choice>
+    </mass>
+    <mass weekid="week-34" id="sunday-christ-the-king" name="34th Sunday (Christ the King)">
+      <choice cycle="A">
+        <reading>Ez 34:11-12,15-17</reading>
+        <reading>1 Cor 15:20-26,28</reading>
+        <reading>Mt 25:31-46</reading>
+      </choice>
+      <choice cycle="B">
+        <reading>Dn 7:13-14</reading>
+        <reading>Rv 1:5-8</reading>
+        <reading>Jn 18:33b-37</reading>
+      </choice>
+      <choice cycle="C">
         <reading>2 Sm 5:1-3</reading>
         <reading>Col 1:12-20</reading>
         <reading>Lk 23:35-43</reading>
-      </mass>
-    </season>
-  </cycle>
+      </choice>
+    </mass>
+  </season>
 </lectionary>

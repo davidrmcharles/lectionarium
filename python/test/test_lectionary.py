@@ -50,20 +50,32 @@ class LectionaryTestCase(unittest.TestCase):
     right number of them.
     '''
 
+    def test_sundaysInOrdinaryTime(self):
+        for mass in lectionary._lectionary.sundaysInOrdinaryTime:
+            pass  # print mass
+
     def test_parseSundayCitations(self):
+        '''
+        Prove that the number of readings we find in the Sunday
+        Lectionary by invoking ``grep`` on the XML equals the number
+        of readings we find in our object representation of the Sunday
+        Lectionary.  Furthermore, prove that we can parse every one of
+        the citations.
+        '''
+
         readingCount = 0
         for mass in lectionary._lectionary.allSundayMasses:
-            for reading in mass.readings:
+            for reading in mass.allReadings:
                 readingCount += 1
                 citations.parse(reading)
 
         # $ grep --count /reading sunday-lectionary.xml
-        self.assertEqual(659, readingCount)
+        self.assertEqual(565, readingCount)
 
     def test_parseWeekdayCitations(self):
         readingCount = 0
         for mass in lectionary._lectionary._weekdayMasses:
-            for reading in mass.readings:
+            for reading in mass.allReadings:
                 readingCount += 1
                 # TODO: Here is one we cannot parse yet!
                 if reading == 'Est C:12,14-16,23-25':
@@ -76,7 +88,7 @@ class LectionaryTestCase(unittest.TestCase):
     def test_parseSpecialCitations(self):
         readingCount = 0
         for mass in lectionary._lectionary._fixedDateMasses:
-            for reading in mass.readings:
+            for reading in mass.allReadings:
                 readingCount += 1
                 citations.parse(reading)
 
@@ -86,28 +98,159 @@ class LectionaryTestCase(unittest.TestCase):
     def test_weekdayMassesInWeek(self):
         lectionary._lectionary.weekdayMassesInWeek(None, 'week-1')
 
-class decodeCycleTestCase(unittest.TestCase):
+class decodeMassTestCase(unittest.TestCase):
 
-    def test_1(self):
+    def test_christmasAtMidnight(self):
+        '''
+        Prove that we can decode the pattern exemplified by Christmass
+        At Midnight.
+
+        Notice this mass has three readings that do not change with
+        the Sundya cycle and there are no options.
+        '''
+
         doc = xml.dom.minidom.parseString('''\
 <?xml version="1.0"?>
-<cycle id="A">
-  <season id="lent" name="Lenten Season">
-    <mass weekid="week-1" id="sunday" name="1st Sunday of Lent">
-      <reading>Gn 2:7-9,3:1-7</reading>
-      <reading>Rom 5:12-19</reading>
-      <reading>Mt 4:1-11</reading>
-    </mass>
-  </season>
-</cycle>
+<mass name="Christmas (At Midnight)">
+  <reading>Is 9:1-6</reading>
+  <reading>Ti 2:11-14</reading>
+  <reading>Lk 2:1-14</reading>
+</mass>
 ''')
-        masses = lectionary._decode_cycle(doc.documentElement)
-        self.assertEqual(1, len(masses))
-        mass = masses[0]
-        self.assertEqual('a', mass.cycle)
-        self.assertEqual('lent', mass.seasonid)
-        self.assertEqual('week-1', mass.weekid)
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Christmas (At Midnight)', mass.name)
+        self.assertEqual('christmas-at-midnight', mass.id)
+        self.assertEqual(3, len(mass.allReadings))
+
+    def test_firstSundayOfAdvent(self):
+        '''
+        Prove that we can decode the pattern exemplified by the 1st
+        Sunday of Advent.
+
+        Notice this mass has three variations, one for each Sunday
+        cycle, and no options.
+        '''
+
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
+  <choice cycle="A">
+    <reading>Is 2:1-5</reading>
+    <reading>Rom 13:11-14</reading>
+    <reading>Mt 24:37-44</reading>
+  </choice>
+  <choice cycle="B">
+    <reading>Is 63:16b-17,19b,64:2b-7</reading>
+    <reading>1 Cor 1:3-9</reading>
+    <reading>Mk 13:33-37</reading>
+  </choice>
+  <choice cycle="C">
+    <reading>Jer 33:14-16</reading>
+    <reading>1 Thes 3:12-4:2</reading>
+    <reading>Lk 21:25-28,34-36</reading>
+  </choice>
+</mass>
+''')
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('1st Sunday of Advent', mass.name)
         self.assertEqual('sunday', mass.id)
+        self.assertEqual('week-1', mass.weekid)
+        self.assertEqual(9, len(mass.allReadings))
+
+    def test_holyFamily(self):
+        '''
+        Prove that we can decode the pattern exemplified by Holy
+        Family.
+
+        Notice this mass has the typical cycle variations, with the
+        added complexity of options in cycle B.
+        '''
+
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass name="Holy Family">
+  <choice cycle="A">
+    <reading>Sir 3:3-7,14-17a</reading>
+    <reading>Col 3:12-21</reading>
+    <reading>Mt 2:13-15,19-23</reading>
+  </choice>
+  <choice cycle="B">
+    <reading>Gn 15:1-6,21:1-3</reading>
+    <reading>Heb 11:8,11-12,17-19</reading>
+    <choice>
+      <reading>Lk 2:22-40</reading>
+      <reading>Lk 2:22,39-40</reading>
+    </choice>
+  </choice>
+  <choice cycle="C">
+    <reading>1 Sm 1:20-22,24-28</reading>
+    <reading>1 Jn 3:1-2,21-24</reading>
+    <reading>Lk 2:41-52</reading>
+  </choice>
+</mass>
+''')
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Holy Family', mass.name)
+        self.assertEqual('holy-family', mass.id)
+        self.assertEqual(10, len(mass.allReadings))
+
+    def test_easterSunday(self):
+        '''
+        Prove that we can decode the pattern exemplified by Easter
+        Sunday.
+
+        Notice that the first reading does not vary, the second
+        reading has cycle-independent options, and the third reading
+        is one of three different sets of options that depend upon the
+        cycle.
+        '''
+
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass weekid="week-1" id="sunday" name="Easter Sunday">
+  <reading>Acts 10:34a,37-43</reading>
+  <choice>
+    <reading>Col 3:1-4</reading>
+    <reading>1 Cor 5:6b-8</reading>
+  </choice>
+  <choice cycle="A">
+    <choice>
+      <reading>Jn 20:1-9</reading>
+      <reading>Mt 28:1-10</reading>
+      <reading>Lk 24:13-35</reading>
+    </choice>
+  </choice>
+  <choice cycle="B">
+    <choice>
+      <reading>Jn 20:1-8</reading>
+      <reading>Mk 16:1-8</reading>
+      <reading>Lk 24:13-35</reading>
+    </choice>
+  </choice>
+  <choice cycle="C">
+    <choice>
+      <reading>Jn 20:1-9</reading>
+      <reading>Lk 24:1-12</reading>
+      <reading>Lk 24:13-35</reading>
+    </choice>
+  </choice>
+</mass>
+''')
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Easter Sunday', mass.name)
+        self.assertEqual(12, len(mass.allReadings))
+
+    def test_weekday(self):
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass name="Monday">
+  <reading cycle="I">Heb 1:1-6</reading>
+  <reading cycle="II">1 Sm 1:1-8</reading>
+  <reading>Mk 1:14-20</reading>
+</mass>
+''')
+        # Here is a mass with the more typical variations for cycles I
+        # and II.
 
 # textTestCase?
 # firstChildTestCase?
@@ -189,7 +332,7 @@ class CalendarTestCase(unittest.TestCase):
 
         testData = [
             # January
-            (1, 1, ['mary-mother-of-god#a']),
+            (1, 1, ['mary-mother-of-god']),
             (1, 2, ['01-02']),
             (1, 3, ['01-03']),
             (1, 4, ['01-04']),
@@ -197,15 +340,15 @@ class CalendarTestCase(unittest.TestCase):
             (1, 6, ['01-06']),
             (1, 7, ['01-07']),
 
-            (1, 8, ['epiphany#a']),
-            (1, 9, ['baptism-of-the-lord#a']),
+            (1, 8, ['epiphany']),
+            (1, 9, ['baptism-of-the-lord']),
             (1, 10, ['week-1/tuesday']),
             (1, 11, ['week-1/wednesday']),
             (1, 12, ['week-1/thursday']),
             (1, 13, ['week-1/friday']),
             (1, 14, ['week-1/saturday']),
 
-            (1, 15, ['week-2/sunday#a']),
+            (1, 15, ['week-2/sunday']),
             (1, 16, ['week-2/monday']),
             (1, 17, ['week-2/tuesday']),
             (1, 18, ['week-2/wednesday']),
@@ -213,7 +356,7 @@ class CalendarTestCase(unittest.TestCase):
             (1, 20, ['week-2/friday']),
             (1, 21, ['week-2/saturday']),
 
-            (1, 22, ['week-3/sunday#a']),
+            (1, 22, ['week-3/sunday']),
             (1, 23, ['week-3/monday']),
             (1, 24, ['week-3/tuesday']),
             (1, 25, ['week-3/wednesday']),
@@ -221,7 +364,7 @@ class CalendarTestCase(unittest.TestCase):
             (1, 27, ['week-3/friday']),
             (1, 28, ['week-3/saturday']),
 
-            (1, 29, ['week-4/sunday#a']),
+            (1, 29, ['week-4/sunday']),
             (1, 30, ['week-4/monday']),
             (1, 31, ['week-4/tuesday']),
 
@@ -231,7 +374,7 @@ class CalendarTestCase(unittest.TestCase):
             (2, 3, ['week-4/friday']),
             (2, 4, ['week-4/saturday']),
 
-            (2, 5, ['week-5/sunday#a']),
+            (2, 5, ['week-5/sunday']),
             (2, 6, ['week-5/monday']),
             (2, 7, ['week-5/tuesday']),
             (2, 8, ['week-5/wednesday']),
@@ -239,7 +382,7 @@ class CalendarTestCase(unittest.TestCase):
             (2, 10, ['week-5/friday']),
             (2, 11, ['week-5/saturday']),
 
-            (2, 12, ['week-6/sunday#a']),
+            (2, 12, ['week-6/sunday']),
             (2, 13, ['week-6/monday']),
             (2, 14, ['week-6/tuesday']),
             (2, 15, ['week-6/wednesday']),
@@ -247,7 +390,7 @@ class CalendarTestCase(unittest.TestCase):
             (2, 17, ['week-6/friday']),
             (2, 18, ['week-6/saturday']),
 
-            (2, 19, ['week-7/sunday#a']),
+            (2, 19, ['week-7/sunday']),
             (2, 20, ['week-7/monday']),
             (2, 21, ['week-7/tuesday']),
             (2, 22, ['week-7/wednesday']),
@@ -255,7 +398,7 @@ class CalendarTestCase(unittest.TestCase):
             (2, 24, ['week-7/friday']),
             (2, 25, ['week-7/saturday']),
 
-            (2, 26, ['week-8/sunday#a']),
+            (2, 26, ['week-8/sunday']),
             (2, 27, ['week-8/monday']),
             (2, 28, ['week-8/tuesday']),
 
@@ -265,7 +408,7 @@ class CalendarTestCase(unittest.TestCase):
             (3, 3, ['lent/week-of-ash-wednesday/friday']),
             (3, 4, ['lent/week-of-ash-wednesday/saturday']),
 
-            (3, 5, ['lent/week-1/sunday#a']),
+            (3, 5, ['lent/week-1/sunday']),
             (3, 6, ['lent/week-1/monday']),
             (3, 7, ['lent/week-1/tuesday']),
             (3, 8, ['lent/week-1/wednesday']),
@@ -273,7 +416,7 @@ class CalendarTestCase(unittest.TestCase):
             (3, 10, ['lent/week-1/friday']),
             (3, 11, ['lent/week-1/saturday']),
 
-            (3, 12, ['lent/week-2/sunday#a']),
+            (3, 12, ['lent/week-2/sunday']),
             (3, 13, ['lent/week-2/monday']),
             (3, 14, ['lent/week-2/tuesday']),
             (3, 15, ['lent/week-2/wednesday']),
@@ -281,7 +424,7 @@ class CalendarTestCase(unittest.TestCase):
             (3, 17, ['lent/week-2/friday']),
             (3, 18, ['lent/week-2/saturday']),
 
-            (3, 19, ['lent/week-3/sunday#a']),
+            (3, 19, ['lent/week-3/sunday']),
             # (3, 20, ['lent/week-3/monday']),
             (3, 20, ['joseph-husband-of-mary']),
             (3, 21, ['lent/week-3/tuesday']),
@@ -291,7 +434,7 @@ class CalendarTestCase(unittest.TestCase):
             # (3, 25, ['lent/week-3/saturday']),
             (3, 25, ['annunciation']),
 
-            (3, 26, ['lent/week-4/sunday#a']),
+            (3, 26, ['lent/week-4/sunday']),
             (3, 27, ['lent/week-4/monday']),
             (3, 28, ['lent/week-4/tuesday']),
             (3, 29, ['lent/week-4/wednesday']),
@@ -301,7 +444,7 @@ class CalendarTestCase(unittest.TestCase):
             # April
             (4, 1, ['lent/week-4/saturday']),
 
-            (4, 2, ['lent/week-5/sunday#a']),
+            (4, 2, ['lent/week-5/sunday']),
             (4, 3, ['lent/week-5/monday']),
             (4, 4, ['lent/week-5/tuesday']),
             (4, 5, ['lent/week-5/wednesday']),
@@ -309,16 +452,16 @@ class CalendarTestCase(unittest.TestCase):
             (4, 7, ['lent/week-5/friday']),
             (4, 8, ['lent/week-5/saturday']),
 
-            (4, 9, ['holy-week/palm-sunday#a']),
+            (4, 9, ['holy-week/palm-sunday']),
             (4, 10, ['holy-week/monday']),
             (4, 11, ['holy-week/tuesday']),
             (4, 12, ['holy-week/wednesday']),
             (4, 13, ['holy-week/thursday-chrism-mass',
-                     'holy-week/mass-of-the-lords-supper#a']),
-            (4, 14, ['holy-week/good-friday#a']),
-            (4, 15, ['easter/easter-vigil#a']),
+                     'holy-week/mass-of-the-lords-supper']),
+            (4, 14, ['holy-week/good-friday']),
+            (4, 15, ['easter/easter-vigil']),
 
-            (4, 16, ['easter/week-1/sunday#a']),
+            (4, 16, ['easter/week-1/sunday']),
             (4, 17, ['easter/week-1/monday']),
             (4, 18, ['easter/week-1/tuesday']),
             (4, 19, ['easter/week-1/wednesday']),
@@ -326,7 +469,7 @@ class CalendarTestCase(unittest.TestCase):
             (4, 21, ['easter/week-1/friday']),
             (4, 22, ['easter/week-1/saturday']),
 
-            (4, 23, ['easter/week-2/sunday#a']),
+            (4, 23, ['easter/week-2/sunday']),
             (4, 24, ['easter/week-2/monday']),
             (4, 25, ['easter/week-2/tuesday']),
             (4, 26, ['easter/week-2/wednesday']),
@@ -334,7 +477,7 @@ class CalendarTestCase(unittest.TestCase):
             (4, 28, ['easter/week-2/friday']),
             (4, 29, ['easter/week-2/saturday']),
 
-            (4, 30, ['easter/week-3/sunday#a']),
+            (4, 30, ['easter/week-3/sunday']),
 
             # May
             (5, 1, ['easter/week-3/monday']),
@@ -344,7 +487,7 @@ class CalendarTestCase(unittest.TestCase):
             (5, 5, ['easter/week-3/friday']),
             (5, 6, ['easter/week-3/saturday']),
 
-            (5, 7, ['easter/week-4/sunday#a']),
+            (5, 7, ['easter/week-4/sunday']),
             (5, 8, ['easter/week-4/monday']),
             (5, 9, ['easter/week-4/tuesday']),
             (5, 10, ['easter/week-4/wednesday']),
@@ -352,7 +495,7 @@ class CalendarTestCase(unittest.TestCase):
             (5, 12, ['easter/week-4/friday']),
             (5, 13, ['easter/week-4/saturday']),
 
-            (5, 14, ['easter/week-5/sunday#a']),
+            (5, 14, ['easter/week-5/sunday']),
             (5, 15, ['easter/week-5/monday']),
             (5, 16, ['easter/week-5/tuesday']),
             (5, 17, ['easter/week-5/wednesday']),
@@ -360,7 +503,7 @@ class CalendarTestCase(unittest.TestCase):
             (5, 19, ['easter/week-5/friday']),
             (5, 20, ['easter/week-5/saturday']),
 
-            (5, 21, ['easter/week-6/sunday#a']),
+            (5, 21, ['easter/week-6/sunday']),
             (5, 22, ['easter/week-6/monday']),
             (5, 23, ['easter/week-6/tuesday']),
             (5, 24, ['easter/week-6/wednesday']),
@@ -368,7 +511,7 @@ class CalendarTestCase(unittest.TestCase):
             (5, 26, ['easter/week-6/friday']),
             (5, 27, ['easter/week-6/saturday']),
 
-            (5, 28, ['easter/week-7/sunday#a']),
+            (5, 28, ['easter/week-7/sunday']),
             (5, 29, ['easter/week-7/monday']),
             (5, 30, ['easter/week-7/tuesday']),
             (5, 31, ['easter/week-7/wednesday']),
@@ -376,9 +519,9 @@ class CalendarTestCase(unittest.TestCase):
             # June
             (6, 1, ['easter/week-7/thursday']),
             (6, 2, ['easter/week-7/friday']),
-            (6, 3, ['easter/week-7/saturday', 'easter/pentecost-vigil#a']),
+            (6, 3, ['easter/week-7/saturday', 'easter/pentecost-vigil']),
 
-            (6, 4, ['easter/pentecost#a']),
+            (6, 4, ['easter/pentecost']),
             (6, 5, ['week-9/monday']),
             (6, 6, ['week-9/tuesday']),
             (6, 7, ['week-9/wednesday']),
@@ -386,7 +529,7 @@ class CalendarTestCase(unittest.TestCase):
             (6, 9, ['week-9/friday']),
             (6, 10, ['week-9/saturday']),
 
-            (6, 11, ['trinity-sunday#a']),
+            (6, 11, ['trinity-sunday']),
             (6, 12, ['week-10/monday']),
             (6, 13, ['week-10/tuesday']),
             (6, 14, ['week-10/wednesday']),
@@ -394,7 +537,7 @@ class CalendarTestCase(unittest.TestCase):
             (6, 16, ['week-10/friday']),
             (6, 17, ['week-10/saturday']),
 
-            (6, 18, ['corpus-christi#a']),
+            (6, 18, ['corpus-christi']),
             (6, 19, ['week-11/monday']),
             (6, 20, ['week-11/tuesday']),
             (6, 21, ['week-11/wednesday']),
@@ -402,7 +545,7 @@ class CalendarTestCase(unittest.TestCase):
             (6, 23, ['john-the-baptist-vigil']),
             (6, 24, ['john-the-baptist']),
 
-            (6, 25, ['week-12/sunday#a']),
+            (6, 25, ['week-12/sunday']),
             (6, 26, ['week-12/monday']),
             (6, 27, ['week-12/tuesday']),
             (6, 28, ['peter-and-paul-vigil']),
@@ -412,7 +555,7 @@ class CalendarTestCase(unittest.TestCase):
             # July
             (7, 1, ['week-12/saturday']),
 
-            (7, 2, ['week-13/sunday#a']),
+            (7, 2, ['week-13/sunday']),
             (7, 3, ['week-13/monday']),
             (7, 4, ['week-13/tuesday']),
             (7, 5, ['week-13/wednesday']),
@@ -420,7 +563,7 @@ class CalendarTestCase(unittest.TestCase):
             (7, 7, ['week-13/friday']),
             (7, 8, ['week-13/saturday']),
 
-            (7, 9, ['week-14/sunday#a']),
+            (7, 9, ['week-14/sunday']),
             (7, 10, ['week-14/monday']),
             (7, 11, ['week-14/tuesday']),
             (7, 12, ['week-14/wednesday']),
@@ -428,7 +571,7 @@ class CalendarTestCase(unittest.TestCase):
             (7, 14, ['week-14/friday']),
             (7, 15, ['week-14/saturday']),
 
-            (7, 16, ['week-15/sunday#a']),
+            (7, 16, ['week-15/sunday']),
             (7, 17, ['week-15/monday']),
             (7, 18, ['week-15/tuesday']),
             (7, 19, ['week-15/wednesday']),
@@ -436,7 +579,7 @@ class CalendarTestCase(unittest.TestCase):
             (7, 21, ['week-15/friday']),
             (7, 22, ['week-15/saturday']),
 
-            (7, 23, ['week-16/sunday#a']),
+            (7, 23, ['week-16/sunday']),
             (7, 24, ['week-16/monday']),
             (7, 25, ['week-16/tuesday']),
             (7, 26, ['week-16/wednesday']),
@@ -444,7 +587,7 @@ class CalendarTestCase(unittest.TestCase):
             (7, 28, ['week-16/friday']),
             (7, 29, ['week-16/saturday']),
 
-            (7, 30, ['week-17/sunday#a']),
+            (7, 30, ['week-17/sunday']),
             (7, 31, ['week-17/monday']),
 
             # August
@@ -462,7 +605,7 @@ class CalendarTestCase(unittest.TestCase):
             (8, 11, ['week-18/friday']),
             (8, 12, ['week-18/saturday']),
 
-            (8, 13, ['week-19/sunday#a']),
+            (8, 13, ['week-19/sunday']),
             # (8, 14, ['week-19/monday']),
             (8, 14, ['assumption-vigil']),
             # (8, 15, ['week-19/tuesday']),
@@ -472,7 +615,7 @@ class CalendarTestCase(unittest.TestCase):
             (8, 18, ['week-19/friday']),
             (8, 19, ['week-19/saturday']),
 
-            (8, 20, ['week-20/sunday#a']),
+            (8, 20, ['week-20/sunday']),
             (8, 21, ['week-20/monday']),
             (8, 22, ['week-20/tuesday']),
             (8, 23, ['week-20/wednesday']),
@@ -480,7 +623,7 @@ class CalendarTestCase(unittest.TestCase):
             (8, 25, ['week-20/friday']),
             (8, 26, ['week-20/saturday']),
 
-            (8, 27, ['week-21/sunday#a']),
+            (8, 27, ['week-21/sunday']),
             (8, 28, ['week-21/monday']),
             (8, 29, ['week-21/tuesday']),
             (8, 30, ['week-21/wednesday']),
@@ -490,7 +633,7 @@ class CalendarTestCase(unittest.TestCase):
             (9, 1, ['week-21/friday']),
             (9, 2, ['week-21/saturday']),
 
-            (9, 3, ['week-22/sunday#a']),
+            (9, 3, ['week-22/sunday']),
             (9, 4, ['week-22/monday']),
             (9, 5, ['week-22/tuesday']),
             (9, 6, ['week-22/wednesday']),
@@ -498,7 +641,7 @@ class CalendarTestCase(unittest.TestCase):
             (9, 8, ['week-22/friday']),
             (9, 9, ['week-22/saturday']),
 
-            (9, 10, ['week-23/sunday#a']),
+            (9, 10, ['week-23/sunday']),
             (9, 11, ['week-23/monday']),
             (9, 12, ['week-23/tuesday']),
             (9, 13, ['week-23/wednesday']),
@@ -506,7 +649,7 @@ class CalendarTestCase(unittest.TestCase):
             (9, 15, ['week-23/friday']),
             (9, 16, ['week-23/saturday']),
 
-            (9, 17, ['week-24/sunday#a']),
+            (9, 17, ['week-24/sunday']),
             (9, 18, ['week-24/monday']),
             (9, 19, ['week-24/tuesday']),
             (9, 20, ['week-24/wednesday']),
@@ -514,7 +657,7 @@ class CalendarTestCase(unittest.TestCase):
             (9, 22, ['week-24/friday']),
             (9, 23, ['week-24/saturday']),
 
-            (9, 24, ['week-25/sunday#a']),
+            (9, 24, ['week-25/sunday']),
             (9, 25, ['week-25/monday']),
             (9, 26, ['week-25/tuesday']),
             (9, 27, ['week-25/wednesday']),
@@ -523,7 +666,7 @@ class CalendarTestCase(unittest.TestCase):
             (9, 30, ['week-25/saturday']),
 
             # October
-            (10, 1, ['week-26/sunday#a']),
+            (10, 1, ['week-26/sunday']),
             (10, 2, ['week-26/monday']),
             (10, 3, ['week-26/tuesday']),
             (10, 4, ['week-26/wednesday']),
@@ -531,7 +674,7 @@ class CalendarTestCase(unittest.TestCase):
             (10, 6, ['week-26/friday']),
             (10, 7, ['week-26/saturday']),
 
-            (10, 8, ['week-27/sunday#a']),
+            (10, 8, ['week-27/sunday']),
             (10, 9, ['week-27/monday']),
             (10, 10, ['week-27/tuesday']),
             (10, 11, ['week-27/wednesday']),
@@ -539,7 +682,7 @@ class CalendarTestCase(unittest.TestCase):
             (10, 13, ['week-27/friday']),
             (10, 14, ['week-27/saturday']),
 
-            (10, 15, ['week-28/sunday#a']),
+            (10, 15, ['week-28/sunday']),
             (10, 16, ['week-28/monday']),
             (10, 17, ['week-28/tuesday']),
             (10, 18, ['week-28/wednesday']),
@@ -547,7 +690,7 @@ class CalendarTestCase(unittest.TestCase):
             (10, 20, ['week-28/friday']),
             (10, 21, ['week-28/saturday']),
 
-            (10, 22, ['week-29/sunday#a']),
+            (10, 22, ['week-29/sunday']),
             (10, 23, ['week-29/monday']),
             (10, 24, ['week-29/tuesday']),
             (10, 25, ['week-29/wednesday']),
@@ -555,7 +698,7 @@ class CalendarTestCase(unittest.TestCase):
             (10, 27, ['week-29/friday']),
             (10, 28, ['week-29/saturday']),
 
-            (10, 29, ['week-30/sunday#a']),
+            (10, 29, ['week-30/sunday']),
             (10, 30, ['week-30/monday']),
             (10, 31, ['week-30/tuesday']),
 
@@ -567,7 +710,7 @@ class CalendarTestCase(unittest.TestCase):
             (11, 3, ['week-30/friday']),
             (11, 4, ['week-30/saturday']),
 
-            (11, 5, ['week-31/sunday#a']),
+            (11, 5, ['week-31/sunday']),
             (11, 6, ['week-31/monday']),
             (11, 7, ['week-31/tuesday']),
             (11, 8, ['week-31/wednesday']),
@@ -575,7 +718,7 @@ class CalendarTestCase(unittest.TestCase):
             (11, 10, ['week-31/friday']),
             (11, 11, ['week-31/saturday']),
 
-            (11, 12, ['week-32/sunday#a']),
+            (11, 12, ['week-32/sunday']),
             (11, 13, ['week-32/monday']),
             (11, 14, ['week-32/tuesday']),
             (11, 15, ['week-32/wednesday']),
@@ -583,7 +726,7 @@ class CalendarTestCase(unittest.TestCase):
             (11, 17, ['week-32/friday']),
             (11, 18, ['week-32/saturday']),
 
-            (11, 19, ['week-33/sunday#a']),
+            (11, 19, ['week-33/sunday']),
             (11, 20, ['week-33/monday']),
             (11, 21, ['week-33/tuesday']),
             (11, 22, ['week-33/wednesday']),
@@ -591,7 +734,7 @@ class CalendarTestCase(unittest.TestCase):
             (11, 24, ['week-33/friday']),
             (11, 25, ['week-33/saturday']),
 
-            (11, 26, ['week-34/sunday-christ-the-king#a']),
+            (11, 26, ['week-34/sunday-christ-the-king']),
             (11, 27, ['week-34/monday']),
             (11, 28, ['week-34/tuesday']),
             (11, 29, ['week-34/wednesday']),
@@ -601,7 +744,7 @@ class CalendarTestCase(unittest.TestCase):
             (12, 1, ['week-34/friday']),
             (12, 2, ['week-34/saturday']),
 
-            (12, 3, ['advent/week-1/sunday#b']),
+            (12, 3, ['advent/week-1/sunday']),
             (12, 4, ['advent/week-1/monday']),
             (12, 5, ['advent/week-1/tuesday']),
             (12, 6, ['advent/week-1/wednesday']),
@@ -610,7 +753,7 @@ class CalendarTestCase(unittest.TestCase):
             (12, 8, ['immaculate-conception']),
             (12, 9, ['advent/week-1/saturday']),
 
-            (12, 10, ['advent/week-2/sunday#b']),
+            (12, 10, ['advent/week-2/sunday']),
             (12, 11, ['advent/week-2/monday']),
             (12, 12, ['advent/week-2/tuesday']),
             (12, 13, ['advent/week-2/wednesday']),
@@ -618,7 +761,7 @@ class CalendarTestCase(unittest.TestCase):
             (12, 15, ['advent/week-2/friday']),
             (12, 16, ['advent/week-2/saturday']),
 
-            (12, 17, ['advent/week-3/sunday#b']),
+            (12, 17, ['advent/week-3/sunday']),
             (12, 18, ['12-18']),
             (12, 19, ['12-19']),
             (12, 20, ['12-20']),
@@ -626,17 +769,17 @@ class CalendarTestCase(unittest.TestCase):
             (12, 22, ['12-22']),
             (12, 23, ['12-23']),
 
-            (12, 24, ['advent/week-4/sunday#b', 'christmas-vigil#b']),
-            (12, 25, ['christmas-at-midnight#b',
-                      'christmas-at-dawn#b',
-                      'christmas-during-the-day#b']),
+            (12, 24, ['advent/week-4/sunday', 'christmas-vigil']),
+            (12, 25, ['christmas-at-midnight',
+                      'christmas-at-dawn',
+                      'christmas-during-the-day']),
             (12, 26, ['christmas/octave/day-2-st-stephen']),
             (12, 27, ['christmas/octave/day-3-st-john']),
             (12, 28, ['christmas/octave/day-4-holy-innocents']),
             (12, 29, ['christmas/octave/day-5']),
             (12, 30, ['christmas/octave/day-6']),
             # (12, 31, ['christmas/octave/day-7']),
-            (12, 31, ['holy-family#b']),
+            (12, 31, ['holy-family']),
             ]
 
         for month, day, expectedMassIDs in testData:
@@ -693,26 +836,44 @@ class parseTestCase(unittest.TestCase):
 class getReadingsTestCase(unittest.TestCase):
 
     def test_zeroResults(self):
+        '''
+        There is no mass with the substing 'bananas' in its name.
+        Prove that this request rasies ``NonSingularResultsError``.
+        '''
+
         with self.assertRaises(lectionary.NonSingularResultsError):
-            lectionary.getReadings('k')
+            lectionary.getReadings('bananas')
 
     def test_multipleResults(self):
-        with self.assertRaises(lectionary.NonSingularResultsError):
-            lectionary.getReadings('i#a')
+        '''
+        There are multiple masses with the letter 'i' in their names.
+        Prove that this request raises ``NonSingularResultsError``.
+        '''
 
-    def test_easterVigilYearA(self):
-        massName, readings = lectionary.getReadings('easter-vigil#a')
+        with self.assertRaises(lectionary.NonSingularResultsError):
+            lectionary.getReadings('i')
+
+    def test_easterVigil(self):
+        '''
+        There are 11 unique readings in the lectionary for the Easter
+        Vigil.  Prove that we find exactly that many and all the right
+        ones.
+        '''
+
+        massName, readings = lectionary.getReadings('easter-vigil')
         self.assertEqual('Easter Vigil', massName)
-        self.assertEqual(9, len(readings))
+        self.assertEqual(11, len(readings))
         self.assertIn('Gn 1:1-2:2', readings)
         self.assertIn('Gn 22:1-18', readings)
         self.assertIn('Ex 14:15-15:1', readings)
         self.assertIn('Is 54:5-14', readings)
         self.assertIn('Is 55:1-11', readings)
         self.assertIn('Bar 3:9-15,32-4:4', readings)
-        self.assertIn('Ez 36:16-17a,18-28', readings)
+        self.assertIn('Ez 36:16-28', readings)
         self.assertIn('Rom 6:3-11', readings)
         self.assertIn('Mt 28:1-10', readings)
+        self.assertIn('Mk 16:1-7', readings)
+        self.assertIn('Lk 24:1-12', readings)
 
 if __name__ == '__main__':
     unittest.main()

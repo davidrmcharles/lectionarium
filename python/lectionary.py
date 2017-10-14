@@ -47,12 +47,11 @@ class Mass(object):
     '''
 
     def __init__(self, readings):
-        self._readings = readings
+        self._allReadings = readings
         self._id = None
         self._name = None
         self._fixedMonth = None
         self._fixedDay = None
-        self._cycle = None
         self._weekid = None
         self._seasonid = None
 
@@ -101,12 +100,12 @@ class Mass(object):
         self._name = newValue
 
     @property
-    def readings(self):
+    def allReadings(self):
         '''
-        The readings as a list of scripture citations.
+        All the readings as a list of scripture citations.
         '''
 
-        return self._readings
+        return self._allReadings
 
     @property
     def fqid(self):
@@ -127,23 +126,7 @@ class Mass(object):
             tokens.insert(0, self._weekid)
         if self._seasonid is not None and self._seasonid != 'ordinary':
             tokens.insert(0, self._seasonid)
-        result = '/'.join(tokens)
-        if self._cycle is not None:
-            return result + ('#%s' % self._cycle)
-        return result
-
-    @property
-    def cycle(self):
-        '''
-        The year (``a``, ``b``, or ``c``) if the mass is specific to a
-        year.  Otherwise, ``None``.
-        '''
-
-        return self._cycle
-
-    @cycle.setter
-    def cycle(self, newValue):
-        self._cycle = newValue.lower()
+        return '/'.join(tokens)
 
     @property
     def fixedMonth(self):
@@ -214,17 +197,18 @@ class Lectionary(object):
     def __init__(self):
         # Initialize the list of masses from sunday-lectionary.xml.
         self._allMasses = []
-        self._cycleAMasses = []
-        self._cycleBMasses = []
-        self._cycleCMasses = []
+        self._allSundayMasses = []
         self._sundaysInOrdinaryTime = []
         doc = xml.dom.minidom.parse('sunday-lectionary.xml')
         try:
-            # Decode the cycle-specific masses.
+            # Decode the Sunday lectionary.
             masses = _decode_sunday_lectionary(doc.documentElement)
 
             # Add all the Sunday masses to the master list.
             self._allMasses.extend(masses)
+
+            # Add all the Sunday masses to the Sunday list.
+            self._allSundayMasses.extend(masses)
 
             # Pick-out the Sunday masses that are Sundays in ordinary
             # time.
@@ -234,16 +218,6 @@ class Lectionary(object):
                 if mass.isSundayInOrdinaryTime
                 ]
 
-            # Pick out the Sunday masses that belong to particular cycles.
-            self._cycleAMasses = [
-                mass for mass in self._allMasses if mass.cycle == 'a'
-                ]
-            self._cycleBMasses = [
-                mass for mass in self._allMasses if mass.cycle == 'b'
-                ]
-            self._cycleCMasses = [
-                mass for mass in self._allMasses if mass.cycle == 'c'
-                ]
         finally:
             doc.unlink()
 
@@ -261,7 +235,7 @@ class Lectionary(object):
         # masses from weekday-lectionary.xml.
         doc = xml.dom.minidom.parse('special-lectionary.xml')
         try:
-            # Decode the masses that are not cycle-specific.
+            # Decode the special feasts.
             self._fixedDateMasses = _decode_special_lectionary(
                 doc.documentElement)
             self._allMasses.extend(self._fixedDateMasses)
@@ -277,42 +251,17 @@ class Lectionary(object):
         return self._allMasses
 
     @property
-    def cycleASundayMasses(self):
-        '''
-        All Sunday masses in Cycle A
-        '''
-
-        return self._cycleAMasses
-
-    @property
-    def cycleBSundayMasses(self):
-        '''
-        All Sunday masses in Cycle B
-        '''
-
-        return self._cycleBMasses
-
-    @property
-    def cycleCSundayMasses(self):
-        '''
-        All Sunday masses in Cycle C
-        '''
-
-        return self._cycleCMasses
-
-    @property
     def allSundayMasses(self):
         '''
-        All Sunday masses that belong to cycles A, B, or C.
+        All Sunday masses.
         '''
 
-        return itertools.chain(
-            self._cycleAMasses, self._cycleBMasses, self._cycleCMasses)
+        return self._allSundayMasses
 
     @property
     def sundaysInOrdinaryTime(self):
         '''
-        All masses that are Sundays in Ordinary Time.
+        All Sunday masses in Ordinary Time.
         '''
 
         return self._sundaysInOrdinaryTime
@@ -375,18 +324,20 @@ class Lectionary(object):
                 return token
             return token[:length - 3] + '...'
 
-        # Format the three-year cycle.
+        # Format the Sunday Mass Readings.
         lines.append('=' * 80)
-        lines.append('The Three Year Cycle of Sunday Mass Readings'.center(80))
+        lines.append('Sunday Mass Readings'.center(80))
         lines.append('=' * 80)
-        for massA, massB, massC in zip(
-            self._cycleAMasses, self._cycleBMasses, self._cycleCMasses):
-            massAToken = truncateToken(massA.fqid, 24)
-            massBToken = truncateToken(massB.fqid, 24)
-            massCToken = truncateToken(massC.fqid, 24)
+        for index in range(0, len(self._allSundayMasses), 2):
+            mass1 = self._allSundayMasses[index]
+            mass1Token = '* %s' % mass1.fqid
+            mass2Token = ''
+            if (index + 1) < len(self._allSundayMasses):
+                mass2 = self._allSundayMasses[index + 1]
+                mass2Token = '* %s' % mass2.fqid
             lines.append(
-                '* %-24s * %-24s * %-24s' % (
-                    massAToken, massBToken, massCToken))
+                ' %-30s            %-30s' % (
+                    mass1Token, mass2Token))
 
         # Format the special feasts.
         lines.append('=' * 80)
@@ -400,7 +351,7 @@ class Lectionary(object):
                 mass2 = self.fixedDateMasses[index + 1]
                 mass2Token = '* %s' % mass2.fqid
             lines.append(
-                '     %-28s          %-28s' % (
+                ' %-30s            %-30s' % (
                     mass1Token, mass2Token))
         return '\n'.join(lines)
 
@@ -411,24 +362,8 @@ def _decode_sunday_lectionary(lectionary_node):
     '''
 
     result = []
-    for cycle_node in _children(lectionary_node, 'cycle'):
-        masses = _decode_cycle(cycle_node)
-        result.extend(_decode_cycle(cycle_node))
-    return result
-
-def _decode_cycle(cycle_node):
-    '''
-    Decode a <cycle> element and return all its masses as a
-    list.
-    '''
-
-    result = []
-    cycle_id = _attr(cycle_node, 'id')
-    for season_node in _children(cycle_node, 'season'):
-        masses = _decode_season(season_node)
-        for mass in masses:
-            mass.cycle = cycle_id
-        result.extend(masses)
+    for season_node in _children(lectionary_node, 'season'):
+        result.extend(_decode_season(season_node))
     return result
 
 def _decode_season(season_node):
@@ -481,8 +416,11 @@ def _decode_choice(choice_node):
     '''
 
     result = []
-    for reading_node in _children(choice_node, 'reading'):
-        result.append(_decode_reading(reading_node))
+    for child_node in _children(choice_node, ['reading', 'choice']):
+        if child_node.localName == 'reading':
+            result.append(_decode_reading(child_node))
+        elif child_node.localName == 'choice':
+            result.extend(_decode_choice(child_node))
     return result
 
 def _decode_special_lectionary(lectionary_node):
@@ -500,7 +438,7 @@ def _decode_special_lectionary(lectionary_node):
 def _decode_mass(mass_node):
     '''
     Decode a single <mass> element and return it as a
-    :class:`Mass` object.
+    :class:`Mass` objects.
     '''
 
     fixedMonth, fixedDay = None, None
@@ -847,29 +785,29 @@ class Calendar(object):
         # The solemnity of Mary, Mother of God.
         self._assignMass(
             datetime.date(self._year, 1, 1),
-            'mary-mother-of-god#%s')
+            'mary-mother-of-god')
 
         if self.dateOfPreviousChristmas.weekday() == 6:
             # Make adjustments for when Christmas falls on a Sunday.
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                'epiphany#%s')
+                'epiphany')
             self._assignMass(
                 datetime.date(self._year, 1, 9),
-                'baptism-of-the-lord#%s')
+                'baptism-of-the-lord')
         else:
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +1),
-                'holy-family#%s')
+                'holy-family')
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +2),
-                '2nd-sunday-after-christmas#%s')
+                '2nd-sunday-after-christmas')
             self._assignMass(
                 datetime.date(self._year, 1, 6),
-                'epiphany#%s')
+                'epiphany')
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                'baptism-of-the-lord#%s')
+                'baptism-of-the-lord')
 
         # FIXME: Week After Epiphany.  None of these masses were said
         # in the US in 2017, but they were, or will be used in other
@@ -905,7 +843,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                'lent/week-%d/sunday' % (sundayIndex + 1) + '#%s')
+                'lent/week-%d/sunday' % (sundayIndex + 1))
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -921,7 +859,7 @@ class Calendar(object):
 
         # Holy Week
         dateOfPalmSunday = _nextSunday(self.dateOfEaster, -1)
-        self._assignMass(dateOfPalmSunday, 'holy-week/palm-sunday#%s')
+        self._assignMass(dateOfPalmSunday, 'holy-week/palm-sunday')
 
         massDates = _followingDays(dateOfPalmSunday, 4)
         massKeys = (
@@ -935,13 +873,13 @@ class Calendar(object):
 
         self._appendMass(
             self.dateOfEaster - datetime.timedelta(days=3),
-            'holy-week/mass-of-the-lords-supper#%s')
+            'holy-week/mass-of-the-lords-supper')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=2),
-            'holy-week/good-friday#%s')
+            'holy-week/good-friday')
         self._assignMass(
             self.dateOfEaster - datetime.timedelta(days=1),
-            'easter/easter-vigil#%s')
+            'easter/easter-vigil')
 
         sundayDates = (
             self.dateOfEaster,
@@ -956,7 +894,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                'easter/week-%d/sunday' % (sundayIndex + 1) + '#%s')
+                'easter/week-%d/sunday' % (sundayIndex + 1))
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -967,10 +905,10 @@ class Calendar(object):
 
         self._appendMass(
             self.dateOfPentecost - datetime.timedelta(days=1),
-            'easter/pentecost-vigil#%s')
+            'easter/pentecost-vigil')
         self._assignMass(
             self.dateOfPentecost,
-            'easter/pentecost#%s')
+            'easter/pentecost')
 
     def _allocateAdventSeason(self):
         '''
@@ -987,7 +925,7 @@ class Calendar(object):
             # Assign the Sunday mass.
             self._assignMass(
                 sundayDate,
-                'advent/week-%d/sunday' % (sundayIndex + 1) + '#%s')
+                'advent/week-%d/sunday' % (sundayIndex + 1))
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -1019,18 +957,18 @@ class Calendar(object):
 
         self._appendMass(
             _nextSunday(self.dateOfChristmas, -1),
-            'christmas-vigil#%s')
+            'christmas-vigil')
 
         # Octave of Christmas
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-at-midnight#%s')
+            'christmas-at-midnight')
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-at-dawn#%s')
+            'christmas-at-dawn')
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-during-the-day#%s')
+            'christmas-during-the-day')
 
         massDates = _inclusiveDateRange(
             self.dateOfChristmas + datetime.timedelta(days=1),
@@ -1051,7 +989,7 @@ class Calendar(object):
         dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
             self._assignMass(
-                dateOfHolyFamily, 'holy-family#%s')
+                dateOfHolyFamily, 'holy-family')
 
     def _allocateOrdinaryTime(self):
         '''
@@ -1061,13 +999,7 @@ class Calendar(object):
         # Ordinary Time Before Lent: Calculate and record the masses
         # of Ordinary Time that come between the end of Christmas and
         # Ash Wednesday.
-        sundaysInOrdinaryTime = [
-            mass
-            for mass in _lectionary.sundaysInOrdinaryTime
-            if mass.cycle == _sundayCycleForDate(
-                datetime.date(self._year, 1, 1)).lower()
-            ]
-
+        sundaysInOrdinaryTime = list(_lectionary.sundaysInOrdinaryTime)
         weekdaysInOrdinaryTime = [
             _lectionary.weekdayMassesInWeek(
                 None, 'week-%d' % weekIndex)
@@ -1084,7 +1016,11 @@ class Calendar(object):
         sundayDate = _nextSunday(self.dateOfEndOfPreviousChristmas, +1)
         while sundayDate < self.dateOfAshWednesday:
             # Assign the Sunday mass.
-            self._assignMass(sundayDate, sundaysInOrdinaryTime.pop(0))
+            try:
+                self._assignMass(sundayDate, sundaysInOrdinaryTime.pop(0))
+            except IndexError:
+                print '***', sundayDate
+                raise
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
@@ -1112,7 +1048,7 @@ class Calendar(object):
         # whatever else is being celebrated that day.
         self._assignMass(
             _nextSunday(self.dateOfEaster, +8),
-            'trinity-sunday#%s')
+            'trinity-sunday')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
         if corpusChristiDate.weekday() in (5, 4, 3):
@@ -1120,11 +1056,11 @@ class Calendar(object):
                 days=6 - corpusChristiDate.weekday())
         self._assignMass(
             corpusChristiDate,
-            'corpus-christi#%s')
+            'corpus-christi')
 
         self._assignMass(
             self.dateOfEaster + datetime.timedelta(days=68),
-            'sacred-heart-of-jesus#%s')
+            'sacred-heart-of-jesus')
 
     def _allocateFixedDateMasses(self):
         '''
@@ -1152,8 +1088,6 @@ class Calendar(object):
 
         if isinstance(mass, basestring):
             massid = mass
-            if '%s' in massid:
-                massid = massid % _sundayCycleForDate(d).lower()
             mass = _lectionary.findMass(massid)
             if mass is None:
                 raise ValueError('No mass with id "%s"!' % massid)
@@ -1167,9 +1101,10 @@ class Calendar(object):
         '''
         
         if isinstance(mass, basestring):
-            if '%s' in mass:
-                mass = mass % _sundayCycleForDate(d).lower()
+            massid = mass
             mass = _lectionary.findMass(mass)
+            if mass is None:
+                raise ValueError('No mass with id "%s"!' % massid)
 
         if d not in self._massesByDate:
             self._massesByDate[d] = []
@@ -1229,22 +1164,10 @@ def parse(query):
         idSubstring = sharp_tokens[0]
 
     # Collect all matches and return them.
-    def isMatch(mass):
-        '''
-        Return ``True`` if `mass` has a matching `cycle` and contains
-        `idSubstring` within its `id`.
-        '''
-
-        if cycle is None:
-            return idSubstring in mass.id
-        else:
-            return (mass.cycle == cycle) and \
-                (idSubstring in mass.id)
-
     return [
         mass.fqid
         for mass in _lectionary.allMasses
-        if isMatch(mass)
+        if idSubstring in mass.id
         ]
 
 class NonSingularResultsError(ValueError):
@@ -1288,7 +1211,7 @@ def getReadings(query):
     mass = _lectionary.findMass(massUniqueID)
 
     readings = collections.OrderedDict()
-    for reading in mass.readings:
+    for reading in mass.allReadings:
         readings[reading] = bible.getVerses(reading)
     return mass.name, readings
 
