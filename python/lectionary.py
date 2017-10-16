@@ -256,6 +256,8 @@ class Reading(object):
 
         if self._cycles is None:
             return True
+        if sundayCycle is None and weekdayCycle is None:
+            return True
         if sundayCycle in self._cycles:
             return True
         if weekdayCycle == self._cycles:
@@ -1245,21 +1247,32 @@ def parse(query):
             'Too many sharps in query "%s"!' % (query))
 
     # Isolate the cycle (if any) and the id substring.
-    cycle = None
     if len(sharp_tokens) == 2:
         idSubstring, cycle = sharp_tokens
-        if cycle.lower() not in ('a', 'b', 'c'):
+        if len(cycle) == 0:
+            # A cycle indicator that is the empty string means all
+            # readings regardless of cycle.
+            sundayCycle, weekdayCycle = None, None
+        elif cycle.upper() in ('A', 'B', 'C'):
+            sundayCycle, weekdayCycle = cycle.upper(), None
+        elif cycle.upper() in ('I', 'II'):
+            sundayCycle, weekdayCycle = None, cycle.upper()
+        else:
             raise MalformedQueryError(
                 query,
-                'Cycle is "%s", but must be one of A, B, or C'
+                'Cycle is "%s", but must be one of A, B, C, I, or II'
                 ' (in either case)!' % (
                     cycle))
     elif len(sharp_tokens) == 1:
+        # No cycle indicator means the sunday cycle and weekday cycle
+        # for the current date.
         idSubstring = sharp_tokens[0]
+        sundayCycle = _sundayCycleForDate(datetime.date.today())
+        weekdayCycle = _weekdayCycleForDate(datetime.date.today())
 
     # Collect all matches and return them.
     return [
-        mass.fqid
+        (mass.fqid, sundayCycle, weekdayCycle)
         for mass in _lectionary.allMasses
         if idSubstring in mass.id
         ]
@@ -1291,7 +1304,7 @@ Provide additional query text to disambiguate.
 
 def getReadings(query):
     '''
-    Return an object representation of the readings with the single
+    Return an object representation of the readings for the single
     mass indicated by `query`.
     '''
 
@@ -1301,13 +1314,25 @@ def getReadings(query):
     if len(fqids) != 1:
         raise NonSingularResultsError(query, fqids)
 
-    massUniqueID = fqids[0]
+    massUniqueID, sundayCycle, weekdayCycle = fqids[0]
     mass = _lectionary.findMass(massUniqueID)
 
+    # Compose a title for the mass.
+    if sundayCycle is None and weekdayCycle is None:
+        massTitle = '%s (All Cycles)' % mass.name
+    elif sundayCycle is not None and weekdayCycle is None:
+        massTitle = '%s (Cycle %s)' % (mass.name, sundayCycle)
+    elif sundayCycle is None and weekdayCycle is not None:
+        massTitle = '%s (Cycle %s)' % (mass.name, weekdayCycle)
+    elif sundayCycle is not None and weekdayCycle is not None:
+        massTitle = '%s (Cycle %s, %s)' % (mass.name, sundayCycle, weekdayCycle)
+
+    # Collect the texts that go with the applicable readings.
     readings = collections.OrderedDict()
-    for reading in mass.allReadings:
+    for reading in mass.applicableReadings(sundayCycle, weekdayCycle):
         readings[reading] = bible.getVerses(reading.citation)
-    return mass.name, readings
+
+    return massTitle, readings
 
 def main():
     '''
@@ -1331,15 +1356,15 @@ Provide the name of a mass and we will write its readings to stdout.
 
     # Parse the query.
     try:
-        massName, readings = getReadings(sys.argv[1])
+        massTitle, readings = getReadings(sys.argv[1])
     except NonSingularResultsError as e:
         sys.stderr.write('%s\n' % e.message)
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
-    sys.stdout.write('Readings for %s\n' % (massName))
-    for citation, verses in readings.iteritems():
-        sys.stdout.write('\n%s' % citation)
+    sys.stdout.write('Readings for %s\n' % (massTitle))
+    for reading, verses in readings.iteritems():
+        sys.stdout.write('\n%s' % reading.citation)
         sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
     return
 
