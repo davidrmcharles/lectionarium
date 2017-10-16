@@ -19,6 +19,7 @@ Internals
 ======================================================================
 
 * :class:`Mass` - A single mass (or Good Friday)
+* :class:`Reading` - A single reading
 * :class:`Lectionary` - The lectionary for mass
 * :func:`_text` - Return the text of an element
 * :func:`_firstChild` - Return the first matching child of an element
@@ -63,6 +64,27 @@ class Mass(object):
             self.fqid, id(self))
 
     @property
+    def allReadings(self):
+        '''
+        All the readings as a list of :class:`Reading` objects.
+        '''
+
+        return self._allReadings
+
+    def applicableReadings(self, sundayCycle, weekdayCycle):
+        '''
+        Return the readings applicable to `sundayCycle` and
+        `weekdayCycle` only.
+        '''
+
+        return [
+            reading
+            for reading
+            in self._allReadings
+            if reading.isApplicable(sundayCycle, weekdayCycle)
+            ]
+
+    @property
     def id(self):
         '''
         A computer-friendly identifier for the mass.
@@ -98,14 +120,6 @@ class Mass(object):
     @name.setter
     def name(self, newValue):
         self._name = newValue
-
-    @property
-    def allReadings(self):
-        '''
-        All the readings as a list of scripture citations.
-        '''
-
-        return self._allReadings
 
     @property
     def fqid(self):
@@ -188,6 +202,65 @@ class Mass(object):
     @seasonid.setter
     def seasonid(self, newValue):
         self._seasonid = newValue
+
+class Reading(object):
+    '''
+    Represents a single reading from Sacred Scripture as a citation
+    and the conditions surrounding its applicability.
+    '''
+
+    def __init__(self, citation):
+        self._citation = citation
+        self._cycles = None
+        self._optionID = None
+
+    @property
+    def citation(self):
+        '''
+        The citation from Sacred Scription as a string
+        '''
+
+        return self._citation
+
+    @property
+    def cycles(self):
+        '''
+        The cycles to which a reading applies.  ``None`` if the
+        reading applies to all cycles.
+        '''
+
+        return self._cycles
+
+    @cycles.setter
+    def cycles(self, cycles):
+        self._cycles = cycles
+
+    @property
+    def optionID(self):
+        '''
+        An identifier if this reading is one of a set of options.
+        ``None`` if the reading is not optional.
+        '''
+
+        return self._optionID
+
+    @optionID.setter
+    def optionID(self, optionID):
+        self._optionID = optionID
+
+    def isApplicable(self, sundayCycle, weekdayCycle):
+        '''
+        ``True`` if this reading applies to the given `sundayCycle`
+        and `weekdayCycle`.
+        '''
+
+        if self._cycles is None:
+            return True
+        if sundayCycle in self._cycles:
+            return True
+        if weekdayCycle == self._cycles:
+            return True
+        return False
 
 class Lectionary(object):
     '''
@@ -409,18 +482,34 @@ def _decode_week(week_node):
         result.append(mass)
     return result
 
-def _decode_choice(choice_node):
+def _decode_variation(variation_node):
     '''
-    Decode a <choice> element and return all its
-    readings as a list.
+    Decode a <variation> element and return all of its readings as a
+    list of :class:`Reading` objects.
     '''
 
     result = []
-    for child_node in _children(choice_node, ['reading', 'choice']):
+    cycles = _attr(variation_node, 'cycles', ifMissing=None)
+    for child_node in _children(variation_node, ['reading', 'option']):
         if child_node.localName == 'reading':
-            result.append(_decode_reading(child_node))
-        elif child_node.localName == 'choice':
-            result.extend(_decode_choice(child_node))
+            reading = _decode_reading(child_node)
+            reading.cycles = cycles
+            result.append(reading)
+        elif child_node.localName == 'option':
+            readings = _decode_option(child_node)
+            for reading in readings:
+                reading.cycles = cycles
+            result.extend(readings)
+    return result
+
+def _decode_option(option_node):
+    '''
+    Decode an <option> element and return all its readings as a list.
+    '''
+
+    result = []
+    for reading_node in _children(option_node, 'reading'):
+        result.append(_decode_reading(reading_node))
     return result
 
 def _decode_special_lectionary(lectionary_node):
@@ -453,11 +542,13 @@ def _decode_mass(mass_node):
 
     readings = []
     for child_node in _children(
-        mass_node, ['reading', 'choice']):
+        mass_node, ['reading', 'option', 'variation']):
         if child_node.localName == 'reading':
             readings.append(_decode_reading(child_node))
-        elif child_node.localName == 'choice':
-            readings.extend(_decode_choice(child_node))
+        elif child_node.localName == 'option':
+            readings.extend(_decode_option(child_node))
+        elif child_node.localName == 'variation':
+            readings.extend(_decode_variation(child_node))
 
     mass = Mass(readings)
     mass.name = name
@@ -469,10 +560,13 @@ def _decode_mass(mass_node):
 
 def _decode_reading(reading_node):
     '''
-    Decode a single <reading> element and return it as a string.
+    Decode a single <reading> element and return it as a
+    :clas:`Reading` object.
     '''
 
-    return _text(reading_node)
+    reading = Reading(_text(reading_node))
+    reading.cycles = _attr(reading_node, 'cycles', ifMissing=None)
+    return reading
 
 # Now, let's fix DOM:
 
@@ -1212,7 +1306,7 @@ def getReadings(query):
 
     readings = collections.OrderedDict()
     for reading in mass.allReadings:
-        readings[reading] = bible.getVerses(reading)
+        readings[reading] = bible.getVerses(reading.citation)
     return mass.name, readings
 
 def main():

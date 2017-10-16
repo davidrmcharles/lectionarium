@@ -8,10 +8,10 @@
   <mass date="3-19" name="Joseph, Husband of Mary">
     <reading>2 Sm 7:4-5a,12-14a,16</reading>
     <reading>Rom 4:13,16-18,22</reading>
-    <choice>
+    <option>
       <reading>Mt 1:16,18-21,24a</reading>
       <reading>Lk 2:41-51a</reading>
-    </choice>
+    </option>
   </mass>
   <mass date="3-25" name="Annunciation">
     <reading>Is 7:10-14</reading>
@@ -41,11 +41,9 @@
   <mass date="8-6" name="Transfiguration">
     <reading>Dn 7:9-10,13-14</reading>
     <reading>2 Pt 1:16-19</reading>
-    <choice>
-      <reading cycle="A">Mt 7:1-9</reading>
-      <reading cycle="B">Mk 9:2-10</reading>
-      <reading cycle="C">Lk 9:28b-36</reading>
-    </choice>
+    <reading cycles="A">Mt 7:1-9</reading>
+    <reading cycles="B">Mk 9:2-10</reading>
+    <reading cycles="C">Lk 9:28b-36</reading>
   </mass>
   <mass date="8-14" name="Assumption (Vigil)">
     <reading>1 Chr 15:3-4,15,16:1-2</reading>

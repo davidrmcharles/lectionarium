@@ -50,10 +50,6 @@ class LectionaryTestCase(unittest.TestCase):
     right number of them.
     '''
 
-    def test_sundaysInOrdinaryTime(self):
-        for mass in lectionary._lectionary.sundaysInOrdinaryTime:
-            pass  # print mass
-
     def test_parseSundayCitations(self):
         '''
         Prove that the number of readings we find in the Sunday
@@ -67,7 +63,7 @@ class LectionaryTestCase(unittest.TestCase):
         for mass in lectionary._lectionary.allSundayMasses:
             for reading in mass.allReadings:
                 readingCount += 1
-                citations.parse(reading)
+                citations.parse(reading.citation)
 
         # $ grep --count /reading sunday-lectionary.xml
         self.assertEqual(565, readingCount)
@@ -78,9 +74,9 @@ class LectionaryTestCase(unittest.TestCase):
             for reading in mass.allReadings:
                 readingCount += 1
                 # TODO: Here is one we cannot parse yet!
-                if reading == 'Est C:12,14-16,23-25':
+                if reading.citation == 'Est C:12,14-16,23-25':
                     continue
-                citations.parse(reading)
+                citations.parse(reading.citation)
 
         # $ grep --count /reading weekday-lectionary.xml
         self.assertEqual(863, readingCount)
@@ -90,7 +86,7 @@ class LectionaryTestCase(unittest.TestCase):
         for mass in lectionary._lectionary._fixedDateMasses:
             for reading in mass.allReadings:
                 readingCount += 1
-                citations.parse(reading)
+                citations.parse(reading.citation)
 
         # $ grep --count /reading special-lectionary.xml
         self.assertEqual(54, readingCount)
@@ -100,13 +96,22 @@ class LectionaryTestCase(unittest.TestCase):
 
 class decodeMassTestCase(unittest.TestCase):
 
+    @staticmethod
+    def citations(readings):
+        '''
+        Convert a list of :class:`Reading` objects to its citation
+        strings.
+        '''
+
+        return [reading.citation for reading in readings]
+
     def test_christmasAtMidnight(self):
         '''
         Prove that we can decode the pattern exemplified by Christmass
         At Midnight.
 
         Notice this mass has three readings that do not change with
-        the Sundya cycle and there are no options.
+        the Sunday cycle and there are no options.
         '''
 
         doc = xml.dom.minidom.parseString('''\
@@ -122,6 +127,13 @@ class decodeMassTestCase(unittest.TestCase):
         self.assertEqual('christmas-at-midnight', mass.id)
         self.assertEqual(3, len(mass.allReadings))
 
+        for sundayCycle in ('A', 'B', 'C'):
+            for weekdayCycle in ('I', 'II'):
+                self.assertEqual(
+                    ['Is 9:1-6', 'Ti 2:11-14', 'Lk 2:1-14'],
+                    self.citations(
+                        mass.applicableReadings(sundayCycle, weekdayCycle)))
+
     def test_firstSundayOfAdvent(self):
         '''
         Prove that we can decode the pattern exemplified by the 1st
@@ -134,21 +146,21 @@ class decodeMassTestCase(unittest.TestCase):
         doc = xml.dom.minidom.parseString('''\
 <?xml version="1.0"?>
 <mass weekid="week-1" id="sunday" name="1st Sunday of Advent">
-  <choice cycle="A">
+  <variation cycles="A">
     <reading>Is 2:1-5</reading>
     <reading>Rom 13:11-14</reading>
     <reading>Mt 24:37-44</reading>
-  </choice>
-  <choice cycle="B">
+  </variation>
+  <variation cycles="B">
     <reading>Is 63:16b-17,19b,64:2b-7</reading>
     <reading>1 Cor 1:3-9</reading>
     <reading>Mk 13:33-37</reading>
-  </choice>
-  <choice cycle="C">
+  </variation>
+  <variation cycles="C">
     <reading>Jer 33:14-16</reading>
     <reading>1 Thes 3:12-4:2</reading>
     <reading>Lk 21:25-28,34-36</reading>
-  </choice>
+  </variation>
 </mass>
 ''')
         mass = lectionary._decode_mass(doc.documentElement)
@@ -156,6 +168,17 @@ class decodeMassTestCase(unittest.TestCase):
         self.assertEqual('sunday', mass.id)
         self.assertEqual('week-1', mass.weekid)
         self.assertEqual(9, len(mass.allReadings))
+
+        for weekdayCycle in ('I', 'II'):
+            self.assertEqual(
+                ['Is 2:1-5', 'Rom 13:11-14', 'Mt 24:37-44'],
+                self.citations(mass.applicableReadings('A', weekdayCycle)))
+            self.assertEqual(
+                ['Is 63:16b-17,19b,64:2b-7', '1 Cor 1:3-9', 'Mk 13:33-37'],
+                self.citations(mass.applicableReadings('B', weekdayCycle)))
+            self.assertEqual(
+                ['Jer 33:14-16', '1 Thes 3:12-4:2', 'Lk 21:25-28,34-36'],
+                self.citations(mass.applicableReadings('C', weekdayCycle)))
 
     def test_holyFamily(self):
         '''
@@ -169,30 +192,44 @@ class decodeMassTestCase(unittest.TestCase):
         doc = xml.dom.minidom.parseString('''\
 <?xml version="1.0"?>
 <mass name="Holy Family">
-  <choice cycle="A">
+  <variation cycles="A">
     <reading>Sir 3:3-7,14-17a</reading>
     <reading>Col 3:12-21</reading>
     <reading>Mt 2:13-15,19-23</reading>
-  </choice>
-  <choice cycle="B">
+  </variation>
+  <variation cycles="B">
     <reading>Gn 15:1-6,21:1-3</reading>
     <reading>Heb 11:8,11-12,17-19</reading>
-    <choice>
+    <option>
       <reading>Lk 2:22-40</reading>
       <reading>Lk 2:22,39-40</reading>
-    </choice>
-  </choice>
-  <choice cycle="C">
+    </option>
+  </variation>
+  <variation cycles="C">
     <reading>1 Sm 1:20-22,24-28</reading>
     <reading>1 Jn 3:1-2,21-24</reading>
     <reading>Lk 2:41-52</reading>
-  </choice>
+  </variation>
 </mass>
 ''')
         mass = lectionary._decode_mass(doc.documentElement)
         self.assertEqual('Holy Family', mass.name)
         self.assertEqual('holy-family', mass.id)
         self.assertEqual(10, len(mass.allReadings))
+
+        for weekdayCycle in ('I', 'II'):
+            self.assertEqual(
+                ['Sir 3:3-7,14-17a', 'Col 3:12-21', 'Mt 2:13-15,19-23'],
+                self.citations(mass.applicableReadings('A', weekdayCycle)))
+            self.assertEqual(
+                ['Gn 15:1-6,21:1-3',
+                 'Heb 11:8,11-12,17-19',
+                 'Lk 2:22-40',
+                 'Lk 2:22,39-40'],
+                self.citations(mass.applicableReadings('B', weekdayCycle)))
+            self.assertEqual(
+                ['1 Sm 1:20-22,24-28', '1 Jn 3:1-2,21-24', 'Lk 2:41-52'],
+                self.citations(mass.applicableReadings('C', weekdayCycle)))
 
     def test_easterSunday(self):
         '''
@@ -209,48 +246,152 @@ class decodeMassTestCase(unittest.TestCase):
 <?xml version="1.0"?>
 <mass weekid="week-1" id="sunday" name="Easter Sunday">
   <reading>Acts 10:34a,37-43</reading>
-  <choice>
+  <variation>
     <reading>Col 3:1-4</reading>
     <reading>1 Cor 5:6b-8</reading>
-  </choice>
-  <choice cycle="A">
-    <choice>
+  </variation>
+  <variation cycles="A">
+    <option>
       <reading>Jn 20:1-9</reading>
       <reading>Mt 28:1-10</reading>
       <reading>Lk 24:13-35</reading>
-    </choice>
-  </choice>
-  <choice cycle="B">
-    <choice>
+    </option>
+  </variation>
+  <variation cycles="B">
+    <option>
       <reading>Jn 20:1-8</reading>
       <reading>Mk 16:1-8</reading>
       <reading>Lk 24:13-35</reading>
-    </choice>
-  </choice>
-  <choice cycle="C">
-    <choice>
+    </option>
+  </variation>
+  <variation cycles="C">
+    <option>
       <reading>Jn 20:1-9</reading>
       <reading>Lk 24:1-12</reading>
       <reading>Lk 24:13-35</reading>
-    </choice>
-  </choice>
+    </option>
+  </variation>
 </mass>
 ''')
         mass = lectionary._decode_mass(doc.documentElement)
         self.assertEqual('Easter Sunday', mass.name)
         self.assertEqual(12, len(mass.allReadings))
 
-    def test_weekday(self):
+        for weekdayCycle in ('I', 'II'):
+            self.assertEqual(
+                ['Acts 10:34a,37-43',
+                 'Col 3:1-4',
+                 '1 Cor 5:6b-8',
+                 'Jn 20:1-9',
+                 'Mt 28:1-10',
+                 'Lk 24:13-35'],
+                self.citations(mass.applicableReadings('A', weekdayCycle)))
+            self.assertEqual(
+                ['Acts 10:34a,37-43',
+                 'Col 3:1-4',
+                 '1 Cor 5:6b-8',
+                 'Jn 20:1-8',
+                 'Mk 16:1-8',
+                 'Lk 24:13-35'],
+                self.citations(mass.applicableReadings('B', weekdayCycle)))
+            self.assertEqual(
+                ['Acts 10:34a,37-43',
+                 'Col 3:1-4',
+                 '1 Cor 5:6b-8',
+                 'Jn 20:1-9',
+                 'Lk 24:1-12',
+                 'Lk 24:13-35'],
+                self.citations(mass.applicableReadings('C', weekdayCycle)))
+
+    def test_mondayInTheFirstWeekOfOrdinaryTime(self):
+        '''
+        Prove that we can decode the pattern exemplified by the Monday
+        in the 1st Week of Ordinary Time.
+
+        Notice that the first reading varies with the weekday cycle
+        while the second reading never changes.
+        '''
+
         doc = xml.dom.minidom.parseString('''\
 <?xml version="1.0"?>
 <mass name="Monday">
-  <reading cycle="I">Heb 1:1-6</reading>
-  <reading cycle="II">1 Sm 1:1-8</reading>
+  <reading cycles="I">Heb 1:1-6</reading>
+  <reading cycles="II">1 Sm 1:1-8</reading>
   <reading>Mk 1:14-20</reading>
 </mass>
 ''')
-        # Here is a mass with the more typical variations for cycles I
-        # and II.
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Monday', mass.name)
+
+        for sundayCycle in ('A', 'B', 'C'):
+            self.assertEqual(
+                ['Heb 1:1-6', 'Mk 1:14-20'],
+                self.citations(mass.applicableReadings(sundayCycle, 'I')))
+            self.assertEqual(
+                ['1 Sm 1:1-8', 'Mk 1:14-20'],
+                self.citations(mass.applicableReadings(sundayCycle, 'II')))
+
+    def test_mondayInTheFirstWeekOfAdvent(self):
+        '''
+        Prove that we can decode the pattern exemplified by Monday in
+        the 1st Week of Advent.
+
+        Notice that the first reading actually depends upon the Sunday
+        cycle.  The second reading does not change.
+        '''
+
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass name="Monday">
+  <reading cycles="A">Is 4:2-6</reading>
+  <reading cycles="BC">Is 2:1-5</reading>
+  <reading>Mt 8:5-11</reading>
+</mass>
+''')
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Monday', mass.name)
+
+        for weekdayCycle in ('I', 'II'):
+            self.assertEqual(
+                ['Is 4:2-6', 'Mt 8:5-11'],
+                self.citations(mass.applicableReadings('A', weekdayCycle)))
+            self.assertEqual(
+                ['Is 2:1-5', 'Mt 8:5-11'],
+                self.citations(mass.applicableReadings('B', weekdayCycle)))
+            self.assertEqual(
+                ['Is 2:1-5', 'Mt 8:5-11'],
+                self.citations(mass.applicableReadings('C', weekdayCycle)))
+
+    def test_mondayInTheFifthWeekOfLent(self):
+        '''
+        Prove that we can decode the pattern exemplified by Monday in
+        the 5th Week of Lent.
+
+        Notice that the second reading actually depends upon the
+        Sunday cycle.  The first reading does not change.
+        '''
+
+        doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+  <mass name="Monday">
+    <reading>Dn 13:1-9,15-17,19-30,33-62</reading>
+    <reading cycles="AB">Jn 8:1-11</reading>
+    <reading cycles="C">Jn 8:12-20</reading>
+  </mass>
+''')
+        mass = lectionary._decode_mass(doc.documentElement)
+        self.assertEqual('Monday', mass.name)
+
+        for weekdayCycle in ('I', 'II'):
+            self.assertEqual(
+                ['Dn 13:1-9,15-17,19-30,33-62', 'Jn 8:1-11'],
+                self.citations(mass.applicableReadings('A', weekdayCycle)))
+            self.assertEqual(
+                ['Dn 13:1-9,15-17,19-30,33-62', 'Jn 8:1-11'],
+                self.citations(mass.applicableReadings('B', weekdayCycle)))
+            self.assertEqual(
+                ['Dn 13:1-9,15-17,19-30,33-62', 'Jn 8:12-20'],
+                self.citations(mass.applicableReadings('C', weekdayCycle)))
 
 # textTestCase?
 # firstChildTestCase?
@@ -863,17 +1004,22 @@ class getReadingsTestCase(unittest.TestCase):
         massName, readings = lectionary.getReadings('easter-vigil')
         self.assertEqual('Easter Vigil', massName)
         self.assertEqual(11, len(readings))
-        self.assertIn('Gn 1:1-2:2', readings)
-        self.assertIn('Gn 22:1-18', readings)
-        self.assertIn('Ex 14:15-15:1', readings)
-        self.assertIn('Is 54:5-14', readings)
-        self.assertIn('Is 55:1-11', readings)
-        self.assertIn('Bar 3:9-15,32-4:4', readings)
-        self.assertIn('Ez 36:16-28', readings)
-        self.assertIn('Rom 6:3-11', readings)
-        self.assertIn('Mt 28:1-10', readings)
-        self.assertIn('Mk 16:1-7', readings)
-        self.assertIn('Lk 24:1-12', readings)
+
+        citations = [
+            reading.citation
+            for reading in readings.iterkeys()
+            ]
+        self.assertIn('Gn 1:1-2:2', citations)
+        self.assertIn('Gn 22:1-18', citations)
+        self.assertIn('Ex 14:15-15:1', citations)
+        self.assertIn('Is 54:5-14', citations)
+        self.assertIn('Is 55:1-11', citations)
+        self.assertIn('Bar 3:9-15,32-4:4', citations)
+        self.assertIn('Ez 36:16-28', citations)
+        self.assertIn('Rom 6:3-11', citations)
+        self.assertIn('Mt 28:1-10', citations)
+        self.assertIn('Mk 16:1-7', citations)
+        self.assertIn('Lk 24:1-12', citations)
 
 if __name__ == '__main__':
     unittest.main()
