@@ -1021,6 +1021,84 @@ class getReadingsTestCase(unittest.TestCase):
         self.assertIn('Mk 16:1-7', citations)
         self.assertIn('Lk 24:1-12', citations)
 
+class parseDateTestCase(unittest.TestCase):
+
+    def test_nonString(self):
+        with self.assertRaises(TypeError):
+            lectionary._parseDate(None)
+        with self.assertRaises(TypeError):
+            lectionary._parseDate(123)
+        with self.assertRaises(TypeError):
+            lectionary._parseDate(0.123)
+
+    def test_emptyString(self):
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('')
+
+    def test_tooManySubtokens(self):
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('2017-10-17-01')
+
+    def test_malformedSubtokens(self):
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('banana-10-17')
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('2017-banana-17')
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('2017-10-banana')
+
+    def test_missingSubtokens(self):
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('-10-17')
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('2017--17')
+        with self.assertRaises(lectionary.MalformedDateError):
+            lectionary._parseDate('2017-10-')
+
+    def test_invalidYear(self):
+        with self.assertRaises(lectionary.InvalidDateError):
+            lectionary._parseDate('0-10-17')
+
+    def test_invalidMonth(self):
+        with self.assertRaises(lectionary.InvalidDateError):
+            lectionary._parseDate('2017-0-17')
+        with self.assertRaises(lectionary.InvalidDateError):
+            lectionary._parseDate('2017-13-17')
+
+    def test_invalidDay(self):
+        with self.assertRaises(lectionary.InvalidDateError):
+            lectionary._parseDate('2017-13-0')
+        with self.assertRaises(lectionary.InvalidDateError):
+            lectionary._parseDate('2017-13-99')
+
+    def test_today(self):
+        today = datetime.date.today()
+        result = lectionary._parseDate('today')
+        self.assertEqual(today.year, result.year)
+        self.assertEqual(today.month, result.month)
+        self.assertEqual(today.day, result.day)
+
+    def test_yearMonthDay(self):
+        today = datetime.date.today()
+        result = lectionary._parseDate('2017-10-17')
+        self.assertEqual(2017, result.year)
+        self.assertEqual(10, result.month)
+        self.assertEqual(17, result.day)
+
+    def test_monthDay(self):
+        today = datetime.date.today()
+        result = lectionary._parseDate('10-17')
+        self.assertEqual(today.year, result.year)
+        self.assertEqual(10, result.month)
+        self.assertEqual(17, result.day)
+
+    def test_day(self):
+        today = datetime.date.today()
+        result = lectionary._parseDate('17')
+        self.assertEqual(today.year, result.year)
+        self.assertEqual(today.month, result.month)
+        self.assertEqual(17, result.day)
+
 if __name__ == '__main__':
     unittest.main()
 

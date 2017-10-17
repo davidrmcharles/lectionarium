@@ -14,6 +14,8 @@ Library Interface
 * :func:`parse` - Parse a query for a certain mass
 * :class:`MalformedQueryError` - Raised when we cannot parse a query string
 * :class:`NonSingularResultsError` - Raised for empty or ambiguous results
+* :class:`MalformedDateError` - Raised when we cannot parse a date
+* :class:`InvalidDateError` - Raised when we can parse the date, but it makes no sense
 
 Internals
 ======================================================================
@@ -27,6 +29,7 @@ Internals
 * :class:`RaiseIfAttrIsMissing` - Raise if an attribute is missing
 * :class:`MissingAttrExceptionTestCase` - An expected attribute is missing
 * :func:`_attr` - Return the value of the named attribute
+* :func:`_parseDate` - Parse a date string to a ``datetime.date`` object
 '''
 
 # Standard imports:
@@ -1267,15 +1270,28 @@ def parse(query):
         # No cycle indicator means the sunday cycle and weekday cycle
         # for the current date.
         idSubstring = sharp_tokens[0]
-        sundayCycle = _sundayCycleForDate(datetime.date.today())
-        weekdayCycle = _weekdayCycleForDate(datetime.date.today())
 
-    # Collect all matches and return them.
-    return [
-        (mass.fqid, sundayCycle, weekdayCycle)
-        for mass in _lectionary.allMasses
-        if idSubstring in mass.id
-        ]
+    try:
+        massDate = _parseDate(idSubstring)
+        if len(sharp_tokens) == 1:
+            sundayCycle = _sundayCycleForDate(massDate)
+            weekdayCycle = _weekdayCycleForDate(massDate)
+
+        calendar = Calendar(massDate.year)
+        masses = calendar.massesByDate(massDate.month, massDate.day)
+        return [
+            (mass.fqid, sundayCycle, weekdayCycle)
+            for mass in masses
+            ]
+    except MalformedDateError:
+        if len(sharp_tokens) == 1:
+            sundayCycle = _sundayCycleForDate(datetime.date.today())
+            weekdayCycle = _weekdayCycleForDate(datetime.date.today())
+        return [
+            (mass.fqid, sundayCycle, weekdayCycle)
+            for mass in _lectionary.allMasses
+            if idSubstring in mass.id
+            ]
 
 class NonSingularResultsError(ValueError):
     '''
@@ -1301,6 +1317,86 @@ Provide additional query text to disambiguate.
                         for fqid in self.fqids
                         ]))
         ValueError.__init__(self, message)
+
+def _parseDate(token):
+    '''
+    Parse `token` and return a ``datetime.date`` object.
+
+    Interpret ``today`` to mean today's date.  Otherwise, expect the
+    date to be at most three decimal-integer subtokens, separated by
+    hyphens, in the form::
+
+        YYYY-MM-DD
+
+    If YYYY is missing, assume the caller means the current year.
+
+    If the MM is missing, assume the caller means the current month.
+    '''
+
+    if not isinstance(token, basestring):
+        raise TypeError(
+            'Non-string (%s, %s) was passed to _parseDate()!' % (
+                type(token), token))
+
+    # Handle the special date token ``today``.
+    today = datetime.date.today()
+    if token == 'today':
+        return today
+
+    # Split the date into subtokens at the hypens.  There must be at
+    # least one subtoken, but no more than three.
+    subtokens = token.split('-')
+    if len(subtokens) < 1 or len(subtokens) > 3:
+        raise MalformedDateError(token)
+
+    # Initialize the year and month to today's year and month as
+    # defaults.  These values may be overridden if we find them in the
+    # `token`.
+    year, month = today.year, today.month
+
+    def parseSubtoken(subtoken):
+        '''
+        Parse the date `subtoken` by interpreting it as a decimal
+        integer.  If this fails, consider the date token malformed.
+        '''
+
+        try:
+            return int(subtoken)
+        except ValueError:
+            raise MalformedDateError(token)
+
+    # Parse the day subtoken.  Parse the month and year subtokens if
+    # they are available.
+    day = parseSubtoken(subtokens[-1])
+    if len(subtokens) > 1:
+        month = parseSubtoken(subtokens[-2])
+    if len(subtokens) > 2:
+        year = parseSubtoken(subtokens[-3])
+
+    # Convert and return the date as a ``datetime.date`` object.
+    try:
+        return datetime.date(year, month, day)
+    except ValueError:
+        raise InvalidDateError(token)
+
+class MalformedDateError(ValueError):
+    '''
+    Represents a failure to parse a date token.
+    '''
+
+    def __init__(self, token):
+        self.token = token
+        ValueError.__init__(self, 'Date "%s" is malformed!')
+
+class InvalidDateError(ValueError):
+    '''
+    Represents the case of a date token that can be parsed, but makes
+    no sense because the year, month, or day are out of range.
+    '''
+
+    def __init__(self, token):
+        self.token = token
+        ValueError.__init__(self, 'Date "%s" is invalid!')
 
 def getReadings(query):
     '''
@@ -1344,7 +1440,27 @@ def main():
         sys.stderr.write('%s\n' % _lectionary.formattedIDs)
         sys.stderr.write('''\
 
-Provide the name of a mass and we will write its readings to stdout.
+Provide the name of a mass, or a date, and we will write its readings
+to stdout.  For example:
+
+    lectionary.py trinity-sunday
+    lectionary.py 2017-10-17
+    lectionary.py today
+
+By default, only the cycle-applicable readings are included.  To see
+all readings, append '#' to the name of the mass (or date).  For
+example:
+
+    lectionary.py trinity-sunday#
+    lectionary.py 2017-10-17#
+    lectionary.py today#
+
+To see only the readings for a particular cycle, append '#' and the
+name of the cycle to the name of the mass (or date).  For example:
+
+    lectionary.py trinity-sunday#C
+    lectionary.py 2017-10-17#A
+    lectionary.py today#A
 ''')
         raise SystemExit(1)
 
