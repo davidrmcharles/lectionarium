@@ -261,9 +261,9 @@ class Reading(object):
             return True
         if sundayCycle is None and weekdayCycle is None:
             return True
-        if sundayCycle in self._cycles:
+        if (sundayCycle is not None) and (sundayCycle in self._cycles):
             return True
-        if weekdayCycle == self._cycles:
+        if (weekdayCycle is not None) and (weekdayCycle == self._cycles):
             return True
         return False
 
@@ -1220,8 +1220,8 @@ class MalformedQueryError(ValueError):
 
 def parse(query):
     '''
-    Parse `query` and return all possible matching masses as a list of
-    fully-qualified identifiers.
+    Parse `query` and return all possible matches as a list of fqids,
+    the desired ``sundayCycle``, and the desired ``weekdayCycle``.
 
     :raises TypeError: if `query` is not a string
     :raises MalformedQueryError: if `query` cannot be parsed
@@ -1252,6 +1252,11 @@ def parse(query):
     # Isolate the cycle (if any) and the id substring.
     if len(sharp_tokens) == 2:
         idSubstring, cycle = sharp_tokens
+        if len(idSubstring) == 0:
+            raise MalformedQueryError(
+                query,
+                'The id portion of the query is an empty string!')
+
         if len(cycle) == 0:
             # A cycle indicator that is the empty string means all
             # readings regardless of cycle.
@@ -1279,19 +1284,16 @@ def parse(query):
 
         calendar = Calendar(massDate.year)
         masses = calendar.massesByDate(massDate.month, massDate.day)
-        return [
-            (mass.fqid, sundayCycle, weekdayCycle)
-            for mass in masses
-            ]
+        return [mass.fqid for mass in masses], sundayCycle, weekdayCycle
     except MalformedDateError:
         if len(sharp_tokens) == 1:
             sundayCycle = _sundayCycleForDate(datetime.date.today())
             weekdayCycle = _weekdayCycleForDate(datetime.date.today())
         return [
-            (mass.fqid, sundayCycle, weekdayCycle)
+            mass.fqid
             for mass in _lectionary.allMasses
-            if idSubstring in mass.id
-            ]
+            if idSubstring in mass.fqid
+            ], sundayCycle, weekdayCycle
 
 class NonSingularResultsError(ValueError):
     '''
@@ -1406,12 +1408,12 @@ def getReadings(query):
 
     # Parse the query and fail if it returns anything but exactly one
     # result.
-    fqids = parse(query)
+    fqids, sundayCycle, weekdayCycle = parse(query)
     if len(fqids) != 1:
         raise NonSingularResultsError(query, fqids)
 
-    massUniqueID, sundayCycle, weekdayCycle = fqids[0]
-    mass = _lectionary.findMass(massUniqueID)
+    fqid = fqids[0]
+    mass = _lectionary.findMass(fqid)
 
     # Compose a title for the mass.
     if sundayCycle is None and weekdayCycle is None:

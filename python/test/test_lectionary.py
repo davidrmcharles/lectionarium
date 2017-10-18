@@ -962,15 +962,13 @@ class parseTestCase(unittest.TestCase):
         with self.assertRaises(lectionary.MalformedQueryError):
             lectionary.parse('###')
 
-    def test_badYear(self):
+    def test_missingID(self):
         with self.assertRaises(lectionary.MalformedQueryError):
             lectionary.parse('#')
+
+    def test_badYear(self):
         with self.assertRaises(lectionary.MalformedQueryError):
             lectionary.parse('#d')
-        with self.assertRaises(lectionary.MalformedQueryError):
-            lectionary.parse('7#')
-        with self.assertRaises(lectionary.MalformedQueryError):
-            lectionary.parse('!#')
         with self.assertRaises(lectionary.MalformedQueryError):
             lectionary.parse('#abc')
 
@@ -1001,8 +999,8 @@ class getReadingsTestCase(unittest.TestCase):
         ones.
         '''
 
-        massName, readings = lectionary.getReadings('easter-vigil')
-        self.assertEqual('Easter Vigil', massName)
+        massTitle, readings = lectionary.getReadings('easter-vigil#')
+        self.assertEqual('Easter Vigil (All Cycles)', massTitle)
         self.assertEqual(11, len(readings))
 
         citations = [
