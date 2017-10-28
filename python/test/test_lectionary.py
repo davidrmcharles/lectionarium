@@ -70,7 +70,7 @@ class LectionaryTestCase(unittest.TestCase):
 
     def test_parseWeekdayCitations(self):
         readingCount = 0
-        for mass in lectionary._lectionary._weekdayMasses:
+        for mass in lectionary._lectionary._allWeekdayMasses:
             for reading in mass.allReadings:
                 readingCount += 1
                 # TODO: Here is one we cannot parse yet!
@@ -83,7 +83,7 @@ class LectionaryTestCase(unittest.TestCase):
 
     def test_parseSpecialCitations(self):
         readingCount = 0
-        for mass in lectionary._lectionary._fixedDateMasses:
+        for mass in lectionary._lectionary._allSpecialMasses:
             for reading in mass.allReadings:
                 readingCount += 1
                 citations.parse(reading.citation)

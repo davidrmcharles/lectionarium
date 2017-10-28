@@ -323,9 +323,9 @@ class Lectionary(object):
         doc = xml.dom.minidom.parse(_specialLectionaryXMLPath)
         try:
             # Decode the special feasts.
-            self._fixedDateMasses = _decode_special_lectionary(
+            self._allSpecialMasses = _decode_special_lectionary(
                 doc.documentElement)
-            self._allMasses.extend(self._fixedDateMasses)
+            self._allMasses.extend(self._allSpecialMasses)
         finally:
             doc.unlink()
 
@@ -354,12 +354,12 @@ class Lectionary(object):
         return self._sundaysInOrdinaryTime
 
     @property
-    def fixedDateMasses(self):
+    def allSpecialMasses(self):
         '''
         All the fixed-date masses as a list.
         '''
 
-        return self._fixedDateMasses
+        return self._allSpecialMasses
 
 
     @property
@@ -426,7 +426,7 @@ class Lectionary(object):
         sundayMassLines = formattedIDsForRelatedMasses(
             self._allSundayMasses, 'Sunday Mass Readings')
         specialMassLines = formattedIDsForRelatedMasses(
-            self._fixedDateMasses, 'Mass Readings for Certain Special Feasts')
+            self._allSpecialMasses, 'Mass Readings for Certain Special Feasts')
 
         return '\n'.join(
             itertools.chain(
@@ -842,7 +842,7 @@ class Calendar(object):
         self._allocateHolyWeekAndEasterSeason()
         self._allocateAdventSeason()
         self._allocateLateChristmasSeason()
-        self._allocateFixedDateMasses()
+        self._allocateSpecialMasses()
 
     def _allocateEarlyChristmasSeason(self):
         '''
@@ -1160,12 +1160,12 @@ class Calendar(object):
             self.dateOfEaster + datetime.timedelta(days=68),
             'sacred-heart-of-jesus')
 
-    def _allocateFixedDateMasses(self):
+    def _allocateSpecialMasses(self):
         '''
-        Allocate the fixed-date masses.
+        Allocate the 'certain special' masses.
         '''
 
-        for mass in _lectionary.fixedDateMasses:
+        for mass in _lectionary.allSpecialMasses:
             d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
 
             if (mass.id == 'joseph-husband-of-mary') and \
