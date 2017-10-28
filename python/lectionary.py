@@ -35,7 +35,9 @@ Internals
 # Standard imports:
 import collections
 import datetime
+import inspect
 import itertools
+import os
 import re
 import sys
 import traceback
@@ -43,6 +45,13 @@ import xml.dom.minidom
 
 # Local imports:
 import bible
+
+_thisFilePath = inspect.getfile(inspect.currentframe())
+_thisFolderPath = os.path.abspath(os.path.dirname(_thisFilePath))
+_rootFolderPath = os.path.dirname(_thisFolderPath)
+_sundayLectionaryXMLPath = os.path.join(_rootFolderPath, 'sunday-lectionary.xml')
+_weekdayLectionaryXMLPath = os.path.join(_rootFolderPath, 'weekday-lectionary.xml')
+_specialLectionaryXMLPath = os.path.join(_rootFolderPath, 'special-lectionary.xml')
 
 class Mass(object):
     '''
@@ -277,7 +286,7 @@ class Lectionary(object):
         self._allMasses = []
         self._allSundayMasses = []
         self._sundaysInOrdinaryTime = []
-        doc = xml.dom.minidom.parse('sunday-lectionary.xml')
+        doc = xml.dom.minidom.parse(_sundayLectionaryXMLPath)
         try:
             # Decode the Sunday lectionary.
             masses = _decode_sunday_lectionary(doc.documentElement)
@@ -301,7 +310,7 @@ class Lectionary(object):
 
         # Further initialize the list of masses by adding the weekday
         # masses.
-        doc = xml.dom.minidom.parse('weekday-lectionary.xml')
+        doc = xml.dom.minidom.parse(_weekdayLectionaryXMLPath)
         try:
             self._weekdayMasses = _decode_weekday_lectionary(
                 doc.documentElement)
@@ -311,7 +320,7 @@ class Lectionary(object):
 
         # Finish initialization of the list of masses by adding the
         # masses from weekday-lectionary.xml.
-        doc = xml.dom.minidom.parse('special-lectionary.xml')
+        doc = xml.dom.minidom.parse(_specialLectionaryXMLPath)
         try:
             # Decode the special feasts.
             self._fixedDateMasses = _decode_special_lectionary(
