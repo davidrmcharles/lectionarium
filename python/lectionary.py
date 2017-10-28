@@ -312,9 +312,9 @@ class Lectionary(object):
         # masses.
         doc = xml.dom.minidom.parse(_weekdayLectionaryXMLPath)
         try:
-            self._weekdayMasses = _decode_weekday_lectionary(
+            self._allWeekdayMasses = _decode_weekday_lectionary(
                 doc.documentElement)
-            self._allMasses.extend(self._weekdayMasses)
+            self._allMasses.extend(self._allWeekdayMasses)
         finally:
             doc.unlink()
 
@@ -368,7 +368,7 @@ class Lectionary(object):
         All the masses in the weekday lectionary.
         '''
 
-        return self._weekdayMasses
+        return self._allWeekdayMasses
 
     def weekdayMassesInWeek(self, seasonid, weekid):
         '''
@@ -378,7 +378,7 @@ class Lectionary(object):
 
         return [
             mass
-            for mass in self._weekdayMasses
+            for mass in self._allWeekdayMasses
             if (mass.seasonid == seasonid) and (mass.weekid == weekid)
             ]
 
@@ -399,48 +399,38 @@ class Lectionary(object):
         for printing to the console.
         '''
 
-        lines = []
-
-        def truncateToken(token, length):
+        def formattedIDsForRelatedMasses(masses, title):
             '''
-            Return `token` truncated to `length` characters, and
-            ellipsis to indicate truncation occurred.
+            Return the fqids of all the `masses` as a list of lines
+            with a centered `title`.
             '''
 
-            if len(token) <= length:
-                return token
-            return token[:length - 3] + '...'
+            lines = []
+            lines.append('=' * 80)
+            lines.append(title.center(80))
+            lines.append('=' * 80)
+            for index in range(0, len(masses), 2):
+                mass1 =  masses[index]
+                mass1Token = '* %s' % mass1.fqid
+                mass2Token = ''
+                if (index + 1) < len(masses):
+                    mass2 = masses[index + 1]
+                    mass2Token = '* %s' % mass2.fqid
+                lines.append(
+                    '%-37s %-37s' % (
+                        mass1Token, mass2Token))
+            return lines
 
-        # Format the Sunday Mass Readings.
-        lines.append('=' * 80)
-        lines.append('Sunday Mass Readings'.center(80))
-        lines.append('=' * 80)
-        for index in range(0, len(self._allSundayMasses), 2):
-            mass1 = self._allSundayMasses[index]
-            mass1Token = '* %s' % mass1.fqid
-            mass2Token = ''
-            if (index + 1) < len(self._allSundayMasses):
-                mass2 = self._allSundayMasses[index + 1]
-                mass2Token = '* %s' % mass2.fqid
-            lines.append(
-                ' %-30s            %-30s' % (
-                    mass1Token, mass2Token))
+        weekdayMassLines = formattedIDsForRelatedMasses(
+            self._allWeekdayMasses, 'Weekday Mass Readings')
+        sundayMassLines = formattedIDsForRelatedMasses(
+            self._allSundayMasses, 'Sunday Mass Readings')
+        specialMassLines = formattedIDsForRelatedMasses(
+            self._fixedDateMasses, 'Mass Readings for Certain Special Feasts')
 
-        # Format the special feasts.
-        lines.append('=' * 80)
-        lines.append('Mass Readings for Certain Special Feasts'.center(80))
-        lines.append('=' * 80)
-        for index in range(0, len(self._fixedDateMasses), 2):
-            mass1 = self._fixedDateMasses[index]
-            mass1Token = '* %s' % mass1.fqid
-            mass2Token = ''
-            if (index + 1) < len(self._fixedDateMasses):
-                mass2 = self.fixedDateMasses[index + 1]
-                mass2Token = '* %s' % mass2.fqid
-            lines.append(
-                ' %-30s            %-30s' % (
-                    mass1Token, mass2Token))
-        return '\n'.join(lines)
+        return '\n'.join(
+            itertools.chain(
+                weekdayMassLines, sundayMassLines, specialMassLines))
 
 def _decode_sunday_lectionary(lectionary_node):
     '''
