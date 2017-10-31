@@ -602,7 +602,7 @@ class CalendarTestCase(unittest.TestCase):
             (4, 14, ['holy-week/good-friday']),
             (4, 15, ['easter/easter-vigil']),
 
-            (4, 16, ['easter/week-1/sunday']),
+            (4, 16, ['easter/week-1/easter-sunday']),
             (4, 17, ['easter/week-1/monday']),
             (4, 18, ['easter/week-1/tuesday']),
             (4, 19, ['easter/week-1/wednesday']),

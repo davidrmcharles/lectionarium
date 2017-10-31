@@ -993,9 +993,14 @@ class Calendar(object):
             )
         for sundayIndex, sundayDate in enumerate(sundayDates):
             # Assign the Sunday mass.
-            self._assignMass(
-                sundayDate,
-                'easter/week-%d/sunday' % (sundayIndex + 1))
+            if sundayIndex == 0:
+                self._assignMass(
+                    sundayDate,
+                    'easter/week-1/easter-sunday')
+            else:
+                self._assignMass(
+                    sundayDate,
+                    'easter/week-%d/sunday' % (sundayIndex + 1))
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
