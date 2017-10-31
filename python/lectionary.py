@@ -2,12 +2,13 @@
 '''
 The Lectionary of the Ordinary Form of the Mass of the Roman Rite
 
-Command-Line Interface
+Summary of Command-Line Interface
 ======================================================================
 
-Provide the name of a mass and we will write its readings to stdout.
+Provide the name of a mass, or a date, and we will write its readings
+to stdout.
 
-Library Interface
+Summary of Library Interface
 ======================================================================
 
 * :func:`getReadings` - Get an object representation of the readings
@@ -30,6 +31,9 @@ Internals
 * :class:`MissingAttrExceptionTestCase` - An expected attribute is missing
 * :func:`_attr` - Return the value of the named attribute
 * :func:`_parseDate` - Parse a date string to a ``datetime.date`` object
+
+Reference
+======================================================================
 '''
 
 # Standard imports:

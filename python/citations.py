@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 '''
-Scriptural Citations
+For parsing scriptural citations
+
+Summary of Library Interface
+======================================================================
 
 * :func:`parse` - Parse a human-readable citation to an object representation
 * :class:`Citation` - Represents a single-book scripture citation
+
+Reference
+======================================================================
 '''
 
 # Local imports:
@@ -12,11 +18,11 @@ import locs
 
 class Citation(object):
     '''
-    A sequence of one or more verse locations within a particular
-    book.
+    Represents a citation as a sequence of verse *locations* within one,
+    particular *book*.
 
-    Each verse location is potentially a verse address or an verse
-    address range.  For example:
+    Each verse location is either a verse address (:class:`locs.Addr`)
+    or a verse address range (:class:`locs.AddrRange`).  For example:
 
     * John 3:16 - verse address
     * Exodus 20:1-10 - verse address range
@@ -51,7 +57,8 @@ class Citation(object):
     @property
     def addrRanges(self):
         '''
-        The verse locationss normalized to verse address ranges.
+        The verse locations with all verse address objects normalized
+        to verse address range objects.
         '''
 
         # Perhaps this logic belongs in the constructor.
@@ -68,11 +75,15 @@ class Citation(object):
 
 def parse(query):
     '''
-    Parse a human-readable citation and return an object representation.
+    Parse a human-readable citation (`query`) to its object
+    representation.
 
-    The result as a :class:`Citation` object.
+    The book name is parsed by :func:`books.parse`.  The locations
+    within the book are parsed by :func:`locs.parse`.  The result is a
+    :class:`Citation` object.
 
-    The `query` is currently limited to only one book at a time.
+    The `query` must be confined to a single book.
+
     '''
 
     # Fail if `query` is not a string.

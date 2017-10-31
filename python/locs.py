@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Locations Within a Book of Sacred Scripture
+For parsing the numerical portion of a scripture citation (locations)
 
 This is where we deal with the numerical portion of a scripture
 citation.  For example, things like:
@@ -9,19 +9,22 @@ citation.  For example, things like:
 #. ``20:1-10``, and
 #. ``1:2-3:4,6``.
 
-The first and second examples are locations.  The first is modeled as
-an :class:`Addr`` and the second is modeled as :class:`AddrRange`.
+The first and second examples are locations.  We model the first as an
+:class:`Addr` and the second as an :class:`AddrRange`.
 
 The presence of a comma makes the third example a sequence of
 locations, the first being an :class:`AddrRange` and the second being
 an :class:`Addr`.
 
-Interface
+Summary of Library Interface
 ======================================================================
 
-* :class:`Addr` - A single location (chapter or verse)
-* :class:`AddrRange` - An inclusive range of addresses
 * :func:`parse` - Parse a single locations token
+* :class:`Addr` - A single address (chapter or verse)
+* :class:`AddrRange` - An inclusive range of addresses
+
+Reference
+======================================================================
 '''
 
 # Standard imports:
@@ -43,7 +46,7 @@ class Addr(object):
     @property
     def dimensionality(self):
         '''
-        ``1`` for one-dimensional address, and ``2`` for
+        ``1`` for a one-dimensional address, and ``2`` for
         two-dimensional addresses.
         '''
 

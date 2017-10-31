@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 '''
-The Books of Sacred Scripture
+For parsing a reference to a scriptural book and retrieving all its
+text
 
-Interface
+Summary of Library Interface
 ======================================================================
 
-* :func:`parse` - Parse adjacent book tokens
-* :class:`Book` - A single canonical book with its text
-* :func:`findBook` - Find a canonical book
+* :func:`parse` - Parse adjacent book tokens to a :class:`Book` object
+* :func:`findBook` - Find and return a  :class:`Book` by name
+* :class:`Book` - A single book with all its text
 
-Internals
+Reference
 ======================================================================
-
-* :class:`_Bible` - All the canonical books
 '''
 
 # Standard imports:
@@ -166,7 +165,7 @@ class Book(object):
 
     def getVerse(self, addr):
         '''
-        Return an object representation of the text indicated by
+        Return an object representation of the verse indicated by
         `addr`.
         '''
 
@@ -200,7 +199,7 @@ class Book(object):
 
     def getRangeOfVerses(self, addrRange):
         '''
-        Return an object representation of the text indicated by
+        Return an object representation of the verses indicated by
         `addrRange`.
         '''
 

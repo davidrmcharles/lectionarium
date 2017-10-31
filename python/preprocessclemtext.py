@@ -6,8 +6,11 @@ http://vulsearch.sourceforge.net/index.html
 Here are the changes we currently make:
 
 * Rename each file to match our ``normalName`` for each book.
-* Change enconding from Windows-1252 to UTF-8.
+* Change enconing from Windows-1252 to UTF-8.
 * Change line endings from DOS to Unix.
+
+Reference
+======================================================================
 '''
 
 # Standard Python imports:
