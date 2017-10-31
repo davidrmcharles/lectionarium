@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <lectionary name="READINGS FOR THE MAJOR FEASTS OF THE YEAR">
+  <mass date="1-1" name="Mary, Mother of God">
+    <reading>Nm 6:22-27</reading>
+    <reading>Gal 4:4-7</reading>
+    <reading>Lk 2:16-21</reading>
+  </mass>
   <mass date="2-2" name="Presentation of the Lord">
     <reading>Mal 3:1-4</reading>
     <reading>Heb 2:14-18</reading>

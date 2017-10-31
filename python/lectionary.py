@@ -886,7 +886,7 @@ class Calendar(object):
         # The solemnity of Mary, Mother of God.
         self._assignMass(
             datetime.date(self._year, 1, 1),
-            'christmas/mary-mother-of-god')  # FIXME
+            'mary-mother-of-god')
 
         if self.dateOfPreviousChristmas.weekday() == 6:
             # Make adjustments for when Christmas falls on a Sunday.
