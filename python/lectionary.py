@@ -868,7 +868,7 @@ class Calendar(object):
                 continue
             self._assignMass(
                 massDate,
-                _lectionary.findmass('christmas-octave-%s' % massKey))
+                _lectionary.findmass('christmas/%s' % massKey))
 
         # Fixed-date weekday masses following Christmas.
         massDates = _inclusiveDateRange(
@@ -1085,7 +1085,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass('christmas/octave/%s' % massKey))
+                _lectionary.findMass('christmas/%s' % massKey))
 
         dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:

@@ -914,12 +914,12 @@ class CalendarTestCase(unittest.TestCase):
             (12, 25, ['christmas-at-midnight',
                       'christmas-at-dawn',
                       'christmas-during-the-day']),
-            (12, 26, ['christmas/octave/day-2-st-stephen']),
-            (12, 27, ['christmas/octave/day-3-st-john']),
-            (12, 28, ['christmas/octave/day-4-holy-innocents']),
-            (12, 29, ['christmas/octave/day-5']),
-            (12, 30, ['christmas/octave/day-6']),
-            # (12, 31, ['christmas/octave/day-7']),
+            (12, 26, ['christmas/day-2-st-stephen']),
+            (12, 27, ['christmas/day-3-st-john']),
+            (12, 28, ['christmas/day-4-holy-innocents']),
+            (12, 29, ['christmas/day-5']),
+            (12, 30, ['christmas/day-6']),
+            # (12, 31, ['christmas/day-7']),
             (12, 31, ['holy-family']),
             ]
 
