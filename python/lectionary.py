@@ -886,29 +886,29 @@ class Calendar(object):
         # The solemnity of Mary, Mother of God.
         self._assignMass(
             datetime.date(self._year, 1, 1),
-            'mary-mother-of-god')
+            'christmas/mary-mother-of-god')  # FIXME
 
         if self.dateOfPreviousChristmas.weekday() == 6:
             # Make adjustments for when Christmas falls on a Sunday.
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                'epiphany')
+                'christmas/epiphany')
             self._assignMass(
                 datetime.date(self._year, 1, 9),
-                'baptism-of-the-lord')
+                'christmas/baptism-of-the-lord')
         else:
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +1),
-                'holy-family')
+                'christmas/holy-family')
             self._assignMass(
                 _nextSunday(self.dateOfPreviousChristmas, +2),
-                '2nd-sunday-after-christmas')
+                'christmas/2nd-sunday-after-christmas')
             self._assignMass(
                 datetime.date(self._year, 1, 6),
-                'epiphany')
+                'christmas/epiphany')
             self._assignMass(
                 self.dateOfEndOfPreviousChristmas,
-                'baptism-of-the-lord')
+                'christmas/baptism-of-the-lord')
 
         # FIXME: Week After Epiphany.  None of these masses were said
         # in the US in 2017, but they were, or will be used in other
@@ -1058,18 +1058,18 @@ class Calendar(object):
 
         self._appendMass(
             _nextSunday(self.dateOfChristmas, -1),
-            'christmas-vigil')
+            'christmas/christmas-vigil')
 
         # Octave of Christmas
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-at-midnight')
+            'christmas/christmas-at-midnight')
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-at-dawn')
+            'christmas/christmas-at-dawn')
         self._appendMass(
             self.dateOfChristmas,
-            'christmas-during-the-day')
+            'christmas/christmas-during-the-day')
 
         massDates = _inclusiveDateRange(
             self.dateOfChristmas + datetime.timedelta(days=1),
@@ -1090,7 +1090,7 @@ class Calendar(object):
         dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
             self._assignMass(
-                dateOfHolyFamily, 'holy-family')
+                dateOfHolyFamily, 'christmas/holy-family')
 
     def _allocateOrdinaryTime(self):
         '''

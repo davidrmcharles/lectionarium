@@ -473,7 +473,7 @@ class CalendarTestCase(unittest.TestCase):
 
         testData = [
             # January
-            (1, 1, ['mary-mother-of-god']),
+            (1, 1, ['christmas/mary-mother-of-god']),  # FIXME
             (1, 2, ['01-02']),
             (1, 3, ['01-03']),
             (1, 4, ['01-04']),
@@ -481,8 +481,8 @@ class CalendarTestCase(unittest.TestCase):
             (1, 6, ['01-06']),
             (1, 7, ['01-07']),
 
-            (1, 8, ['epiphany']),
-            (1, 9, ['baptism-of-the-lord']),
+            (1, 8, ['christmas/epiphany']),
+            (1, 9, ['christmas/baptism-of-the-lord']),
             (1, 10, ['ordinary/week-1/tuesday']),
             (1, 11, ['ordinary/week-1/wednesday']),
             (1, 12, ['ordinary/week-1/thursday']),
@@ -910,17 +910,17 @@ class CalendarTestCase(unittest.TestCase):
             (12, 22, ['12-22']),
             (12, 23, ['12-23']),
 
-            (12, 24, ['advent/week-4/sunday', 'christmas-vigil']),
-            (12, 25, ['christmas-at-midnight',
-                      'christmas-at-dawn',
-                      'christmas-during-the-day']),
+            (12, 24, ['advent/week-4/sunday', 'christmas/christmas-vigil']),
+            (12, 25, ['christmas/christmas-at-midnight',
+                      'christmas/christmas-at-dawn',
+                      'christmas/christmas-during-the-day']),
             (12, 26, ['christmas/day-2-st-stephen']),
             (12, 27, ['christmas/day-3-st-john']),
             (12, 28, ['christmas/day-4-holy-innocents']),
             (12, 29, ['christmas/day-5']),
             (12, 30, ['christmas/day-6']),
             # (12, 31, ['christmas/day-7']),
-            (12, 31, ['holy-family']),
+            (12, 31, ['christmas/holy-family']),
             ]
 
         for month, day, expectedMassIDs in testData:

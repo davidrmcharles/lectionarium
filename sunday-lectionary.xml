@@ -70,7 +70,7 @@
       </variation>
     </mass>
   </season>
-  <season name="Christmas Season">
+  <season id="christmas" name="Christmas Season">
     <mass name="Christmas Vigil">
       <reading>Is 62:1-5</reading>  ### Check this!
       <reading>Acts 13:16-17,22-25</reading>
