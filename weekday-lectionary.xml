@@ -546,7 +546,7 @@
       </mass>
     </week>
   </season>
-  <season name="Season of the Year">
+  <season id="ordinary" name="Season of the Year">
     <week id="week-1" name="Week One">
       <mass name="Monday">
         <reading cycles="I">Heb 1:1-6</reading>

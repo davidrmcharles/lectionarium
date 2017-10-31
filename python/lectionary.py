@@ -149,12 +149,11 @@ class Mass(object):
             return self.id
 
         # If it's not a fixed-date mass, we qualify it as much as
-        # possible.  One exception (for the moment) is that we don't
-        # indicate ordinary-time masses as such.
+        # possible.
         tokens = [self.id]
         if self._weekid is not None:
             tokens.insert(0, self._weekid)
-        if self._seasonid is not None and self._seasonid != 'ordinary':
+        if self._seasonid is not None:
             tokens.insert(0, self._seasonid)
         return '/'.join(tokens)
 
@@ -1104,7 +1103,7 @@ class Calendar(object):
         sundaysInOrdinaryTime = list(_lectionary.sundaysInOrdinaryTime)
         weekdaysInOrdinaryTime = [
             _lectionary.weekdayMassesInWeek(
-                None, 'week-%d' % weekIndex)
+                'ordinary', 'week-%d' % weekIndex)
             for weekIndex in range(1, 35)
             ]
 
@@ -1150,7 +1149,7 @@ class Calendar(object):
         # whatever else is being celebrated that day.
         self._assignMass(
             _nextSunday(self.dateOfEaster, +8),
-            'trinity-sunday')
+            'ordinary/trinity-sunday')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
         if corpusChristiDate.weekday() in (5, 4, 3):
@@ -1158,11 +1157,11 @@ class Calendar(object):
                 days=6 - corpusChristiDate.weekday())
         self._assignMass(
             corpusChristiDate,
-            'corpus-christi')
+            'ordinary/corpus-christi')
 
         self._assignMass(
             self.dateOfEaster + datetime.timedelta(days=68),
-            'sacred-heart-of-jesus')
+            'ordinary/sacred-heart-of-jesus')
 
     def _allocateSpecialMasses(self):
         '''
