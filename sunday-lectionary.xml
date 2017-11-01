@@ -471,57 +471,6 @@
     </mass>
   </season>
   <season id="ordinary" name="Ordinary Time">
-    <mass name="Trinity Sunday">
-      <variation cycles="A">
-        <reading>Ex 34:4b-6,8-9</reading>
-        <reading>2 Cor 13:11-13</reading>
-        <reading>Jn 3:16-18</reading>
-      </variation>
-      <variation cycles="B">
-        <reading>Dt 4:32-34,39-40</reading>
-        <reading>Rom 8:14-17</reading>
-        <reading>Mt 28:16-20</reading>
-      </variation>
-      <variation cycles="C">
-        <reading>Prv 8:22-31</reading>
-        <reading>Rom 5:1-5</reading>
-        <reading>Jn 16:12-15</reading>
-      </variation>
-    </mass>
-    <mass name="Corpus Christi">
-      <variation cycles="A">
-        <reading>Dt 8:2-8,14b-16a</reading>
-        <reading>1 Cor 10:16-17</reading>
-        <reading>Jn 6:51-58</reading>
-      </variation>
-      <variation cycles="B">
-        <reading>Ex 24:3-8</reading>
-        <reading>Heb 9:11-15</reading>
-        <reading>Mk 14:12-16,22-26</reading>
-      </variation>
-      <variation cycles="C">
-        <reading>Gn 14:18-20</reading>
-        <reading>1 Cor 11:23-26</reading>
-        <reading>Lk 9:11b-17</reading>
-      </variation>
-    </mass>
-    <mass name="Sacred Heart of Jesus">
-      <variation cycles="A">
-        <reading>Dt 7:6-11</reading>
-        <reading>1 Jn 4:7-16</reading>
-        <reading>Mt 11:25-30</reading>
-      </variation>
-      <variation cycles="B">
-        <reading>Hos 11:1,3-4,8c-9</reading>
-        <reading>Eph 3:8-12,14-19</reading>
-        <reading>Jn 19:31-37</reading>
-      </variation>
-      <variation cycles="C">
-        <reading>Ez 34:11-16</reading>
-        <reading>Rom 5:5b-11</reading>
-        <reading>Lk 15:3-7</reading>
-      </variation>
-    </mass>
     <mass weekid="week-2" id="sunday" name="2nd Sunday">
       <variation cycles="A">
         <reading>Is 49:3,5-6</reading>

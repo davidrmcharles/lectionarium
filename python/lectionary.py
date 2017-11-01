@@ -1154,7 +1154,7 @@ class Calendar(object):
         # whatever else is being celebrated that day.
         self._assignMass(
             _nextSunday(self.dateOfEaster, +8),
-            'ordinary/trinity-sunday')
+            'trinity-sunday')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
         if corpusChristiDate.weekday() in (5, 4, 3):
@@ -1162,18 +1162,20 @@ class Calendar(object):
                 days=6 - corpusChristiDate.weekday())
         self._assignMass(
             corpusChristiDate,
-            'ordinary/corpus-christi')
+            'corpus-christi')
 
         self._assignMass(
             self.dateOfEaster + datetime.timedelta(days=68),
-            'ordinary/sacred-heart-of-jesus')
+            'sacred-heart-of-jesus')
 
     def _allocateSpecialMasses(self):
         '''
-        Allocate the 'certain special' masses.
+        Allocate the 'special' masses with fixed dates.
         '''
 
         for mass in _lectionary.allSpecialMasses:
+            if mass.fixedMonth is None or mass.fixedDay is None:
+                continue
             d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
 
             if (mass.id == 'joseph-husband-of-mary') and \

@@ -66,7 +66,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading.citation)
 
         # $ grep --count /reading sunday-lectionary.xml
-        self.assertEqual(562, readingCount)
+        self.assertEqual(535, readingCount)
 
     def test_parseWeekdayCitations(self):
         readingCount = 0
@@ -89,7 +89,7 @@ class LectionaryTestCase(unittest.TestCase):
                 citations.parse(reading.citation)
 
         # $ grep --count /reading special-lectionary.xml
-        self.assertEqual(57, readingCount)
+        self.assertEqual(84, readingCount)
 
     def test_weekdayMassesInWeek(self):
         lectionary._lectionary.weekdayMassesInWeek(None, 'week-1')
@@ -670,7 +670,7 @@ class CalendarTestCase(unittest.TestCase):
             (6, 9, ['ordinary/week-9/friday']),
             (6, 10, ['ordinary/week-9/saturday']),
 
-            (6, 11, ['ordinary/trinity-sunday']),  # FIXME
+            (6, 11, ['trinity-sunday']),
             (6, 12, ['ordinary/week-10/monday']),
             (6, 13, ['ordinary/week-10/tuesday']),
             (6, 14, ['ordinary/week-10/wednesday']),
@@ -678,7 +678,7 @@ class CalendarTestCase(unittest.TestCase):
             (6, 16, ['ordinary/week-10/friday']),
             (6, 17, ['ordinary/week-10/saturday']),
 
-            (6, 18, ['ordinary/corpus-christi']),  # FIXME
+            (6, 18, ['corpus-christi']),
             (6, 19, ['ordinary/week-11/monday']),
             (6, 20, ['ordinary/week-11/tuesday']),
             (6, 21, ['ordinary/week-11/wednesday']),
