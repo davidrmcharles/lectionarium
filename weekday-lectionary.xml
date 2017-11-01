@@ -75,42 +75,42 @@
         <reading>Is 56:1-3a,6-8</reading>
         <reading>Jn 5:33-36</reading>
       </mass>
-      <mass date="12-17">
-        <reading>Gn 49:2,8-10</reading>
-        <reading>Mt 1:1-17</reading>
-      </mass>
-      <mass date="12-18">
-        <reading>Jer 23:5-8</reading>
-        <reading>Mt 1:18-24</reading>
-      </mass>
-      <mass date="12-19">
-        <reading>Jgs 13:2-7,24-25a</reading>
-        <reading>Lk 1:5-25</reading>
-      </mass>
-      <mass date="12-20">
-        <reading>Is 7:10-14</reading>
-        <reading>Lk 1:26-38</reading>
-      </mass>
-      <mass date="12-21">
-        <option>
-          <reading>Sg 2:8-14</reading>
-          <reading>Zep 3:14-18a</reading>
-        </option>
-        <reading>Lk 1:39-45</reading>
-      </mass>
-      <mass date="12-22">
-        <reading>1 Sm 1:24-28</reading>
-        <reading>Lk 1:46-56</reading>
-      </mass>
-      <mass date="12-23">
-        <reading>Mal 3:1-4,23-24</reading>
-        <reading>Lk 1:57-66</reading>
-      </mass>
-      <mass date="12-24">
-        <reading>2 Sm 7:1-5,8b-11,16</reading>
-        <reading>Lk 1:67-79</reading>
-      </mass>
     </week>
+    <mass date="12-17">
+      <reading>Gn 49:2,8-10</reading>
+      <reading>Mt 1:1-17</reading>
+    </mass>
+    <mass date="12-18">
+      <reading>Jer 23:5-8</reading>
+      <reading>Mt 1:18-24</reading>
+    </mass>
+    <mass date="12-19">
+      <reading>Jgs 13:2-7,24-25a</reading>
+      <reading>Lk 1:5-25</reading>
+    </mass>
+    <mass date="12-20">
+      <reading>Is 7:10-14</reading>
+      <reading>Lk 1:26-38</reading>
+    </mass>
+    <mass date="12-21">
+      <option>
+        <reading>Sg 2:8-14</reading>
+        <reading>Zep 3:14-18a</reading>
+      </option>
+      <reading>Lk 1:39-45</reading>
+    </mass>
+    <mass date="12-22">
+      <reading>1 Sm 1:24-28</reading>
+      <reading>Lk 1:46-56</reading>
+    </mass>
+    <mass date="12-23">
+      <reading>Mal 3:1-4,23-24</reading>
+      <reading>Lk 1:57-66</reading>
+    </mass>
+    <mass date="12-24">
+      <reading>2 Sm 7:1-5,8b-11,16</reading>
+      <reading>Lk 1:67-79</reading>
+    </mass>
   </season>
   <season id="christmas" name="Christmas Season">
     <week name="Octave of Christmas">

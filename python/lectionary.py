@@ -144,12 +144,7 @@ class Mass(object):
         ``id``.
         '''
 
-        # We identify the fixed-date masses by id alone.
-        if self._fixedDay is not None:
-            return self.id
-
-        # If it's not a fixed-date mass, we qualify it as much as
-        # possible.
+        # Qualify the mass as much as possible.
         tokens = [self.id]
         if self._weekid is not None:
             tokens.insert(0, self._weekid)
@@ -875,7 +870,7 @@ class Calendar(object):
             datetime.date(self._year, 1, 2),
             datetime.date(self._year, 1, 7))
         massKeys = [
-            '01-%02d' % day
+            'christmas/01-%02d' % day
             for day in range(2, 8)
             ]
         for massDate, massKey in zip(massDates, massKeys):
@@ -1047,7 +1042,7 @@ class Calendar(object):
             datetime.date(self._year, 12, 17),
             datetime.date(self._year, 12, 24))
         massKeys = [
-            '12-%02d' % day
+            'advent/12-%02d' % day
             for day in range(17, 25)
             ]
         for massDate, massKey in zip(massDates, massKeys):

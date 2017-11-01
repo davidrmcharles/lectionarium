@@ -474,12 +474,12 @@ class CalendarTestCase(unittest.TestCase):
         testData = [
             # January
             (1, 1, ['mary-mother-of-god']),
-            (1, 2, ['01-02']),
-            (1, 3, ['01-03']),
-            (1, 4, ['01-04']),
-            (1, 5, ['01-05']),
-            (1, 6, ['01-06']),
-            (1, 7, ['01-07']),
+            (1, 2, ['christmas/01-02']),
+            (1, 3, ['christmas/01-03']),
+            (1, 4, ['christmas/01-04']),
+            (1, 5, ['christmas/01-05']),
+            (1, 6, ['christmas/01-06']),
+            (1, 7, ['christmas/01-07']),
 
             (1, 8, ['christmas/epiphany']),
             (1, 9, ['christmas/baptism-of-the-lord']),
@@ -903,12 +903,12 @@ class CalendarTestCase(unittest.TestCase):
             (12, 16, ['advent/week-2/saturday']),
 
             (12, 17, ['advent/week-3/sunday']),
-            (12, 18, ['12-18']),
-            (12, 19, ['12-19']),
-            (12, 20, ['12-20']),
-            (12, 21, ['12-21']),
-            (12, 22, ['12-22']),
-            (12, 23, ['12-23']),
+            (12, 18, ['advent/12-18']),
+            (12, 19, ['advent/12-19']),
+            (12, 20, ['advent/12-20']),
+            (12, 21, ['advent/12-21']),
+            (12, 22, ['advent/12-22']),
+            (12, 23, ['advent/12-23']),
 
             (12, 24, ['advent/week-4/sunday', 'christmas/christmas-vigil']),
             (12, 25, ['christmas/christmas-at-midnight',
