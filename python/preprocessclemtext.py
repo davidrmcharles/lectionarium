@@ -8,6 +8,7 @@ Here are the changes we currently make:
 * Rename each file to match our ``normalName`` for each book.
 * Change enconing from Windows-1252 to UTF-8.
 * Change line endings from DOS to Unix.
+* Remove the space that precedes ':' and '?'
 
 Reference
 ======================================================================
@@ -16,6 +17,7 @@ Reference
 # Standard Python imports:
 import argparse
 import os
+import re
 
 # This is a mapping of the name of each *input* file to the name of
 # its corresponding *output* file.
@@ -95,6 +97,13 @@ _fileNames = {
     'Zach.lat' : 'zechariah.txt',
     }
 
+def _removeSpaceBeforePunctuation(text):
+    '''
+    Remove the space that appears before certain punctuation marks.
+    '''
+
+    return re.sub(r' ([:;?!])', r'\1', text)
+
 def main():
     # Parse the options.
     argParser = argparse.ArgumentParser(
@@ -123,8 +132,9 @@ Preprocess the ``clemtext`` provided by http://vulsearch.sourceforge.net/index.h
         with open(inputFilePath, 'rU') as inputFile:
             outputFilePath = os.path.join(args.outputFolderPath, outputFileName)
             with open(outputFilePath, 'w') as outputFile:
-                outputFile.write(
-                    inputFile.read().decode('Windows-1252'). encode('utf-8'))
+                line = inputFile.read().decode('Windows-1252')
+                line = _removeSpaceBeforePunctuation(line)
+                outputFile.write(line.encode('utf-8'))
 
 if __name__ == '__main__':
     main()
