@@ -120,6 +120,7 @@ class Paragraph(object):
             return self._formatPoetryForConsole()
 
     def _formatProseForConsole(self, isFirst):
+
         def formatLineOfProse(addr, text):
             if addr is None:
                 addrToken = ''
@@ -141,6 +142,7 @@ class Paragraph(object):
                     ]))
 
     def _formatPoetryForConsole(self):
+
         def formatLineOfPoetry(addr, text, isFirst):
             if addr is None:
                 addrToken = ''
@@ -157,109 +159,187 @@ class Paragraph(object):
                 enumerate(self.lines)
                 ])
 
-def _formatVerse(paragraphs, verseAddr, verseText):
+class ConsoleVerseFormatter(object):
     '''
-    Update `paragraphs` with the content of `verseAddr` and
-    `verseText` while observing formatting metacharacters that appear
-    in the `verseText`.
+    Convert a list of `verses` to a formatted string that is readable
+    on the console.
+
+    The expected format of `verses` is the same as that returned by
+    :func:`getVerses`.
     '''
 
-    matchResult = re.search(r'[\[\]/\\]', verseText)
-    while matchResult is not None:
-        # Capture everything up to the metacharacter in `verseTextSegment`.
-        verseTextSegment = verseText[:matchResult.start()].strip()
-        metaChar = verseText[matchResult.start()]
-        if metaChar == '[':
-            # This is a request to commit the current
-            # `verseTextSegment` to the current paragraph and start a
-            # new paragraph with poetry formatting.
-            if len(paragraphs) > 0 and paragraphs[-1].formatting == 'poetry':
-                raise FormattingError(
-                    'Saw "[" inside of poetry!')
+    def __init__(self):
+        self.paragraphs = []
+        self.verseAddr = None
 
-            if len(verseTextSegment) > 0:
-                if len(paragraphs) == 0:
-                    paragraphs.append(Paragraph('prose'))
-                paragraphs[-1].addText(verseAddr, verseTextSegment)
-                verseAddr = None
+    @property
+    def currentParagraphIsProse(self):
+        '''
+        ``True`` if the current paragraph is formatted as prose.
+        '''
 
-            # This is here for the transition from Baruch 3:38 to 4:1.
-            # Verse 3:38 terminates a paragraph of poetry, causing us
-            # to add an empty paragraph of prose.  Then we see the
-            # beginning of poetry in verse 4:1 and start a new
-            # paragraph of poetry.  We don't want the interleaving
-            # paragraph of prose.
-            if len(paragraphs) > 0:
-                if paragraphs[-1].isEmpty:
-                    paragraphs.pop()
+        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting == 'prose'
 
-            paragraphs.append(Paragraph('poetry'))
+    @property
+    def currentParagraphIsNotProse(self):
+        '''
+        ``True`` if the current paragraph is formatted as prose.
+        '''
 
-        elif metaChar == ']':
-            # This is a request to commit the current
-            # `verseTextSegment` to the current paragraph, to start a
-            # new paragraph, and to exit poetry formatting.
-            if paragraphs[-1].formatting == 'prose':
-                raise FormattingError(
-                    'Saw "]" inside of prose!')
+        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting != 'prose'
 
-            if len(verseTextSegment) > 0:
-                if len(paragraphs) == 0:
-                    paragraphs.append(Paragraph('prose'))
-                paragraphs[-1].addText(verseAddr, verseTextSegment)
-                verseAddr = None
+    @property
+    def currentParagraphIsPoetry(self):
+        '''
+        ``True`` if the current paragraph is formatted as poetry.
+        '''
 
-            paragraphs.append(Paragraph('prose'))
+        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting == 'poetry'
 
-        elif metaChar == '/':
-            # Assuming poetry formatting, this means a line break.
-            # Add the `verseTextSegment` to the current paragraph.
-            if len(paragraphs) > 0 and paragraphs[-1].formatting != 'poetry':
-                # The first reading for all-souls-1 (Jb 19:1,23-27)
-                # has precisely this thing, so it must be legit.
-                #
-                # raise FormattingError(
-                #     'Saw "/" outside of poetry!')
-                paragraphs.append(Paragraph('poetry'))
+    @property
+    def currentParagraphIsNotPoetry(self):
+        '''
+        ``True`` if the current paragraph is formatted as poetry.
+        '''
 
-            if len(verseTextSegment) > 0:
-                if len(paragraphs) == 0:
-                    paragraphs.append(Paragraph('prose'))
-                paragraphs[-1].addText(verseAddr, verseTextSegment)
-                verseAddr = None
+        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting != 'poetry'
 
-        elif metaChar == '\\':
-            # Assuming prose formatting, this means a paragraph break.
-            # Commit the current `verseTextSegment` to the current
-            # paragraph and start a new paragraph.
-            if len(paragraphs) > 0 and paragraphs[-1].formatting != 'prose':
-                raise FormattingError(
-                    'Saw "\\" outside of prose!')
+    def addTextToCurrentParagraph(self, text):
+        '''
+        Add `text` to the current paragraph.
 
-            if len(verseTextSegment) > 0:
-                if len(paragraphs) == 0:
-                    paragraphs.append(Paragraph('prose'))
-                paragraphs[-1].addText(verseAddr, verseTextSegment)
-                verseAddr = None
+        Unless `text` is the empty string, then do nothing.
 
-            # This is conditional for the sake of Baruch 4:4, when
-            # ends poetry AND a paragraph with ']\'.  We don't two
-            # empty paragraphs on the end.  One is enough.
-            if not paragraphs[-1].isEmpty:
-                paragraphs.append(Paragraph('prose'))
+        If there is no current paragraph, create a new paragraph of
+        prose and add the text there.
 
-        # Discard the portion of `verseText` up to and including the
-        # metacharacter and attempt to match again.
-        verseText = verseText[matchResult.start() + 1:]
-        matchResult = re.search(r'[\[\]/\\]', verseText)
+        Forget `verseAddr` so we don't add more than once.
+        '''
 
-    # Everything that remains of the current `verseText` should be
-    # committed to the current paragraph.
+        if len(text) > 0:
+            if len(self.paragraphs) == 0:
+                self.paragraphs.append(Paragraph('prose'))
+            self.paragraphs[-1].addText(self.verseAddr, text)
+            self.verseAddr = None
 
-    if len(verseText) > 0:
-        if len(paragraphs) == 0:
-            paragraphs.append(Paragraph('prose'))
-        paragraphs[-1].addText(verseAddr, verseText)
+    def formatVerses(self, verses):
+        '''
+        Return the `verses` as a formatted, ready-to-display string.
+        '''
+
+        # Allocate the verses to paragraphs.
+        for verseAddr, verseText in verses:
+            self.verseAddr = verseAddr
+            self._formatVerse(verseText)
+
+        # Trim the trailing empty paragraph (if there is one).
+        if self.paragraphs[-1].isEmpty:
+            self.paragraphs.pop()
+
+    @property
+    def formattedText(self):
+        return '\n'.join([
+                paragraph.formatForConsole(index == 0)
+                for index, paragraph
+                in enumerate(self.paragraphs)
+                ]) + '\n'
+
+    def _formatVerse(self, verseText):
+        '''
+        Update `paragraphs` with the content of `verseAddr` and
+        `verseText` while observing formatting metacharacters that appear
+        in the `verseText`.
+        '''
+
+        metaCharRegex = r'[\[\]/\\]'
+
+        matchResult = re.search(metaCharRegex, verseText)
+        while matchResult is not None:
+            # Capture everything up to the metacharacter in
+            # `verseTextSegment`.
+            verseTextSegment = verseText[:matchResult.start()].strip()
+
+            metaChar = verseText[matchResult.start()]
+            if metaChar == '[':
+                self._handlePoetryBegin(verseTextSegment)
+            elif metaChar == ']':
+                self._handlePoetryEnd(verseTextSegment)
+            elif metaChar == '/':
+                self._handlePoetryLineBreak(verseTextSegment)
+            elif metaChar == '\\':
+                self._handleParagraphBreak(verseTextSegment)
+
+            # Discard the portion of `verseText` up to and including
+            # the metacharacter (the part we just handled) and attempt
+            # to match again.
+            verseText = verseText[matchResult.start() + 1:].strip()
+            matchResult = re.search(metaCharRegex, verseText)
+
+        # Everything that remains of the current `verseText` should be
+        # committed to the current paragraph.
+        self.addTextToCurrentParagraph(verseText)
+
+    def _handlePoetryBegin(self, verseTextSegment):
+        # This is a request to commit the current `verseTextSegment`
+        # to the current paragraph and start a new paragraph with
+        # poetry formatting.
+        if self.currentParagraphIsPoetry:
+            raise FormattingError(
+                'Saw "[" inside of poetry!')
+
+        self.addTextToCurrentParagraph(verseTextSegment)
+
+        # This is here for the transition from Baruch 3:38 to 4:1.
+        # Verse 3:38 terminates a paragraph of poetry, causing us to
+        # add an empty paragraph of prose.  Then we see the beginning
+        # of poetry in verse 4:1 and start a new paragraph of poetry.
+        # We don't want the interleaving paragraph of prose.
+        if len(self.paragraphs) > 0:
+            if self.paragraphs[-1].isEmpty:
+                self.paragraphs.pop()
+
+        self.paragraphs.append(Paragraph('poetry'))
+
+    def _handlePoetryEnd(self, verseTextSegment):
+        # This is a request to commit the current `verseTextSegment`
+        # to the current paragraph, to start a new paragraph, and to
+        # exit poetry formatting.
+        if self.currentParagraphIsProse:
+            raise FormattingError(
+                'Saw "]" inside of prose!')
+
+        self.addTextToCurrentParagraph(verseTextSegment)
+
+        self.paragraphs.append(Paragraph('prose'))
+
+    def _handlePoetryLineBreak(self, verseTextSegment):
+        # Assuming poetry formatting, this means a line break.  Add
+        # the `verseTextSegment` to the current paragraph.
+        if self.currentParagraphIsNotPoetry:
+            # The first reading for all-souls-1 (Jb 19:1,23-27) has
+            # precisely this thing, so it must be legit.
+            #
+            # raise FormattingError(
+            #     'Saw "/" outside of poetry!')
+            self.paragraphs.append(Paragraph('poetry'))
+
+        self.addTextToCurrentParagraph(verseTextSegment)
+
+    def _handleParagraphBreak(self, verseTextSegment):
+        # Assuming prose formatting, this means a paragraph break.
+        # Commit the current `verseTextSegment` to the current
+        # paragraph and start a new paragraph.
+        if self.currentParagraphIsNotProse:
+            raise FormattingError(
+                'Saw "\\" outside of prose!')
+
+        self.addTextToCurrentParagraph(verseTextSegment)
+
+        # This is conditional for the sake of Baruch 4:4, when ends
+        # poetry AND a paragraph with ']\'.  We don't two empty
+        # paragraphs on the end.  One is enough.
+        if not self.paragraphs[-1].isEmpty:
+            self.paragraphs.append(Paragraph('prose'))
 
 def formatVersesForConsole(verses):
     '''
@@ -270,18 +350,9 @@ def formatVersesForConsole(verses):
     :func:`getVerses`.
     '''
 
-    paragraphs = []
-    for verseAddr, verseText in verses:
-        _formatVerse(paragraphs, verseAddr, verseText)
-
-    if paragraphs[-1].isEmpty:
-        paragraphs.pop()
-
-    return '\n'.join([
-            paragraph.formatForConsole(index == 0)
-            for index, paragraph
-            in enumerate(paragraphs)
-            ]) + '\n'
+    verseFormatter = ConsoleVerseFormatter()
+    verseFormatter.formatVerses(verses)
+    return verseFormatter.formattedText
 
 def main():
     '''
