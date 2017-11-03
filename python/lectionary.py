@@ -1484,9 +1484,12 @@ name of the cycle to the name of the mass (or date).  For example:
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
+    sys.stdout.write('%s\n' % ('=' * 80))
     sys.stdout.write('Readings for %s\n' % (massTitle))
+    sys.stdout.write('%s\n' % ('=' * 80))
+
     for reading, verses in readings.iteritems():
-        sys.stdout.write('\n%s' % reading.citation)
+        sys.stdout.write('\n%s\n' % reading.citation)
         sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
     return
 
