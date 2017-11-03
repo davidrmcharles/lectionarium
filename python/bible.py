@@ -102,8 +102,9 @@ class Paragraph(object):
     # The ANSI sequence for 'normal brightness' text.
     NORMAL = '\033[22m'
 
-    def __init__(self, formatting):
+    def __init__(self, formatting, useColor=True):
         self.formatting = formatting
+        self.useColor = useColor
         self.lines = []
 
     def addText(self, addr, text):
@@ -126,7 +127,11 @@ class Paragraph(object):
                 addrToken = ''
             else:
                 chapter, verse = addr
-                addrToken = '[%d:%d]' % (chapter, verse)
+                if self.useColor:
+                    addrToken = '%s%d:%d%s' % (
+                        self.DIM, chapter, verse, self.NORMAL)
+                else:
+                    addrToken = '[%d:%d]' % (chapter, verse)
             return '%s %s' % (addrToken, text)
 
         if isFirst:
@@ -150,8 +155,14 @@ class Paragraph(object):
                 chapter, verse = addr
                 addrToken = '[%d:%d]' % (chapter, verse)
 
-            padding = (12 if isFirst else 16)
-            return '%-*s%s' % (padding, addrToken, text)
+            indentSize = (12 if isFirst else 16)
+            addrToken = '%-*s' % (indentSize, addrToken)
+
+            if self.useColor:
+                addrToken = addrToken.replace('[', self.DIM)
+                addrToken = addrToken.replace(']', self.NORMAL + '  ')
+
+            return '%s%s' % (addrToken, text)
 
         return '\n'.join([
                 formatLineOfPoetry(addr, text, index == 0)
