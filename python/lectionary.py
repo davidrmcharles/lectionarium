@@ -50,6 +50,7 @@ import xml.dom.minidom
 
 # Local imports:
 import bible
+import citations
 
 _thisFilePath = inspect.getfile(inspect.currentframe())
 _thisFolderPath = os.path.abspath(os.path.dirname(_thisFilePath))
@@ -234,7 +235,24 @@ class Reading(object):
     def __init__(self, citation):
         self._citation = citation
         self._cycles = None
-        self._optionID = None
+        self._optionSet = None
+        self._optionSetSize = None
+        self._optionIndex = None
+
+    @property
+    def title(self):
+        '''
+        The title of the reading.
+        '''
+
+        tokens = [citations.parse(self._citation).displayString]
+
+        if self._optionSet is not None:
+            tokens.append(
+                '(Option %d of %d)' % (
+                    self._optionIndex + 1, self._optionSetSize))
+
+        return ' '.join(tokens)
 
     @property
     def citation(self):
@@ -258,17 +276,33 @@ class Reading(object):
         self._cycles = cycles
 
     @property
-    def optionID(self):
+    def optionSet(self):
         '''
         An identifier if this reading is one of a set of options.
         ``None`` if the reading is not optional.
         '''
 
-        return self._optionID
+        return self._optionSet
 
-    @optionID.setter
-    def optionID(self, optionID):
-        self._optionID = optionID
+    @optionSet.setter
+    def optionSet(self, optionSet):
+        self._optionSet = optionSet
+
+    @property
+    def optionSetSize(self):
+        return self._optionSetSize
+
+    @optionSetSize.setter
+    def optionSetSize(self, optionSetSize):
+        self._optionSetSize = optionSetSize
+
+    @property
+    def optionIndex(self):
+        return self._optionIndex
+
+    @optionIndex.setter
+    def optionIndex(self, optionIndex):
+        self._optionIndex = optionIndex
 
     def isApplicable(self, sundayCycle, weekdayCycle):
         '''
@@ -504,6 +538,7 @@ def _decode_variation(variation_node):
 
     result = []
     cycles = _attr(variation_node, 'cycles', ifMissing=None)
+    option_index = 0
     for child_node in _children(variation_node, ['reading', 'option']):
         if child_node.localName == 'reading':
             reading = _decode_reading(child_node)
@@ -511,9 +546,13 @@ def _decode_variation(variation_node):
             result.append(reading)
         elif child_node.localName == 'option':
             readings = _decode_option(child_node)
-            for reading in readings:
+            for reading_index, reading in enumerate(readings):
                 reading.cycles = cycles
+                reading.optionSet = option_index
+                reading.optionSetSize = len(readings)
+                reading.optionSetIndex = reading_index
             result.extend(readings)
+            option_index += 1
     return result
 
 def _decode_option(option_node):
@@ -555,12 +594,20 @@ def _decode_mass(mass_node):
     name = _attr(mass_node, 'name', ifMissing=None)
 
     readings = []
+    option_index = 0
     for child_node in _children(
         mass_node, ['reading', 'option', 'variation']):
         if child_node.localName == 'reading':
             readings.append(_decode_reading(child_node))
         elif child_node.localName == 'option':
-            readings.extend(_decode_option(child_node))
+            optional_readings = _decode_option(child_node)
+            for optional_reading_index, optional_reading in enumerate(
+                optional_readings):
+                optional_reading.optionSet = option_index
+                optional_reading.optionSetSize = len(optional_readings)
+                optional_reading.optionIndex = optional_reading_index
+            readings.extend(optional_readings)
+            option_index += 1
         elif child_node.localName == 'variation':
             readings.extend(_decode_variation(child_node))
 
@@ -1501,7 +1548,7 @@ name of the cycle to the name of the mass (or date).  For example:
     sys.stdout.write('%s\n' % ('=' * 80))
 
     for reading, verses in readings.iteritems():
-        sys.stdout.write('\n%s\n' % reading.citation)
+        sys.stdout.write('\n%s\n' % reading.title)
         sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
     return
 

@@ -38,6 +38,15 @@ class Citation(object):
             self._book, ','.join([str(loc) for loc in self._locs]))
 
     @property
+    def displayString(self):
+        '''
+        A long-form display-string for the citation.
+        '''
+
+        book = books._bible.findBook(self._book)
+        return '%s %s' % (book.name, ','.join([str(loc) for loc in self._locs]))
+
+    @property
     def book(self):
         '''
         The normalized name of the book.
