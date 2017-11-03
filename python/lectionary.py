@@ -37,6 +37,7 @@ Reference
 '''
 
 # Standard imports:
+import calendar
 import collections
 import datetime
 import inspect
@@ -132,6 +133,17 @@ class Mass(object):
         '''
 
         return self._name
+
+    @property
+    def displayName(self):
+        '''
+        A display-name for the mass.
+        '''
+
+        if self.name is not None:
+            return self.name
+        else:
+            return '%s %d' % (calendar.month_name[self.fixedMonth], self.fixedDay)
 
     @name.setter
     def name(self, newValue):
@@ -1421,13 +1433,13 @@ def getReadings(query):
 
     # Compose a title for the mass.
     if sundayCycle is None and weekdayCycle is None:
-        massTitle = '%s (All Cycles)' % mass.name
+        massTitle = '%s (All Cycles)' % mass.displayName
     elif sundayCycle is not None and weekdayCycle is None:
-        massTitle = '%s (Cycle %s)' % (mass.name, sundayCycle)
+        massTitle = '%s (Cycle %s)' % (mass.displayName, sundayCycle)
     elif sundayCycle is None and weekdayCycle is not None:
-        massTitle = '%s (Cycle %s)' % (mass.name, weekdayCycle)
+        massTitle = '%s (Cycle %s)' % (mass.displayName, weekdayCycle)
     elif sundayCycle is not None and weekdayCycle is not None:
-        massTitle = '%s (Cycle %s, %s)' % (mass.name, sundayCycle, weekdayCycle)
+        massTitle = '%s (Cycle %s, %s)' % (mass.displayName, sundayCycle, weekdayCycle)
 
     # Collect the texts that go with the applicable readings.
     readings = collections.OrderedDict()
