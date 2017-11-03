@@ -1423,9 +1423,9 @@ def getReadings(query):
     '''
 
     # Parse the query and fail if it returns anything but exactly one
-    # result.
+    # result, unless the query is an exact match for something.
     fqids, sundayCycle, weekdayCycle = parse(query)
-    if len(fqids) != 1:
+    if len(fqids) != 1 and query not in fqids:
         raise NonSingularResultsError(query, fqids)
 
     fqid = fqids[0]
