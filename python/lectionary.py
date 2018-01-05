@@ -5,12 +5,14 @@ The Lectionary of the Ordinary Form of the Mass of the Roman Rite
 Summary of Command-Line Interface
 ======================================================================
 
-Provide the name of a mass, or a date, and we will write its readings
+Provide the name of a mass (or a date) and we will write its readings
 to stdout.
 
 Summary of Library Interface
 ======================================================================
 
+* :func:`writeReadingsAsText`
+* :func:`writeReadingsAsHTML`
 * :func:`getReadings` - Get an object representation of the readings
 * :func:`parse` - Parse a query for a certain mass
 * :class:`MalformedQueryError` - Raised when we cannot parse a query string
@@ -37,6 +39,7 @@ Reference
 '''
 
 # Standard imports:
+import argparse
 import calendar
 import collections
 import datetime
@@ -436,45 +439,57 @@ class Lectionary(object):
                 return mass
         return None
 
+    @staticmethod
+    def _formattedIDsForRelatedMasses(masses, title):
+        '''
+        Return the fqids of all the `masses` as a list of lines
+        with a centered `title`.
+        '''
+
+        lines = []
+        lines.append('=' * 80)
+        lines.append(title.center(80))
+        lines.append('=' * 80)
+        for index in range(0, len(masses), 2):
+            mass1 =  masses[index]
+            mass1Token = '* %s' % mass1.fqid
+            mass2Token = ''
+            if (index + 1) < len(masses):
+                mass2 = masses[index + 1]
+                mass2Token = '* %s' % mass2.fqid
+            lines.append(
+                '%-37s %-37s' % (
+                    mass1Token, mass2Token))
+        return lines
+
     @property
-    def formattedIDs(self):
-        '''
-        Return all the mass IDs as a single, formatted string suitable
-        for printing to the console.
-        '''
-
-        def formattedIDsForRelatedMasses(masses, title):
-            '''
-            Return the fqids of all the `masses` as a list of lines
-            with a centered `title`.
-            '''
-
-            lines = []
-            lines.append('=' * 80)
-            lines.append(title.center(80))
-            lines.append('=' * 80)
-            for index in range(0, len(masses), 2):
-                mass1 =  masses[index]
-                mass1Token = '* %s' % mass1.fqid
-                mass2Token = ''
-                if (index + 1) < len(masses):
-                    mass2 = masses[index + 1]
-                    mass2Token = '* %s' % mass2.fqid
-                lines.append(
-                    '%-37s %-37s' % (
-                        mass1Token, mass2Token))
-            return lines
-
-        weekdayMassLines = formattedIDsForRelatedMasses(
-            self._allWeekdayMasses, 'Weekday Mass Readings')
-        sundayMassLines = formattedIDsForRelatedMasses(
-            self._allSundayMasses, 'Sunday Mass Readings')
-        specialMassLines = formattedIDsForRelatedMasses(
-            self._allSpecialMasses, 'Mass Readings for Certain Special Feasts')
-
+    def weekdayIDsFormatted(self):
         return '\n'.join(
-            itertools.chain(
-                weekdayMassLines, sundayMassLines, specialMassLines))
+            self._formattedIDsForRelatedMasses(
+                self._allWeekdayMasses,
+                'Weekday Mass Readings'))
+
+    @property
+    def sundayIDsFormatted(self):
+        return '\n'.join(
+            self._formattedIDsForRelatedMasses(
+                self._allSundayMasses,
+                'Sunday Mass Readings'))
+
+    @property
+    def specialIDsFormatted(self):
+        return '\n'.join(
+            self._formattedIDsForRelatedMasses(
+                self._allSpecialMasses,
+                'Mass Readings for Certain Special Feasts'))
+
+    @property
+    def allIDsFormatted(self):
+        return '\n'.join([
+                self.weekdayIDsFormatted,
+                self.sundayIDsFormatted,
+                self.specialIDsFormatted
+                ])
 
 def _decode_sunday_lectionary(lectionary_node):
     '''
@@ -1500,13 +1515,9 @@ def main():
     The command-line interface.
     '''
 
-    # If the user provided no arguments, print help and quit.
-    if len(sys.argv) == 1:
-        sys.stderr.write('%s\n' % _lectionary.formattedIDs)
-        sys.stderr.write('''\
-
-Provide the name of a mass, or a date, and we will write its readings
-to stdout.  For example:
+    # Create the command-line parser.
+    exampleText = '''\
+Examples:
 
     lectionary.py trinity-sunday
     lectionary.py 2017-10-17
@@ -1526,31 +1537,99 @@ name of the cycle to the name of the mass (or date).  For example:
     lectionary.py trinity-sunday#C
     lectionary.py 2017-10-17#A
     lectionary.py today#A
-''')
+'''
+    parser = argparse.ArgumentParser(
+        description='''\
+Provide the name of a mass (or a date) and we will write its readings
+to stdout.''',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=exampleText)
+
+    parser.add_argument(
+        '--list-all-ids',
+        action='store_true',
+        dest='listAllIDs',
+        help='list all mass ids (and exit)')
+    parser.add_argument(
+        '--list-weekday-ids',
+        action='store_true',
+        dest='listWeekdayIDs',
+        help='list weekday mass ids (and exit)')
+    parser.add_argument(
+        '--list-sunday-ids',
+        action='store_true',
+        dest='listSundayIDs',
+        help='list weekday mass ids (and exit)')
+    parser.add_argument(
+        '--list-special-ids',
+        action='store_true',
+        dest='listSpecialIDs',
+        help='list special mass ids (and exit)')
+
+    parser.add_argument(
+        '--html',
+        action='store_true',
+        dest='html',
+        help='generate HTML output')
+
+    parser.add_argument(
+        'query',
+        metavar='QUERY',
+        nargs='?',
+        help='the id of mass (or a date)')
+
+    # Parse the command-line and handle the list options (if present).
+    options = parser.parse_args()
+    if options.listAllIDs:
+        sys.stderr.write('%s\n' % _lectionary.allIDsFormatted)
+        raise SystemExit(1)
+    if options.listWeekdayIDs:
+        sys.stderr.write('%s\n' % _lectionary.weekdayIDsFormatted)
+        raise SystemExit(1)
+    if options.listSundayIDs:
+        sys.stderr.write('%s\n' % _lectionary.sundayIDsFormatted)
+        raise SystemExit(1)
+    if options.listSpecialIDs:
+        sys.stderr.write('%s\n' % _lectionary.specialIDsFormatted)
         raise SystemExit(1)
 
-    # If the user provided more than one argument, print an error
-    # message and quit.
-    if len(sys.argv) > 2:
-        sys.stderr.write('One mass at a time, please!\n')
+    # If no query was provided, print help and exit.
+    if options.query is None:
+        parser.print_help()
         raise SystemExit(1)
 
     # Parse the query.
     try:
-        massTitle, readings = getReadings(sys.argv[1])
+        massTitle, readings = getReadings(options.query)
     except NonSingularResultsError as e:
         sys.stderr.write('%s\n' % e.message)
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
-    sys.stdout.write('%s\n' % ('=' * 80))
-    sys.stdout.write('Readings for %s\n' % (massTitle))
-    sys.stdout.write('%s\n' % ('=' * 80))
+    if options.html:
+        writeReadingsAsHTML(massTitle, readings, options)
+    else:
+        writeReadingsAsText(massTitle, readings, options)
+
+def writeReadingsAsHTML(massTitle, readings, options, outputFile=sys.stdout):
+    '''
+    Write readings for browser viewing.
+    '''
+    sys.stderr.write('lectionary: HTML output isn\'t implemented yet.\n')
+    raise SystemExit(1)
+
+def writeReadingsAsText(massTitle, readings, options, outputFile=sys.stdout):
+    '''
+    Write readings for console viewing.
+    '''
+
+    outputFile.write('%s\n' % ('=' * 80))
+    outputFile.write('Readings for %s\n' % (massTitle))
+    outputFile.write('%s\n' % ('=' * 80))
 
     for reading, verses in readings.iteritems():
-        sys.stdout.write('\n%s\n' % reading.title)
-        sys.stdout.write('\n%s' % bible.formatVersesForConsole(verses))
-    return
+        outputFile.write('\n%s\n' % reading.title)
+        outputFile.write('\n%s' % bible.formatVersesForConsole(verses))
 
 _lectionary = Lectionary()
 
