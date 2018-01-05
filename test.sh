@@ -1,7 +1,4 @@
 #!/bin/bash
 . environment.sh
-python/test/test_bible.py
-python/test/test_books.py
-python/test/test_citations.py
-python/test/test_lectionary.py
-python/test/test_locs.py
+thisdir="$( cd "$( dirname "$0" )" && pwd )"
+python -m unittest discover -s "$thisdir/python/test" -p "test_*.py"
