@@ -47,6 +47,7 @@ class ConsoleVerseFormatterTestCase(unittest.TestCase):
         '''
 
         verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 16), 'Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret: ut omnis qui credit in eum, non pereat, sed habeat vitam æternam.')
             ])
@@ -67,6 +68,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         '''
 
         verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 4), 'Est autem Deus verax: omnis autem homo mendax, sicut scriptum est: [Ut justificeris in sermonibus tuis:/ et vincas cum judicaris.]')
                 ])
@@ -89,6 +91,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         '''
 
         verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter.useColor = False
         verseFormatter.formatVerses([
             ((3, 9), '[Audi, Israël, mandata vitæ:/ auribus percipe, ut scias prudentiam./'),
             ((3, 38), 'Post hæc in terris visus est,/ et cum hominibus conversatus est.]'),

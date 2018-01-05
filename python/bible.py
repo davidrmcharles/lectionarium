@@ -180,8 +180,21 @@ class ConsoleVerseFormatter(object):
     '''
 
     def __init__(self):
+        self._useColor = True
         self.paragraphs = []
         self.verseAddr = None
+
+    @property
+    def useColor(self):
+        '''
+        ``True`` to insert color escape sequences, otherwise ``False``
+        '''
+
+        return self._useColor
+
+    @useColor.setter
+    def useColor(self, newValue):
+        self._useColor = newValue
 
     @property
     def currentParagraphIsProse(self):
@@ -233,7 +246,7 @@ class ConsoleVerseFormatter(object):
 
         if len(text) > 0:
             if len(self.paragraphs) == 0:
-                self.paragraphs.append(Paragraph('prose'))
+                self.paragraphs.append(Paragraph('prose', self.useColor))
             self.paragraphs[-1].addText(self.verseAddr, text)
             self.verseAddr = None
 
@@ -313,7 +326,7 @@ class ConsoleVerseFormatter(object):
             if self.paragraphs[-1].isEmpty:
                 self.paragraphs.pop()
 
-        self.paragraphs.append(Paragraph('poetry'))
+        self.paragraphs.append(Paragraph('poetry', self.useColor))
 
     def _handlePoetryEnd(self, verseTextSegment):
         # This is a request to commit the current `verseTextSegment`
@@ -325,7 +338,7 @@ class ConsoleVerseFormatter(object):
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
-        self.paragraphs.append(Paragraph('prose'))
+        self.paragraphs.append(Paragraph('prose', self.useColor))
 
     def _handlePoetryLineBreak(self, verseTextSegment):
         # Assuming poetry formatting, this means a line break.  Add
@@ -336,7 +349,7 @@ class ConsoleVerseFormatter(object):
             #
             # raise FormattingError(
             #     'Saw "/" outside of poetry!')
-            self.paragraphs.append(Paragraph('poetry'))
+            self.paragraphs.append(Paragraph('poetry', self.useColor))
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
@@ -354,7 +367,7 @@ class ConsoleVerseFormatter(object):
         # poetry AND a paragraph with ']\'.  We don't two empty
         # paragraphs on the end.  One is enough.
         if not self.paragraphs[-1].isEmpty:
-            self.paragraphs.append(Paragraph('prose'))
+            self.paragraphs.append(Paragraph('prose', self.useColor))
 
 def formatVersesForConsole(verses):
     '''
