@@ -189,7 +189,8 @@ class ConsoleVerseFormatter(object):
         ``True`` if the current paragraph is formatted as prose.
         '''
 
-        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting == 'prose'
+        return len(self.paragraphs) > 0 and \
+            self.paragraphs[-1].formatting == 'prose'
 
     @property
     def currentParagraphIsNotProse(self):
@@ -197,7 +198,8 @@ class ConsoleVerseFormatter(object):
         ``True`` if the current paragraph is formatted as prose.
         '''
 
-        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting != 'prose'
+        return len(self.paragraphs) > 0 and \
+            self.paragraphs[-1].formatting != 'prose'
 
     @property
     def currentParagraphIsPoetry(self):
@@ -205,7 +207,8 @@ class ConsoleVerseFormatter(object):
         ``True`` if the current paragraph is formatted as poetry.
         '''
 
-        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting == 'poetry'
+        return len(self.paragraphs) > 0 and \
+            self.paragraphs[-1].formatting == 'poetry'
 
     @property
     def currentParagraphIsNotPoetry(self):
@@ -213,7 +216,8 @@ class ConsoleVerseFormatter(object):
         ``True`` if the current paragraph is formatted as poetry.
         '''
 
-        return len(self.paragraphs) > 0 and self.paragraphs[-1].formatting != 'poetry'
+        return len(self.paragraphs) > 0 and \
+            self.paragraphs[-1].formatting != 'poetry'
 
     def addTextToCurrentParagraph(self, text):
         '''
