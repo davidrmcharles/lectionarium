@@ -106,3 +106,5 @@ ENV/
 docs/source/apidoc
 clemtext
 myclemtext
+GOALS.html
+README.html
