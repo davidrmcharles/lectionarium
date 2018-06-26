@@ -132,75 +132,81 @@ def parse(token):
     :class:`Addr` and :class:`AddrRange` objects.
     '''
 
-    # Fail if `token` is not a string.
-    if not isinstance(token, basestring):
-        raise TypeError(
-            'Non-string (%s, %s) passed to locs.parse()!' % (
-                type(token), token))
+    return _Parser().parse(token)
 
-    token.strip()
-    if len(token) == 0:
-        raise ValueError(
-            'Empty/whitespace-only string passed to locs.parse()!')
+class _Parser(object):
 
-    chapterIndex = None
+    def parse(self, token):
+        self._rejectNonString(token)
+        token = token.strip()
+        self._rejectEmptyString(token)
+        return self._parseCommaSeparatedSubtokens(token)
 
-    # Parse each of the comma-separated tokens to a list of locations.
-    # There can be an arbitrary number of these.
-    locs = []
-    comma_tokens = token.split(',')
-    for comma_token in comma_tokens:
-        # Parse each of the hyphen-separated subtokens within the
-        # comma-separated token to a list of locations.  There may be
-        # only one or two of these subtokens.
-        hyphen_tokens = comma_token.split('-')
-        if len(hyphen_tokens) > 2:
-            raise ValueError(
-                'Too many hyphens in token "%s"!' % comma_token)
+    def _parseCommaSeparatedSubtokens(self, token):
+        self._chapterIndex = None
+        return [
+            self._parseHyphenSeparatedSubtokens(subtoken)
+            for subtoken in token.split(',')
+            ]
 
-        addrs = []
-        for hyphen_token in hyphen_tokens:
-            # Parse each of the colon-separated subtokens within the
-            # hyphen-separated token to a list of addrs.  There may be
-            # only one or two of these subtokens.
-            colon_tokens = hyphen_token.split(':')
-            if len(colon_tokens) > 2:
-                raise ValueError(
-                    'Too many colons in token "%s"!' % hyphen_token)
-
-            # TODO: Eventually we'll have to locations with trailing
-            # letters.  For the moment, we'll strip them off.
-            colon_tokens = [
-                token.rstrip(string.lowercase)
-                for token in colon_tokens
-                ]
-
-            if len(colon_tokens) == 1:
-                # There are no colons in this subtoken.  Reuse the
-                # last chapterIndex we've seen (if there is one).
-                # Otherwise, generate an address without a
-                # chapterIndex.
-                if chapterIndex is not None:
-                    addrs.append(Addr(int(chapterIndex), int(colon_tokens[0])))
-                else:
-                    addrs.append(Addr(int(colon_tokens[0])))
-
-            elif len(colon_tokens) == 2:
-                # This token has exactly one colon.  Generate a
-                # two-dimensional addresss and remember the
-                # chapterIndex for later.
-                first, second = colon_tokens
-                addrs.append(Addr(int(first), int(second)))
-                chapterIndex = first
-
-        # If parsing the hyphenated subtokens generated a single
-        # address, add it to the locs as-is.  Otherwise, if parsing
-        # the hyphenated subtokens generated two addrs, wrap them in a
-        # range.
+    def _parseHyphenSeparatedSubtokens(self, token):
+        addrs = [
+            self._parseColonSeparatedTokens(subtoken)
+            for subtoken in self._splitTokenAtHyphens(token)
+            ]
         if len(addrs) == 1:
-            locs.extend(addrs)
+            return addrs[0]
         elif len(addrs) == 2:
             first, second = addrs
-            locs.append(AddrRange(first, second))
+            return AddrRange(first, second)
 
-    return locs
+    def _parseColonSeparatedTokens(self, token):
+        subtokens = self._splitTokenAtColons(token)
+        if len(subtokens) == 1:
+            return self._createAddrFromSingleToken(subtokens[0])
+        elif len(subtokens) == 2:
+            first, second = subtokens
+            return self._createAddrFromTokenPair(first, second)
+
+    def _rejectNonString(self, token):
+        if not isinstance(token, basestring):
+            raise TypeError(
+                'Non-string (%s, %s) passed to locs.parse()!' % (
+                    type(token), token))
+
+    def _rejectEmptyString(self, token):
+        if len(token) == 0:
+            raise ValueError(
+                'Empty/whitespace-only string passed to locs.parse()!')
+
+    def _splitTokenAtHyphens(self, token):
+        subtokens = token.split('-')
+        if len(subtokens) > 2:
+            raise ValueError(
+                'Too many hyphens in token "%s"!' % token)
+        return subtokens
+
+    def _splitTokenAtColons(self, token):
+        subtokens = token.split(':')
+        if len(subtokens) > 2:
+            raise ValueError(
+                'Too many colons in token "%s"!' % token)
+        subtokens = self._stripTrailingLettersFromTokens(subtokens)
+        return subtokens
+
+    def _stripTrailingLettersFromTokens(self, tokens):
+        # TODO: This is a temporary expedient!
+        return [
+            token.rstrip(string.lowercase)
+            for token in tokens
+            ]
+
+    def _createAddrFromSingleToken(self, token):
+        if self._chapterIndex is not None:
+            return Addr(int(self._chapterIndex), int(token))
+        else:
+            return Addr(int(token))
+
+    def _createAddrFromTokenPair(self, firstToken, secondToken):
+        self._chapterIndex = firstToken
+        return Addr(int(firstToken), int(secondToken))
