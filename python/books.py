@@ -29,6 +29,46 @@ _thisFilePath = inspect.getfile(inspect.currentframe())
 _projectFolderPath = os.path.dirname(os.path.dirname(_thisFilePath))
 _textFolderPath = os.path.join(_projectFolderPath, 'myclemtext')
 
+def parse(tokens):
+    '''
+    Return the book represented by the leading tokens and the number
+    of tokens consumed.  If no book can be parsed out of the tokens,
+    return ``(None, 0)``.
+
+    This function parses in a 'greedy' fashion, trying to consume as
+    many tokens as possible.  This is key to parsing 'Song of Songs',
+    whose abbreviations include 'Song'.
+    '''
+
+    def parseSupertoken(token):
+        '''
+        Parse a book token in any form to a normalized form:
+
+        * Full-book name (no abbreviation)
+        * All lowercase
+        * Interior whitespace removed
+        '''
+
+        book = _bible.findBook(token)
+        if book is None:
+            return None
+        return book.normalName
+
+    for index in reversed(range(len(tokens))):
+        superToken = ''.join(tokens[:index + 1])
+        book = parseSupertoken(superToken)
+        if book is not None:
+            return book, index + 1
+
+    return None, 0
+
+def findBook(bookToken):
+    '''
+    Return the :class:`Book` object that goes with `bookToken`.
+    '''
+
+    return _bible.findBook(bookToken)
+
 class Book(object):
     '''
     Represents a single scriptural 'book'.
@@ -482,42 +522,3 @@ class _Bible(object):
             book.loadTextFromFile()
 
 _bible = _Bible()
-
-def findBook(bookToken):
-    '''
-    Return the :class:`Book` object that goes with `bookToken`.
-    '''
-
-    return _bible.findBook(bookToken)
-
-def parse(tokens):
-    '''
-    Return the book represented by the leading tokens and the number
-    of tokens consumed.  If no book can be parsed out of the tokens,
-    return ``(None, 0)``.
-
-    This function parses in a 'greedy' fashion, trying to consume as
-    many tokens as possible.  This is key to parsing 'Song of Songs',
-    whose abbreviations include 'Song'.
-    '''
-
-    def parseSupertoken(token):
-        '''
-        Parse a book token in any form to a normalized form:
-
-        * Full-book name (no abbreviation)
-        * All lowercase
-        * Interior whitespace removed
-        '''
-
-        book = _bible.findBook(token)
-        if book is None:
-            return None
-        return book.normalName
-
-    for index in reversed(range(len(tokens))):
-        superToken = ''.join(tokens[:index + 1])
-        book = parseSupertoken(superToken)
-        if book is not None:
-            return book, index + 1
-    return None, 0

@@ -11,6 +11,28 @@ import unittest
 import books
 import locs
 
+class parseTestCase(unittest.TestCase):
+
+    def test_foo_bar_zod(self):
+        self.assertEquals(
+            (None, 0),
+            books.parse(['foo', 'bar', 'zod']))
+
+    def test_Song_of_Songs(self):
+        self.assertEquals(
+            ('songofsongs', 3),
+            books.parse(['Song', 'of', 'Songs']))
+
+    def test_John_3_16(self):
+        self.assertEquals(
+            ('john', 1),
+            books.parse(['John', '3:16']))
+
+    def test_1_John(self):
+        self.assertEquals(
+            ('1john', 2),
+            books.parse(['1', 'John']))
+
 class BookTestCase(unittest.TestCase):
 
     # Here is a phony book with chapters, fabricated from excerpts of
@@ -469,11 +491,6 @@ class BibleTestCase(unittest.TestCase):
         self.assertIsNotNone(books.findBook('gn'))
         self.assertIsNotNone(books.findBook('GN'))
         self.assertIsNotNone(books.findBook('gN'))
-
-class parseTestCase(unittest.TestCase):
-
-    def test_1(self):
-        books.parse(['foo', 'bar', 'zod'])
 
 if __name__ == '__main__':
     unittest.main()
