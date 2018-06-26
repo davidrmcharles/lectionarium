@@ -9,6 +9,7 @@
         </java>
     </target>
 
+    <property name="test.files" value="test_*.py"/>
     <target name="test" description="Run unit tests.">
         <exec executable="python" failonerror="true">
             <env key="PYTHONPATH" path="${basedir}/python"/>
@@ -18,7 +19,7 @@
             <arg value="-s"/>
             <arg value="${basedir}/python/test"/>
             <arg value="-p"/>
-            <arg value="test_*.py"/>
+            <arg value="${test.files}"/>
         </exec>
     </target>
 
