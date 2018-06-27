@@ -64,7 +64,7 @@ def getVerses(query):
     book = books.findBook(citation.book)
     if citation.locs is None:
         # This is the citation of an entire book.
-        return book.getAllVerses()
+        return book.text.getAllVerses()
 
     return list(
         itertools.chain.from_iterable(

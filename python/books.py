@@ -40,6 +40,15 @@ def parse(tokens):
     whose abbreviations include 'Song'.
     '''
 
+    def generateSupertokens(tokens):
+        '''
+        Given ``['foo', 'bar', 'zod']``, generate ``'foobarzod'``,
+        ``'foobar'``, and ``'foo'``.
+        '''
+
+        for index in reversed(range(len(tokens))):
+            yield ''.join(tokens[:index + 1]), index
+
     def parseSupertoken(token):
         '''
         Parse a book token in any form to a normalized form:
@@ -54,8 +63,7 @@ def parse(tokens):
             return None
         return book.normalName
 
-    for index in reversed(range(len(tokens))):
-        superToken = ''.join(tokens[:index + 1])
+    for superToken, index in generateSupertokens(tokens):
         book = parseSupertoken(superToken)
         if book is not None:
             return book, index + 1
@@ -77,8 +85,8 @@ class Book(object):
     def __init__(self, name, abbreviations=[], hasChapters=True):
         self.name = name
         self.abbreviations = abbreviations
-        self._text = collections.OrderedDict()
         self._hasChapters = hasChapters
+        self._text = _Text(self.normalName, self.hasChapters)
 
     @property
     def normalName(self):
@@ -105,6 +113,14 @@ class Book(object):
             for abbreviation in self.abbreviations
             ]
 
+    def matchesToken(self, token):
+        '''
+        Return ``True`` if `token` can refer to this book.
+        '''
+
+        token = ''.join(token.lower().split())
+        return token in [self.normalName] + self.normalAbbreviations
+
     @property
     def hasChapters(self):
         '''
@@ -117,13 +133,13 @@ class Book(object):
 
         return self._hasChapters
 
-    def matchesToken(self, token):
+    @property
+    def text(self):
         '''
-        Return ``True`` if `token` can refer to this book.
+        The text content of the book.
         '''
 
-        token = ''.join(token.lower().split())
-        return token in [self.normalName] + self.normalAbbreviations
+        return self._text
 
     def __str__(self):
         return '%s (%s)' % (
@@ -134,7 +150,14 @@ class Book(object):
         return '<bible.Book object "%s" at 0x%x>' % (
             self, id(self))
 
-    def loadTextFromFile(self):
+class _Text(object):
+
+    def __init__(self, normalName, hasChapters):
+        self.normalName = normalName
+        self.hasChapters = hasChapters
+        self._text = collections.OrderedDict()
+
+    def loadFromFile(self):
         '''
         Load the text of this book from a file of known name and
         location.
@@ -146,7 +169,7 @@ class Book(object):
             for line in inputFile.readlines():
                 self._loadLineOfText(line)
 
-    def loadTextFromString(self, text):
+    def loadFromString(self, text):
         '''
         Load the text of this book from a string.  (To support unit
         testing.)
@@ -392,7 +415,7 @@ class Book(object):
                 verses.append(((chapterKey, verseKey), verseText))
         return verses
 
-    def writeText(self, outputFile=sys.stdout):
+    def write(self, outputFile=sys.stdout):
         '''
         Write the entire text of the book to `outputFile` in a format
         that resembles the original input.
@@ -519,6 +542,6 @@ class _Bible(object):
 
     def _loadText(self):
         for book in self.allBooks:
-            book.loadTextFromFile()
+            book.text.loadFromFile()
 
 _bible = _Bible()

@@ -78,121 +78,121 @@ class BookTestCase(unittest.TestCase):
 
     def test_validateChapterKey(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterKey(None)
+            bookWithChapters.text._validateChapterKey(None)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterKey(0)
+            bookWithChapters.text._validateChapterKey(0)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterKey('1')
-        bookWithChapters._validateChapterKey(1)
-        bookWithChapters._validateChapterKey(2)
-        bookWithChapters._validateChapterKey(3)
+            bookWithChapters.text._validateChapterKey('1')
+        bookWithChapters.text._validateChapterKey(1)
+        bookWithChapters.text._validateChapterKey(2)
+        bookWithChapters.text._validateChapterKey(3)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterKey(4)
+            bookWithChapters.text._validateChapterKey(4)
 
         bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
 
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterKey(None)
+            bookWithoutChapters.text._validateChapterKey(None)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterKey(0)
+            bookWithoutChapters.text._validateChapterKey(0)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterKey('1')
+            bookWithoutChapters.text._validateChapterKey('1')
 
         # It seems helpful to treat the number 1 as a valid
         # chapterKey.
-        bookWithoutChapters._validateChapterKey(1)
+        bookWithoutChapters.text._validateChapterKey(1)
 
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterKey(2)
+            bookWithoutChapters.text._validateChapterKey(2)
 
     def test_validateChapterAndVerseKeys(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys(None, 1)
+            bookWithChapters.text._validateChapterAndVerseKeys(None, 1)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys(0, 1)
+            bookWithChapters.text._validateChapterAndVerseKeys(0, 1)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys('1', 1)
+            bookWithChapters.text._validateChapterAndVerseKeys('1', 1)
 
-        bookWithChapters._validateChapterAndVerseKeys(1, 1)
-        bookWithChapters._validateChapterAndVerseKeys(1, 2)
-        bookWithChapters._validateChapterAndVerseKeys(1, 3)
-        bookWithChapters._validateChapterAndVerseKeys(2, 1)
-        bookWithChapters._validateChapterAndVerseKeys(2, 2)
-        bookWithChapters._validateChapterAndVerseKeys(2, 3)
-        bookWithChapters._validateChapterAndVerseKeys(3, 1)
-        bookWithChapters._validateChapterAndVerseKeys(3, 2)
-        bookWithChapters._validateChapterAndVerseKeys(3, 3)
+        bookWithChapters.text._validateChapterAndVerseKeys(1, 1)
+        bookWithChapters.text._validateChapterAndVerseKeys(1, 2)
+        bookWithChapters.text._validateChapterAndVerseKeys(1, 3)
+        bookWithChapters.text._validateChapterAndVerseKeys(2, 1)
+        bookWithChapters.text._validateChapterAndVerseKeys(2, 2)
+        bookWithChapters.text._validateChapterAndVerseKeys(2, 3)
+        bookWithChapters.text._validateChapterAndVerseKeys(3, 1)
+        bookWithChapters.text._validateChapterAndVerseKeys(3, 2)
+        bookWithChapters.text._validateChapterAndVerseKeys(3, 3)
 
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys(1, 4)
+            bookWithChapters.text._validateChapterAndVerseKeys(1, 4)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys(2, 4)
+            bookWithChapters.text._validateChapterAndVerseKeys(2, 4)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateChapterAndVerseKeys(3, 4)
+            bookWithChapters.text._validateChapterAndVerseKeys(3, 4)
 
         bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
 
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterAndVerseKeys(None, 1)
+            bookWithoutChapters.text._validateChapterAndVerseKeys(None, 1)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterAndVerseKeys(0, 1)
+            bookWithoutChapters.text._validateChapterAndVerseKeys(0, 1)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterAndVerseKeys('1', 1)
+            bookWithoutChapters.text._validateChapterAndVerseKeys('1', 1)
 
         # Here again, we treat the number 1 as a valid chapterKey when
         # the book has no chapters.
-        bookWithoutChapters._validateChapterAndVerseKeys(1, 1)
-        bookWithoutChapters._validateChapterAndVerseKeys(1, 3)
-        bookWithoutChapters._validateChapterAndVerseKeys(1, 3)
+        bookWithoutChapters.text._validateChapterAndVerseKeys(1, 1)
+        bookWithoutChapters.text._validateChapterAndVerseKeys(1, 3)
+        bookWithoutChapters.text._validateChapterAndVerseKeys(1, 3)
 
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterAndVerseKeys(2, 1)
+            bookWithoutChapters.text._validateChapterAndVerseKeys(2, 1)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateChapterAndVerseKeys(1, 4)
+            bookWithoutChapters.text._validateChapterAndVerseKeys(1, 4)
 
     def test_validateVerseKey(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # If the book has chapters, any verseKey by itself is cause
         # for an exception.
         with self.assertRaises(KeyError):
-            bookWithChapters._validateVerseKey(None)
+            bookWithChapters.text._validateVerseKey(None)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateVerseKey(0)
+            bookWithChapters.text._validateVerseKey(0)
         with self.assertRaises(KeyError):
-            bookWithChapters._validateVerseKey('1')
+            bookWithChapters.text._validateVerseKey('1')
         with self.assertRaises(KeyError):
-            bookWithChapters._validateVerseKey(1)
+            bookWithChapters.text._validateVerseKey(1)
 
         bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateVerseKey(None)
+            bookWithoutChapters.text._validateVerseKey(None)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateVerseKey(0)
+            bookWithoutChapters.text._validateVerseKey(0)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateVerseKey('1')
-        bookWithoutChapters._validateVerseKey(1)
-        bookWithoutChapters._validateVerseKey(2)
-        bookWithoutChapters._validateVerseKey(3)
+            bookWithoutChapters.text._validateVerseKey('1')
+        bookWithoutChapters.text._validateVerseKey(1)
+        bookWithoutChapters.text._validateVerseKey(2)
+        bookWithoutChapters.text._validateVerseKey(3)
         with self.assertRaises(KeyError):
-            bookWithoutChapters._validateVerseKey(4)
+            bookWithoutChapters.text._validateVerseKey(4)
 
     def test_getVerse(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should return all of chapter 1.
-        result = bookWithChapters.getVerse(locs.Addr(1))
+        result = bookWithChapters.text.getVerse(locs.Addr(1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
@@ -201,7 +201,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return all of chapter 2.
-        result = bookWithChapters.getVerse(locs.Addr(2))
+        result = bookWithChapters.text.getVerse(locs.Addr(2))
         self.assertEqual(
             result, [
                 ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -210,38 +210,38 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return verse 1:1.
-        result = bookWithChapters.getVerse(locs.Addr(1, 1))
+        result = bookWithChapters.text.getVerse(locs.Addr(1, 1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should return verse 1:2.
-        result = bookWithChapters.getVerse(locs.Addr(1, 2))
+        result = bookWithChapters.text.getVerse(locs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should return verse 2:3:
-        result = bookWithChapters.getVerse(locs.Addr(2, 3))
+        result = bookWithChapters.text.getVerse(locs.Addr(2, 3))
         self.assertEqual(
             result, [
                 ((2, 3), u'Et benedixit diei septimo...'),
                 ])
 
         bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
-        result = bookWithoutChapters.getVerse(locs.Addr(1))
+        result = bookWithoutChapters.text.getVerse(locs.Addr(1))
         self.assertEqual(
             result, [
                 (1, u'Judas Jesu Christi servus...'),
                 ])
 
         # This should return only verse 2.
-        result = bookWithoutChapters.getVerse(locs.Addr(2))
+        result = bookWithoutChapters.text.getVerse(locs.Addr(2))
         self.assertEqual(
             result, [
                 (2, u'Misericordia vobis...'),
@@ -249,7 +249,7 @@ class BookTestCase(unittest.TestCase):
 
         # A request for 1:2 should also return verse 2, but the
         # 'address' should have the shape of the reference.
-        result = bookWithoutChapters.getVerse(locs.Addr(1, 2))
+        result = bookWithoutChapters.text.getVerse(locs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Misericordia vobis...'),
@@ -257,11 +257,11 @@ class BookTestCase(unittest.TestCase):
 
     def test_getRangeOfVerses(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # Here are a few ranges entirely within the same chapter,
         # starting with 1:1-1:3.
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -269,14 +269,14 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:1-2:2
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
         self.assertEqual(
             [((2, 1), u'Igitur perfecti sunt cæli et terra...'),
              ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
             verses)
 
         # 3:2-3:3
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
         self.assertEqual(
             [((3, 2), u'Cui respondit mulier...'),
              ((3, 3), u'de fructu vero ligni quod est in medio paradisi...')],
@@ -284,7 +284,7 @@ class BookTestCase(unittest.TestCase):
 
         # Here are some ranges in adjacent chapters, starting with
         # 1:1-2:1:
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -293,7 +293,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:2-3:2
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
         self.assertEqual(
             [((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
              ((2, 3), u'Et benedixit diei septimo...'),
@@ -302,7 +302,7 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # Finally, here is the case of a book in the middle: 1:3-3:1:
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
         self.assertEqual(
             [((1, 3), u'Dixitque Deus...'),
              ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -313,7 +313,7 @@ class BookTestCase(unittest.TestCase):
 
         # Now let's see if we can handle whole-chapter ranges like
         # 1-2:
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -333,12 +333,12 @@ class BookTestCase(unittest.TestCase):
             ]
         self.assertEqual(
             expectedVerses,
-            bookWithChapters.getRangeOfVerses(
+            bookWithChapters.text.getRangeOfVerses(
                 locs.AddrRange(locs.Addr(1), locs.Addr(1))))
 
         # What about a range that begins on a chapter, but ends on a
         # verse, like 1-2:2:
-        verses = bookWithChapters.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -356,11 +356,11 @@ class BookTestCase(unittest.TestCase):
 
     def test_allVersesInChapter(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should arrive at all verses in chapter 1.
         self.assertEqual(
-            bookWithChapters._allVersesInChapter(1), [
+            bookWithChapters.text._allVersesInChapter(1), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
@@ -368,18 +368,18 @@ class BookTestCase(unittest.TestCase):
 
         # This should arrive at all verses in chapter 2.
         self.assertEqual(
-            bookWithChapters._allVersesInChapter(2), [
+            bookWithChapters.text._allVersesInChapter(2), [
                 ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
                 ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
                 ((2, 3), u'Et benedixit diei septimo...'),
                 ])
 
         bookWithoutChapters = books.Book('withoutchapters', hasChapters=False)
-        bookWithoutChapters.loadTextFromString(self.bookWithoutChaptersText)
+        bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
 
         # This should arrive at all verses in chapter 1.
         self.assertEqual(
-            bookWithoutChapters._allVersesInChapter(1), [
+            bookWithoutChapters.text._allVersesInChapter(1), [
                 ((1, 1), u'Judas Jesu Christi servus...'),
                 ((1, 2), u'Misericordia vobis...'),
                 ((1, 3), u'Carissimi...'),
@@ -387,11 +387,11 @@ class BookTestCase(unittest.TestCase):
 
     def test_lastVersesInChapter(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should produce verses 1:1-3.
         self.assertEqual(
-            bookWithChapters._lastVersesInChapter(1, 1), [
+            bookWithChapters.text._lastVersesInChapter(1, 1), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
@@ -399,37 +399,37 @@ class BookTestCase(unittest.TestCase):
 
         # This should produce verses 1:2-3.
         self.assertEqual(
-            bookWithChapters._lastVersesInChapter(1, 2), [
+            bookWithChapters.text._lastVersesInChapter(1, 2), [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
                 ])
 
         # This should produces verses 1:3.
         self.assertEqual(
-            bookWithChapters._lastVersesInChapter(1, 3), [
+            bookWithChapters.text._lastVersesInChapter(1, 3), [
                 ((1, 3), u'Dixitque Deus...'),
                 ])
 
     def test_firstVersesInChapter(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should produce verses 1:1-3.
         self.assertEqual(
-            bookWithChapters._firstVersesInChapter(1, 1), [
+            bookWithChapters.text._firstVersesInChapter(1, 1), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should produce verses 1:2-3.
         self.assertEqual(
-            bookWithChapters._firstVersesInChapter(1, 2), [
+            bookWithChapters.text._firstVersesInChapter(1, 2), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should produces verses 1:3.
         self.assertEqual(
-            bookWithChapters._firstVersesInChapter(1, 3), [
+            bookWithChapters.text._firstVersesInChapter(1, 3), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
@@ -437,11 +437,11 @@ class BookTestCase(unittest.TestCase):
 
     def test_middleVersesInChapter(self):
         bookWithChapters = books.Book('withchapters', hasChapters=True)
-        bookWithChapters.loadTextFromString(self.bookWithChaptersText)
+        bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should produce all three verses of chapter one.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 1, 3), [
+            bookWithChapters.text._middleVersesInChapter(1, 1, 3), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
@@ -449,32 +449,32 @@ class BookTestCase(unittest.TestCase):
 
         # This should produce only verse 1.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 1, 1), [
+            bookWithChapters.text._middleVersesInChapter(1, 1, 1), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should produce only verse 2.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 2, 2), [
+            bookWithChapters.text._middleVersesInChapter(1, 2, 2), [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should produce only verse 3.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 3, 3), [
+            bookWithChapters.text._middleVersesInChapter(1, 3, 3), [
                 ((1, 3), u'Dixitque Deus...'),
                 ])
 
         # This should produce verses 1-2.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 1, 2), [
+            bookWithChapters.text._middleVersesInChapter(1, 1, 2), [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should produce verses 2-3.
         self.assertEqual(
-            bookWithChapters._middleVersesInChapter(1, 2, 3), [
+            bookWithChapters.text._middleVersesInChapter(1, 2, 3), [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ((1, 3), u'Dixitque Deus...'),
                 ])
