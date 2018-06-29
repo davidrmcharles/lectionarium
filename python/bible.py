@@ -34,7 +34,9 @@ Reference
 '''
 
 # Standard imports:
+import argparse
 import itertools
+import os
 import re
 import sys
 import textwrap
@@ -387,14 +389,197 @@ def main():
     This is the entry point to the command-line interface.
     '''
 
-    if len(sys.argv) == 1:
-        sys.stderr.write(
-            'Provide a scripture citation and we will write it to stdout.\n')
-        raise SystemExit(1)
+    args = _CommandLineParser().parse()
 
-    verses = getVerses(' '.join(sys.argv[1:]))
+    if len(args.citations) > 0:
+        verses = getVerses(' '.join(args.citations))
+        sys.stdout.write(formatVersesForConsole(verses))
+    elif args.exportFolderPath is not None:
+        _HTMLBibleExporter(args.exportFolderPath).export()
 
-    sys.stdout.write(formatVersesForConsole(verses))
+class _CommandLineParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(
+            self, description='The canon of Sacred Scripture in Python')
+        self._configure()
+
+    def _configure(self):
+        self.add_argument(
+            dest='citations',
+            default=[],
+            nargs='*',
+            help='scripture citations')
+        self.add_argument(
+            '--export',
+            dest='exportFolderPath',
+            default=None,
+            help='export the whole biblical text')
+
+    def parse(self):
+        '''
+        Return an object representation of the command line.
+        '''
+
+        self.args = self.parse_args()
+        self._rejectMissingCommand()
+        self._rejectMultipleCommands()
+        return self.args
+
+    def _rejectMissingCommand(self):
+        if (len(self.args.citations) == 0) and \
+                (self.args.exportFolderPath is None):
+            self.print_help()
+            sys.stderr.write(
+                '\nNo citations and no commands were provided.\n')
+            raise SystemExit(1)
+
+    def _rejectMultipleCommands(self):
+        if (len(self.args.citations) > 0) and \
+                (self.args.exportFolderPath is not None):
+            self.print_help()
+            sys.stderr.write(
+                '\nCitations and the --export command are mutually exclusive.\n')
+            raise SystemExit(1)
+
+class _HTMLBibleExporter(object):
+
+    def __init__(self, outputFolderPath):
+        self.indexExporter = _HTMLBibleIndexExporter(outputFolderPath)
+        self.bookExporter = _HTMLBibleBookExporter(outputFolderPath)
+
+    def export(self):
+        '''
+        Export the entire bible as HTML, with index, to
+        `outputFolderPath`.
+        '''
+
+        self.indexExporter.export()
+        self.bookExporter.export()
+
+class _HTMLBibleIndexExporter(object):
+
+    def __init__(self, outputFolderPath):
+        self.outputFolderPath = outputFolderPath
+
+    def export(self):
+        outputFilePath = os.path.join(self.outputFolderPath, 'index.html')
+
+        with open(outputFilePath, 'w') as outputFile:
+            self._writeIndexHead(outputFile)
+            self._writeIndexBody(outputFile)
+            self._writeIndexFoot(outputFile)
+
+    def _writeIndexHead(self, outputFile):
+        outputFile.write('''\
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Vulgata Clementina</title>
+  </head>
+  <body>
+    <h1>Vulgata Clementina</h1>
+    <hr>
+''')
+
+    def _writeIndexBody(self, outputFile):
+        self._writeIndexOfTestament(
+            outputFile, books._bible._otBooks, 'Vetus Testamentum')  # TODO: Add interface
+        self._writeIndexOfTestament(
+            outputFile, books._bible._ntBooks, 'Novum Testamentum')  # TODO: Add interface
+
+    def _writeIndexOfTestament(self, outputFile, books, title):
+        outputFile.write('''\
+    <h2>%s</h2>
+''' % title)
+
+        outputFile.write('''\
+    <ul>
+''')
+        for book in books:
+            self._writeIndexOfBook(outputFile, book)
+        outputFile.write('''\
+    </ul>
+''')
+
+    def _writeIndexOfBook(self, outputFile, book):
+        outputFile.write('''\
+      <li>''')
+
+        outputFile.write(
+            '<a href="%s.html">%s</a>' % (book.normalName, book.name))
+
+        outputFile.write('</li>\n')
+
+    def _writeIndexFoot(self, outputFile):
+        outputFile.write('''\
+    <hr/>
+    Text courtesty of: <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a>
+  </body>
+</html>
+''')
+
+class _HTMLBibleBookExporter(object):
+
+    def __init__(self, outputFolderPath):
+        self.outputFolderPath = outputFolderPath
+
+    def export(self):
+        for book in books._bible.allBooks:
+            self._exportBook(book)
+
+    def _exportBook(self, book):
+        outputFilePath = os.path.join(
+            self.outputFolderPath, '%s.html' % book.normalName)
+
+        with open(outputFilePath, 'w') as outputFile:
+            self._writeBookHead(outputFile, book)
+            self._writeBookBody(outputFile, book)
+            self._writeBookFoot(outputFile, book)
+
+    def _writeBookHead(self, outputFile, book):
+        outputFile.write('''\
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>%s</title>
+  </head>
+  <body>
+''' % book.name)
+
+        outputFile.write('''\
+    <h1>%s</h1>
+    <hr/>
+''' % book.name)
+
+        if book.hasChapters:
+            chapterNumbers = [
+                '<a href="#chapter-%s">%s</a>' % (chapterKey, chapterKey)
+                for chapterKey in book.text._text.keys()  # TODO: Add interface
+                ]
+            outputFile.write('''\
+    %s
+    <hr/>
+''' % ' | '.join(chapterNumbers))
+
+    def _writeBookBody(self, outputFile, book):
+        for chapterKey in book.text._text.keys():
+            if book.hasChapters:
+                outputFile.write('''\
+    <h2><a name="chapter-%d">%d</a></h2>
+''' % (chapterKey, chapterKey))
+            verses = book.text._allVersesInChapter(chapterKey)
+            for verseKey, verseText in verses:
+                outputFile.write(
+                    '<sup>%s</sup> %s\n' % (verseKey[-1], verseText))
+
+    def _writeBookFoot(self, outputFile, book):
+        outputFile.write('''\
+    <hr/>
+    Text courtesty of: <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a>
+  </body>
+</html>
+''')
 
 if __name__ == '__main__':
     main()
