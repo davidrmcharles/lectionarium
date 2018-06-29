@@ -424,7 +424,7 @@ class _Text(object):
         for chapterKey, verses in self._text.iteritems():
             for verseKey, verseText in verses.iteritems():
                 outputFile.write(
-                    '%s %s\n' % (Addr(chapterKey, verseKey), verseText))
+                    '%s %s\n' % (locs.Addr(chapterKey, verseKey), verseText))
 
 class _Bible(object):
     '''
