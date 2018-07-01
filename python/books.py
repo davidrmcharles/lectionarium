@@ -157,6 +157,14 @@ class _Text(object):
         self.hasChapters = hasChapters
         self._text = collections.OrderedDict()
 
+    @property
+    def chapterKeys(self):
+        '''
+        The list of keys for referring to particular chapters.
+        '''
+
+        return self._text.keys()
+
     def loadFromFile(self):
         '''
         Load the text of this book from a file of known name and
@@ -517,10 +525,26 @@ class _Bible(object):
     @property
     def allBooks(self):
         '''
-        All books.
+        All books
         '''
 
         return self._allBooks
+
+    @property
+    def otBooks(self):
+        '''
+        Old Testament books
+        '''
+
+        return self._otBooks
+
+    @property
+    def ntBooks(self):
+        '''
+        New Testament books
+        '''
+
+        return self._ntBooks
 
     def findBook(self, token):
         '''

@@ -492,5 +492,17 @@ class BibleTestCase(unittest.TestCase):
         self.assertIsNotNone(books.findBook('GN'))
         self.assertIsNotNone(books.findBook('gN'))
 
+class TextTestCase_chapterKeys(unittest.TestCase):
+
+    def test_1(self):
+        text = books._Text('genesis', True)
+        text.loadFromFile()
+        self.assertEquals(range(1, 51), text.chapterKeys)
+
+    def test_2(self):
+        text = books._Text('philemon', False)
+        text.loadFromFile()
+        self.assertEquals([1], text.chapterKeys)
+
 if __name__ == '__main__':
     unittest.main()

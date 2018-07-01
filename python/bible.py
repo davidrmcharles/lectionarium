@@ -70,7 +70,7 @@ def getVerses(query):
 
     return list(
         itertools.chain.from_iterable(
-            book.getRangeOfVerses(addrRange)
+            book.text.getRangeOfVerses(addrRange)
             for addrRange in citation.addrRanges
             )
         )
@@ -484,9 +484,9 @@ class _HTMLBibleIndexExporter(object):
 
     def _writeIndexBody(self, outputFile):
         self._writeIndexOfTestament(
-            outputFile, books._bible._otBooks, 'Vetus Testamentum')  # TODO: Add interface
+            outputFile, books._bible.otBooks, 'Vetus Testamentum')
         self._writeIndexOfTestament(
-            outputFile, books._bible._ntBooks, 'Novum Testamentum')  # TODO: Add interface
+            outputFile, books._bible.ntBooks, 'Novum Testamentum')
 
     def _writeIndexOfTestament(self, outputFile, books, title):
         outputFile.write('''\
@@ -555,7 +555,7 @@ class _HTMLBibleBookExporter(object):
         if book.hasChapters:
             chapterNumbers = [
                 '<a href="#chapter-%s">%s</a>' % (chapterKey, chapterKey)
-                for chapterKey in book.text._text.keys()  # TODO: Add interface
+                for chapterKey in book.text.chapterKeys
                 ]
             outputFile.write('''\
     %s
