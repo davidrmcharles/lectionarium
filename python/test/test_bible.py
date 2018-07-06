@@ -39,14 +39,14 @@ class getVersesTestCase(unittest.TestCase):
         verseAddr, verseText = verses[1]
         self.assertEqual((11, 26), verseAddr)
 
-class ConsoleVerseFormatterTestCase(unittest.TestCase):
+class VerseFormatterTestCase(unittest.TestCase):
 
     def test_1(self):
         '''
         Here is a single verse of prose.
         '''
 
-        verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter = bible.VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 16), 'Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret: ut omnis qui credit in eum, non pereat, sed habeat vitam æternam.')
@@ -58,7 +58,7 @@ class ConsoleVerseFormatterTestCase(unittest.TestCase):
 [3:16] Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret: ut omnis
 qui credit in eum, non pereat, sed habeat vitam æternam.
 '''
-        self.assertEqual(expectedText, verseFormatter.formattedText)
+        self.assertEqual(expectedText, verseFormatter.consoleFormattedText)
 
     def test_2(self):
         '''
@@ -67,7 +67,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         poetry.
         '''
 
-        verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter = bible.VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 4), 'Est autem Deus verax: omnis autem homo mendax, sicut scriptum est: [Ut justificeris in sermonibus tuis:/ et vincas cum judicaris.]')
@@ -80,7 +80,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
             Ut justificeris in sermonibus tuis:
                 et vincas cum judicaris.
 '''
-        self.assertEqual(expectedText, verseFormatter.formattedText)
+        self.assertEqual(expectedText, verseFormatter.consoleFormattedText)
 
     def test_3(self):
         '''
@@ -90,7 +90,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         paragraph between the two poetry selections.
         '''
 
-        verseFormatter = bible.ConsoleVerseFormatter()
+        verseFormatter = bible.VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
             ((3, 9), '[Audi, Israël, mandata vitæ:/ auribus percipe, ut scias prudentiam./'),
@@ -108,7 +108,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
                 omnes qui tenent eam pervenient ad vitam:
                 qui autem dereliquerunt eam, in mortem.
 '''
-        self.assertEqual(expectedText, verseFormatter.formattedText)
+        self.assertEqual(expectedText, verseFormatter.consoleFormattedText)
 
 if __name__ == '__main__':
     unittest.main()
