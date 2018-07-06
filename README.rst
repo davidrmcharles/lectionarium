@@ -12,7 +12,7 @@ interface.
 
 To see today's readings, use ``lectionary.sh``:
 
-.. code-block:: sh
+.. code-block:: none
 
     $ ./lectionary.sh today
     ================================================================================
@@ -32,7 +32,7 @@ with a particular name.
 If instead you just want to see a passage of Sacred Scripture, use
 ``bible.sh``:
 
-.. code-block:: sh
+.. code-block:: none
 
     $ ./bible.sh ex 20:1-17
     20:1 Locutusque est Dominus cunctos sermones hos: 20:2 Ego sum
