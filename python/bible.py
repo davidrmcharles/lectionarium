@@ -566,7 +566,7 @@ class _HTMLBibleIndexExporter(object):
     def _writeIndexFoot(self, outputFile):
         outputFile.write('''\
     <hr/>
-    Text courtesy of <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
+    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
     Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
   </body>
 </html>
@@ -652,7 +652,7 @@ class _HTMLBibleBookExporter(object):
     def _writeBookFoot(self, outputFile, book):
         outputFile.write('''\
     <hr/>
-    Text courtesy of <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
+    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
     Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
   </body>
 </html>
