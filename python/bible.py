@@ -85,9 +85,8 @@ class FormattingError(RuntimeError):
 
 class Paragraph(object):
     '''
-    Represents a paragraph of text, either prose or poetry, and
-    provides the means to format it.  (Console formatting only, at the
-    moment!)
+    A paragraph of text, either prose or poetry, and the means to
+    format it for either the console or the browser.
     '''
 
     # A wrapper for the leading paragraph of prose.
@@ -144,8 +143,7 @@ class Paragraph(object):
         return textWrapper.fill(
             ' '.join([
                     formatLineOfProse(addr, text)
-                    for (addr, text)
-                    in self.lines
+                    for addr, text in self.lines
                     ]))
 
     def _formatPoetryForConsole(self):
@@ -168,14 +166,56 @@ class Paragraph(object):
 
         return '\n'.join([
                 formatLineOfPoetry(addr, text, index == 0)
-                for index, (addr, text) in
-                enumerate(self.lines)
+                for index, (addr, text) in enumerate(self.lines)
                 ])
 
-class ConsoleVerseFormatter(object):
+    def formatForBrowser(self, isFirst=True):
+        if self.formatting == 'prose':
+            return self._formatProseForBrowser(isFirst)
+        elif self.formatting == 'poetry':
+            return self._formatPoetryForBrowser()
+
+    def _formatProseForBrowser(self, isFirst):
+        # TODO: Why do we have an empty paragraph in the first place?
+        if len(self.lines) == 0:
+            return ''
+
+        def formatLineOfProse(addr, text):
+            if addr is None:
+                addrToken = ''
+            else:
+                chapter, verse = addr
+                addrToken = '<sup class="prose-verse-number">%d</sup>' % verse
+            return '%s %s' % (addrToken, text)
+
+        return '<p>%s</p>' % '\n'.join([
+                formatLineOfProse(addr, text)
+                for addr, text in self.lines
+                ])
+
+    def _formatPoetryForBrowser(self):
+        htmlLines = []
+
+        for index, (addr, text) in enumerate(self.lines):
+            if index == 0:
+                htmlLines.append('<p class="first-verse-of-poetry">')
+            elif addr is not None:
+                htmlLines.append('</p>')
+                htmlLines.append('<p class="non-first-verse-of-poetry">')
+
+            if addr is not None:
+                chapter, verse = addr
+                htmlLines.append('  <sup class="poetry-verse-number">%d</sup>' % verse)
+
+            htmlLines.append('  %s<br/>' % text)
+
+        htmlLines.append('</p>\n')
+        return '\n'.join(htmlLines)
+
+class VerseFormatter(object):
     '''
-    Convert a list of `verses` to a formatted string that is readable
-    on the console.
+    Converts a list of `verses` to a formatted string that is readable
+    in either the console or browser.
 
     The expected format of `verses` is the same as that returned by
     :func:`getVerses`.
@@ -257,6 +297,8 @@ class ConsoleVerseFormatter(object):
         Return the `verses` as a formatted, ready-to-display string.
         '''
 
+        self.paragraphs = []
+
         # Allocate the verses to paragraphs.
         for verseAddr, verseText in verses:
             self.verseAddr = verseAddr
@@ -267,12 +309,18 @@ class ConsoleVerseFormatter(object):
             self.paragraphs.pop()
 
     @property
-    def formattedText(self):
+    def consoleFormattedText(self):
         return '\n'.join([
                 paragraph.formatForConsole(index == 0)
-                for index, paragraph
-                in enumerate(self.paragraphs)
+                for index, paragraph in enumerate(self.paragraphs)
                 ]) + '\n'
+
+    @property
+    def htmlFormattedText(self):
+        return '\n'.join([
+                paragraph.formatForBrowser(index == 0)
+                for index, paragraph in enumerate(self.paragraphs)
+                ])
 
     def _formatVerse(self, verseText):
         '''
@@ -360,12 +408,16 @@ class ConsoleVerseFormatter(object):
         # Commit the current `verseTextSegment` to the current
         # paragraph and start a new paragraph.
         if self.currentParagraphIsNotProse:
-            raise FormattingError(
-                'Saw "\\" outside of prose!')
+            # This appear in Obadiah, verse 16, so it must be legit.
+            #
+            # raise FormattingError(
+            #     'Saw "\\" outside of prose!\n' +
+            #     '    %s' % verseTextSegment)
+            pass  # self.paragraphs.append(Paragraph('poetry', self.useColor))
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
-        # This is conditional for the sake of Baruch 4:4, when ends
+        # This is conditional for the sake of Baruch 4:4, which ends
         # poetry AND a paragraph with ']\'.  We don't two empty
         # paragraphs on the end.  One is enough.
         if not self.paragraphs[-1].isEmpty:
@@ -380,9 +432,9 @@ def formatVersesForConsole(verses):
     :func:`getVerses`.
     '''
 
-    verseFormatter = ConsoleVerseFormatter()
+    verseFormatter = VerseFormatter()
     verseFormatter.formatVerses(verses)
-    return verseFormatter.formattedText
+    return verseFormatter.consoleFormattedText
 
 def main():
     '''
@@ -514,7 +566,8 @@ class _HTMLBibleIndexExporter(object):
     def _writeIndexFoot(self, outputFile):
         outputFile.write('''\
     <hr/>
-    Text courtesty of: <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a>
+    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
+    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
   </body>
 </html>
 ''')
@@ -523,6 +576,8 @@ class _HTMLBibleBookExporter(object):
 
     def __init__(self, outputFolderPath):
         self.outputFolderPath = outputFolderPath
+        self.formatter = VerseFormatter()
+        self.formatter.useColor = False
 
     def export(self):
         for book in books._bible.allBooks:
@@ -543,6 +598,27 @@ class _HTMLBibleBookExporter(object):
   <head>
     <meta charset="utf-8"/>
     <title>%s</title>
+      <style>
+      .first-verse-of-poetry {
+        padding-left: 60px;
+        text-indent: -30px;
+      }
+
+      .non-first-verse-of-poetry {
+        padding-left: 60px;
+        text-indent: -30px;
+        margin-top: -15px;
+      }
+
+      .prose-verse-number {
+        color: red;
+      }
+
+      .poetry-verse-number {
+        position: absolute;
+        color: red;
+      }
+    </style>
   </head>
   <body>
 ''' % book.name)
@@ -568,15 +644,16 @@ class _HTMLBibleBookExporter(object):
                 outputFile.write('''\
     <h2><a name="chapter-%d">%d</a></h2>
 ''' % (chapterKey, chapterKey))
+
             verses = book.text._allVersesInChapter(chapterKey)
-            for verseKey, verseText in verses:
-                outputFile.write(
-                    '<sup>%s</sup> %s\n' % (verseKey[-1], verseText))
+            self.formatter.formatVerses(verses)
+            outputFile.write(self.formatter.htmlFormattedText)
 
     def _writeBookFoot(self, outputFile, book):
         outputFile.write('''\
     <hr/>
-    Text courtesty of: <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a>
+    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
+    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
   </body>
 </html>
 ''')
