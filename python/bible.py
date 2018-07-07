@@ -176,13 +176,16 @@ class Paragraph(object):
             return self._formatPoetryForBrowser()
 
     def _formatProseForBrowser(self, isFirst):
+        # TODO: Why do we have an empty paragraph in the first place?
+        if len(self.lines) == 0:
+            return ''
 
         def formatLineOfProse(addr, text):
             if addr is None:
                 addrToken = ''
             else:
                 chapter, verse = addr
-                addrToken = '<sup>%d</sup>' % verse
+                addrToken = '<sup class="prose-verse-number">%d</sup>' % verse
             return '%s %s' % (addrToken, text)
 
         return '<p>%s</p>' % '\n'.join([
@@ -191,23 +194,23 @@ class Paragraph(object):
                 ])
 
     def _formatPoetryForBrowser(self):
+        htmlLines = []
 
-        def formatLineOfPoetry(addr, text, isFirst):
-            if addr is None:
-                addrToken = ''
-            else:
+        for index, (addr, text) in enumerate(self.lines):
+            if index == 0:
+                htmlLines.append('<p class="first-verse-of-poetry">')
+            elif addr is not None:
+                htmlLines.append('</p>')
+                htmlLines.append('<p class="non-first-verse-of-poetry">')
+
+            if addr is not None:
                 chapter, verse = addr
-                addrToken = '<sup>%d</sup>' % verse
+                htmlLines.append('  <sup class="poetry-verse-number">%d</sup>' % verse)
 
-            indentSize = (12 if isFirst else 16)
-            addrToken = '%s%s' % (addrToken, '&nbsp;' * indentSize)
+            htmlLines.append('  %s<br/>' % text)
 
-            return '%s%s<br/>' % (addrToken, text)
-
-        return '<p>%s</p>' % '\n'.join([
-                formatLineOfPoetry(addr, text, index == 0)
-                for index, (addr, text) in enumerate(self.lines)
-                ])
+        htmlLines.append('</p>\n')
+        return '\n'.join(htmlLines)
 
 class VerseFormatter(object):
     '''
@@ -410,7 +413,7 @@ class VerseFormatter(object):
             # raise FormattingError(
             #     'Saw "\\" outside of prose!\n' +
             #     '    %s' % verseTextSegment)
-            self.paragraphs.append(Paragraph('poetry', self.useColor))
+            pass  # self.paragraphs.append(Paragraph('poetry', self.useColor))
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
@@ -595,6 +598,28 @@ class _HTMLBibleBookExporter(object):
   <head>
     <meta charset="utf-8"/>
     <title>%s</title>
+      <style>
+      .first-verse-of-poetry {
+        padding-left: 60px;
+        text-indent: -30px;
+      }
+
+      .non-first-verse-of-poetry {
+        padding-left: 60px;
+        text-indent: -30px;
+        margin-top: -15px;
+      }
+
+      .prose-verse-number {
+        color: #808080;
+      }
+
+      .poetry-verse-number {
+        position: absolute;
+        color: #808080;
+        vertical-align: baseline;
+      }
+    </style>
   </head>
   <body>
 ''' % book.name)

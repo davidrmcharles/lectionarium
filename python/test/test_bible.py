@@ -110,5 +110,67 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
 '''
         self.assertEqual(expectedText, verseFormatter.consoleFormattedText)
 
+    def test_htmlFormattedText_obadiah_1_2(self):
+        '''
+        Obadiah verses 1 and 2 contains a transition from prose to
+        poetry.
+        '''
+
+        formatter = bible.VerseFormatter()
+        formatter.useColor = False
+        formatter.formatVerses([
+                ((1, 1), 'Visio Abdiæ. [Hæc dicit Dominus Deus ad Edom:/ Auditum audivimus a Domino,/ et legatum ad gentes misit:/ surgite, et consurgamus adversus eum in prælium./'),
+                ((1, 2), 'Ecce parvulum dedi te in gentibus:/ contemptibilis tu es valde./'),
+                ])
+
+        expectedText = '''\
+<p><sup class="prose-verse-number">1</sup> Visio Abdiæ.</p>
+<p class="first-verse-of-poetry">
+  Hæc dicit Dominus Deus ad Edom:<br/>
+  Auditum audivimus a Domino,<br/>
+  et legatum ad gentes misit:<br/>
+  surgite, et consurgamus adversus eum in prælium.<br/>
+</p>
+<p class="non-first-verse-of-poetry">
+  <sup class="poetry-verse-number">2</sup>
+  Ecce parvulum dedi te in gentibus:<br/>
+  contemptibilis tu es valde.<br/>
+</p>
+'''
+
+        self.assertEqual(expectedText, formatter.htmlFormattedText)
+
+    def test_htmlFormattedText_obadiah_16_17(self):
+        '''
+        Obadiah verses 16 and 17 is poetry with an intervening
+        paragraph break.
+        '''
+
+        formatter = bible.VerseFormatter()
+        formatter.useColor = False
+        formatter.formatVerses([
+                ((1, 16), '[Quomodo enim bibistis super montem sanctum meum,/ bibent omnes gentes jugiter:/ et bibent, et absorbebunt,/ et erunt quasi non sint.\\'),
+                ((1, 17), 'Et in monte Sion erit salvatio, et erit sanctus;/ et possidebit domus Jacob eos qui se possederant./'),
+                ])
+
+        expectedText = '''\
+<p class="first-verse-of-poetry">
+  <sup class="poetry-verse-number">16</sup>
+  Quomodo enim bibistis super montem sanctum meum,<br/>
+  bibent omnes gentes jugiter:<br/>
+  et bibent, et absorbebunt,<br/>
+  et erunt quasi non sint.<br/>
+</p>
+
+
+<p class="first-verse-of-poetry">
+  <sup class="poetry-verse-number">17</sup>
+  Et in monte Sion erit salvatio, et erit sanctus;<br/>
+  et possidebit domus Jacob eos qui se possederant.<br/>
+</p>
+'''
+
+        self.assertEqual(expectedText, formatter.htmlFormattedText)
+
 if __name__ == '__main__':
     unittest.main()
