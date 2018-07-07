@@ -611,13 +611,12 @@ class _HTMLBibleBookExporter(object):
       }
 
       .prose-verse-number {
-        color: #808080;
+        color: red;
       }
 
       .poetry-verse-number {
         position: absolute;
-        color: #808080;
-        vertical-align: baseline;
+        color: red;
       }
     </style>
   </head>
