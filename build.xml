@@ -39,4 +39,17 @@
         </exec>
     </target>
 
+    <target name="bible.deploy" description="Deploy the bible.">
+        <property file="${basedir}/ftp.properties"/>
+        <ftp server="fideidepositum.org"
+             userid="${ftp.userid}"
+             password="${ftp.password}"
+             remotedir="/www"
+             action="put">
+            <fileset dir="${basedir}/build/bible">
+                <include name="*.html"/>
+            </fileset>
+        </ftp>
+    </target>
+
 </project>
