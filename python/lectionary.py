@@ -58,9 +58,12 @@ import citations
 _thisFilePath = inspect.getfile(inspect.currentframe())
 _thisFolderPath = os.path.abspath(os.path.dirname(_thisFilePath))
 _rootFolderPath = os.path.dirname(_thisFolderPath)
-_sundayLectionaryXMLPath = os.path.join(_rootFolderPath, 'sunday-lectionary.xml')
-_weekdayLectionaryXMLPath = os.path.join(_rootFolderPath, 'weekday-lectionary.xml')
-_specialLectionaryXMLPath = os.path.join(_rootFolderPath, 'special-lectionary.xml')
+_sundayLectionaryXMLPath = os.path.join(
+    _rootFolderPath, 'xml', 'sunday-lectionary.xml')
+_weekdayLectionaryXMLPath = os.path.join(
+    _rootFolderPath, 'xml', 'weekday-lectionary.xml')
+_specialLectionaryXMLPath = os.path.join(
+    _rootFolderPath, 'xml', 'special-lectionary.xml')
 
 class Mass(object):
     '''
