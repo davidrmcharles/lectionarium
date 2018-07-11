@@ -550,14 +550,16 @@ class _HTMLBibleIndexExporter(object):
       <tr>
 ''')
 
-        # TODO: Clean this!
-        q, r = divmod(len(books), 3)
-        firstIndexes = [x * q for x in range(3)]
-        counts = [q + int(bool(x)) for x in reversed(range(r + 1))]
-        for firstIndex, count in itertools.izip_longest(
-            firstIndexes, counts, fillvalue=q):
-            booksInColumn = books[firstIndex : firstIndex + count]
-            self._writeColumnOfIndexEntries(outputFile, booksInColumn)
+        def columnizedList(things, columnCount):
+            q, r = divmod(len(things), columnCount)
+            begins = [x * q for x in range(columnCount)]
+            counts = [q + int(bool(x)) for x in reversed(range(r + 1))]
+            for begin, count in itertools.izip_longest(
+                begins, counts, fillvalue=q):
+                yield things[begin : begin + count]
+
+        for columnOfBooks in columnizedList(books, 2):
+            self._writeColumnOfIndexEntries(outputFile, columnOfBooks)
 
         outputFile.write('''\
       </tr>
