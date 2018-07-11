@@ -14,7 +14,7 @@ To see today's readings, use ``lectionary.sh``:
 
 .. code-block:: none
 
-    $ ./lectionary.sh today
+    $ bin/lectionary.sh today
     ================================================================================
     Readings for Friday (Cycle A, I)
     ================================================================================
@@ -34,7 +34,7 @@ If instead you just want to see a passage of Sacred Scripture, use
 
 .. code-block:: none
 
-    $ ./bible.sh ex 20:1-17
+    $ bin/bible.sh ex 20:1-17
     20:1 Locutusque est Dominus cunctos sermones hos: 20:2 Ego sum
     Dominus Deus tuus, qui eduxi te de terra Ægypti, de domo servitutis.
     20:3 Non habebis deos alienos coram me. 20:4 Non facies tibi
