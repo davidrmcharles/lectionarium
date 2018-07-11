@@ -53,4 +53,10 @@
         </ftp>
     </target>
 
+    <target name="bible.browse" description="Open the bible in a browser.">
+        <exec executable="firefox">
+            <arg value="${basedir}/build/bible/index.html"/>
+        </exec>
+    </target>
+
 </project>
