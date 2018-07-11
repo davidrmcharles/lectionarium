@@ -562,6 +562,9 @@ class _HTMLBibleIndexExporter(object):
 <html>
   <head>
     <meta charset="utf-8"/>
+    <meta name="description" content="The Clemintine Vulgate Bible"/>
+    <meta name="keywords" content="Catholic,Bible,Latin"/>
+    <meta name="author" content="David R M Charles"/>
     <title>Vulgata Clementina</title>
     <link rel="stylesheet" href="bible.css"/>
   </head>
@@ -658,6 +661,9 @@ class _HTMLBibleBookExporter(object):
 <html>
   <head>
     <meta charset="utf-8"/>
+    <meta name="description" content="The Clemintine Vulgate Bible"/>
+    <meta name="keywords" content="Catholic,Bible,Latin"/>
+    <meta name="author" content="David R M Charles"/>
     <title>%s</title>
     <link rel="stylesheet" href="bible.css"/>
   </head>
