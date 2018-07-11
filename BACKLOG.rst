@@ -27,8 +27,8 @@ A user can view a concordance of the Bible at fideidepositum.org
 
 TODO
 
-A user can easily visit a dictionary entry for a word from fideidepositum.org
-==============================================================================
+A user can easily visit a dictionary entry for a word at fideidepositum.org
+===========================================================================
 
 TODO
 
