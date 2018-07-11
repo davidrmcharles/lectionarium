@@ -546,17 +546,39 @@ class _HTMLBibleIndexExporter(object):
 ''' % title)
 
         outputFile.write('''\
-    <ul>
+    <table>
+      <tr>
+''')
+
+        # TODO: Clean this!
+        q, r = divmod(len(books), 3)
+        firstIndexes = [x * q for x in range(3)]
+        counts = [q + int(bool(x)) for x in reversed(range(r + 1))]
+        for firstIndex, count in itertools.izip_longest(
+            firstIndexes, counts, fillvalue=q):
+            booksInColumn = books[firstIndex : firstIndex + count]
+            self._writeColumnOfIndexEntries(outputFile, booksInColumn)
+
+        outputFile.write('''\
+      </tr>
+    </table>
+''')
+
+    def _writeColumnOfIndexEntries(self, outputFile, books):
+        outputFile.write('''\
+        <td style="vertical-align: top;">
+          <ul>
 ''')
         for book in books:
             self._writeIndexOfBook(outputFile, book)
         outputFile.write('''\
-    </ul>
+          </ul>
+        </td>
 ''')
 
     def _writeIndexOfBook(self, outputFile, book):
         outputFile.write('''\
-      <li>''')
+            <li>''')
 
         outputFile.write(
             '<a href="%s.html">%s</a>' % (book.normalName, book.name))
