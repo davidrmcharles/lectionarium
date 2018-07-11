@@ -666,18 +666,23 @@ class _HTMLBibleBookExporter(object):
 
         outputFile.write('''\
     <h1>%s</h1>
-    <hr/>
+    <a href="index.html">Index</a>
 ''' % book.name)
 
         if book.hasChapters:
+            outputFile.write('''\
+    |
+''')
             chapterNumbers = [
                 '<a href="#chapter-%s">%s</a>' % (chapterKey, chapterKey)
                 for chapterKey in book.text.chapterKeys
                 ]
             outputFile.write('''\
     %s
-    <hr/>
 ''' % ' | '.join(chapterNumbers))
+
+        outputFile.write('''\
+''')
 
     def _writeBookBody(self, outputFile, book):
         for chapterKey in book.text._text.keys():
