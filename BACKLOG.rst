@@ -41,3 +41,13 @@ A user can easily visit exercises to practice froms at fideidepositum.org
 =========================================================================
 
 TODO
+
+A user can view the entire Bible in an Android application offline
+======================================================================
+
+TODO
+
+A user can view lectionary entries in an Android application offline
+======================================================================
+
+TODO
