@@ -497,6 +497,7 @@ class _CommandLineParser(argparse.ArgumentParser):
 class _HTMLBibleExporter(object):
 
     def __init__(self, outputFolderPath):
+        self._outputFolderPath = outputFolderPath
         self.indexExporter = _HTMLBibleIndexExporter(outputFolderPath)
         self.bookExporter = _HTMLBibleBookExporter(outputFolderPath)
 
@@ -508,6 +509,39 @@ class _HTMLBibleExporter(object):
 
         self.indexExporter.export()
         self.bookExporter.export()
+        self._exportStylesheet()
+
+    def _exportStylesheet(self):
+        outputFilePath = os.path.join(self._outputFolderPath, 'bible.css')
+        with open(outputFilePath, 'w') as outputFile:
+            self._writeStylesheet(outputFile)
+
+    def _writeStylesheet(self, outputFile):
+        outputFile.write('''\
+.index-table-data {
+  vertical-align: top;
+}
+
+.first-verse-of-poetry {
+  padding-left: 60px;
+  text-indent: -30px;
+}
+
+.non-first-verse-of-poetry {
+  padding-left: 60px;
+  text-indent: -30px;
+  margin-top: -15px;
+}
+
+.prose-verse-number {
+  color: red;
+}
+
+.poetry-verse-number {
+  position: absolute;
+  color: red;
+}
+''')
 
 class _HTMLBibleIndexExporter(object):
 
@@ -524,10 +558,12 @@ class _HTMLBibleIndexExporter(object):
 
     def _writeIndexHead(self, outputFile):
         outputFile.write('''\
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
     <title>Vulgata Clementina</title>
+    <link rel="stylesheet" href="bible.css"/>
   </head>
   <body>
     <h1>Vulgata Clementina</h1>
@@ -568,7 +604,7 @@ class _HTMLBibleIndexExporter(object):
 
     def _writeColumnOfIndexEntries(self, outputFile, books):
         outputFile.write('''\
-        <td style="vertical-align: top;">
+        <td class="index-table-data">
           <ul>
 ''')
         for book in books:
@@ -618,31 +654,12 @@ class _HTMLBibleBookExporter(object):
 
     def _writeBookHead(self, outputFile, book):
         outputFile.write('''\
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
     <title>%s</title>
-      <style>
-      .first-verse-of-poetry {
-        padding-left: 60px;
-        text-indent: -30px;
-      }
-
-      .non-first-verse-of-poetry {
-        padding-left: 60px;
-        text-indent: -30px;
-        margin-top: -15px;
-      }
-
-      .prose-verse-number {
-        color: red;
-      }
-
-      .poetry-verse-number {
-        position: absolute;
-        color: red;
-      }
-    </style>
+    <link rel="stylesheet" href="bible.css"/>
   </head>
   <body>
 ''' % book.name)
