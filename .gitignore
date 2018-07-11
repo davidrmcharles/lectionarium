@@ -106,7 +106,8 @@ ENV/
 docs/source/apidoc
 clemtext
 myclemtext
-GOALS.html
 README.html
+VISION.html
+BACKLOG.html
 ftp.properties
 ext
