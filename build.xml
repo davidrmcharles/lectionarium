@@ -25,6 +25,7 @@
 
     <target name="docs" description="Build the docs.">
         <exec executable="make" dir="${basedir}/docs" failonerror="true">
+            <env key="PYTHONPATH" path="${basedir}/python"/>
             <arg value="html"/>
         </exec>
     </target>
