@@ -46,9 +46,11 @@
              userid="${ftp.userid}"
              password="${ftp.password}"
              remotedir="/www"
-             action="put">
+             action="put"
+             verbose="yes">
             <fileset dir="${basedir}/build/bible">
                 <include name="*.html"/>
+                <include name="*.css"/>
             </fileset>
         </ftp>
     </target>
