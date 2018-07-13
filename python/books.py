@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
 For parsing a reference to a scriptural book and retrieving all its
 text
@@ -19,6 +20,7 @@ import collections
 import inspect
 import itertools
 import os
+import re
 import sys
 
 # Local imports:
@@ -87,6 +89,7 @@ class Book(object):
         self.abbreviations = abbreviations
         self._hasChapters = hasChapters
         self._text = _Text(self.normalName, self.hasChapters)
+        self._concordance = None
 
     @property
     def normalName(self):
@@ -141,6 +144,13 @@ class Book(object):
 
         return self._text
 
+    @property
+    def concordance(self):
+        if self._concordance is None:
+            self._concordance = Concordance()
+            self._concordance.addWords(self._text.getAllWords())
+        return self._concordance
+
     def __str__(self):
         return '%s (%s)' % (
             self.name,
@@ -151,6 +161,9 @@ class Book(object):
             self, id(self))
 
 class _Text(object):
+    '''
+    A Text divided into verses (and probably chapters too).
+    '''
 
     def __init__(self, normalName, hasChapters):
         self.normalName = normalName
@@ -423,6 +436,20 @@ class _Text(object):
                 verses.append(((chapterKey, verseKey), verseText))
         return verses
 
+    def getAllWords(self):
+        '''
+        Return each word (no punctuation, no formatting) in lowercase
+        with its location.
+        '''
+
+        for verse in self.getAllVerses():
+            verseAddr, verseText = verse
+            for word in self._stripNonWordNonSpaceCharacters(verseText).split():
+                yield verseAddr, word.lower()
+
+    def _stripNonWordNonSpaceCharacters(self, text):
+        return re.sub('[^A-Za-zÆŒæœë ]', '', text)
+
     def write(self, outputFile=sys.stdout):
         '''
         Write the entire text of the book to `outputFile` in a format
@@ -433,6 +460,76 @@ class _Text(object):
             for verseKey, verseText in verses.iteritems():
                 outputFile.write(
                     '%s %s\n' % (locs.Addr(chapterKey, verseKey), verseText))
+
+class Concordance(object):
+    '''
+    An alphabetical list of each word appearing in a text with the
+    context in which each word appears.
+    '''
+
+    def __init__(self):
+        self._entries = {}
+
+    def addWords(self, words):
+        for addr, word in words:
+            wordEntry = self._ensureEntryForWord(word)
+            wordEntry.addAddr(addr)
+        self._sortEntries()
+
+    def _ensureEntryForWord(self, word):
+        initial = word[0]
+        if initial not in self._entries:
+            self._entries[initial] = []
+
+        for wordEntry in self._entries[initial]:
+            if wordEntry.word == word:
+                return wordEntry
+
+        wordEntry = ConcordanceEntry(word)
+        self._entries[initial].append(wordEntry)
+        return wordEntry
+
+    def _sortEntries(self):
+        for wordEntries in self._entries.itervalues():
+            wordEntries.sort(key=lambda wordEntry: wordEntry.word)
+
+    def getEntries(self):
+        return sorted(self._entries.iteritems())
+
+    def getEntriesForInitial(self, initial):
+        if initial not in self._entries:
+            return []
+        return self._entries[initial]
+
+class ConcordanceEntry(object):
+
+    def __init__(self, word, addrs=None):
+        self.word = word
+        self.addrs = [] if addrs is None else addrs
+
+    def addAddr(self, addr):
+        self.addrs.append(addr)
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        if self.word != other.word:
+            return False
+        if self.addrs != other.addrs:
+            return False
+        return True
+
+    def __ne__(self, other):
+        if not isinstance(other, self.__class__):
+            return True
+        if self.word != other.word:
+            return True
+        if self.addrs != other.addrs:
+            return True
+        return False
+
+    def __str__(self):
+        return '%s - %s' % (self.word, self.addrs)
 
 class _Bible(object):
     '''

@@ -185,7 +185,9 @@ class Paragraph(object):
                 addrToken = ''
             else:
                 chapter, verse = addr
-                addrToken = '<sup class="prose-verse-number">%d</sup>' % verse
+                addrToken = '''\
+<a name="%s"><sup class="prose-verse-number">%d</sup></a>''' % (
+                    '%s:%s' % (chapter, verse), verse)
             return '%s %s' % (addrToken, text)
 
         return '<p>%s</p>' % '\n'.join([
@@ -205,7 +207,9 @@ class Paragraph(object):
 
             if addr is not None:
                 chapter, verse = addr
-                htmlLines.append('  <sup class="poetry-verse-number">%d</sup>' % verse)
+                htmlLines.append('''\
+  <a name="%s"><sup class="poetry-verse-number">%d</sup></a>''' % (
+                        '%s:%s' % (chapter, verse), verse))
 
             htmlLines.append('  %s<br/>' % text)
 
@@ -645,6 +649,7 @@ class _HTMLBibleBookExporter(object):
     def export(self):
         for book in books._bible.allBooks:
             self._exportBook(book)
+            self._exportConcordance(book)
 
     def _exportBook(self, book):
         outputFilePath = os.path.join(
@@ -688,6 +693,10 @@ class _HTMLBibleBookExporter(object):
 ''' % ' | '.join(chapterNumbers))
 
         outputFile.write('''\
+    | <a href="%s-concordance.html">Concordance</a>
+''' % book.normalName)
+
+        outputFile.write('''\
 ''')
 
     def _writeBookBody(self, outputFile, book):
@@ -702,6 +711,92 @@ class _HTMLBibleBookExporter(object):
             outputFile.write(self.formatter.htmlFormattedText)
 
     def _writeBookFoot(self, outputFile, book):
+        outputFile.write('''\
+    <hr/>
+    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
+    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+  </body>
+</html>
+''')
+
+    def _exportConcordance(self, book):
+        outputFilePath = os.path.join(
+            self.outputFolderPath, '%s-concordance.html' % book.normalName)
+
+        with open(outputFilePath, 'w') as outputFile:
+            self._writeConcordanceHead(outputFile, book)
+            self._writeConcordanceBody(outputFile, book)
+            self._writeConcordanceFoot(outputFile, book)
+
+    def _writeConcordanceHead(self, outputFile, book):
+        outputFile.write('''\
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="The Clemintine Vulgate Bible"/>
+    <meta name="keywords" content="Catholic,Bible,Latin"/>
+    <meta name="author" content="David R M Charles"/>
+    <title>Concordance of %s</title>
+    <link rel="stylesheet" href="bible.css"/>
+  </head>
+  <body>
+''' % book.name)
+
+        outputFile.write('''\
+    <h1>Concordance of %s</h1>
+''' % book.name)
+
+        outputFile.write('''\
+    <a href="index.html">Index</a>
+''')
+
+        outputFile.write('''\
+    | <a href="%s.html">Text</a>
+''' % book.normalName)
+
+        outputFile.write('''\
+    | %s
+''' % ' | '.join([
+                    '<a href="#%s">%s</a>' % (letter, letter)
+                    for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+                    ]))
+
+    def _writeConcordanceBody(self, outputFile, book):
+        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+            outputFile.write('''\
+    <a name="%s"><h2>%s</h2></a>
+''' % (letter, letter))
+            entries = book.concordance.getEntriesForInitial(letter.lower())
+            outputFile.write('''\
+      <ul>
+''')
+            for entry in entries:
+                self._writeConcordanceEntry(outputFile, book, entry)
+            outputFile.write('''\
+      </ul>
+''')
+
+    def _writeConcordanceEntry(self, outputFile, book, entry):
+        def formatAddr(addr):
+            addrToken = '%s:%s' % (addr[0], addr[1])
+
+            return '<a href="%s.html#%s">%s</a>' % (
+                book.normalName,
+                addrToken,
+                addrToken)
+
+        def formatAddrList(addrs):
+            return ', '.join([
+                    formatAddr(addr)
+                    for addr in addrs
+                    ])
+
+        outputFile.write('''\
+<li>%s - %s</li>
+''' % (entry.word, formatAddrList(entry.addrs)))
+
+    def _writeConcordanceFoot(self, outputFile, book):
         outputFile.write('''\
     <hr/>
     Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |

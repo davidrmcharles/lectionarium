@@ -60,8 +60,9 @@ class BookTestCase(unittest.TestCase):
     def test_normalName(self):
         self.assertEqual('genesis', books.Book('Genesis', ['Gn']).normalName)
 
-    def test_noramlAbbreviations(self):
-        self.assertEqual(['gn'], books.Book('Genesis', ['Gn']).normalAbbreviations)
+    def test_normalAbbreviations(self):
+        self.assertEqual(
+            ['gn'], books.Book('Genesis', ['Gn']).normalAbbreviations)
 
     def test_matchesToken(self):
         self.assertTrue(books.Book('Genesis', ['Gn']).matchesToken('Genesis'))
@@ -261,7 +262,8 @@ class BookTestCase(unittest.TestCase):
 
         # Here are a few ranges entirely within the same chapter,
         # starting with 1:1-1:3.
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -269,14 +271,16 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:1-2:2
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
         self.assertEqual(
             [((2, 1), u'Igitur perfecti sunt cæli et terra...'),
              ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
             verses)
 
         # 3:2-3:3
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
         self.assertEqual(
             [((3, 2), u'Cui respondit mulier...'),
              ((3, 3), u'de fructu vero ligni quod est in medio paradisi...')],
@@ -293,7 +297,8 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # 2:2-3:2
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
         self.assertEqual(
             [((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
              ((2, 3), u'Et benedixit diei septimo...'),
@@ -302,7 +307,8 @@ class BookTestCase(unittest.TestCase):
             verses)
 
         # Finally, here is the case of a book in the middle: 1:3-3:1:
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
         self.assertEqual(
             [((1, 3), u'Dixitque Deus...'),
              ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -313,7 +319,8 @@ class BookTestCase(unittest.TestCase):
 
         # Now let's see if we can handle whole-chapter ranges like
         # 1-2:
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(1), locs.Addr(2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -338,7 +345,8 @@ class BookTestCase(unittest.TestCase):
 
         # What about a range that begins on a chapter, but ends on a
         # verse, like 1-2:2:
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
+        verses = bookWithChapters.text.getRangeOfVerses(
+            locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -503,6 +511,246 @@ class TextTestCase_chapterKeys(unittest.TestCase):
         text = books._Text('philemon', False)
         text.loadFromFile()
         self.assertEquals([1], text.chapterKeys)
+
+class TextTestCase_getAllWords(unittest.TestCase):
+
+    bookWithChaptersText = '''\
+1:1 In principio creavit Deus cælum et terram.
+1:2 Terra autem erat inanis et vacua...
+1:3 Dixitque Deus...
+2:1 Igitur perfecti sunt cæli et terra...
+2:2 Complevitque Deus die septimo opus suum quod fecerat...
+2:3 Et benedixit diei septimo...
+3:1 Sed et serpens erat callidior cunctis animantibus terræ quæ fecerat Dominus Deus...
+3:2 Cui respondit mulier...
+3:3 de fructu vero ligni quod est in medio paradisi...
+'''
+
+    def test_1(self):
+        text = books._Text('test', True)
+        text.loadFromString(self.bookWithChaptersText)
+        expectedResult = [
+            ((1, 1), 'in'),
+            ((1, 1), 'principio'),
+            ((1, 1), 'creavit'),
+            ((1, 1), 'deus'),
+            ((1, 1), 'cælum'),
+            ((1, 1), 'et'),
+            ((1, 1), 'terram'),
+            ((1, 2), 'terra'),
+            ((1, 2), 'autem'),
+            ((1, 2), 'erat'),
+            ((1, 2), 'inanis'),
+            ((1, 2), 'et'),
+            ((1, 2), 'vacua'),
+            ((1, 3), 'dixitque'),
+            ((1, 3), 'deus'),
+            ((2, 1), 'igitur'),
+            ((2, 1), 'perfecti'),
+            ((2, 1), 'sunt'),
+            ((2, 1), 'cæli'),
+            ((2, 1), 'et'),
+            ((2, 1), 'terra'),
+            ((2, 2), 'complevitque'),
+            ((2, 2), 'deus'),
+            ((2, 2), 'die'),
+            ((2, 2), 'septimo'),
+            ((2, 2), 'opus'),
+            ((2, 2), 'suum'),
+            ((2, 2), 'quod'),
+            ((2, 2), 'fecerat'),
+            ((2, 3), 'et'),
+            ((2, 3), 'benedixit'),
+            ((2, 3), 'diei'),
+            ((2, 3), 'septimo'),
+            ((3, 1), 'sed'),
+            ((3, 1), 'et'),
+            ((3, 1), 'serpens'),
+            ((3, 1), 'erat'),
+            ((3, 1), 'callidior'),
+            ((3, 1), 'cunctis'),
+            ((3, 1), 'animantibus'),
+            ((3, 1), 'terræ'),
+            ((3, 1), 'quæ'),
+            ((3, 1), 'fecerat'),
+            ((3, 1), 'dominus'),
+            ((3, 1), 'deus'),
+            ((3, 2), 'cui'),
+            ((3, 2), 'respondit'),
+            ((3, 2), 'mulier'),
+            ((3, 3), 'de'),
+            ((3, 3), 'fructu'),
+            ((3, 3), 'vero'),
+            ((3, 3), 'ligni'),
+            ((3, 3), 'quod'),
+            ((3, 3), 'est'),
+            ((3, 3), 'in'),
+            ((3, 3), 'medio'),
+            ((3, 3), 'paradisi')
+            ]
+        self.assertEqual(expectedResult, list(text.getAllWords()))
+
+class ConcordanceTestCase(unittest.TestCase):
+
+    def test_1(self):
+        words = [
+            ((1, 1), u'in'),
+            ((1, 1), u'principio'),
+            ((1, 1), u'creavit'),
+            ((1, 1), u'deus'),
+            ((1, 1), u'cælum'),
+            ((1, 1), u'et'),
+            ((1, 1), u'terram'),
+            ((1, 2), u'terra'),
+            ((1, 2), u'autem'),
+            ((1, 2), u'erat'),
+            ((1, 2), u'inanis'),
+            ((1, 2), u'et'),
+            ((1, 2), u'vacua'),
+            ((1, 3), u'dixitque'),
+            ((1, 3), u'deus'),
+            ((2, 1), u'igitur'),
+            ((2, 1), u'perfecti'),
+            ((2, 1), u'sunt'),
+            ((2, 1), u'cæli'),
+            ((2, 1), u'et'),
+            ((2, 1), u'terra'),
+            ((2, 2), u'complevitque'),
+            ((2, 2), u'deus'),
+            ((2, 2), u'die'),
+            ((2, 2), u'septimo'),
+            ((2, 2), u'opus'),
+            ((2, 2), u'suum'),
+            ((2, 2), u'quod'),
+            ((2, 2), u'fecerat'),
+            ((2, 3), u'et'),
+            ((2, 3), u'benedixit'),
+            ((2, 3), u'diei'),
+            ((2, 3), u'septimo'),
+            ((3, 1), u'sed'),
+            ((3, 1), u'et'),
+            ((3, 1), u'serpens'),
+            ((3, 1), u'erat'),
+            ((3, 1), u'callidior'),
+            ((3, 1), u'cunctis'),
+            ((3, 1), u'animantibus'),
+            ((3, 1), u'terræ'),
+            ((3, 1), u'quæ'),
+            ((3, 1), u'fecerat'),
+            ((3, 1), u'dominus'),
+            ((3, 1), u'deus'),
+            ((3, 2), u'cui'),
+            ((3, 2), u'respondit'),
+            ((3, 2), u'mulier'),
+            ((3, 3), u'de'),
+            ((3, 3), u'fructu'),
+            ((3, 3), u'vero'),
+            ((3, 3), u'ligni'),
+            ((3, 3), u'quod'),
+            ((3, 3), u'est'),
+            ((3, 3), u'in'),
+            ((3, 3), u'medio'),
+            ((3, 3), u'paradisi')
+            ]
+
+        concordance = books.Concordance()
+        concordance.addWords(words)
+
+        expectedEntries = {
+            u'a' : [
+                books.ConcordanceEntry(u'animantibus', [(3, 1)]),
+                books.ConcordanceEntry(u'autem', [(1, 2)]),
+                ],
+
+            u'b' : [
+                books.ConcordanceEntry(u'benedixit', [(2, 3)]),
+                ],
+
+            u'c' : [
+                books.ConcordanceEntry(u'callidior', [(3, 1)]),
+                books.ConcordanceEntry(u'complevitque', [(2, 2)]),
+                books.ConcordanceEntry(u'creavit', [(1, 1)]),
+                books.ConcordanceEntry(u'cui', [(3, 2)]),
+                books.ConcordanceEntry(u'cunctis', [(3, 1)]),
+                books.ConcordanceEntry(u'cæli', [(2, 1)]),
+                books.ConcordanceEntry(u'cælum', [(1, 1)]),
+                ],
+
+            u'd' : [
+                books.ConcordanceEntry(u'de', [(3, 3)]),
+                books.ConcordanceEntry(u'deus', [(1, 1), (1, 3), (2, 2), (3, 1)]),
+                books.ConcordanceEntry(u'die', [(2, 2)]),
+                books.ConcordanceEntry(u'diei', [(2, 3)]),
+                books.ConcordanceEntry(u'dixitque', [(1, 3)]),
+                books.ConcordanceEntry(u'dominus', [(3, 1)]),
+                ],
+
+            u'e' : [
+                books.ConcordanceEntry(u'erat', [(1, 2), (3, 1)]),
+                books.ConcordanceEntry(u'est', [(3, 3)]),
+                books.ConcordanceEntry(u'et', [(1, 1), (1, 2), (2, 1), (2, 3), (3, 1)]),
+                ],
+
+            u'f' : [
+                books.ConcordanceEntry(u'fecerat', [(2, 2), (3, 1)]),
+                books.ConcordanceEntry(u'fructu', [(3, 3)]),
+                ],
+
+            u'i' : [
+                books.ConcordanceEntry(u'igitur', [(2, 1)]),
+                books.ConcordanceEntry(u'in', [(1, 1), (3, 3)]),
+                books.ConcordanceEntry(u'inanis', [(1, 2)]),
+                ],
+
+            u'l' : [
+                books.ConcordanceEntry(u'ligni', [(3, 3)]),
+                ],
+
+            u'm' : [
+                books.ConcordanceEntry(u'medio', [(3, 3)]),
+                books.ConcordanceEntry(u'mulier', [(3, 2)]),
+                ],
+
+            u'o' : [
+                books.ConcordanceEntry(u'opus', [(2, 2)]),
+                ],
+
+            u'p' : [
+                books.ConcordanceEntry(u'paradisi', [(3, 3)]),
+                books.ConcordanceEntry(u'perfecti', [(2, 1)]),
+                books.ConcordanceEntry(u'principio', [(1, 1)]),
+                ],
+
+            u'q' : [
+                books.ConcordanceEntry(u'quod', [(2, 2), (3, 3)]),
+                books.ConcordanceEntry(u'quæ', [(3, 1)]),
+                ],
+
+            u'r' : [
+                books.ConcordanceEntry(u'respondit', [(3, 2)]),
+                ],
+
+            u's' : [
+                books.ConcordanceEntry(u'sed', [(3, 1)]),
+                books.ConcordanceEntry(u'septimo', [(2, 2), (2, 3)]),
+                books.ConcordanceEntry(u'serpens', [(3, 1)]),
+                books.ConcordanceEntry(u'sunt', [(2, 1)]),
+                books.ConcordanceEntry(u'suum', [(2, 2)]),
+                ],
+
+            u't' : [
+                books.ConcordanceEntry(u'terra', [(1, 2), (2, 1)]),
+                books.ConcordanceEntry(u'terram', [(1, 1)]),
+                books.ConcordanceEntry(u'terræ', [(3, 1)]),
+                ],
+
+            u'v' : [
+                books.ConcordanceEntry(u'vacua', [(1, 2)]),
+                books.ConcordanceEntry(u'vero', [(3, 3)]),
+                ],
+            }
+
+        self.assertEqual(expectedEntries, concordance._entries)
 
 if __name__ == '__main__':
     unittest.main()

@@ -124,7 +124,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
                 ])
 
         expectedText = '''\
-<p><sup class="prose-verse-number">1</sup> Visio Abdiæ.</p>
+<p><a name="1:1"><sup class="prose-verse-number">1</sup></a> Visio Abdiæ.</p>
 <p class="first-verse-of-poetry">
   Hæc dicit Dominus Deus ad Edom:<br/>
   Auditum audivimus a Domino,<br/>
@@ -132,7 +132,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
   surgite, et consurgamus adversus eum in prælium.<br/>
 </p>
 <p class="non-first-verse-of-poetry">
-  <sup class="poetry-verse-number">2</sup>
+  <a name="1:2"><sup class="poetry-verse-number">2</sup></a>
   Ecce parvulum dedi te in gentibus:<br/>
   contemptibilis tu es valde.<br/>
 </p>
@@ -155,7 +155,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
 
         expectedText = '''\
 <p class="first-verse-of-poetry">
-  <sup class="poetry-verse-number">16</sup>
+  <a name="1:16"><sup class="poetry-verse-number">16</sup></a>
   Quomodo enim bibistis super montem sanctum meum,<br/>
   bibent omnes gentes jugiter:<br/>
   et bibent, et absorbebunt,<br/>
@@ -164,7 +164,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
 
 
 <p class="first-verse-of-poetry">
-  <sup class="poetry-verse-number">17</sup>
+  <a name="1:17"><sup class="poetry-verse-number">17</sup></a>
   Et in monte Sion erit salvatio, et erit sanctus;<br/>
   et possidebit domus Jacob eos qui se possederant.<br/>
 </p>
