@@ -9,7 +9,6 @@ import unittest
 
 # Local imports:
 import bible
-import locs
 
 class getVersesTestCase(unittest.TestCase):
 

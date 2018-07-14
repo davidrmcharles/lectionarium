@@ -8,7 +8,7 @@ import unittest
 
 # Local imports:
 import citations
-import locs
+import addrs
 
 class parseTestCase(unittest.TestCase):
 
@@ -41,19 +41,19 @@ class parseTestCase(unittest.TestCase):
     def test_singleTokenBookOnly(self):
         ref = citations.parse('gn')
         self.assertEqual('genesis', ref.book)
-        self.assertEqual(None, ref.locs)
+        self.assertEqual(None, ref.addrs)
 
     def test_twoTokenBookOnly(self):
         ref = citations.parse('1 samuel')
         self.assertEqual('1samuel', ref.book)
-        self.assertEqual(None, ref.locs)
+        self.assertEqual(None, ref.addrs)
 
     def test_twoTokenBookPlus(self):
         ref = citations.parse('1 samuel 1:2-3:4')
         self.assertEqual('1samuel', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1, 2), locs.Addr(3, 4))],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1, 2), addrs.Addr(3, 4))],
+            ref.addrs)
 
     def test_songOfSongs(self):
         '''
@@ -69,8 +69,8 @@ class parseTestCase(unittest.TestCase):
         ref = citations.parse('song of songs 1:2-3:4')
         self.assertEqual('songofsongs', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1, 2), locs.Addr(3, 4))],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1, 2), addrs.Addr(3, 4))],
+            ref.addrs)
 
     def test_syntheticAndMinimal(self):
         '''
@@ -80,73 +80,73 @@ class parseTestCase(unittest.TestCase):
 
         ref = citations.parse('gn 1')
         self.assertEqual('genesis', ref.book)
-        self.assertEqual([locs.Addr(1)], ref.locs)
+        self.assertEqual([addrs.Addr(1)], ref.addrs)
 
         ref = citations.parse('gn 1-2')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1), locs.Addr(2))],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1), addrs.Addr(2))],
+            ref.addrs)
 
         ref = citations.parse('gn 1,3')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1), locs.Addr(3)],
-            ref.locs)
+            [addrs.Addr(1), addrs.Addr(3)],
+            ref.addrs)
 
         ref = citations.parse('gn 1-2,4')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1), locs.Addr(2)), locs.Addr(4)],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1), addrs.Addr(2)), addrs.Addr(4)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1, 1)],
-            ref.locs)
+            [addrs.Addr(1, 1)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1-2')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2))],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1, 1), addrs.Addr(1, 2))],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1,3')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1, 1), locs.Addr(1, 3)],
-            ref.locs)
+            [addrs.Addr(1, 1), addrs.Addr(1, 3)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1-2,4')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 2)), locs.Addr(1, 4)],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1, 1), addrs.Addr(1, 2)), addrs.Addr(1, 4)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1-2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1))],
-            ref.locs)
+            [addrs.AddrRange(addrs.Addr(1, 1), addrs.Addr(2, 1))],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1,2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1, 1), locs.Addr(2, 1)],
-            ref.locs)
+            [addrs.Addr(1, 1), addrs.Addr(2, 1)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1,3,2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1, 1), locs.Addr(1, 3), locs.Addr(2, 1)],
-            ref.locs)
+            [addrs.Addr(1, 1), addrs.Addr(1, 3), addrs.Addr(2, 1)],
+            ref.addrs)
 
         ref = citations.parse('gn 1:1,3-2:1')
         self.assertEqual('genesis', ref.book)
         self.assertEqual(
-            [locs.Addr(1, 1), locs.AddrRange(locs.Addr(1, 3), locs.Addr(2, 1))],
-            ref.locs)
+            [addrs.Addr(1, 1), addrs.AddrRange(addrs.Addr(1, 3), addrs.Addr(2, 1))],
+            ref.addrs)
 
 if __name__ == '__main__':
     unittest.main()

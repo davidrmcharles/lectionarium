@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-For parsing the numerical portion of a scripture citation (locations)
+For parsing the numerical portion of a scripture citation
 
 This is where we deal with the numerical portion of a scripture
 citation.  For example, things like:
@@ -171,13 +171,13 @@ class _Parser(object):
     def _rejectNonString(self, token):
         if not isinstance(token, basestring):
             raise TypeError(
-                'Non-string (%s, %s) passed to locs.parse()!' % (
+                'Non-string (%s, %s) passed to addrs.parse()!' % (
                     type(token), token))
 
     def _rejectEmptyString(self, token):
         if len(token) == 0:
             raise ValueError(
-                'Empty/whitespace-only string passed to locs.parse()!')
+                'Empty/whitespace-only string passed to addrs.parse()!')
 
     def _splitTokenAtHyphens(self, token):
         subtokens = token.split('-')

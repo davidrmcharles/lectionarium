@@ -24,7 +24,7 @@ import re
 import sys
 
 # Local imports:
-import locs
+import addrs
 
 # For the moment, assume that the text is in '../../myclemtext'.
 _thisFilePath = inspect.getfile(inspect.currentframe())
@@ -206,7 +206,7 @@ class _Text(object):
         '''
 
         verseAddrToken, verseText = line.split(' ', 1)
-        verseAddrList = locs.parse(verseAddrToken)
+        verseAddrList = addrs.parse(verseAddrToken)
         verseAddr = verseAddrList[0]
         chapterKey, verseKey = verseAddr.first, verseAddr.second
         if chapterKey not in self._text:
@@ -459,7 +459,7 @@ class _Text(object):
         for chapterKey, verses in self._text.iteritems():
             for verseKey, verseText in verses.iteritems():
                 outputFile.write(
-                    '%s %s\n' % (locs.Addr(chapterKey, verseKey), verseText))
+                    '%s %s\n' % (addrs.Addr(chapterKey, verseKey), verseText))
 
 class Concordance(object):
     '''

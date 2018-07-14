@@ -9,7 +9,7 @@ import unittest
 
 # Local imports:
 import books
-import locs
+import addrs
 
 class parseTestCase(unittest.TestCase):
 
@@ -193,7 +193,7 @@ class BookTestCase(unittest.TestCase):
         bookWithChapters.text.loadFromString(self.bookWithChaptersText)
 
         # This should return all of chapter 1.
-        result = bookWithChapters.text.getVerse(locs.Addr(1))
+        result = bookWithChapters.text.getVerse(addrs.Addr(1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
@@ -202,7 +202,7 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return all of chapter 2.
-        result = bookWithChapters.text.getVerse(locs.Addr(2))
+        result = bookWithChapters.text.getVerse(addrs.Addr(2))
         self.assertEqual(
             result, [
                 ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -211,21 +211,21 @@ class BookTestCase(unittest.TestCase):
                 ])
 
         # This should return verse 1:1.
-        result = bookWithChapters.text.getVerse(locs.Addr(1, 1))
+        result = bookWithChapters.text.getVerse(addrs.Addr(1, 1))
         self.assertEqual(
             result, [
                 ((1, 1), u'In principio creavit Deus cælum et terram.'),
                 ])
 
         # This should return verse 1:2.
-        result = bookWithChapters.text.getVerse(locs.Addr(1, 2))
+        result = bookWithChapters.text.getVerse(addrs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Terra autem erat inanis et vacua...'),
                 ])
 
         # This should return verse 2:3:
-        result = bookWithChapters.text.getVerse(locs.Addr(2, 3))
+        result = bookWithChapters.text.getVerse(addrs.Addr(2, 3))
         self.assertEqual(
             result, [
                 ((2, 3), u'Et benedixit diei septimo...'),
@@ -235,14 +235,14 @@ class BookTestCase(unittest.TestCase):
         bookWithoutChapters.text.loadFromString(self.bookWithoutChaptersText)
 
         # This should return only verse 1.
-        result = bookWithoutChapters.text.getVerse(locs.Addr(1))
+        result = bookWithoutChapters.text.getVerse(addrs.Addr(1))
         self.assertEqual(
             result, [
                 (1, u'Judas Jesu Christi servus...'),
                 ])
 
         # This should return only verse 2.
-        result = bookWithoutChapters.text.getVerse(locs.Addr(2))
+        result = bookWithoutChapters.text.getVerse(addrs.Addr(2))
         self.assertEqual(
             result, [
                 (2, u'Misericordia vobis...'),
@@ -250,7 +250,7 @@ class BookTestCase(unittest.TestCase):
 
         # A request for 1:2 should also return verse 2, but the
         # 'address' should have the shape of the reference.
-        result = bookWithoutChapters.text.getVerse(locs.Addr(1, 2))
+        result = bookWithoutChapters.text.getVerse(addrs.Addr(1, 2))
         self.assertEqual(
             result, [
                 ((1, 2), u'Misericordia vobis...'),
@@ -263,7 +263,7 @@ class BookTestCase(unittest.TestCase):
         # Here are a few ranges entirely within the same chapter,
         # starting with 1:1-1:3.
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(1, 1), locs.Addr(1, 3)))
+            addrs.AddrRange(addrs.Addr(1, 1), addrs.Addr(1, 3)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -272,7 +272,7 @@ class BookTestCase(unittest.TestCase):
 
         # 2:1-2:2
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(2, 1), locs.Addr(2, 2)))
+            addrs.AddrRange(addrs.Addr(2, 1), addrs.Addr(2, 2)))
         self.assertEqual(
             [((2, 1), u'Igitur perfecti sunt cæli et terra...'),
              ((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...')],
@@ -280,7 +280,7 @@ class BookTestCase(unittest.TestCase):
 
         # 3:2-3:3
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(3, 2), locs.Addr(3, 3)))
+            addrs.AddrRange(addrs.Addr(3, 2), addrs.Addr(3, 3)))
         self.assertEqual(
             [((3, 2), u'Cui respondit mulier...'),
              ((3, 3), u'de fructu vero ligni quod est in medio paradisi...')],
@@ -288,7 +288,7 @@ class BookTestCase(unittest.TestCase):
 
         # Here are some ranges in adjacent chapters, starting with
         # 1:1-2:1:
-        verses = bookWithChapters.text.getRangeOfVerses(locs.AddrRange(locs.Addr(1, 1), locs.Addr(2, 1)))
+        verses = bookWithChapters.text.getRangeOfVerses(addrs.AddrRange(addrs.Addr(1, 1), addrs.Addr(2, 1)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -298,7 +298,7 @@ class BookTestCase(unittest.TestCase):
 
         # 2:2-3:2
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(2, 2), locs.Addr(3, 2)))
+            addrs.AddrRange(addrs.Addr(2, 2), addrs.Addr(3, 2)))
         self.assertEqual(
             [((2, 2), u'Complevitque Deus die septimo opus suum quod fecerat...'),
              ((2, 3), u'Et benedixit diei septimo...'),
@@ -308,7 +308,7 @@ class BookTestCase(unittest.TestCase):
 
         # Finally, here is the case of a book in the middle: 1:3-3:1:
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(1, 3), locs.Addr(3, 1)))
+            addrs.AddrRange(addrs.Addr(1, 3), addrs.Addr(3, 1)))
         self.assertEqual(
             [((1, 3), u'Dixitque Deus...'),
              ((2, 1), u'Igitur perfecti sunt cæli et terra...'),
@@ -320,7 +320,7 @@ class BookTestCase(unittest.TestCase):
         # Now let's see if we can handle whole-chapter ranges like
         # 1-2:
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(1), locs.Addr(2)))
+            addrs.AddrRange(addrs.Addr(1), addrs.Addr(2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),
@@ -341,12 +341,12 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(
             expectedVerses,
             bookWithChapters.text.getRangeOfVerses(
-                locs.AddrRange(locs.Addr(1), locs.Addr(1))))
+                addrs.AddrRange(addrs.Addr(1), addrs.Addr(1))))
 
         # What about a range that begins on a chapter, but ends on a
         # verse, like 1-2:2:
         verses = bookWithChapters.text.getRangeOfVerses(
-            locs.AddrRange(locs.Addr(1), locs.Addr(2, 2)))
+            addrs.AddrRange(addrs.Addr(1), addrs.Addr(2, 2)))
         self.assertEqual(
             [((1, 1), u'In principio creavit Deus cælum et terram.'),
              ((1, 2), u'Terra autem erat inanis et vacua...'),

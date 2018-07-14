@@ -14,28 +14,28 @@ Reference
 
 # Local imports:
 import books
-import locs
+import addrs
 
 class Citation(object):
     '''
-    Represents a citation as a sequence of verse *locations* within one,
-    particular *book*.
+    Represents a citation as a sequence of verse addresses within one,
+    particular book.
 
-    Each verse location is either a verse address (:class:`locs.Addr`)
-    or a verse address range (:class:`locs.AddrRange`).  For example:
+    Each verse location is either a verse address (:class:`addrs.Addr`)
+    or a verse address range (:class:`addrs.AddrRange`).  For example:
 
     * John 3:16 - verse address
     * Exodus 20:1-10 - verse address range
     * Acts 13:16-17,27 - verse address range, verse address
     '''
 
-    def __init__(self, book, locs):
+    def __init__(self, book, addrs):
         self._book = book
-        self._locs = locs
+        self._addrs = addrs
 
     def __str__(self):
         return '%s %s' % (
-            self._book, ','.join([str(loc) for loc in self._locs]))
+            self._book, ','.join([str(loc) for loc in self._addrs]))
 
     @property
     def displayString(self):
@@ -44,7 +44,9 @@ class Citation(object):
         '''
 
         book = books._bible.findBook(self._book)
-        return '%s %s' % (book.name, ','.join([str(loc) for loc in self._locs]))
+        return '%s %s' % (
+            book.name,
+            ','.join([str(loc) for loc in self._addrs]))
 
     @property
     def book(self):
@@ -55,13 +57,13 @@ class Citation(object):
         return self._book
 
     @property
-    def locs(self):
+    def addrs(self):
         '''
         The verse locations as they were provided.  (Perhaps this is a
         mix of both verse addresses and verse address ranges.)
         '''
 
-        return self._locs
+        return self._addrs
 
     @property
     def addrRanges(self):
@@ -72,14 +74,14 @@ class Citation(object):
 
         # Perhaps this logic belongs in the constructor.
         def normalize(loc):
-            if isinstance(loc, locs.AddrRange):
+            if isinstance(loc, addrs.AddrRange):
                 return loc
             else:
-                return locs.AddrRange(loc, loc)
+                return addrs.AddrRange(loc, loc)
 
         return [
             normalize(loc)
-            for loc in self.locs
+            for loc in self.addrs
             ]
 
 def parse(query):
@@ -88,7 +90,7 @@ def parse(query):
     representation.
 
     The book name is parsed by :func:`books.parse`.  The locations
-    within the book are parsed by :func:`locs.parse`.  The result is a
+    within the book are parsed by :func:`addrs.parse`.  The result is a
     :class:`Citation` object.
 
     The `query` must be confined to a single book.
@@ -126,6 +128,6 @@ def parse(query):
     verses = None
     if len(remainingTokens) == 1:
         remainingToken = remainingTokens[0]
-        verses = locs.parse(remainingToken)
+        verses = addrs.parse(remainingToken)
 
     return Citation(book, verses)

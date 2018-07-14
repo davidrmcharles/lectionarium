@@ -43,7 +43,7 @@ import textwrap
 
 # Local imports:
 import books
-import locs
+import addrs
 import citations
 
 def getVerses(query):
@@ -64,7 +64,7 @@ def getVerses(query):
 
     citation = citations.parse(query)
     book = books.findBook(citation.book)
-    if citation.locs is None:
+    if citation.addrs is None:
         # This is the citation of an entire book.
         return book.text.getAllVerses()
 
