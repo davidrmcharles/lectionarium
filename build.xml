@@ -24,9 +24,21 @@
     </target>
 
     <target name="docs" description="Build the docs.">
+        <exec executable="sphinx-apidoc" failonerror="true">
+            <arg value="${basedir}/python"/>
+            <arg value="-o${basedir}/docs/source/apidoc"/>
+        </exec>
         <exec executable="make" dir="${basedir}/docs" failonerror="true">
             <env key="PYTHONPATH" path="${basedir}/python"/>
             <arg value="html"/>
+        </exec>
+    </target>
+
+    <target name="docs.clean">
+        <delete dir="${basedir}/docs/source/apidoc"/>
+        <exec executable="make" dir="${basedir}/docs" failonerror="true">
+            <env key="PYTHONPATH" path="${basedir}/python"/>
+            <arg value="clean"/>
         </exec>
     </target>
 

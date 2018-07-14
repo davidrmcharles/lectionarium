@@ -12,9 +12,10 @@ lectionarium
 
    apidoc/lectionary
    apidoc/bible
-   apidoc/citations
    apidoc/books
-   apidoc/locs
+   apidoc/texts
+   apidoc/citations
+   apidoc/addrs
 
 .. toctree::
    :maxdepth: 1
