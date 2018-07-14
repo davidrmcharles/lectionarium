@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
 For working with text content and markup
+
+Reference
+======================================================================
 '''
 
 # Standard imports:
