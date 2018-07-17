@@ -67,8 +67,8 @@ _specialLectionaryXMLPath = os.path.join(
 
 class Mass(object):
     '''
-    Represents a single mass (or Good Friday, even though it
-    technically isn't a mass).
+    A single mass (or Good Friday, even though it technically isn't a
+    mass)
     '''
 
     def __init__(self, readings):
@@ -234,8 +234,8 @@ class Mass(object):
 
 class Reading(object):
     '''
-    Represents a single reading from Sacred Scripture as a citation
-    and the conditions surrounding its applicability.
+    A single reading from Sacred Scripture as a citation
+    and the conditions surrounding its applicability
     '''
 
     def __init__(self, citation):
@@ -328,7 +328,7 @@ class Reading(object):
 
 class Lectionary(object):
     '''
-    Represents the lectionary for mass.
+    The lectionary for mass
     '''
 
     def __init__(self):
@@ -683,15 +683,15 @@ def _children(parent_node, localNames):
 
 class RaiseIfAttrIsMissing(object):
     '''
-    Represents the intent to raise an exception if an attribute is
-    missing.
+    The intent to raise an exception if an attribute is
+    missing
     '''
 
     pass
 
 class MissingAttrException(Exception):
     '''
-    Represents an unexpectedly missing attribute.
+    An attribute was missing, but unexpected
     '''
 
     pass
@@ -1292,7 +1292,7 @@ class Calendar(object):
 
 class MalformedQueryError(ValueError):
     '''
-    Represents when we cannot parse a query string.
+    A failure to parse a query string
     '''
 
     def __init__(self, query, s):
@@ -1378,9 +1378,9 @@ def parse(query):
 
 class NonSingularResultsError(ValueError):
     '''
-    Represents a query that failed because it either returned no
+    A query failed because it either returned no
     result, or multiple results, when all we really wanted was a
-    single result.
+    single result
     '''
 
     def __init__(self, query, fqids):
@@ -1464,7 +1464,7 @@ def _parseDate(token):
 
 class MalformedDateError(ValueError):
     '''
-    Represents a failure to parse a date token.
+    A failure to parse a date token
     '''
 
     def __init__(self, token):
@@ -1473,8 +1473,8 @@ class MalformedDateError(ValueError):
 
 class InvalidDateError(ValueError):
     '''
-    Represents the case of a date token that can be parsed, but makes
-    no sense because the year, month, or day are out of range.
+    The case of a date token that can be parsed, but makes
+    no sense because the year, month, or day are out of range
     '''
 
     def __init__(self, token):

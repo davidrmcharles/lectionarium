@@ -6,7 +6,7 @@ Summary of Library Interface
 ======================================================================
 
 * :func:`parse` - Parse a human-readable citation to an object representation
-* :class:`Citation` - Represents a single-book scripture citation
+* :class:`Citation` - A single-book scripture citation
 
 Reference
 ======================================================================
@@ -18,8 +18,8 @@ import addrs
 
 class Citation(object):
     '''
-    Represents a citation as a sequence of verse addresses within one,
-    particular book.
+    A citation as a sequence of verse addresses within one,
+    particular book
 
     Each verse location is either a verse address (:class:`addrs.Addr`)
     or a verse address range (:class:`addrs.AddrRange`).  For example:
