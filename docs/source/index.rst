@@ -10,6 +10,7 @@ lectionarium
    :maxdepth: 1
    :caption: Public Interface:
 
+   apidoc/rendering
    apidoc/lectionary
    apidoc/bible
    apidoc/texts
