@@ -12,7 +12,6 @@ lectionarium
 
    apidoc/lectionary
    apidoc/bible
-   apidoc/books
    apidoc/texts
    apidoc/citations
    apidoc/addrs

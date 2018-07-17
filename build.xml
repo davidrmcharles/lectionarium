@@ -42,6 +42,12 @@
         </exec>
     </target>
 
+    <target name="docs.browse" description="Open the docs in a browser.">
+        <exec executable="firefox">
+            <arg value="${basedir}/docs/build/html/index.html"/>
+        </exec>
+    </target>
+
     <target name="bible" description="Build a bible.">
         <mkdir dir="build/bible"/>
         <exec executable="python" failonerror="true">
