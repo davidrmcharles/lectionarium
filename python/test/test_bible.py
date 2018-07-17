@@ -35,15 +35,15 @@ class parseTestCase(unittest.TestCase):
 class BibleTestCase(unittest.TestCase):
 
     def test_findBook(self):
-        self.assertIsNotNone(bible.findBook('Genesis'))
-        self.assertIsNotNone(bible.findBook('genesis'))
-        self.assertIsNotNone(bible.findBook('GENESIS'))
-        self.assertIsNotNone(bible.findBook('GeNeSIs'))
+        self.assertIsNotNone(bible.getBible().findBook('Genesis'))
+        self.assertIsNotNone(bible.getBible().findBook('genesis'))
+        self.assertIsNotNone(bible.getBible().findBook('GENESIS'))
+        self.assertIsNotNone(bible.getBible().findBook('GeNeSIs'))
 
-        self.assertIsNotNone(bible.findBook('Gn'))
-        self.assertIsNotNone(bible.findBook('gn'))
-        self.assertIsNotNone(bible.findBook('GN'))
-        self.assertIsNotNone(bible.findBook('gN'))
+        self.assertIsNotNone(bible.getBible().findBook('Gn'))
+        self.assertIsNotNone(bible.getBible().findBook('gn'))
+        self.assertIsNotNone(bible.getBible().findBook('GN'))
+        self.assertIsNotNone(bible.getBible().findBook('gN'))
 
 class BookTestCase(unittest.TestCase):
 

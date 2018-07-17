@@ -27,7 +27,8 @@ Summary of Library Interface
 ======================================================================
 
 * :func:`parse` - Parse adjacent book tokens to a :class:`Book` object
-* :func:`findBook` - Find and return a  :class:`Book` by name
+* :class:`Bible` - The whole canon of Sacrd Scripture
+* :funce:`getBible` - A singleton instance of :class:`Bible`
 * :class:`Book` - A single book with all its text
 
 * :func:`getVerses` - Get an object representation of some verses
@@ -49,8 +50,6 @@ import textwrap
 import addrs
 import citations
 import texts
-
-_bible = None
 
 def parse(tokens):
     '''
@@ -81,7 +80,7 @@ def parse(tokens):
         * Interior whitespace removed
         '''
 
-        book = _bible.findBook(token)
+        book = getBible().findBook(token)
         if book is None:
             return None
         return book.normalName
@@ -93,16 +92,9 @@ def parse(tokens):
 
     return None, 0
 
-def findBook(bookToken):
+class Bible(object):
     '''
-    Return the :class:`Book` object that goes with `bookToken`.
-    '''
-
-    return _bible.findBook(bookToken)
-
-class _Bible(object):
-    '''
-    Represents the whole Canon of Scripture.
+    The whole Canon of Scripture
     '''
 
     def __init__(self):
@@ -188,6 +180,14 @@ class _Bible(object):
         self._allBooks = self._otBooks + self._ntBooks
         self._loadText()
 
+    _instance = None
+
+    @classmethod
+    def _getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Bible()
+        return cls._instance
+
     @property
     def allBooks(self):
         '''
@@ -236,7 +236,7 @@ class _Bible(object):
 
 class Book(object):
     '''
-    Represents a single scriptural 'book'.
+    A single scriptural 'book'.
     '''
 
     def __init__(self, name, abbreviations=[], hasChapters=True):
@@ -315,7 +315,12 @@ class Book(object):
         return '<bible.Book object "%s" at 0x%x>' % (
             self, id(self))
 
-_bible = _Bible()
+def getBible():
+    '''
+    Return a singleton instance of :class:`Bible`.
+    '''
+
+    return Bible._getInstance()
 
 def getVerses(query):
     '''
@@ -334,7 +339,7 @@ def getVerses(query):
     '''
 
     citation = citations.parse(query)
-    book = findBook(citation.book)
+    book = getBible().findBook(citation.book)
     if citation.addrs is None:
         # This is the citation of an entire book.
         return book.text.getAllVerses()
@@ -348,7 +353,7 @@ def getVerses(query):
 
 class FormattingError(RuntimeError):
     '''
-    Represents an error that has occurred during formatting.
+    An error that occurred during formatting
     '''
 
     def __init__(self, s):
@@ -850,9 +855,9 @@ class _HTMLBibleIndexExporter(object):
 
     def _writeIndexBody(self, outputFile):
         self._writeIndexOfTestament(
-            outputFile, _bible.otBooks, 'Vetus Testamentum')
+            outputFile, getBible().otBooks, 'Vetus Testamentum')
         self._writeIndexOfTestament(
-            outputFile, _bible.ntBooks, 'Novum Testamentum')
+            outputFile, getBible().ntBooks, 'Novum Testamentum')
 
     def _writeIndexOfTestament(self, outputFile, books, title):
         outputFile.write('''\
@@ -918,7 +923,7 @@ class _HTMLBibleBookExporter(object):
         self.formatter.useColor = False
 
     def export(self):
-        for book in _bible.allBooks:
+        for book in getBible().allBooks:
             self._exportBook(book)
             self._exportConcordance(book)
 
