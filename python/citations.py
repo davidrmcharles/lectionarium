@@ -13,7 +13,7 @@ Reference
 '''
 
 # Local imports:
-import books
+import bible
 import addrs
 
 class Citation(object):
@@ -43,7 +43,7 @@ class Citation(object):
         A long-form display-string for the citation.
         '''
 
-        book = books._bible.findBook(self._book)
+        book = bible._bible.findBook(self._book)
         return '%s %s' % (
             book.name,
             ','.join([str(loc) for loc in self._addrs]))
@@ -89,7 +89,7 @@ def parse(query):
     Parse a human-readable citation (`query`) to its object
     representation.
 
-    The book name is parsed by :func:`books.parse`.  The locations
+    The book name is parsed by :func:`bible.parse`.  The locations
     within the book are parsed by :func:`addrs.parse`.  The result is a
     :class:`Citation` object.
 
@@ -111,7 +111,7 @@ def parse(query):
 
     # Try to parse a book out of the leading tokens in a 'greedy'
     # fashion.
-    book, tokensConsumed = books.parse(tokens)
+    book, tokensConsumed = bible.parse(tokens)
     if book is None:
         raise ValueError(
             'Unable to identify the book in citation "%s"!' % query)
