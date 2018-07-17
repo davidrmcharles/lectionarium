@@ -27,8 +27,8 @@ Summary of Library Interface
 ======================================================================
 
 * :func:`parse` - Parse adjacent book tokens to a :class:`Book` object
-* :class:`Bible` - The whole canon of Sacrd Scripture
-* :funce:`getBible` - A singleton instance of :class:`Bible`
+* :class:`Bible` - The whole canon of Sacred Scripture
+* :func:`getBible` - A singleton instance of :class:`Bible`
 * :class:`Book` - A single book with all its text
 
 * :func:`getVerses` - Get an object representation of some verses
