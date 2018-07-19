@@ -552,7 +552,7 @@ class _HTMLBibleBookExporter(object):
 
         def formatDictionaryLink(word):
             return '''\
-<a target="_blank" href="http://en.wiktionary.org/wiki/%s#Latin">Definition</a>''' % (
+<a target="_blank" href="http://en.wiktionary.org/wiki/%s#Latin">Wiktionary</a>''' % (
                 word)
 
         outputFile.write('''\
