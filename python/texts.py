@@ -339,7 +339,7 @@ class Concordance(object):
         self._sortEntries()
 
     def _ensureEntryForWord(self, word):
-        initial = word[0]
+        initial = self._getInitialOfWord(word)
         if initial not in self._entries:
             self._entries[initial] = []
 
@@ -351,9 +351,17 @@ class Concordance(object):
         self._entries[initial].append(wordEntry)
         return wordEntry
 
+    def _getInitialOfWord(self, word):
+        initial = word[0]
+        if initial in 'Ææ':
+            return 'a'
+        elif initial in 'Œœ':
+            return 'o'
+        return initial
+
     def _sortEntries(self):
         for wordEntries in self._entries.itervalues():
-            wordEntries.sort(key=lambda wordEntry: wordEntry.word)
+            wordEntries.sort(key=lambda wordEntry: wordEntry.sortableWord)
 
     def getEntries(self):
         return sorted(self._entries.iteritems())
@@ -367,7 +375,19 @@ class ConcordanceEntry(object):
 
     def __init__(self, word, addrs=None):
         self.word = word
+        self._sortableWord = None
         self.addrs = [] if addrs is None else addrs
+
+    @property
+    def sortableWord(self):
+        if self._sortableWord is None:
+            self._sortableWord = self.word. \
+            replace('Æ', 'AE'). \
+            replace('æ', 'ae'). \
+            replace('Œœ', 'Oe'). \
+            replace('œ', 'oe'). \
+            replace('ë', 'e')
+        return self._sortableWord
 
     def addAddr(self, addr):
         self.addrs.append(addr)
