@@ -12,6 +12,9 @@ lectionarium
 
    apidoc/rendering
    apidoc/lectionary
+   apidoc/datetools
+   apidoc/masses
+   apidoc/domtools
    apidoc/bible
    apidoc/texts
    apidoc/citations

@@ -11,28 +11,15 @@ to stdout.
 Summary of Library Interface
 ======================================================================
 
-* :func:`writeReadingsAsText`
-* :func:`writeReadingsAsHTML`
 * :func:`getReadings` - Get an object representation of the readings
 * :func:`parse` - Parse a query for a certain mass
+* :class:`Lectionary` - The lectionary for mass
+* :class:`Calendar` - All the readings for a single calendar year
 * :class:`MalformedQueryError` - Raised when we cannot parse a query string
 * :class:`NonSingularResultsError` - Raised for empty or ambiguous results
 * :class:`MalformedDateError` - Raised when we cannot parse a date
 * :class:`InvalidDateError` - Raised when we can parse the date, but it makes no sense
-
-Internals
-======================================================================
-
-* :class:`Mass` - A single mass (or Good Friday)
-* :class:`Reading` - A single reading
-* :class:`Lectionary` - The lectionary for mass
-* :func:`_text` - Return the text of an element
-* :func:`_firstChild` - Return the first matching child of an element
-* :func:`_children` - Return all matching children of an element
-* :class:`RaiseIfAttrIsMissing` - Raise if an attribute is missing
-* :class:`MissingAttrExceptionTestCase` - An expected attribute is missing
-* :func:`_attr` - Return the value of the named attribute
-* :func:`_parseDate` - Parse a date string to a ``datetime.date`` object
+* :func:`writeReadingsAsText`
 
 Reference
 ======================================================================
@@ -49,282 +36,12 @@ import os
 import re
 import sys
 import traceback
-import xml.dom.minidom
 
 # Local imports:
 import bible
 import citations
-
-_thisFilePath = inspect.getfile(inspect.currentframe())
-_thisFolderPath = os.path.abspath(os.path.dirname(_thisFilePath))
-_rootFolderPath = os.path.dirname(_thisFolderPath)
-_sundayLectionaryXMLPath = os.path.join(
-    _rootFolderPath, 'xml', 'sunday-lectionary.xml')
-_weekdayLectionaryXMLPath = os.path.join(
-    _rootFolderPath, 'xml', 'weekday-lectionary.xml')
-_specialLectionaryXMLPath = os.path.join(
-    _rootFolderPath, 'xml', 'special-lectionary.xml')
-
-class Mass(object):
-    '''
-    A single mass (or Good Friday, even though it technically isn't a
-    mass)
-    '''
-
-    def __init__(self, readings):
-        self._allReadings = readings
-        self._id = None
-        self._name = None
-        self._fixedMonth = None
-        self._fixedDay = None
-        self._weekid = None
-        self._seasonid = None
-
-    def __str__(self):
-        return self._name
-
-    def __repr__(self):
-        return '<lectionary.Mass object %s at 0x%x>' % (
-            self.fqid, id(self))
-
-    @property
-    def allReadings(self):
-        '''
-        All the readings as a list of :class:`Reading` objects.
-        '''
-
-        return self._allReadings
-
-    def applicableReadings(self, sundayCycle, weekdayCycle):
-        '''
-        Return the readings applicable to `sundayCycle` and
-        `weekdayCycle` only.
-        '''
-
-        return [
-            reading
-            for reading
-            in self._allReadings
-            if reading.isApplicable(sundayCycle, weekdayCycle)
-            ]
-
-    @property
-    def id(self):
-        '''
-        A computer-friendly identifier for the mass.
-
-        * All lowercase
-        * All spaces converted to hyphens
-        * All other non-alphanumeric characters removed
-        '''
-
-        if self._id is not None:
-            return self._id
-        elif self._name is not None:
-            return '-'.join(
-                re.sub(
-                    r'[^[A-Za-z0-9 ]',
-                    '',
-                    self._name).lower().split())
-        else:
-            return '%02d-%02d' % (self.fixedMonth, self.fixedDay)
-
-    @id.setter
-    def id(self, newValue):
-        self._id = newValue
-
-    @property
-    def name(self):
-        '''
-        A human-friendly name for the mass.
-        '''
-
-        return self._name
-
-    @property
-    def displayName(self):
-        '''
-        A display-name for the mass.
-        '''
-
-        if self.name is not None:
-            return self.name
-        else:
-            return '%s %d' % (calendar.month_name[self.fixedMonth], self.fixedDay)
-
-    @name.setter
-    def name(self, newValue):
-        self._name = newValue
-
-    @property
-    def fqid(self):
-        '''
-        A fully-qualified identifier for the mass that builds upon
-        ``id``.
-        '''
-
-        # Qualify the mass as much as possible.
-        tokens = [self.id]
-        if self._weekid is not None:
-            tokens.insert(0, self._weekid)
-        if self._seasonid is not None:
-            tokens.insert(0, self._seasonid)
-        return '/'.join(tokens)
-
-    @property
-    def fixedMonth(self):
-        '''
-        The month as an ``int``, if this is a fixed-date mass.
-        Otherwise, ``None``.
-        '''
-
-        return self._fixedMonth
-
-    @fixedMonth.setter
-    def fixedMonth(self, newValue):
-        self._fixedMonth = newValue
-
-    @property
-    def fixedDay(self):
-        '''
-        The day as an ``int``, if this is a fixed-date mass.
-        Otherwise, ``None``.
-        '''
-
-        return self._fixedDay
-
-    @fixedDay.setter
-    def fixedDay(self, newValue):
-        self._fixedDay = newValue
-
-    @property
-    def isSundayInOrdinaryTime(self):
-        '''
-        ``True`` if this mass is a Sunday in Ordinary Time.
-        '''
-
-        return self.id.startswith('sunday') and \
-            (self._seasonid == 'ordinary')
-
-    @property
-    def weekid(self):
-        '''
-        A computer-friendly identifier for the week.  Otherwise,
-        ``None``.
-        '''
-
-        return self._weekid
-
-    @weekid.setter
-    def weekid(self, newValue):
-        self._weekid = newValue
-
-    @property
-    def seasonid(self):
-        '''
-        A computer-friendly identifier for the season.  Othewise,
-        ``None``.
-        '''
-
-        return self._seasonid
-
-    @seasonid.setter
-    def seasonid(self, newValue):
-        self._seasonid = newValue
-
-class Reading(object):
-    '''
-    A single reading from Sacred Scripture as a citation
-    and the conditions surrounding its applicability
-    '''
-
-    def __init__(self, citation):
-        self._citation = citation
-        self._cycles = None
-        self._optionSet = None
-        self._optionSetSize = None
-        self._optionIndex = None
-
-    @property
-    def title(self):
-        '''
-        The title of the reading.
-        '''
-
-        tokens = [citations.parse(self._citation).displayString]
-
-        if self._optionSet is not None:
-            tokens.append(
-                '(Option %d of %d)' % (
-                    self._optionIndex + 1, self._optionSetSize))
-
-        return ' '.join(tokens)
-
-    @property
-    def citation(self):
-        '''
-        The citation from Sacred Scription as a string
-        '''
-
-        return self._citation
-
-    @property
-    def cycles(self):
-        '''
-        The cycles to which a reading applies.  ``None`` if the
-        reading applies to all cycles.
-        '''
-
-        return self._cycles
-
-    @cycles.setter
-    def cycles(self, cycles):
-        self._cycles = cycles
-
-    @property
-    def optionSet(self):
-        '''
-        An identifier if this reading is one of a set of options.
-        ``None`` if the reading is not optional.
-        '''
-
-        return self._optionSet
-
-    @optionSet.setter
-    def optionSet(self, optionSet):
-        self._optionSet = optionSet
-
-    @property
-    def optionSetSize(self):
-        return self._optionSetSize
-
-    @optionSetSize.setter
-    def optionSetSize(self, optionSetSize):
-        self._optionSetSize = optionSetSize
-
-    @property
-    def optionIndex(self):
-        return self._optionIndex
-
-    @optionIndex.setter
-    def optionIndex(self, optionIndex):
-        self._optionIndex = optionIndex
-
-    def isApplicable(self, sundayCycle, weekdayCycle):
-        '''
-        ``True`` if this reading applies to the given `sundayCycle`
-        and `weekdayCycle`.
-        '''
-
-        if self._cycles is None:
-            return True
-        if sundayCycle is None and weekdayCycle is None:
-            return True
-        if (sundayCycle is not None) and (sundayCycle in self._cycles):
-            return True
-        if (weekdayCycle is not None) and (weekdayCycle == self._cycles):
-            return True
-        return False
+import datetools
+import masses
 
 class Lectionary(object):
     '''
@@ -336,48 +53,20 @@ class Lectionary(object):
         self._allMasses = []
         self._allSundayMasses = []
         self._sundaysInOrdinaryTime = []
-        doc = xml.dom.minidom.parse(_sundayLectionaryXMLPath)
-        try:
-            # Decode the Sunday lectionary.
-            masses = _decode_sunday_lectionary(doc.documentElement)
 
-            # Add all the Sunday masses to the master list.
-            self._allMasses.extend(masses)
+        self._allSundayMasses = masses.getSundayMasses()
+        self._allMasses.extend(self._allSundayMasses)
+        self._sundaysInOrdinaryTime = [
+            mass
+            for mass in self._allSundayMasses
+            if mass.isSundayInOrdinaryTime
+            ]
 
-            # Add all the Sunday masses to the Sunday list.
-            self._allSundayMasses.extend(masses)
+        self._allWeekdayMasses = masses.getWeekdayMasses()
+        self._allMasses.extend(self._allWeekdayMasses)
 
-            # Pick-out the Sunday masses that are Sundays in ordinary
-            # time.
-            self._sundaysInOrdinaryTime = [
-                mass
-                for mass in masses
-                if mass.isSundayInOrdinaryTime
-                ]
-
-        finally:
-            doc.unlink()
-
-        # Further initialize the list of masses by adding the weekday
-        # masses.
-        doc = xml.dom.minidom.parse(_weekdayLectionaryXMLPath)
-        try:
-            self._allWeekdayMasses = _decode_weekday_lectionary(
-                doc.documentElement)
-            self._allMasses.extend(self._allWeekdayMasses)
-        finally:
-            doc.unlink()
-
-        # Finish initialization of the list of masses by adding the
-        # masses from weekday-lectionary.xml.
-        doc = xml.dom.minidom.parse(_specialLectionaryXMLPath)
-        try:
-            # Decode the special feasts.
-            self._allSpecialMasses = _decode_special_lectionary(
-                doc.documentElement)
-            self._allMasses.extend(self._allSpecialMasses)
-        finally:
-            doc.unlink()
+        self._allSpecialMasses = masses.getSpecialMasses()
+        self._allMasses.extend(self._allSpecialMasses)
 
     @property
     def allMasses(self):
@@ -494,330 +183,6 @@ class Lectionary(object):
                 self.specialIDsFormatted
                 ])
 
-def _decode_sunday_lectionary(lectionary_node):
-    '''
-    Decode a <lectionary> element for the Sunday lectionary and
-    return all of its masses as a list.
-    '''
-
-    result = []
-    for season_node in _children(lectionary_node, 'season'):
-        result.extend(_decode_season(season_node))
-    return result
-
-def _decode_season(season_node):
-    '''
-    Decode a <season> element and return all its masses as a
-    list.
-    '''
-
-    result = []
-    seasonid = _attr(season_node, 'id', ifMissing=None)
-    for child_node in _children(season_node, ['mass', 'week']):
-        if child_node.localName == 'mass':
-            mass = _decode_mass(child_node)
-            mass.seasonid = seasonid
-            result.append(mass)
-        elif child_node.localName == 'week':
-            masses = _decode_week(child_node)
-            for mass in masses:
-                mass.seasonid = seasonid
-            result.extend(masses)
-    return result
-
-def _decode_weekday_lectionary(lectionary_node):
-    '''
-    Decode the <lectionary> element for the weekday lectionary and
-    return all its masses as a list.
-    '''
-
-    result = []
-    for season_node in _children(lectionary_node, 'season'):
-        result.extend(_decode_season(season_node))
-    return result
-
-def _decode_week(week_node):
-    '''
-    Decode a <week> element and return all its masses as a list.
-    '''
-
-    result = []
-    for mass_node in _children(week_node, 'mass'):
-        mass = _decode_mass(mass_node)
-        mass.weekid = _attr(week_node, 'id', ifMissing=None)
-        result.append(mass)
-    return result
-
-def _decode_variation(variation_node):
-    '''
-    Decode a <variation> element and return all of its readings as a
-    list of :class:`Reading` objects.
-    '''
-
-    result = []
-    cycles = _attr(variation_node, 'cycles', ifMissing=None)
-    option_index = 0
-    for child_node in _children(variation_node, ['reading', 'option']):
-        if child_node.localName == 'reading':
-            reading = _decode_reading(child_node)
-            reading.cycles = cycles
-            result.append(reading)
-        elif child_node.localName == 'option':
-            readings = _decode_option(child_node)
-            for reading_index, reading in enumerate(readings):
-                reading.cycles = cycles
-                reading.optionSet = option_index
-                reading.optionSetSize = len(readings)
-                reading.optionSetIndex = reading_index
-            result.extend(readings)
-            option_index += 1
-    return result
-
-def _decode_option(option_node):
-    '''
-    Decode an <option> element and return all its readings as a list.
-    '''
-
-    result = []
-    for reading_node in _children(option_node, 'reading'):
-        result.append(_decode_reading(reading_node))
-    return result
-
-def _decode_special_lectionary(lectionary_node):
-    '''
-    Decode the <lectionary> element for the special lectionary
-    and return all its masses as a list.
-    '''
-
-    result = []
-    for mass_node in _children(lectionary_node, 'mass'):
-        mass = _decode_mass(mass_node)
-        result.append(mass)
-    return result
-
-def _decode_mass(mass_node):
-    '''
-    Decode a single <mass> element and return it as a
-    :class:`Mass` objects.
-    '''
-
-    fixedMonth, fixedDay = None, None
-    fixedDate = _attr(mass_node, 'date', None)
-    if fixedDate is not None:
-        fixedMonth, fixedDay = fixedDate.split('-')
-        fixedMonth, fixedDay = int(fixedMonth), int(fixedDay)
-
-    weekid = _attr(mass_node, 'weekid', ifMissing=None)
-    id_ = _attr(mass_node, 'id', ifMissing=None)
-    name = _attr(mass_node, 'name', ifMissing=None)
-
-    readings = []
-    option_index = 0
-    for child_node in _children(
-        mass_node, ['reading', 'option', 'variation']):
-        if child_node.localName == 'reading':
-            readings.append(_decode_reading(child_node))
-        elif child_node.localName == 'option':
-            optional_readings = _decode_option(child_node)
-            for optional_reading_index, optional_reading in enumerate(
-                optional_readings):
-                optional_reading.optionSet = option_index
-                optional_reading.optionSetSize = len(optional_readings)
-                optional_reading.optionIndex = optional_reading_index
-            readings.extend(optional_readings)
-            option_index += 1
-        elif child_node.localName == 'variation':
-            readings.extend(_decode_variation(child_node))
-
-    mass = Mass(readings)
-    mass.name = name
-    mass.fixedMonth = fixedMonth
-    mass.fixedDay = fixedDay
-    mass.id = id_
-    mass.weekid = weekid
-    return mass
-
-def _decode_reading(reading_node):
-    '''
-    Decode a single <reading> element and return it as a
-    :clas:`Reading` object.
-    '''
-
-    reading = Reading(_text(reading_node))
-    reading.cycles = _attr(reading_node, 'cycles', ifMissing=None)
-    return reading
-
-# Now, let's fix DOM:
-
-def _text(node):
-    '''
-    Return the text content of a `node`
-    '''
-
-    return node.childNodes[0].nodeValue
-
-def _firstChild(parent_node, localName):
-    '''
-    Return the first child of `parent_node` having `localName`.
-    '''
-
-    for child_node in parent_node.childNodes:
-        if child_node.localName == localName:
-            return child_node
-    return None
-
-def _children(parent_node, localNames):
-    '''
-    Return all children of `parent_node` having a localName in
-    `localNames`.
-    '''
-
-    if isinstance(localNames, basestring):
-        localNames = [localNames]
-
-    result_nodes = []
-    for child_node in parent_node.childNodes:
-        if child_node.localName in localNames:
-            result_nodes.append(child_node)
-    return result_nodes
-
-class RaiseIfAttrIsMissing(object):
-    '''
-    The intent to raise an exception if an attribute is
-    missing
-    '''
-
-    pass
-
-class MissingAttrException(Exception):
-    '''
-    An attribute was missing, but unexpected
-    '''
-
-    pass
-
-def _attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
-    '''
-    Return the value of the attribute of `node` having `localName`.
-    '''
-
-    if not node.hasAttribute(localName):
-        if ifMissing is RaiseIfAttrIsMissing:
-            raise MissingAttrException()
-        else:
-            return ifMissing
-    return node.getAttribute(localName)
-
-def _nextSunday(d, count):
-    '''
-    Given a date, `d`, return the date `count`th nearest Sunday.
-
-    A negative value for `count` move back in time to Sundays before.
-    A positive value for `count` moves forward in time to following
-    Sundays.  We raise `ValueError` if `count` is zero.
-    '''
-
-    if not isinstance(d, datetime.date):
-        raise TypeError(
-            'Non-date (%s, %s) was passed to _nextSunday()!' % (
-                type(d), d))
-    if not isinstance(count, int):
-        raise TypeError(
-            'Non-int (%s, %s) was passed as count to _nextSunday()!' % (
-                type(count), count))
-    if count == 0:
-        raise ValueError(
-            'Count of zero was passed to _nextSunday()!')
-
-    # Handle a non-Sunday start by advancing a partial week.
-    if d.weekday() != 6:
-        if count > 0:
-            d += datetime.timedelta(
-                days=6 - d.weekday())
-            count -= 1
-        else:
-            d -= datetime.timedelta(
-                days=d.weekday() + 1)
-            count += 1
-
-    # Now that we are on a Sunday, the rest of the way is simple.
-    return d + datetime.timedelta(weeks=count)
-
-def _followingDays(d, count):
-    '''
-    Given a date, `d`, return the date of each day that follows,
-    precisely `count` of them.
-    '''
-
-    return [
-        d + datetime.timedelta(days=index + 1)
-        for index in range(count)
-        ]
-
-def _inclusiveDateRange(firstDate, lastDate):
-    '''
-    Return all the dates from `firstDate` through `lastDate`.
-    '''
-
-    # FIXME: Naiive, but I have no Internet connectivity at the
-    # moment!
-    result = []
-    d = firstDate
-    while d <= lastDate:
-        result.append(d)
-        d += datetime.timedelta(days=1)
-    return result
-
-def _dateOfEaster(year):
-    '''
-    Return the date of Easter for a given `year`.
-
-    http://aa.usno.navy.mil/faq/docs/easter.php
-    '''
-
-    y = year
-    c = y / 100
-    n = y - 19 * ( y / 19 )
-    k = ( c - 17 ) / 25
-    i = c - c / 4 - ( c - k ) / 3 + 19 \
-        * n + 15
-    i = i - 30 * ( i / 30 )
-    i = i - ( i / 28 ) * ( 1 - ( i / 28 ) \
-        * ( 29 / ( i + 1 ) ) \
-        * ( ( 21 - n ) / 11 ) )
-    j = y + y / 4 + i + 2 - c + c / 4
-    j = j - 7 * ( j / 7 )
-    l = i - j
-    m = 3 + ( l + 40 ) / 44
-    d = l + 28 - 31 * ( m / 4 )
-    return datetime.date(year, m, d)
-
-def _sundayCycleForDate(d):
-    '''
-    Return the Sunday cycle for the Gospel reading ('A', 'B', or 'C')
-    for a given date, `d`.
-    '''
-
-    christmasDate = datetime.date(d.year, 12, 25)
-    firstSundayOfAdventDate = _nextSunday(christmasDate, -4)
-    if d >= firstSundayOfAdventDate:
-        return 'ABC'[d.year % 3]
-    else:
-        return 'CAB'[d.year % 3]
-
-def _weekdayCycleForDate(d):
-    '''
-    Return the weekday cycle for the non-Gospel reading ('I' or 'II')
-    for a given date, `d`.
-    '''
-
-    christmasDate = datetime.date(d.year, 12, 25)
-    firstSundayOfAdventDate = _nextSunday(christmasDate, -4)
-    if d >= firstSundayOfAdventDate:
-        return ['I', 'II'][d.year % 2]
-    else:
-        return ['II', 'I'][d.year % 2]
-
 class Calendar(object):
     '''
     A liturgical calendar for a given year that links dates to
@@ -865,9 +230,9 @@ class Calendar(object):
         '''
 
         if self.dateOfPreviousChristmas.weekday() == 6:
-            return _nextSunday(self.dateOfPreviousChristmas, +2)
+            return datetools.nextSunday(self.dateOfPreviousChristmas, +2)
         else:
-            return _nextSunday(self.dateOfPreviousChristmas, +3)
+            return datetools.nextSunday(self.dateOfPreviousChristmas, +3)
 
     @property
     def dateOfAshWednesday(self):
@@ -883,7 +248,7 @@ class Calendar(object):
         The date of Easter Sunday
         '''
 
-        return _dateOfEaster(self._year)
+        return datetools.dateOfEaster(self._year)
 
     @property
     def dateOfPentecost(self):
@@ -891,7 +256,7 @@ class Calendar(object):
         The date of Pentecost Sunday
         '''
 
-        return _nextSunday(self.dateOfEaster, +7)
+        return datetools.nextSunday(self.dateOfEaster, +7)
 
     @property
     def dateOfFirstSundayOfAdvent(self):
@@ -899,7 +264,7 @@ class Calendar(object):
         The date of the First Sunday of Advent
         '''
 
-        return _nextSunday(self.dateOfChristmas, -4)
+        return datetools.nextSunday(self.dateOfChristmas, -4)
 
     @property
     def dateOfChristmas(self):
@@ -926,7 +291,7 @@ class Calendar(object):
         '''
 
         # The Octave of Christmas.
-        massDates = _followingDays(self.dateOfPreviousChristmas, 6)
+        massDates = datetools.followingDays(self.dateOfPreviousChristmas, 6)
         massKeys = (
             'day-2-st-stephen',
             'day-3-st-john',
@@ -943,7 +308,7 @@ class Calendar(object):
                 _lectionary.findmass('christmas/%s' % massKey))
 
         # Fixed-date weekday masses following Christmas.
-        massDates = _inclusiveDateRange(
+        massDates = datetools.inclusiveDateRange(
             datetime.date(self._year, 1, 2),
             datetime.date(self._year, 1, 7))
         massKeys = [
@@ -970,10 +335,10 @@ class Calendar(object):
                 'christmas/baptism-of-the-lord')
         else:
             self._assignMass(
-                _nextSunday(self.dateOfPreviousChristmas, +1),
+                datetools.nextSunday(self.dateOfPreviousChristmas, +1),
                 'christmas/holy-family')
             self._assignMass(
-                _nextSunday(self.dateOfPreviousChristmas, +2),
+                datetools.nextSunday(self.dateOfPreviousChristmas, +2),
                 'christmas/2nd-sunday-after-christmas')
             self._assignMass(
                 datetime.date(self._year, 1, 6),
@@ -993,7 +358,7 @@ class Calendar(object):
 
         # Week of Ash Wednesday
         massDates = [self.dateOfAshWednesday] + \
-            _followingDays(self.dateOfAshWednesday, 3)
+            datetools.followingDays(self.dateOfAshWednesday, 3)
         massKeys = (
             'ash-wednesday',
             'thursday',
@@ -1005,11 +370,11 @@ class Calendar(object):
                 massDate, 'lent/week-of-ash-wednesday/%s' % massKey)
 
         sundayDates = (
-            _nextSunday(self.dateOfEaster, -6),
-            _nextSunday(self.dateOfEaster, -5),
-            _nextSunday(self.dateOfEaster, -4),
-            _nextSunday(self.dateOfEaster, -3),
-            _nextSunday(self.dateOfEaster, -2),
+            datetools.nextSunday(self.dateOfEaster, -6),
+            datetools.nextSunday(self.dateOfEaster, -5),
+            datetools.nextSunday(self.dateOfEaster, -4),
+            datetools.nextSunday(self.dateOfEaster, -3),
+            datetools.nextSunday(self.dateOfEaster, -2),
             )
 
         for sundayIndex, sundayDate in enumerate(sundayDates):
@@ -1020,7 +385,7 @@ class Calendar(object):
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
-                _followingDays(sundayDate, 6),
+                datetools.followingDays(sundayDate, 6),
                 _lectionary.weekdayMassesInWeek(
                     'lent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
@@ -1031,10 +396,10 @@ class Calendar(object):
         '''
 
         # Holy Week
-        dateOfPalmSunday = _nextSunday(self.dateOfEaster, -1)
+        dateOfPalmSunday = datetools.nextSunday(self.dateOfEaster, -1)
         self._assignMass(dateOfPalmSunday, 'holy-week/palm-sunday')
 
-        massDates = _followingDays(dateOfPalmSunday, 4)
+        massDates = datetools.followingDays(dateOfPalmSunday, 4)
         massKeys = (
             'monday', 'tuesday', 'wednesday', 'thursday-chrism-mass'
             )
@@ -1056,12 +421,12 @@ class Calendar(object):
 
         sundayDates = (
             self.dateOfEaster,
-            _nextSunday(self.dateOfEaster, 1),
-            _nextSunday(self.dateOfEaster, 2),
-            _nextSunday(self.dateOfEaster, 3),
-            _nextSunday(self.dateOfEaster, 4),
-            _nextSunday(self.dateOfEaster, 5),
-            _nextSunday(self.dateOfEaster, 6),
+            datetools.nextSunday(self.dateOfEaster, 1),
+            datetools.nextSunday(self.dateOfEaster, 2),
+            datetools.nextSunday(self.dateOfEaster, 3),
+            datetools.nextSunday(self.dateOfEaster, 4),
+            datetools.nextSunday(self.dateOfEaster, 5),
+            datetools.nextSunday(self.dateOfEaster, 6),
             )
         for sundayIndex, sundayDate in enumerate(sundayDates):
             # Assign the Sunday mass.
@@ -1076,7 +441,7 @@ class Calendar(object):
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
-                _followingDays(sundayDate, 6),
+                datetools.followingDays(sundayDate, 6),
                 _lectionary.weekdayMassesInWeek(
                     'easter', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
@@ -1095,9 +460,9 @@ class Calendar(object):
 
         sundayDates = (
             self.dateOfFirstSundayOfAdvent,
-            _nextSunday(self.dateOfChristmas, -3),
-            _nextSunday(self.dateOfChristmas, -2),
-            _nextSunday(self.dateOfChristmas, -1),
+            datetools.nextSunday(self.dateOfChristmas, -3),
+            datetools.nextSunday(self.dateOfChristmas, -2),
+            datetools.nextSunday(self.dateOfChristmas, -1),
             )
         for sundayIndex, sundayDate in enumerate(sundayDates):
             # Assign the Sunday mass.
@@ -1107,7 +472,7 @@ class Calendar(object):
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
-                _followingDays(sundayDate, 6),
+                datetools.followingDays(sundayDate, 6),
                 _lectionary.weekdayMassesInWeek(
                     'advent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
@@ -1115,7 +480,7 @@ class Calendar(object):
         # Handle the fixed-date masses in Advent starting on December
         # 17th.  These override the other weekday masses of Advent,
         # but not the Sunday masses of Advent.
-        massDates = _inclusiveDateRange(
+        massDates = datetools.inclusiveDateRange(
             datetime.date(self._year, 12, 17),
             datetime.date(self._year, 12, 24))
         massKeys = [
@@ -1134,7 +499,7 @@ class Calendar(object):
         '''
 
         self._appendMass(
-            _nextSunday(self.dateOfChristmas, -1),
+            datetools.nextSunday(self.dateOfChristmas, -1),
             'christmas/christmas-vigil')
 
         # Octave of Christmas
@@ -1148,7 +513,7 @@ class Calendar(object):
             self.dateOfChristmas,
             'christmas/christmas-during-the-day')
 
-        massDates = _inclusiveDateRange(
+        massDates = datetools.inclusiveDateRange(
             self.dateOfChristmas + datetime.timedelta(days=1),
             datetime.date(self._year, 12, 31))
         massKeys = (
@@ -1164,7 +529,7 @@ class Calendar(object):
                 massDate,
                 _lectionary.findMass('christmas/%s' % massKey))
 
-        dateOfHolyFamily = _nextSunday(self.dateOfChristmas, 1)
+        dateOfHolyFamily = datetools.nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
             self._assignMass(
                 dateOfHolyFamily, 'christmas/holy-family')
@@ -1187,11 +552,11 @@ class Calendar(object):
         # Handle the weekday masses for the first week of ordinary
         # time as a special case.
         for weekdayDate, weekdayMass in zip(
-            _followingDays(self.dateOfEndOfPreviousChristmas, 6),
+            datetools.followingDays(self.dateOfEndOfPreviousChristmas, 6),
             weekdaysInOrdinaryTime.pop(0)):
             self._assignMass(weekdayDate, weekdayMass)
 
-        sundayDate = _nextSunday(self.dateOfEndOfPreviousChristmas, +1)
+        sundayDate = datetools.nextSunday(self.dateOfEndOfPreviousChristmas, +1)
         while sundayDate < self.dateOfAshWednesday:
             # Assign the Sunday mass.
             try:
@@ -1202,30 +567,30 @@ class Calendar(object):
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
-                _followingDays(sundayDate, 6), weekdaysInOrdinaryTime.pop(0)):
+                datetools.followingDays(sundayDate, 6), weekdaysInOrdinaryTime.pop(0)):
                 self._assignMass(weekdayDate, weekdayMass)
 
-            sundayDate = _nextSunday(sundayDate, +1)
+            sundayDate = datetools.nextSunday(sundayDate, +1)
 
         # Ordinary Time After Easter: Calculate and record the masses
         # of Ordinary Time that come between the end of Easter and
         # Advent.
-        sundayDate = _nextSunday(self.dateOfFirstSundayOfAdvent, -1)
-        while sundayDate > _nextSunday(self.dateOfPentecost, -1):
+        sundayDate = datetools.nextSunday(self.dateOfFirstSundayOfAdvent, -1)
+        while sundayDate > datetools.nextSunday(self.dateOfPentecost, -1):
             # Assign the Sunday mass.
             self._assignMass(sundayDate, sundaysInOrdinaryTime.pop())
 
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
-                _followingDays(sundayDate, 6), weekdaysInOrdinaryTime.pop()):
+                datetools.followingDays(sundayDate, 6), weekdaysInOrdinaryTime.pop()):
                 self._assignMass(weekdayDate, weekdayMass)
 
-            sundayDate = _nextSunday(sundayDate, -1)
+            sundayDate = datetools.nextSunday(sundayDate, -1)
 
         # These special feasts in Ordinary Time have priority over
         # whatever else is being celebrated that day.
         self._assignMass(
-            _nextSunday(self.dateOfEaster, +8),
+            datetools.nextSunday(self.dateOfEaster, +8),
             'trinity-sunday')
 
         corpusChristiDate = self.dateOfEaster + datetime.timedelta(days=60)
@@ -1360,16 +725,16 @@ def parse(query):
     try:
         massDate = _parseDate(idSubstring)
         if len(sharp_tokens) == 1:
-            sundayCycle = _sundayCycleForDate(massDate)
-            weekdayCycle = _weekdayCycleForDate(massDate)
+            sundayCycle = datetools.sundayCycleForDate(massDate)
+            weekdayCycle = datetools.weekdayCycleForDate(massDate)
 
         calendar = Calendar(massDate.year)
         masses = calendar.massesByDate(massDate.month, massDate.day)
         return [mass.fqid for mass in masses], sundayCycle, weekdayCycle
     except MalformedDateError:
         if len(sharp_tokens) == 1:
-            sundayCycle = _sundayCycleForDate(datetime.date.today())
-            weekdayCycle = _weekdayCycleForDate(datetime.date.today())
+            sundayCycle = datetools.sundayCycleForDate(datetime.date.today())
+            weekdayCycle = datetools.weekdayCycleForDate(datetime.date.today())
         return [
             mass.fqid
             for mass in _lectionary.allMasses
@@ -1570,12 +935,6 @@ to stdout.''',
         help='list special mass ids (and exit)')
 
     parser.add_argument(
-        '--html',
-        action='store_true',
-        dest='html',
-        help='generate HTML output')
-
-    parser.add_argument(
         'query',
         metavar='QUERY',
         nargs='?',
@@ -1609,17 +968,7 @@ to stdout.''',
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
-    if options.html:
-        writeReadingsAsHTML(massTitle, readings, options)
-    else:
-        writeReadingsAsText(massTitle, readings, options)
-
-def writeReadingsAsHTML(massTitle, readings, options, outputFile=sys.stdout):
-    '''
-    Write readings for browser viewing.
-    '''
-    sys.stderr.write('lectionary: HTML output isn\'t implemented yet.\n')
-    raise SystemExit(1)
+    writeReadingsAsText(massTitle, readings, options)
 
 def writeReadingsAsText(massTitle, readings, options, outputFile=sys.stdout):
     '''
