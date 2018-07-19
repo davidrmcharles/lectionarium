@@ -550,9 +550,17 @@ class _HTMLBibleBookExporter(object):
                     for addr in addrs
                     ])
 
+        def formatDictionaryLink(word):
+            return '''\
+<a target="_blank" href="http://en.wiktionary.org/wiki/%s#Latin">Definition</a>''' % (
+                word)
+
         outputFile.write('''\
-<li>%s - %s</li>
-''' % (entry.word, formatAddrList(entry.addrs)))
+<li>%s - %s - %s</li>
+''' % (
+                entry.word,
+                formatAddrList(entry.addrs),
+                formatDictionaryLink(entry.word)))
 
     def _writeConcordanceFoot(self, outputFile, book):
         outputFile.write('''\
