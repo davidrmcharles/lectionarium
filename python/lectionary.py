@@ -19,7 +19,6 @@ Summary of Library Interface
 * :class:`NonSingularResultsError` - Raised for empty or ambiguous results
 * :class:`MalformedDateError` - Raised when we cannot parse a date
 * :class:`InvalidDateError` - Raised when we can parse the date, but it makes no sense
-* :func:`writeReadingsAsText`
 
 Reference
 ======================================================================
@@ -41,6 +40,7 @@ import traceback
 import bible
 import citations
 import datetools
+import lectionaryviews
 import masses
 
 class Lectionary(object):
@@ -968,20 +968,7 @@ to stdout.''',
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
-    writeReadingsAsText(massTitle, readings, options)
-
-def writeReadingsAsText(massTitle, readings, options, outputFile=sys.stdout):
-    '''
-    Write readings for console viewing.
-    '''
-
-    outputFile.write('%s\n' % ('=' * 80))
-    outputFile.write('Readings for %s\n' % (massTitle))
-    outputFile.write('%s\n' % ('=' * 80))
-
-    for reading, verses in readings.iteritems():
-        outputFile.write('\n%s\n' % reading.title)
-        outputFile.write('\n%s' % bible.formatVersesForConsole(verses))
+    lectionaryviews.writeReadingsAsText(massTitle, readings, options)
 
 _lectionary = Lectionary()
 

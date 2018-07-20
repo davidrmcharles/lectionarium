@@ -43,7 +43,7 @@ class Citation(object):
         A long-form display-string for the citation.
         '''
 
-        book = bible._bible.findBook(self._book)
+        book = bible.getBible().findBook(self._book)
         return '%s %s' % (
             book.name,
             ','.join([str(loc) for loc in self._addrs]))

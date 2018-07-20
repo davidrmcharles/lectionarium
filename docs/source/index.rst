@@ -10,6 +10,7 @@ lectionarium
    :maxdepth: 1
    :caption: Public Interface:
 
+   apidoc/lectionaryviews
    apidoc/lectionary
    apidoc/datetools
    apidoc/masses
