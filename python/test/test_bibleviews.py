@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-Tests for :mod:`rendering`
+Tests for :mod:`bibleviews`
 '''
 
 # Standard imports:
 import unittest
 
 # Local imports:
-import rendering
+import bibleviews
 
 class VerseFormatterTestCase(unittest.TestCase):
 
@@ -17,7 +17,7 @@ class VerseFormatterTestCase(unittest.TestCase):
         Here is a single verse of prose.
         '''
 
-        verseFormatter = rendering._VerseFormatter()
+        verseFormatter = bibleviews._VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 16), 'Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret: ut omnis qui credit in eum, non pereat, sed habeat vitam æternam.')
@@ -38,7 +38,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         poetry.
         '''
 
-        verseFormatter = rendering._VerseFormatter()
+        verseFormatter = bibleviews._VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
                 ((3, 4), 'Est autem Deus verax: omnis autem homo mendax, sicut scriptum est: [Ut justificeris in sermonibus tuis:/ et vincas cum judicaris.]')
@@ -61,7 +61,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         paragraph between the two poetry selections.
         '''
 
-        verseFormatter = rendering._VerseFormatter()
+        verseFormatter = bibleviews._VerseFormatter()
         verseFormatter.useColor = False
         verseFormatter.formatVerses([
             ((3, 9), '[Audi, Israël, mandata vitæ:/ auribus percipe, ut scias prudentiam./'),
@@ -87,7 +87,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         poetry.
         '''
 
-        formatter = rendering._VerseFormatter()
+        formatter = bibleviews._VerseFormatter()
         formatter.useColor = False
         formatter.formatVerses([
                 ((1, 1), 'Visio Abdiæ. [Hæc dicit Dominus Deus ad Edom:/ Auditum audivimus a Domino,/ et legatum ad gentes misit:/ surgite, et consurgamus adversus eum in prælium./'),
@@ -117,7 +117,7 @@ qui credit in eum, non pereat, sed habeat vitam æternam.
         paragraph break.
         '''
 
-        formatter = rendering._VerseFormatter()
+        formatter = bibleviews._VerseFormatter()
         formatter.useColor = False
         formatter.formatVerses([
                 ((1, 16), '[Quomodo enim bibistis super montem sanctum meum,/ bibent omnes gentes jugiter:/ et bibent, et absorbebunt,/ et erunt quasi non sint.\\'),

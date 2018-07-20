@@ -45,7 +45,7 @@ import sys
 # Local imports:
 import addrs
 import citations
-import rendering
+import bibleviews
 import texts
 
 def parse(tokens):
@@ -359,7 +359,7 @@ def main():
         verses = getVerses(' '.join(args.citations))
         sys.stdout.write(formatVersesForConsole(verses))
     elif args.exportFolderPath is not None:
-        rendering.exportBibleAsHTML(args.exportFolderPath)
+        bibleviews.exportBibleAsHTML(args.exportFolderPath)
 
 class _CommandLineParser(argparse.ArgumentParser):
 

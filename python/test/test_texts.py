@@ -538,165 +538,201 @@ class TextTestCase_getAllWords(unittest.TestCase):
 
 class ConcordanceTestCase(unittest.TestCase):
 
-    def test_1(self):
+    def test_bigSample(self):
         words = [
-            ((1, 1), u'in'),
-            ((1, 1), u'principio'),
-            ((1, 1), u'creavit'),
-            ((1, 1), u'deus'),
-            ((1, 1), u'cælum'),
-            ((1, 1), u'et'),
-            ((1, 1), u'terram'),
-            ((1, 2), u'terra'),
-            ((1, 2), u'autem'),
-            ((1, 2), u'erat'),
-            ((1, 2), u'inanis'),
-            ((1, 2), u'et'),
-            ((1, 2), u'vacua'),
-            ((1, 3), u'dixitque'),
-            ((1, 3), u'deus'),
-            ((2, 1), u'igitur'),
-            ((2, 1), u'perfecti'),
-            ((2, 1), u'sunt'),
-            ((2, 1), u'cæli'),
-            ((2, 1), u'et'),
-            ((2, 1), u'terra'),
-            ((2, 2), u'complevitque'),
-            ((2, 2), u'deus'),
-            ((2, 2), u'die'),
-            ((2, 2), u'septimo'),
-            ((2, 2), u'opus'),
-            ((2, 2), u'suum'),
-            ((2, 2), u'quod'),
-            ((2, 2), u'fecerat'),
-            ((2, 3), u'et'),
-            ((2, 3), u'benedixit'),
-            ((2, 3), u'diei'),
-            ((2, 3), u'septimo'),
-            ((3, 1), u'sed'),
-            ((3, 1), u'et'),
-            ((3, 1), u'serpens'),
-            ((3, 1), u'erat'),
-            ((3, 1), u'callidior'),
-            ((3, 1), u'cunctis'),
-            ((3, 1), u'animantibus'),
-            ((3, 1), u'terræ'),
-            ((3, 1), u'quæ'),
-            ((3, 1), u'fecerat'),
-            ((3, 1), u'dominus'),
-            ((3, 1), u'deus'),
-            ((3, 2), u'cui'),
-            ((3, 2), u'respondit'),
-            ((3, 2), u'mulier'),
-            ((3, 3), u'de'),
-            ((3, 3), u'fructu'),
-            ((3, 3), u'vero'),
-            ((3, 3), u'ligni'),
-            ((3, 3), u'quod'),
-            ((3, 3), u'est'),
-            ((3, 3), u'in'),
-            ((3, 3), u'medio'),
-            ((3, 3), u'paradisi')
+            ((1, 1), 'in'),
+            ((1, 1), 'principio'),
+            ((1, 1), 'creavit'),
+            ((1, 1), 'deus'),
+            ((1, 1), 'cælum'),
+            ((1, 1), 'et'),
+            ((1, 1), 'terram'),
+            ((1, 2), 'terra'),
+            ((1, 2), 'autem'),
+            ((1, 2), 'erat'),
+            ((1, 2), 'inanis'),
+            ((1, 2), 'et'),
+            ((1, 2), 'vacua'),
+            ((1, 3), 'dixitque'),
+            ((1, 3), 'deus'),
+            ((2, 1), 'igitur'),
+            ((2, 1), 'perfecti'),
+            ((2, 1), 'sunt'),
+            ((2, 1), 'cæli'),
+            ((2, 1), 'et'),
+            ((2, 1), 'terra'),
+            ((2, 2), 'complevitque'),
+            ((2, 2), 'deus'),
+            ((2, 2), 'die'),
+            ((2, 2), 'septimo'),
+            ((2, 2), 'opus'),
+            ((2, 2), 'suum'),
+            ((2, 2), 'quod'),
+            ((2, 2), 'fecerat'),
+            ((2, 3), 'et'),
+            ((2, 3), 'benedixit'),
+            ((2, 3), 'diei'),
+            ((2, 3), 'septimo'),
+            ((3, 1), 'sed'),
+            ((3, 1), 'et'),
+            ((3, 1), 'serpens'),
+            ((3, 1), 'erat'),
+            ((3, 1), 'callidior'),
+            ((3, 1), 'cunctis'),
+            ((3, 1), 'animantibus'),
+            ((3, 1), 'terræ'),
+            ((3, 1), 'quæ'),
+            ((3, 1), 'fecerat'),
+            ((3, 1), 'dominus'),
+            ((3, 1), 'deus'),
+            ((3, 2), 'cui'),
+            ((3, 2), 'respondit'),
+            ((3, 2), 'mulier'),
+            ((3, 3), 'de'),
+            ((3, 3), 'fruct'),
+            ((3, 3), 'vero'),
+            ((3, 3), 'ligni'),
+            ((3, 3), 'quod'),
+            ((3, 3), 'est'),
+            ((3, 3), 'in'),
+            ((3, 3), 'medio'),
+            ((3, 3), 'paradisi'),
             ]
-
         concordance = texts.Concordance()
         concordance.addWords(words)
 
         expectedEntries = {
-            u'a' : [
-                texts.ConcordanceEntry(u'animantibus', [(3, 1)]),
-                texts.ConcordanceEntry(u'autem', [(1, 2)]),
+            'a' : [
+                texts.ConcordanceEntry('animantibus', [(3, 1)]),
+                texts.ConcordanceEntry('autem', [(1, 2)]),
                 ],
 
-            u'b' : [
-                texts.ConcordanceEntry(u'benedixit', [(2, 3)]),
+            'b' : [
+                texts.ConcordanceEntry('benedixit', [(2, 3)]),
                 ],
 
-            u'c' : [
-                texts.ConcordanceEntry(u'callidior', [(3, 1)]),
-                texts.ConcordanceEntry(u'complevitque', [(2, 2)]),
-                texts.ConcordanceEntry(u'creavit', [(1, 1)]),
-                texts.ConcordanceEntry(u'cui', [(3, 2)]),
-                texts.ConcordanceEntry(u'cunctis', [(3, 1)]),
-                texts.ConcordanceEntry(u'cæli', [(2, 1)]),
-                texts.ConcordanceEntry(u'cælum', [(1, 1)]),
+            'c' : [
+                texts.ConcordanceEntry('cæli', [(2, 1)]),
+                texts.ConcordanceEntry('cælum', [(1, 1)]),
+                texts.ConcordanceEntry('callidior', [(3, 1)]),
+                texts.ConcordanceEntry('complevitque', [(2, 2)]),
+                texts.ConcordanceEntry('creavit', [(1, 1)]),
+                texts.ConcordanceEntry('cui', [(3, 2)]),
+                texts.ConcordanceEntry('cunctis', [(3, 1)]),
                 ],
 
-            u'd' : [
-                texts.ConcordanceEntry(u'de', [(3, 3)]),
-                texts.ConcordanceEntry(u'deus', [(1, 1), (1, 3), (2, 2), (3, 1)]),
-                texts.ConcordanceEntry(u'die', [(2, 2)]),
-                texts.ConcordanceEntry(u'diei', [(2, 3)]),
-                texts.ConcordanceEntry(u'dixitque', [(1, 3)]),
-                texts.ConcordanceEntry(u'dominus', [(3, 1)]),
+            'd' : [
+                texts.ConcordanceEntry('de', [(3, 3)]),
+                texts.ConcordanceEntry('deus', [(1, 1), (1, 3), (2, 2), (3, 1)]),
+                texts.ConcordanceEntry('die', [(2, 2)]),
+                texts.ConcordanceEntry('diei', [(2, 3)]),
+                texts.ConcordanceEntry('dixitque', [(1, 3)]),
+                texts.ConcordanceEntry('dominus', [(3, 1)]),
                 ],
 
-            u'e' : [
-                texts.ConcordanceEntry(u'erat', [(1, 2), (3, 1)]),
-                texts.ConcordanceEntry(u'est', [(3, 3)]),
-                texts.ConcordanceEntry(u'et', [(1, 1), (1, 2), (2, 1), (2, 3), (3, 1)]),
+            'e' : [
+                texts.ConcordanceEntry('erat', [(1, 2), (3, 1)]),
+                texts.ConcordanceEntry('est', [(3, 3)]),
+                texts.ConcordanceEntry('et', [(1, 1), (1, 2), (2, 1), (2, 3), (3, 1)]),
                 ],
 
-            u'f' : [
-                texts.ConcordanceEntry(u'fecerat', [(2, 2), (3, 1)]),
-                texts.ConcordanceEntry(u'fructu', [(3, 3)]),
+            'f' : [
+                texts.ConcordanceEntry('fecerat', [(2, 2), (3, 1)]),
+                texts.ConcordanceEntry('fruct', [(3, 3)]),
                 ],
 
-            u'i' : [
-                texts.ConcordanceEntry(u'igitur', [(2, 1)]),
-                texts.ConcordanceEntry(u'in', [(1, 1), (3, 3)]),
-                texts.ConcordanceEntry(u'inanis', [(1, 2)]),
+            'i' : [
+                texts.ConcordanceEntry('igitur', [(2, 1)]),
+                texts.ConcordanceEntry('in', [(1, 1), (3, 3)]),
+                texts.ConcordanceEntry('inanis', [(1, 2)]),
                 ],
 
-            u'l' : [
-                texts.ConcordanceEntry(u'ligni', [(3, 3)]),
+            'l' : [
+                texts.ConcordanceEntry('ligni', [(3, 3)]),
                 ],
 
-            u'm' : [
-                texts.ConcordanceEntry(u'medio', [(3, 3)]),
-                texts.ConcordanceEntry(u'mulier', [(3, 2)]),
+            'm' : [
+                texts.ConcordanceEntry('medio', [(3, 3)]),
+                texts.ConcordanceEntry('mulier', [(3, 2)]),
                 ],
 
-            u'o' : [
-                texts.ConcordanceEntry(u'opus', [(2, 2)]),
+            'o' : [
+                texts.ConcordanceEntry('opus', [(2, 2)]),
                 ],
 
-            u'p' : [
-                texts.ConcordanceEntry(u'paradisi', [(3, 3)]),
-                texts.ConcordanceEntry(u'perfecti', [(2, 1)]),
-                texts.ConcordanceEntry(u'principio', [(1, 1)]),
+            'p' : [
+                texts.ConcordanceEntry('paradisi', [(3, 3)]),
+                texts.ConcordanceEntry('perfecti', [(2, 1)]),
+                texts.ConcordanceEntry('principio', [(1, 1)]),
                 ],
 
-            u'q' : [
-                texts.ConcordanceEntry(u'quod', [(2, 2), (3, 3)]),
-                texts.ConcordanceEntry(u'quæ', [(3, 1)]),
+            'q' : [
+                texts.ConcordanceEntry('quæ', [(3, 1)]),
+                texts.ConcordanceEntry('quod', [(2, 2), (3, 3)]),
                 ],
 
-            u'r' : [
-                texts.ConcordanceEntry(u'respondit', [(3, 2)]),
+            'r' : [
+                texts.ConcordanceEntry('respondit', [(3, 2)]),
                 ],
 
-            u's' : [
-                texts.ConcordanceEntry(u'sed', [(3, 1)]),
-                texts.ConcordanceEntry(u'septimo', [(2, 2), (2, 3)]),
-                texts.ConcordanceEntry(u'serpens', [(3, 1)]),
-                texts.ConcordanceEntry(u'sunt', [(2, 1)]),
-                texts.ConcordanceEntry(u'suum', [(2, 2)]),
+            's' : [
+                texts.ConcordanceEntry('sed', [(3, 1)]),
+                texts.ConcordanceEntry('septimo', [(2, 2), (2, 3)]),
+                texts.ConcordanceEntry('serpens', [(3, 1)]),
+                texts.ConcordanceEntry('sunt', [(2, 1)]),
+                texts.ConcordanceEntry('suum', [(2, 2)]),
                 ],
 
-            u't' : [
-                texts.ConcordanceEntry(u'terra', [(1, 2), (2, 1)]),
-                texts.ConcordanceEntry(u'terram', [(1, 1)]),
-                texts.ConcordanceEntry(u'terræ', [(3, 1)]),
+            't' : [
+                texts.ConcordanceEntry('terra', [(1, 2), (2, 1)]),
+                texts.ConcordanceEntry('terræ', [(3, 1)]),
+                texts.ConcordanceEntry('terram', [(1, 1)]),
                 ],
 
-            u'v' : [
-                texts.ConcordanceEntry(u'vacua', [(1, 2)]),
-                texts.ConcordanceEntry(u'vero', [(3, 3)]),
+            'v' : [
+                texts.ConcordanceEntry('vacua', [(1, 2)]),
+                texts.ConcordanceEntry('vero', [(3, 3)]),
                 ],
             }
 
         self.assertEqual(expectedEntries, concordance._entries)
+
+    def test_entriesAreSorted(self):
+        words = [
+            ((1, 1), 'creavit'),
+            ((1, 1), 'cælum'),
+            ((2, 1), 'cæli'),
+            ((2, 2), 'complevitque'),
+            ((3, 1), 'callidior'),
+            ((3, 1), 'cunctis'),
+            ((3, 2), 'cui'),
+            ]
+        concordance = texts.Concordance()
+        concordance.addWords(words)
+
+        expectedEntries = {
+            'c' : [
+                texts.ConcordanceEntry('cæli', [(2, 1)]),
+                texts.ConcordanceEntry('cælum', [(1, 1)]),
+                texts.ConcordanceEntry('callidior', [(3, 1)]),
+                texts.ConcordanceEntry('complevitque', [(2, 2)]),
+                texts.ConcordanceEntry('creavit', [(1, 1)]),
+                texts.ConcordanceEntry('cui', [(3, 2)]),
+                texts.ConcordanceEntry('cunctis', [(3, 1)]),
+                ]
+            }
+
+        self.assertEqual(expectedEntries, concordance._entries)
+
+class ConcordanceEntryTestCase(unittest.TestCase):
+
+    def test_sortableWord(self):
+        self.assertEqual(
+            'creavit',
+            texts.ConcordanceEntry('creavit').sortableWord)
+        self.assertEqual(
+            'caelum',
+            texts.ConcordanceEntry('cælum').sortableWord)
 
 if __name__ == '__main__':
     unittest.main()

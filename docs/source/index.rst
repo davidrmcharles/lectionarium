@@ -10,11 +10,11 @@ lectionarium
    :maxdepth: 1
    :caption: Public Interface:
 
-   apidoc/rendering
    apidoc/lectionary
    apidoc/datetools
    apidoc/masses
    apidoc/domtools
+   apidoc/bibleviews
    apidoc/bible
    apidoc/texts
    apidoc/citations

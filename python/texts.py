@@ -384,7 +384,7 @@ class ConcordanceEntry(object):
             self._sortableWord = self.word. \
             replace('Æ', 'AE'). \
             replace('æ', 'ae'). \
-            replace('Œœ', 'Oe'). \
+            replace('Œ', 'Oe'). \
             replace('œ', 'oe'). \
             replace('ë', 'e')
         return self._sortableWord
@@ -409,6 +409,9 @@ class ConcordanceEntry(object):
         if self.addrs != other.addrs:
             return True
         return False
+
+    def __hash__(self):
+        return hash((self.word, self.addrs))
 
     def __str__(self):
         return '%s - %s' % (self.word, self.addrs)
