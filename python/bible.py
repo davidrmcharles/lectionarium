@@ -77,6 +77,14 @@ class Bible(object):
     The whole Canon of Scripture
     '''
 
+    _instance = None
+
+    @classmethod
+    def _getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Bible()
+        return cls._instance
+
     def __init__(self):
         self._otBooks = [
             Book('Genesis', ['Gn']),
@@ -159,14 +167,6 @@ class Bible(object):
 
         self._allBooks = self._otBooks + self._ntBooks
         self._loadText()
-
-    _instance = None
-
-    @classmethod
-    def _getInstance(cls):
-        if cls._instance is None:
-            cls._instance = Bible()
-        return cls._instance
 
     @property
     def allBooks(self):

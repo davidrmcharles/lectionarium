@@ -39,6 +39,14 @@ class Lectionary(object):
     The lectionary for mass
     '''
 
+    _instance = None
+
+    @classmethod
+    def _getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Lectionary()
+        return cls._instance
+
     def __init__(self):
         # Initialize the list of masses from sunday-lectionary.xml.
         self._allMasses = []
@@ -296,7 +304,7 @@ class Calendar(object):
                 continue
             self._assignMass(
                 massDate,
-                _lectionary.findmass('christmas/%s' % massKey))
+                getLectionary().findmass('christmas/%s' % massKey))
 
         # Fixed-date weekday masses following Christmas.
         massDates = datetools.inclusiveDateRange(
@@ -309,7 +317,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass(massKey))
+                getLectionary().findMass(massKey))
 
         # The solemnity of Mary, Mother of God.
         self._assignMass(
@@ -377,7 +385,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'lent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -395,7 +403,7 @@ class Calendar(object):
             'monday', 'tuesday', 'wednesday', 'thursday-chrism-mass'
             )
         for massDate, massKey in zip(massDates, massKeys):
-            mass = _lectionary.findMass('holy-week/%s' % massKey)
+            mass = getLectionary().findMass('holy-week/%s' % massKey)
             self._assignMass(
                 massDate,
                 mass)
@@ -433,7 +441,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'easter', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -464,7 +472,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'advent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -518,7 +526,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass('christmas/%s' % massKey))
+                getLectionary().findMass('christmas/%s' % massKey))
 
         dateOfHolyFamily = datetools.nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
@@ -533,9 +541,9 @@ class Calendar(object):
         # Ordinary Time Before Lent: Calculate and record the masses
         # of Ordinary Time that come between the end of Christmas and
         # Ash Wednesday.
-        sundaysInOrdinaryTime = list(_lectionary.sundaysInOrdinaryTime)
+        sundaysInOrdinaryTime = list(getLectionary().sundaysInOrdinaryTime)
         weekdaysInOrdinaryTime = [
-            _lectionary.weekdayMassesInWeek(
+            getLectionary().weekdayMassesInWeek(
                 'ordinary', 'week-%d' % weekIndex)
             for weekIndex in range(1, 35)
             ]
@@ -601,7 +609,7 @@ class Calendar(object):
         Allocate the 'special' masses with fixed dates.
         '''
 
-        for mass in _lectionary.allSpecialMasses:
+        for mass in getLectionary().allSpecialMasses:
             if mass.fixedMonth is None or mass.fixedDay is None:
                 continue
             d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
@@ -624,7 +632,7 @@ class Calendar(object):
 
         if isinstance(mass, basestring):
             massid = mass
-            mass = _lectionary.findMass(massid)
+            mass = getLectionary().findMass(massid)
             if mass is None:
                 raise ValueError('No mass with id "%s"!' % massid)
 
@@ -638,7 +646,7 @@ class Calendar(object):
         
         if isinstance(mass, basestring):
             massid = mass
-            mass = _lectionary.findMass(mass)
+            mass = getLectionary().findMass(mass)
             if mass is None:
                 raise ValueError('No mass with id "%s"!' % massid)
 
@@ -728,7 +736,7 @@ def parse(query):
             weekdayCycle = datetools.weekdayCycleForDate(datetime.date.today())
         return [
             mass.fqid
-            for mass in _lectionary.allMasses
+            for mass in getLectionary().allMasses
             if idSubstring in mass.fqid
             ], sundayCycle, weekdayCycle
 
@@ -850,7 +858,7 @@ def getReadings(query):
         raise NonSingularResultsError(query, fqids)
 
     fqid = fqids[0]
-    mass = _lectionary.findMass(fqid)
+    mass = getLectionary().findMass(fqid)
 
     # Compose a title for the mass.
     if sundayCycle is None and weekdayCycle is None:
@@ -870,7 +878,9 @@ def getReadings(query):
 
     return massTitle, readings
 
-_lectionary = Lectionary()
-
 def getLectionary():
-    return _lectionary
+    '''
+    Return a singleton instance of :class:`Lectionary`.
+    '''
+
+    return Lectionary._getInstance()
