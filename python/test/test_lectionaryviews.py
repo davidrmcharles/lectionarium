@@ -4,10 +4,22 @@ Tests for :mod:`lectionaryviews`
 '''
 
 # Standard imports:
-import  unittest
+import StringIO
+import sys
+import unittest
 
 # Local imports:
 import lectionaryviews
+
+class mainTestCase(unittest.TestCase):
+
+    def test_noArguments(self):
+        sys.stdout = StringIO.StringIO()
+        sys.stderr = StringIO.StringIO()
+        with self.assertRaises(SystemExit):
+            lectionaryviews.main([])
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
 
 class LengthOfPathTestCase(unittest.TestCase):
 

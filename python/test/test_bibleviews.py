@@ -5,10 +5,22 @@ Tests for :mod:`bibleviews`
 '''
 
 # Standard imports:
+import StringIO
+import sys
 import unittest
 
 # Local imports:
 import bibleviews
+
+class mainTestCase(unittest.TestCase):
+
+    def test_noArguments(self):
+        sys.stdout = StringIO.StringIO()
+        sys.stderr = StringIO.StringIO()
+        with self.assertRaises(SystemExit):
+            bibleviews.main([])
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
 
 class VerseFormatterTestCase(unittest.TestCase):
 

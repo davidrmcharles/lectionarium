@@ -33,7 +33,7 @@ class LectionaryTestCase(unittest.TestCase):
         '''
 
         readingCount = 0
-        for mass in lectionary._lectionary.allSundayMasses:
+        for mass in lectionary.getLectionary().allSundayMasses:
             for reading in mass.allReadings:
                 readingCount += 1
                 citations.parse(reading.citation)
@@ -43,7 +43,7 @@ class LectionaryTestCase(unittest.TestCase):
 
     def test_parseWeekdayCitations(self):
         readingCount = 0
-        for mass in lectionary._lectionary._allWeekdayMasses:
+        for mass in lectionary.getLectionary()._allWeekdayMasses:
             for reading in mass.allReadings:
                 readingCount += 1
                 # TODO: Here is one we cannot parse yet!
@@ -56,7 +56,7 @@ class LectionaryTestCase(unittest.TestCase):
 
     def test_parseSpecialCitations(self):
         readingCount = 0
-        for mass in lectionary._lectionary._allSpecialMasses:
+        for mass in lectionary.getLectionary()._allSpecialMasses:
             for reading in mass.allReadings:
                 readingCount += 1
                 citations.parse(reading.citation)
@@ -65,7 +65,7 @@ class LectionaryTestCase(unittest.TestCase):
         self.assertEqual(84, readingCount)
 
     def test_weekdayMassesInWeek(self):
-        lectionary._lectionary.weekdayMassesInWeek(None, 'week-1')
+        lectionary.getLectionary().weekdayMassesInWeek(None, 'week-1')
 
 class nextSundayTestCase(unittest.TestCase):
 

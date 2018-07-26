@@ -37,12 +37,12 @@ import textwrap
 import bible
 import viewtools
 
-def main():
+def main(args=None):
     '''
     This is the entry point to the command-line interface.
     '''
 
-    args = _CommandLineParser().parse()
+    args = _CommandLineParser().parse(args)
 
     if len(args.citations) > 0:
         verses = bible.getVerses(' '.join(args.citations))
@@ -69,12 +69,12 @@ class _CommandLineParser(argparse.ArgumentParser):
             default=None,
             help='export the whole biblical text')
 
-    def parse(self):
+    def parse(self, args=None):
         '''
         Return an object representation of the command line.
         '''
 
-        self.args = self.parse_args()
+        self.args = self.parse_args(args)
         self._rejectMissingCommand()
         self._rejectMultipleCommands()
         return self.args

@@ -28,7 +28,7 @@ import bibleviews
 import lectionary
 import viewtools
 
-def main():
+def main(args=None):
     '''
     The command-line interface.
     '''
@@ -96,7 +96,7 @@ to stdout.''',
         help='the id of mass (or a date)')
 
     # Parse the command-line and handle the list options (if present).
-    options = parser.parse_args()
+    options = parser.parse_args(args)
     if options.listAllIDs:
         sys.stderr.write('%s\n' % (
                 lectionary.getLectionary().allIDsFormatted))
