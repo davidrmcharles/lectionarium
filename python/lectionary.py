@@ -860,7 +860,8 @@ def getReadings(query):
     elif sundayCycle is None and weekdayCycle is not None:
         massTitle = '%s (Cycle %s)' % (mass.displayName, weekdayCycle)
     elif sundayCycle is not None and weekdayCycle is not None:
-        massTitle = '%s (Cycle %s, %s)' % (mass.displayName, sundayCycle, weekdayCycle)
+        massTitle = '%s (Cycle %s, %s)' % (
+            mass.displayName, sundayCycle, weekdayCycle)
 
     # Collect the texts that go with the applicable readings.
     readings = collections.OrderedDict()

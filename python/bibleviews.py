@@ -45,7 +45,7 @@ def main():
     args = _CommandLineParser().parse()
 
     if len(args.citations) > 0:
-        verses = getVerses(' '.join(args.citations))
+        verses = bible.getVerses(' '.join(args.citations))
         sys.stdout.write(formatVersesForConsole(verses))
     elif args.exportFolderPath is not None:
         exportBibleAsHTML(args.exportFolderPath)

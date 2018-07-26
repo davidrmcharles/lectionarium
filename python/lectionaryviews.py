@@ -98,16 +98,20 @@ to stdout.''',
     # Parse the command-line and handle the list options (if present).
     options = parser.parse_args()
     if options.listAllIDs:
-        sys.stderr.write('%s\n' % _lectionary.allIDsFormatted)
+        sys.stderr.write('%s\n' % (
+                lectionary.getLectionary().allIDsFormatted))
         raise SystemExit(1)
     if options.listWeekdayIDs:
-        sys.stderr.write('%s\n' % _lectionary.weekdayIDsFormatted)
+        sys.stderr.write('%s\n' % (
+                lectionary.getLectionary().weekdayIDsFormatted))
         raise SystemExit(1)
     if options.listSundayIDs:
-        sys.stderr.write('%s\n' % _lectionary.sundayIDsFormatted)
+        sys.stderr.write('%s\n' % (
+                lectionary.getLectionary().sundayIDsFormatted))
         raise SystemExit(1)
     if options.listSpecialIDs:
-        sys.stderr.write('%s\n' % _lectionary.specialIDsFormatted)
+        sys.stderr.write('%s\n' % (
+                lectionary.getLectionary().specialIDsFormatted))
         raise SystemExit(1)
 
     if options.exportFolderPath is not None:
@@ -121,13 +125,13 @@ to stdout.''',
 
     # Parse the query.
     try:
-        massTitle, readings = getReadings(options.query)
-    except NonSingularResultsError as e:
+        massTitle, readings = lectionary.getReadings(options.query)
+    except lectionary.NonSingularResultsError as e:
         sys.stderr.write('%s\n' % e.message)
         raise SystemExit(-1)
 
     # Write all the readings for the mass to stdout.
-    lectionaryviews.writeReadingsAsText(massTitle, readings, options)
+    writeReadingsAsText(massTitle, readings, options)
 
 def writeReadingsAsText(massTitle, readings, options, outputFile=sys.stdout):
     '''
