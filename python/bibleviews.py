@@ -3,6 +3,18 @@
 '''
 For rendering books and verses as HTML or console text
 
+Summary of Command-Line Interface
+======================================================================
+
+Provide a scripture citation and :mod:`bibleviwes` will write it to
+``stdout``.  For example:
+
+.. code-block:: none
+
+    $ bible.py john 3:16
+    [3:16] Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret : ut omnis
+    qui credit in eum, non pereat, sed habeat vitam æternam.
+
 Summary of Library Interface
 ======================================================================
 
@@ -15,6 +27,7 @@ Reference
 '''
 
 # Standard imports:
+import argparse
 import os
 import re
 import sys
@@ -23,6 +36,65 @@ import textwrap
 # Local imports:
 import bible
 import viewtools
+
+def main():
+    '''
+    This is the entry point to the command-line interface.
+    '''
+
+    args = _CommandLineParser().parse()
+
+    if len(args.citations) > 0:
+        verses = getVerses(' '.join(args.citations))
+        sys.stdout.write(formatVersesForConsole(verses))
+    elif args.exportFolderPath is not None:
+        exportBibleAsHTML(args.exportFolderPath)
+
+class _CommandLineParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(
+            self, description='The canon of Sacred Scripture in Python')
+        self._configure()
+
+    def _configure(self):
+        self.add_argument(
+            dest='citations',
+            default=[],
+            nargs='*',
+            help='scripture citations')
+        self.add_argument(
+            '--export',
+            dest='exportFolderPath',
+            default=None,
+            help='export the whole biblical text')
+
+    def parse(self):
+        '''
+        Return an object representation of the command line.
+        '''
+
+        self.args = self.parse_args()
+        self._rejectMissingCommand()
+        self._rejectMultipleCommands()
+        return self.args
+
+    def _rejectMissingCommand(self):
+        if (len(self.args.citations) == 0) and \
+                (self.args.exportFolderPath is None):
+            self.print_help()
+            sys.stderr.write(
+                '\nNo citations and no commands were provided.\n')
+            raise SystemExit(1)
+
+    def _rejectMultipleCommands(self):
+        if (len(self.args.citations) > 0) and \
+                (self.args.exportFolderPath is not None):
+            self.print_help()
+            sys.stderr.write(
+                '\nCitations and the --export command'
+                ' are mutually exclusive.\n')
+            raise SystemExit(1)
 
 def formatVersesForConsole(verses):
     '''
@@ -701,3 +773,6 @@ class FormattingError(RuntimeError):
 
     def __init__(self, s):
         RuntimeError.__init__(self, s)
+
+if __name__ == '__main__':
+    main()

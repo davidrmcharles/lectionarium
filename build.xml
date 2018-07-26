@@ -53,7 +53,7 @@
         <exec executable="python" failonerror="true">
             <env key="PYTHONPATH" path="${basedir}/python"/>
             <arg value="-m"/>
-            <arg value="bible"/>
+            <arg value="bibleviews"/>
             <arg value="--export=build/bible"/>
         </exec>
     </target>
@@ -84,7 +84,7 @@
         <exec executable="python" failonerror="true">
             <env key="PYTHONPATH" path="${basedir}/python"/>
             <arg value="-m"/>
-            <arg value="lectionary"/>
+            <arg value="lectionaryviews"/>
             <arg value="--export=build/lectionary"/>
         </exec>
     </target>

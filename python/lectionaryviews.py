@@ -2,6 +2,12 @@
 '''
 For rendering the lectionary as HTML or console text
 
+Summary of Command-Line Interface
+======================================================================
+
+Provide the name of a mass (or a date) and we will write its readings
+to stdout.
+
 Summary of Library Interface
 ======================================================================
 
@@ -13,6 +19,7 @@ Reference
 '''
 
 # Standard imports:
+import argparse
 import os
 import sys
 
@@ -20,6 +27,107 @@ import sys
 import bibleviews
 import lectionary
 import viewtools
+
+def main():
+    '''
+    The command-line interface.
+    '''
+
+    # Create the command-line parser.
+    exampleText = '''\
+Examples:
+
+    lectionary.py trinity-sunday
+    lectionary.py 2017-10-17
+    lectionary.py today
+
+By default, only the cycle-applicable readings are included.  To see
+all readings, append '#' to the name of the mass (or date).  For
+example:
+
+    lectionary.py trinity-sunday#
+    lectionary.py 2017-10-17#
+    lectionary.py today#
+
+To see only the readings for a particular cycle, append '#' and the
+name of the cycle to the name of the mass (or date).  For example:
+
+    lectionary.py trinity-sunday#C
+    lectionary.py 2017-10-17#A
+    lectionary.py today#A
+'''
+    parser = argparse.ArgumentParser(
+        description='''\
+Provide the name of a mass (or a date) and we will write its readings
+to stdout.''',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=exampleText)
+
+    parser.add_argument(
+        '--list-all-ids',
+        action='store_true',
+        dest='listAllIDs',
+        help='list all mass ids (and exit)')
+    parser.add_argument(
+        '--list-weekday-ids',
+        action='store_true',
+        dest='listWeekdayIDs',
+        help='list weekday mass ids (and exit)')
+    parser.add_argument(
+        '--list-sunday-ids',
+        action='store_true',
+        dest='listSundayIDs',
+        help='list weekday mass ids (and exit)')
+    parser.add_argument(
+        '--list-special-ids',
+        action='store_true',
+        dest='listSpecialIDs',
+        help='list special mass ids (and exit)')
+    parser.add_argument(
+        '--export',
+        dest='exportFolderPath',
+        default=None,
+        help='export the whole lectionary')
+
+    parser.add_argument(
+        'query',
+        metavar='QUERY',
+        nargs='?',
+        help='the id of mass (or a date)')
+
+    # Parse the command-line and handle the list options (if present).
+    options = parser.parse_args()
+    if options.listAllIDs:
+        sys.stderr.write('%s\n' % _lectionary.allIDsFormatted)
+        raise SystemExit(1)
+    if options.listWeekdayIDs:
+        sys.stderr.write('%s\n' % _lectionary.weekdayIDsFormatted)
+        raise SystemExit(1)
+    if options.listSundayIDs:
+        sys.stderr.write('%s\n' % _lectionary.sundayIDsFormatted)
+        raise SystemExit(1)
+    if options.listSpecialIDs:
+        sys.stderr.write('%s\n' % _lectionary.specialIDsFormatted)
+        raise SystemExit(1)
+
+    if options.exportFolderPath is not None:
+        exportLectionaryAsHTML(options.exportFolderPath)
+        return
+
+    # If no query was provided, print help and exit.
+    if options.query is None:
+        parser.print_help()
+        raise SystemExit(1)
+
+    # Parse the query.
+    try:
+        massTitle, readings = getReadings(options.query)
+    except NonSingularResultsError as e:
+        sys.stderr.write('%s\n' % e.message)
+        raise SystemExit(-1)
+
+    # Write all the readings for the mass to stdout.
+    lectionaryviews.writeReadingsAsText(massTitle, readings, options)
 
 def writeReadingsAsText(massTitle, readings, options, outputFile=sys.stdout):
     '''
@@ -251,3 +359,6 @@ def _lengthOfPath(path):
         return 1
     else:
         return 1 + _lengthOfPath(head)
+
+if __name__ == '__main__':
+    main()
