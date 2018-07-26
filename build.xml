@@ -79,4 +79,20 @@
         </exec>
     </target>
 
+    <target name="lectionary" description="Build a lectionary.">
+        <mkdir dir="build/lectionary"/>
+        <exec executable="python" failonerror="true">
+            <env key="PYTHONPATH" path="${basedir}/python"/>
+            <arg value="-m"/>
+            <arg value="lectionary"/>
+            <arg value="--export=build/lectionary"/>
+        </exec>
+    </target>
+
+    <target name="lectionary.browse" description="Open the lectionary in a browser.">
+        <exec executable="firefox">
+            <arg value="${basedir}/build/lectionary/index.html"/>
+        </exec>
+    </target>
+
 </project>

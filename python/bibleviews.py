@@ -15,7 +15,6 @@ Reference
 '''
 
 # Standard imports:
-import itertools
 import os
 import re
 import sys
@@ -23,6 +22,7 @@ import textwrap
 
 # Local imports:
 import bible
+import viewtools
 
 def formatVersesForConsole(verses):
     '''
@@ -253,8 +253,7 @@ def exportBibleAsHTML(outputFolderPath):
     Export the whole Bible as HTML.
     '''
 
-    exporter = _HTMLBibleExporter(outputFolderPath)
-    exporter.export()
+    _HTMLBibleExporter(outputFolderPath).export()
 
 class _HTMLBibleExporter(object):
 
@@ -332,7 +331,6 @@ class _HTMLBibleIndexExporter(object):
   </head>
   <body>
     <h1>Vulgata Clementina</h1>
-    <hr>
 ''')
 
     def _writeIndexBody(self, outputFile):
@@ -351,15 +349,7 @@ class _HTMLBibleIndexExporter(object):
       <tr>
 ''')
 
-        def columnizedList(things, columnCount):
-            q, r = divmod(len(things), columnCount)
-            begins = [x * q for x in range(columnCount)]
-            counts = [q + int(bool(x)) for x in reversed(range(r + 1))]
-            for begin, count in itertools.izip_longest(
-                begins, counts, fillvalue=q):
-                yield things[begin : begin + count]
-
-        for columnOfBooks in columnizedList(books, 2):
+        for columnOfBooks in viewtools.columnizedList(books, 2):
             self._writeColumnOfIndexEntries(outputFile, columnOfBooks)
 
         outputFile.write('''\

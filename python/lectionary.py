@@ -26,7 +26,6 @@ Reference
 
 # Standard imports:
 import argparse
-import calendar
 import collections
 import datetime
 import inspect
@@ -933,6 +932,11 @@ to stdout.''',
         action='store_true',
         dest='listSpecialIDs',
         help='list special mass ids (and exit)')
+    parser.add_argument(
+        '--export',
+        dest='exportFolderPath',
+        default=None,
+        help='export the whole lectionary')
 
     parser.add_argument(
         'query',
@@ -955,6 +959,10 @@ to stdout.''',
         sys.stderr.write('%s\n' % _lectionary.specialIDsFormatted)
         raise SystemExit(1)
 
+    if options.exportFolderPath is not None:
+        lectionaryviews.exportLectionaryAsHTML(options.exportFolderPath)
+        return
+
     # If no query was provided, print help and exit.
     if options.query is None:
         parser.print_help()
@@ -971,6 +979,9 @@ to stdout.''',
     lectionaryviews.writeReadingsAsText(massTitle, readings, options)
 
 _lectionary = Lectionary()
+
+def getLectionary():
+    return _lectionary
 
 if __name__ == '__main__':
     main()
