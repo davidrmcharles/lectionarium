@@ -95,6 +95,10 @@ class getVersesTestCase(unittest.TestCase):
         verseAddr, verseText = verses[1]
         self.assertEqual((11, 26), verseAddr)
 
+    def test_invalidRangeOfVerses(self):
+        with self.assertRaises(bible.InvalidCitation):
+            bible.getVerses('john 18:42')
+
 class CommandLineParserTestCase(unittest.TestCase):
 
     pass

@@ -302,6 +302,15 @@ def getBible():
 
     return Bible._getInstance()
 
+class InvalidCitation(Exception):
+
+    def __init__(self, citation, cause):
+        self.citation = citation
+        self.cause = cause
+
+    def __str__(self):
+        return '%s\nCause: %s' % (self.citation, self.cause)
+
 def getVerses(query):
     '''
     Return an object representation of the verses associated with
@@ -324,9 +333,12 @@ def getVerses(query):
         # This is the citation of an entire book.
         return book.text.getAllVerses()
 
-    return list(
-        itertools.chain.from_iterable(
-            book.text.getRangeOfVerses(addrRange)
-            for addrRange in citation.addrRanges
+    try:
+        return list(
+            itertools.chain.from_iterable(
+                book.text.getRangeOfVerses(addrRange)
+                for addrRange in citation.addrRanges
+                )
             )
-        )
+    except KeyError as e:
+        raise InvalidCitation(citation, e), None, sys.exc_info()[2]
