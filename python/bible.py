@@ -8,21 +8,6 @@ here:
 
 * http://vulsearch.sourceforge.net/index.html
 
-Summary of Command-Line Interface
-======================================================================
-
-Provide a scripture citation and :mod:`bible` will write it to
-``stdout``.  For example:
-
-.. code-block:: none
-
-    $ bible.py john 3:16
-    [3:16] Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret : ut omnis
-    qui credit in eum, non pereat, sed habeat vitam æternam.
-
-You can use this to experiment with and observe the behavior library
-functions :func:`getVerses` and :func:`formatVersesForConsole`.
-
 Summary of Library Interface
 ======================================================================
 
@@ -37,7 +22,6 @@ Reference
 '''
 
 # Standard imports:
-import argparse
 import itertools
 import os
 import sys
@@ -45,7 +29,6 @@ import sys
 # Local imports:
 import addrs
 import citations
-import bibleviews
 import texts
 
 def parse(tokens):
@@ -93,6 +76,14 @@ class Bible(object):
     '''
     The whole Canon of Scripture
     '''
+
+    _instance = None
+
+    @classmethod
+    def _getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Bible()
+        return cls._instance
 
     def __init__(self):
         self._otBooks = [
@@ -176,14 +167,6 @@ class Bible(object):
 
         self._allBooks = self._otBooks + self._ntBooks
         self._loadText()
-
-    _instance = None
-
-    @classmethod
-    def _getInstance(cls):
-        if cls._instance is None:
-            cls._instance = Bible()
-        return cls._instance
 
     @property
     def allBooks(self):
@@ -319,6 +302,15 @@ def getBible():
 
     return Bible._getInstance()
 
+class InvalidCitation(Exception):
+
+    def __init__(self, citation, cause):
+        self.citation = citation
+        self.cause = cause
+
+    def __str__(self):
+        return '%s\nCause: %s' % (self.citation, self.cause)
+
 def getVerses(query):
     '''
     Return an object representation of the verses associated with
@@ -341,71 +333,12 @@ def getVerses(query):
         # This is the citation of an entire book.
         return book.text.getAllVerses()
 
-    return list(
-        itertools.chain.from_iterable(
-            book.text.getRangeOfVerses(addrRange)
-            for addrRange in citation.addrRanges
+    try:
+        return list(
+            itertools.chain.from_iterable(
+                book.text.getRangeOfVerses(addrRange)
+                for addrRange in citation.addrRanges
+                )
             )
-        )
-
-def main():
-    '''
-    This is the entry point to the command-line interface.
-    '''
-
-    args = _CommandLineParser().parse()
-
-    if len(args.citations) > 0:
-        verses = getVerses(' '.join(args.citations))
-        sys.stdout.write(formatVersesForConsole(verses))
-    elif args.exportFolderPath is not None:
-        bibleviews.exportBibleAsHTML(args.exportFolderPath)
-
-class _CommandLineParser(argparse.ArgumentParser):
-
-    def __init__(self):
-        argparse.ArgumentParser.__init__(
-            self, description='The canon of Sacred Scripture in Python')
-        self._configure()
-
-    def _configure(self):
-        self.add_argument(
-            dest='citations',
-            default=[],
-            nargs='*',
-            help='scripture citations')
-        self.add_argument(
-            '--export',
-            dest='exportFolderPath',
-            default=None,
-            help='export the whole biblical text')
-
-    def parse(self):
-        '''
-        Return an object representation of the command line.
-        '''
-
-        self.args = self.parse_args()
-        self._rejectMissingCommand()
-        self._rejectMultipleCommands()
-        return self.args
-
-    def _rejectMissingCommand(self):
-        if (len(self.args.citations) == 0) and \
-                (self.args.exportFolderPath is None):
-            self.print_help()
-            sys.stderr.write(
-                '\nNo citations and no commands were provided.\n')
-            raise SystemExit(1)
-
-    def _rejectMultipleCommands(self):
-        if (len(self.args.citations) > 0) and \
-                (self.args.exportFolderPath is not None):
-            self.print_help()
-            sys.stderr.write(
-                '\nCitations and the --export command'
-                ' are mutually exclusive.\n')
-            raise SystemExit(1)
-
-if __name__ == '__main__':
-    main()
+    except KeyError as e:
+        raise InvalidCitation(citation, e), None, sys.exc_info()[2]

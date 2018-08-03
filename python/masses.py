@@ -10,6 +10,7 @@ Masses with their readings
 '''
 
 # Stnadard imports:
+import calendar
 import inspect
 import os
 import re
@@ -143,9 +144,9 @@ class _XMLDecoder(object):
                 readings = _XMLDecoder._decode_option(child_node)
                 for reading_index, reading in enumerate(readings):
                     reading.cycles = cycles
-                    reading.optionSet = option_index
+                    reading.optionSetIndex = option_index
                     reading.optionSetSize = len(readings)
-                    reading.optionSetIndex = reading_index
+                    reading.optionIndex = reading_index
                 result.extend(readings)
                 option_index += 1
         return result
@@ -188,7 +189,7 @@ class _XMLDecoder(object):
                 optional_readings = _XMLDecoder._decode_option(child_node)
                 for optional_reading_index, optional_reading in enumerate(
                     optional_readings):
-                    optional_reading.optionSet = option_index
+                    optional_reading.optionSetIndex = option_index
                     optional_reading.optionSetSize = len(optional_readings)
                     optional_reading.optionIndex = optional_reading_index
                 readings.extend(optional_readings)
@@ -213,6 +214,7 @@ class _XMLDecoder(object):
 
         reading = Reading(domtools.text(reading_node))
         reading.cycles = domtools.attr(reading_node, 'cycles', ifMissing=None)
+        reading.altCitation = domtools.attr(reading_node, 'alt', ifMissing=None)
         return reading
 
 class Mass(object):
@@ -350,12 +352,20 @@ class Mass(object):
         self._fixedDay = newValue
 
     @property
+    def isSunday(self):
+        '''
+        ``True`` if this is a Sunday mass.
+        '''
+
+        return self.id.startswith('sunday')
+
+    @property
     def isSundayInOrdinaryTime(self):
         '''
         ``True`` if this mass is a Sunday in Ordinary Time.
         '''
 
-        return self.id.startswith('sunday') and \
+        return self.isSunday and \
             (self._seasonid == 'ordinary')
 
     @property
@@ -392,8 +402,9 @@ class Reading(object):
 
     def __init__(self, citation):
         self._citation = citation
+        self._altCitation = None
         self._cycles = None
-        self._optionSet = None
+        self._optionSetIndex = None
         self._optionSetSize = None
         self._optionIndex = None
 
@@ -405,7 +416,7 @@ class Reading(object):
 
         tokens = [citations.parse(self._citation).displayString]
 
-        if self._optionSet is not None:
+        if self._optionSetIndex is not None:
             tokens.append(
                 '(Option %d of %d)' % (
                     self._optionIndex + 1, self._optionSetSize))
@@ -415,10 +426,24 @@ class Reading(object):
     @property
     def citation(self):
         '''
-        The citation from Sacred Scription as a string
+        The citation for the NAB
         '''
 
+        if self._altCitation is not None:
+            return self._altCitation
         return self._citation
+
+    @property
+    def altCitation(self):
+        '''
+        The citation especially for the Clementine Vulgate
+        '''
+
+        return self._altCitation
+
+    @altCitation.setter
+    def altCitation(self, altCitation):
+        self._altCitation = altCitation
 
     @property
     def cycles(self):
@@ -434,20 +459,24 @@ class Reading(object):
         self._cycles = cycles
 
     @property
-    def optionSet(self):
+    def optionSetIndex(self):
         '''
-        An identifier if this reading is one of a set of options.
-        ``None`` if the reading is not optional.
+        The index of the containing option set, or ``None`` if the
+        reading is not optional
         '''
 
-        return self._optionSet
+        return self._optionSetIndex
 
-    @optionSet.setter
-    def optionSet(self, optionSet):
-        self._optionSet = optionSet
+    @optionSetIndex.setter
+    def optionSetIndex(self, optionSetIndex):
+        self._optionSetIndex = optionSetIndex
 
     @property
     def optionSetSize(self):
+        '''
+        The total number of optional readings within its set
+        '''
+
         return self._optionSetSize
 
     @optionSetSize.setter
@@ -456,6 +485,10 @@ class Reading(object):
 
     @property
     def optionIndex(self):
+        '''
+        The index of an optional reading within its set
+        '''
+
         return self._optionIndex
 
     @optionIndex.setter

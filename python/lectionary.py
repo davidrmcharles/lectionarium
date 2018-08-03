@@ -2,12 +2,6 @@
 '''
 The Lectionary of the Ordinary Form of the Mass of the Roman Rite
 
-Summary of Command-Line Interface
-======================================================================
-
-Provide the name of a mass (or a date) and we will write its readings
-to stdout.
-
 Summary of Library Interface
 ======================================================================
 
@@ -25,8 +19,6 @@ Reference
 '''
 
 # Standard imports:
-import argparse
-import calendar
 import collections
 import datetime
 import inspect
@@ -40,13 +32,20 @@ import traceback
 import bible
 import citations
 import datetools
-import lectionaryviews
 import masses
 
 class Lectionary(object):
     '''
     The lectionary for mass
     '''
+
+    _instance = None
+
+    @classmethod
+    def _getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Lectionary()
+        return cls._instance
 
     def __init__(self):
         # Initialize the list of masses from sunday-lectionary.xml.
@@ -305,7 +304,7 @@ class Calendar(object):
                 continue
             self._assignMass(
                 massDate,
-                _lectionary.findmass('christmas/%s' % massKey))
+                getLectionary().findmass('christmas/%s' % massKey))
 
         # Fixed-date weekday masses following Christmas.
         massDates = datetools.inclusiveDateRange(
@@ -318,7 +317,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass(massKey))
+                getLectionary().findMass(massKey))
 
         # The solemnity of Mary, Mother of God.
         self._assignMass(
@@ -386,7 +385,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'lent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -404,7 +403,7 @@ class Calendar(object):
             'monday', 'tuesday', 'wednesday', 'thursday-chrism-mass'
             )
         for massDate, massKey in zip(massDates, massKeys):
-            mass = _lectionary.findMass('holy-week/%s' % massKey)
+            mass = getLectionary().findMass('holy-week/%s' % massKey)
             self._assignMass(
                 massDate,
                 mass)
@@ -442,7 +441,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'easter', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -473,7 +472,7 @@ class Calendar(object):
             # Assign the weekday masses.
             for weekdayDate, weekdayMass in zip(
                 datetools.followingDays(sundayDate, 6),
-                _lectionary.weekdayMassesInWeek(
+                getLectionary().weekdayMassesInWeek(
                     'advent', 'week-%d' % (sundayIndex + 1))):
                 self._assignMass(weekdayDate, weekdayMass)
 
@@ -527,7 +526,7 @@ class Calendar(object):
         for massDate, massKey in zip(massDates, massKeys):
             self._assignMass(
                 massDate,
-                _lectionary.findMass('christmas/%s' % massKey))
+                getLectionary().findMass('christmas/%s' % massKey))
 
         dateOfHolyFamily = datetools.nextSunday(self.dateOfChristmas, 1)
         if dateOfHolyFamily.year == self._year:
@@ -542,9 +541,9 @@ class Calendar(object):
         # Ordinary Time Before Lent: Calculate and record the masses
         # of Ordinary Time that come between the end of Christmas and
         # Ash Wednesday.
-        sundaysInOrdinaryTime = list(_lectionary.sundaysInOrdinaryTime)
+        sundaysInOrdinaryTime = list(getLectionary().sundaysInOrdinaryTime)
         weekdaysInOrdinaryTime = [
-            _lectionary.weekdayMassesInWeek(
+            getLectionary().weekdayMassesInWeek(
                 'ordinary', 'week-%d' % weekIndex)
             for weekIndex in range(1, 35)
             ]
@@ -610,7 +609,7 @@ class Calendar(object):
         Allocate the 'special' masses with fixed dates.
         '''
 
-        for mass in _lectionary.allSpecialMasses:
+        for mass in getLectionary().allSpecialMasses:
             if mass.fixedMonth is None or mass.fixedDay is None:
                 continue
             d = datetime.date(self._year, mass.fixedMonth, mass.fixedDay)
@@ -633,7 +632,7 @@ class Calendar(object):
 
         if isinstance(mass, basestring):
             massid = mass
-            mass = _lectionary.findMass(massid)
+            mass = getLectionary().findMass(massid)
             if mass is None:
                 raise ValueError('No mass with id "%s"!' % massid)
 
@@ -647,7 +646,7 @@ class Calendar(object):
         
         if isinstance(mass, basestring):
             massid = mass
-            mass = _lectionary.findMass(mass)
+            mass = getLectionary().findMass(mass)
             if mass is None:
                 raise ValueError('No mass with id "%s"!' % massid)
 
@@ -737,7 +736,7 @@ def parse(query):
             weekdayCycle = datetools.weekdayCycleForDate(datetime.date.today())
         return [
             mass.fqid
-            for mass in _lectionary.allMasses
+            for mass in getLectionary().allMasses
             if idSubstring in mass.fqid
             ], sundayCycle, weekdayCycle
 
@@ -859,7 +858,7 @@ def getReadings(query):
         raise NonSingularResultsError(query, fqids)
 
     fqid = fqids[0]
-    mass = _lectionary.findMass(fqid)
+    mass = getLectionary().findMass(fqid)
 
     # Compose a title for the mass.
     if sundayCycle is None and weekdayCycle is None:
@@ -869,7 +868,8 @@ def getReadings(query):
     elif sundayCycle is None and weekdayCycle is not None:
         massTitle = '%s (Cycle %s)' % (mass.displayName, weekdayCycle)
     elif sundayCycle is not None and weekdayCycle is not None:
-        massTitle = '%s (Cycle %s, %s)' % (mass.displayName, sundayCycle, weekdayCycle)
+        massTitle = '%s (Cycle %s, %s)' % (
+            mass.displayName, sundayCycle, weekdayCycle)
 
     # Collect the texts that go with the applicable readings.
     readings = collections.OrderedDict()
@@ -878,99 +878,9 @@ def getReadings(query):
 
     return massTitle, readings
 
-def main():
+def getLectionary():
     '''
-    The command-line interface.
+    Return a singleton instance of :class:`Lectionary`.
     '''
 
-    # Create the command-line parser.
-    exampleText = '''\
-Examples:
-
-    lectionary.py trinity-sunday
-    lectionary.py 2017-10-17
-    lectionary.py today
-
-By default, only the cycle-applicable readings are included.  To see
-all readings, append '#' to the name of the mass (or date).  For
-example:
-
-    lectionary.py trinity-sunday#
-    lectionary.py 2017-10-17#
-    lectionary.py today#
-
-To see only the readings for a particular cycle, append '#' and the
-name of the cycle to the name of the mass (or date).  For example:
-
-    lectionary.py trinity-sunday#C
-    lectionary.py 2017-10-17#A
-    lectionary.py today#A
-'''
-    parser = argparse.ArgumentParser(
-        description='''\
-Provide the name of a mass (or a date) and we will write its readings
-to stdout.''',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=exampleText)
-
-    parser.add_argument(
-        '--list-all-ids',
-        action='store_true',
-        dest='listAllIDs',
-        help='list all mass ids (and exit)')
-    parser.add_argument(
-        '--list-weekday-ids',
-        action='store_true',
-        dest='listWeekdayIDs',
-        help='list weekday mass ids (and exit)')
-    parser.add_argument(
-        '--list-sunday-ids',
-        action='store_true',
-        dest='listSundayIDs',
-        help='list weekday mass ids (and exit)')
-    parser.add_argument(
-        '--list-special-ids',
-        action='store_true',
-        dest='listSpecialIDs',
-        help='list special mass ids (and exit)')
-
-    parser.add_argument(
-        'query',
-        metavar='QUERY',
-        nargs='?',
-        help='the id of mass (or a date)')
-
-    # Parse the command-line and handle the list options (if present).
-    options = parser.parse_args()
-    if options.listAllIDs:
-        sys.stderr.write('%s\n' % _lectionary.allIDsFormatted)
-        raise SystemExit(1)
-    if options.listWeekdayIDs:
-        sys.stderr.write('%s\n' % _lectionary.weekdayIDsFormatted)
-        raise SystemExit(1)
-    if options.listSundayIDs:
-        sys.stderr.write('%s\n' % _lectionary.sundayIDsFormatted)
-        raise SystemExit(1)
-    if options.listSpecialIDs:
-        sys.stderr.write('%s\n' % _lectionary.specialIDsFormatted)
-        raise SystemExit(1)
-
-    # If no query was provided, print help and exit.
-    if options.query is None:
-        parser.print_help()
-        raise SystemExit(1)
-
-    # Parse the query.
-    try:
-        massTitle, readings = getReadings(options.query)
-    except NonSingularResultsError as e:
-        sys.stderr.write('%s\n' % e.message)
-        raise SystemExit(-1)
-
-    # Write all the readings for the mass to stdout.
-    lectionaryviews.writeReadingsAsText(massTitle, readings, options)
-
-_lectionary = Lectionary()
-
-if __name__ == '__main__':
-    main()
+    return Lectionary._getInstance()

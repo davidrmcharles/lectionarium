@@ -3,6 +3,18 @@
 '''
 For rendering books and verses as HTML or console text
 
+Summary of Command-Line Interface
+======================================================================
+
+Provide a scripture citation and :mod:`bibleviwes` will write it to
+``stdout``.  For example:
+
+.. code-block:: none
+
+    $ bible.py john 3:16
+    [3:16] Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret : ut omnis
+    qui credit in eum, non pereat, sed habeat vitam æternam.
+
 Summary of Library Interface
 ======================================================================
 
@@ -15,7 +27,7 @@ Reference
 '''
 
 # Standard imports:
-import itertools
+import argparse
 import os
 import re
 import sys
@@ -23,6 +35,66 @@ import textwrap
 
 # Local imports:
 import bible
+import viewtools
+
+def main(args=None):
+    '''
+    This is the entry point to the command-line interface.
+    '''
+
+    args = _CommandLineParser().parse(args)
+
+    if len(args.citations) > 0:
+        verses = bible.getVerses(' '.join(args.citations))
+        sys.stdout.write(formatVersesForConsole(verses))
+    elif args.exportFolderPath is not None:
+        exportBibleAsHTML(args.exportFolderPath)
+
+class _CommandLineParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(
+            self, description='The canon of Sacred Scripture in Python')
+        self._configure()
+
+    def _configure(self):
+        self.add_argument(
+            dest='citations',
+            default=[],
+            nargs='*',
+            help='scripture citations')
+        self.add_argument(
+            '--export',
+            dest='exportFolderPath',
+            default=None,
+            help='export the whole biblical text')
+
+    def parse(self, args=None):
+        '''
+        Return an object representation of the command line.
+        '''
+
+        self.args = self.parse_args(args)
+        self._rejectMissingCommand()
+        self._rejectMultipleCommands()
+        return self.args
+
+    def _rejectMissingCommand(self):
+        if (len(self.args.citations) == 0) and \
+                (self.args.exportFolderPath is None):
+            self.print_help()
+            sys.stderr.write(
+                '\nNo citations and no commands were provided.\n')
+            raise SystemExit(1)
+
+    def _rejectMultipleCommands(self):
+        if (len(self.args.citations) > 0) and \
+                (self.args.exportFolderPath is not None):
+            self.print_help()
+            sys.stderr.write(
+                '\nCitations and the --export command'
+                ' are mutually exclusive.\n')
+            raise SystemExit(1)
 
 def formatVersesForConsole(verses):
     '''
@@ -187,8 +259,10 @@ class _VerseFormatter(object):
         # to the current paragraph and start a new paragraph with
         # poetry formatting.
         if self.currentParagraphIsPoetry:
-            raise FormattingError(
-                'Saw "[" inside of poetry!')
+            pass
+            # TODO: Investigate this!
+            # raise FormattingError(
+            #     'Saw "[" inside of poetry!')
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
@@ -253,8 +327,7 @@ def exportBibleAsHTML(outputFolderPath):
     Export the whole Bible as HTML.
     '''
 
-    exporter = _HTMLBibleExporter(outputFolderPath)
-    exporter.export()
+    _HTMLBibleExporter(outputFolderPath).export()
 
 class _HTMLBibleExporter(object):
 
@@ -332,7 +405,6 @@ class _HTMLBibleIndexExporter(object):
   </head>
   <body>
     <h1>Vulgata Clementina</h1>
-    <hr>
 ''')
 
     def _writeIndexBody(self, outputFile):
@@ -351,15 +423,7 @@ class _HTMLBibleIndexExporter(object):
       <tr>
 ''')
 
-        def columnizedList(things, columnCount):
-            q, r = divmod(len(things), columnCount)
-            begins = [x * q for x in range(columnCount)]
-            counts = [q + int(bool(x)) for x in reversed(range(r + 1))]
-            for begin, count in itertools.izip_longest(
-                begins, counts, fillvalue=q):
-                yield things[begin : begin + count]
-
-        for columnOfBooks in columnizedList(books, 2):
+        for columnOfBooks in viewtools.columnizedList(books, 2):
             self._writeColumnOfIndexEntries(outputFile, columnOfBooks)
 
         outputFile.write('''\
@@ -711,3 +775,6 @@ class FormattingError(RuntimeError):
 
     def __init__(self, s):
         RuntimeError.__init__(self, s)
+
+if __name__ == '__main__':
+    main()
