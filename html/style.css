@@ -1,0 +1,23 @@
+.index-table-data {
+  vertical-align: top;
+}
+
+.first-verse-of-poetry {
+  padding-left: 60px;
+  text-indent: -30px;
+}
+
+.non-first-verse-of-poetry {
+  padding-left: 60px;
+  text-indent: -30px;
+  margin-top: -15px;
+}
+
+.prose-verse-number {
+  color: red;
+}
+
+.poetry-verse-number {
+  position: absolute;
+  color: red;
+}
