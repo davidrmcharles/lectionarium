@@ -397,14 +397,14 @@ class _HTMLBibleIndexExporter(object):
 <html>
   <head>
     <meta charset="utf-8"/>
-    <meta name="description" content="The Clemintine Vulgate Bible"/>
+    <meta name="description" content="The Sacred Scriptures (Clementine Vulgate Text)"/>
     <meta name="keywords" content="Catholic,Bible,Latin"/>
     <meta name="author" content="David R M Charles"/>
-    <title>Vulgata Clementina</title>
+    <title>The Sacred Scriptures (Clementine Vulgate Text)</title>
     <link rel="stylesheet" href="bible.css"/>
   </head>
   <body>
-    <h1>Vulgata Clementina</h1>
+    <h1>The Sacred Scriptures (Clementine Vulgate Text)</h1>
 ''')
 
     def _writeIndexBody(self, outputFile):
@@ -455,8 +455,7 @@ class _HTMLBibleIndexExporter(object):
     def _writeIndexFoot(self, outputFile):
         outputFile.write('''\
     <hr/>
-    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
-    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+    <a href="../index.html">fideidepositum.org</a>
   </body>
 </html>
 ''')
@@ -535,8 +534,7 @@ class _HTMLBibleBookExporter(object):
     def _writeBookFoot(self, outputFile, book):
         outputFile.write('''\
     <hr/>
-    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
-    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+    <a href="../index.html">fideidepositum.org</a>
   </body>
 </html>
 ''')
@@ -629,8 +627,7 @@ class _HTMLBibleBookExporter(object):
     def _writeConcordanceFoot(self, outputFile, book):
         outputFile.write('''\
     <hr/>
-    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
-    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+    <a href="../index.html">fideidepositum.org</a>
   </body>
 </html>
 ''')

@@ -228,14 +228,14 @@ class _HTMLLectionaryIndexExporter(object):
 <html>
   <head>
     <meta charset="utf-8"/>
-    <meta name="description" content="The Lectionary for Mass with Clemintine Vulgate Text"/>
+    <meta name="description" content="The Lectionary for Mass (Clementine Vulgate Text)"/>
     <meta name="keywords" content="Catholic,Bible,Lectionary,Latin"/>
     <meta name="author" content="David R M Charles"/>
-    <title>The Lectionary for Mass with Celementine Vulgate Text</title>
+    <title>The Lectionary for Mass (Clementine Vulgate Text)</title>
     <link rel="stylesheet" href="lectionary.css"/>
   </head>
   <body>
-    <h1>The Lectionary for Mass with Celementine Vulgate Text</h1>
+    <h1>The Lectionary for Mass (Clementine Vulgate Text)</h1>
 ''')
 
     def _writeIndexBody(self, outputFile):
@@ -290,8 +290,7 @@ class _HTMLLectionaryIndexExporter(object):
     def _writeIndexFoot(self, outputFile):
         outputFile.write('''\
     <hr/>
-    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
-    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+    <a href="../index.html">fideidepositum.org</a>
   </body>
 </html>
 ''')
@@ -326,7 +325,6 @@ class _HTMLMassReadingsExporter(object):
             self._writeMassFoot(outputFile, mass)
 
     def _writeMassHead(self, outputFile, mass):
-
         pathToIndex = 'index.html'
         pathToStylesheet = 'lectionary.css'
         lengthOfPath = _lengthOfPath(mass.fqid)
@@ -392,13 +390,19 @@ class _HTMLMassReadingsExporter(object):
                 raise
 
     def _writeMassFoot(self, outputFile, mass):
+        pathToIndex = 'index.html'
+        lengthOfPath = _lengthOfPath(mass.fqid)
+        if lengthOfPath > 1:
+            parentStepsToIndex = '/'.join([
+                    '..' for index in range(lengthOfPath)])
+            pathToIndex = '%s/index.html' % (parentStepsToIndex)
+
         outputFile.write('''\
     <hr/>
-    Text by <a href="http://vulsearch.sourceforge.net/index.html">The Clementine Vulgate Project</a> |
-    Formatting by <a href="https://github.com/davidrmcharles/lectionarium">lectionarium</a>
+    <a href="%s">fideidepositum.org</a>
   </body>
 </html>
-''')
+''' % pathToIndex)
 
 def _lengthOfPath(path):
     head, tail = os.path.split(path)
