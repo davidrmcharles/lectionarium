@@ -15,11 +15,11 @@ Here are some things it can do:
 View a Set of Lectionary Readings
 ======================================================================
 
-To see today's readings, use script ``lectionary.sh``:
+To see today's readings, use script ``lectionaryviews.sh``:
 
 .. code-block:: text
 
-    $ bin/lectionary.sh today
+    $ bin/lectionaryviews.sh today
     ================================================================================
     Readings for Friday (Cycle A, I)
     ================================================================================
@@ -41,11 +41,11 @@ Under the hood is an entire Latin Bible whose text comes from `The
 Clementine Vulgate project
 <http://vulsearch.sourceforge.net/index.html>`_.  So, if instead you
 just want to see just a single passage of Sacred Scripture, use script
-``bible.sh``:
+``bibleviews.sh``:
 
 .. code-block:: text
 
-    $ bin/bible.sh ex 20:1-17
+    $ bin/bibleviews.sh ex 20:1-17
     20:1 Locutusque est Dominus cunctos sermones hos: 20:2 Ego sum
     Dominus Deus tuus, qui eduxi te de terra Ægypti, de domo servitutis.
     20:3 Non habebis deos alienos coram me. 20:4 Non facies tibi
