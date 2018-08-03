@@ -21,6 +21,7 @@ Reference
 # Standard imports:
 import argparse
 import collections
+import itertools
 import logging
 import os
 import sys
@@ -247,10 +248,10 @@ class _HTMLLectionaryIndexExporter(object):
         #     outputFile,
         #     'Weekday Lectionary',
         #     lectionary.getLectionary().allWeekdayMasses)
-        # self._writeIndexOfSomeMasses(
-        #     outputFile,
-        #     'Special Lectionary',
-        #     lectionary.getLectionary().allSpecialMasses)
+        self._writeIndexOfSomeMasses(
+            outputFile,
+            'Special Lectionary',
+            lectionary.getLectionary().allSpecialMasses)
 
     def _writeIndexOfSomeMasses(self, outputFile, title, masses):
         outputFile.write('''\
@@ -307,7 +308,9 @@ class _HTMLMassReadingsExporter(object):
         Export the readings for mass as HTML.
         '''
 
-        for mass in lectionary.getLectionary().allSundayMasses:
+        for mass in itertools.chain(
+            lectionary.getLectionary().allSundayMasses,
+            lectionary.getLectionary().allSpecialMasses):
             self._exportMass(mass)
 
     def _exportMass(self, mass):
