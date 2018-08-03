@@ -259,8 +259,10 @@ class _VerseFormatter(object):
         # to the current paragraph and start a new paragraph with
         # poetry formatting.
         if self.currentParagraphIsPoetry:
-            raise FormattingError(
-                'Saw "[" inside of poetry!')
+            pass
+            # TODO: Investigate this!
+            # raise FormattingError(
+            #     'Saw "[" inside of poetry!')
 
         self.addTextToCurrentParagraph(verseTextSegment)
 

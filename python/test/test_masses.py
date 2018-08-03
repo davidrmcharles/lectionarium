@@ -312,7 +312,6 @@ class XMLDecoderTestCase(unittest.TestCase):
 class MassTestCase(unittest.TestCase):
 
     def test_isSundayInOrdinaryTime(self):
-
         mass = masses.Mass([])
         mass.id = 'sunday'
         mass.weekid = 'week-2'
@@ -336,6 +335,41 @@ class MassTestCase(unittest.TestCase):
         mass.weekid = 'week-4'
         mass.seasonid = 'lent'
         self.assertFalse(mass.isSundayInOrdinaryTime)
+
+    def test_title(self):
+       mass_doc = xml.dom.minidom.parseString('''\
+<?xml version="1.0"?>
+<mass name="Holy Family">
+  <variation cycles="A">
+    <reading>Sir 3:3-7,14-17a</reading>
+    <reading>Col 3:12-21</reading>
+    <reading>Mt 2:13-15,19-23</reading>
+  </variation>
+  <variation cycles="B">
+    <reading>Gn 15:1-6,21:1-3</reading>
+    <reading>Heb 11:8,11-12,17-19</reading>
+    <option>
+      <reading>Lk 2:22-40</reading>
+      <reading>Lk 2:22,39-40</reading>
+    </option>
+  </variation>
+  <variation cycles="C">
+    <reading>1 Sm 1:20-22,24-28</reading>
+    <reading>1 Jn 3:1-2,21-24</reading>
+    <reading>Lk 2:41-52</reading>
+  </variation>
+</mass>
+''')
+       mass = masses._XMLDecoder._decode_mass(mass_doc.documentElement)
+       optionalReading1Of2 = mass.allReadings[5]
+       self.assertEqual(
+           'Luke 2:22-2:40 (Option 1 of 2)',
+           optionalReading1Of2.title)
+       optionalReading2Of2 = mass.allReadings[6]
+       self.assertEqual(
+           'Luke 2:22,2:39-2:40 (Option 2 of 2)',
+           optionalReading2Of2.title)
+
 
 if __name__ == '__main__':
     unittest.main()

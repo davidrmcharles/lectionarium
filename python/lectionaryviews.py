@@ -20,10 +20,13 @@ Reference
 
 # Standard imports:
 import argparse
+import collections
+import logging
 import os
 import sys
 
 # Local imports:
+import bible
 import bibleviews
 import lectionary
 import viewtools
@@ -240,14 +243,14 @@ class _HTMLLectionaryIndexExporter(object):
             outputFile,
             'Sunday Lectionary',
             lectionary.getLectionary().allSundayMasses)
-        self._writeIndexOfSomeMasses(
-            outputFile,
-            'Weekday Lectionary',
-            lectionary.getLectionary().allWeekdayMasses)
-        self._writeIndexOfSomeMasses(
-            outputFile,
-            'Special Lectionary',
-            lectionary.getLectionary().allSpecialMasses)
+        # self._writeIndexOfSomeMasses(
+        #     outputFile,
+        #     'Weekday Lectionary',
+        #     lectionary.getLectionary().allWeekdayMasses)
+        # self._writeIndexOfSomeMasses(
+        #     outputFile,
+        #     'Special Lectionary',
+        #     lectionary.getLectionary().allSpecialMasses)
 
     def _writeIndexOfSomeMasses(self, outputFile, title, masses):
         outputFile.write('''\
@@ -297,13 +300,15 @@ class _HTMLMassReadingsExporter(object):
 
     def __init__(self, outputFolderPath):
         self.outputFolderPath = outputFolderPath
+        self.formatter = bibleviews._VerseFormatter()
+        self.formatter.useColor = False
 
     def export(self):
         '''
         Export the readings for mass as HTML.
         '''
 
-        for mass in lectionary.getLectionary().allMasses:
+        for mass in lectionary.getLectionary().allSundayMasses:
             self._exportMass(mass)
 
     def _exportMass(self, mass):
@@ -323,11 +328,13 @@ class _HTMLMassReadingsExporter(object):
     def _writeMassHead(self, outputFile, mass):
 
         pathToIndex = 'index.html'
+        pathToStylesheet = 'lectionary.css'
         lengthOfPath = _lengthOfPath(mass.fqid)
         if lengthOfPath > 1:
             parentStepsToIndex = '/'.join([
                     '..' for index in range(lengthOfPath - 1)])
             pathToIndex = '%s/index.html' % (parentStepsToIndex)
+            pathToStylesheet = '%s/lectionary.css' % (parentStepsToIndex)
 
         outputFile.write('''\
 <!DOCTYPE html>
@@ -338,15 +345,50 @@ class _HTMLMassReadingsExporter(object):
     <meta name="keywords" content="Catholic,Bible,Lectionary,Latin"/>
     <meta name="author" content="David R M Charles"/>
     <title>%s</title>
-    <link rel="stylesheet" href="lectionary.css"/>
+    <link rel="stylesheet" href="%s"/>
   </head>
   <body>
     <h1>%s</h1>
     <a href="%s">Index</a>
-''' % (mass.displayName, mass.displayName, mass.displayName, pathToIndex))
+''' % (
+                mass.displayName,
+                mass.displayName,
+                pathToStylesheet,
+                mass.displayName,
+                pathToIndex))
 
     def _writeMassBody(self, outputFile, mass):
-        pass
+        # Collect the readings into categories based upon cycle
+        # applicability.
+        readingsByCycles = collections.OrderedDict()
+        for reading in mass.allReadings:
+            if reading.cycles not in readingsByCycles:
+                readingsByCycles[reading.cycles] = []
+            readingsByCycles[reading.cycles].append(reading)
+
+        for cycles, readings in readingsByCycles.iteritems():
+            self._writeMassBodyForCycles(mass, outputFile, cycles, readings)
+
+    def _writeMassBodyForCycles(self, mass, outputFile, cycles, readings):
+        outputFile.write('''\
+    <h2>%s</h2>
+''' % cycles)
+
+        for reading in readings:
+            outputFile.write('''\
+<h3>%s</h3>
+''' % reading.title)
+
+            verses = bible.getVerses(reading.citation)
+
+            try:
+                self.formatter.formatVerses(verses)
+                outputFile.write(self.formatter.htmlFormattedText)
+            except:
+                sys.stderr.write(
+                    'An exception occurred while formatting "%s"!' % (
+                        reading.citation))
+                raise
 
     def _writeMassFoot(self, outputFile, mass):
         outputFile.write('''\
