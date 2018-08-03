@@ -48,6 +48,42 @@
         </exec>
     </target>
 
+    <target name="build"
+            description="Build the entire web."
+            depends="index,bible,lectionary"/>
+
+    <target name="index" description="Build the index.">
+        <mkdir dir="build"/>
+        <copy todir="build">
+            <fileset dir="html">
+                <include name="*.html"/>
+                <include name="*.css"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="index.deploy" description="Deploy the index.">
+        <property file="${basedir}/ftp.properties"/>
+        <ftp server="fideidepositum.org"
+             userid="${ftp.userid}"
+             password="${ftp.password}"
+             remotedir="/www"
+             action="put"
+             verbose="yes"
+             newer="yes">
+            <fileset dir="${basedir}/build">
+                <include name="*.html"/>
+                <include name="*.css"/>
+            </fileset>
+        </ftp>
+    </target>
+
+    <target name="index.browse">
+        <exec executable="firefox">
+            <arg value="${basedir}/build/index.html"/>
+        </exec>
+    </target>
+
     <target name="bible" description="Build a bible.">
         <mkdir dir="build/bible"/>
         <exec executable="python" failonerror="true">
@@ -65,10 +101,11 @@
              password="${ftp.password}"
              remotedir="/www"
              action="put"
-             verbose="yes">
-            <fileset dir="${basedir}/build/bible">
-                <include name="*.html"/>
-                <include name="*.css"/>
+             verbose="yes"
+             newer="yes">
+            <fileset dir="${basedir}/build">
+                <include name="bible/*.html"/>
+                <include name="bible/*.css"/>
             </fileset>
         </ftp>
     </target>
@@ -87,6 +124,22 @@
             <arg value="lectionaryviews"/>
             <arg value="--export=build/lectionary"/>
         </exec>
+    </target>
+
+    <target name="lectionary.deploy" description="Deploy the lectionary.">
+        <property file="${basedir}/ftp.properties"/>
+        <ftp server="fideidepositum.org"
+             userid="${ftp.userid}"
+             password="${ftp.password}"
+             remotedir="/www"
+             action="put"
+             verbose="yes"
+             newer="yes">
+            <fileset dir="${basedir}/build">
+                <include name="lectionary/**/*.html"/>
+                <include name="lectionary/**/*.css"/>
+            </fileset>
+        </ftp>
     </target>
 
     <target name="lectionary.browse" description="Open the lectionary in a browser.">
