@@ -367,10 +367,11 @@ class _HTMLMassReadingsExporter(object):
             readingsByCycles[reading.cycles].append(reading)
 
         for cycles, readings in readingsByCycles.iteritems():
-            self._writeMassBodyForCycles(mass, outputFile, cycles, readings)
+            self._writeMassBodyForCycles(outputFile, cycles, readings)
 
-    def _writeMassBodyForCycles(self, mass, outputFile, cycles, readings):
-        outputFile.write('''\
+    def _writeMassBodyForCycles(self, outputFile, cycles, readings):
+        if cycles is not None:
+            outputFile.write('''\
     <h2>%s</h2>
 ''' % cycles)
 
