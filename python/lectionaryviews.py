@@ -25,6 +25,7 @@ import itertools
 import logging
 import os
 import sys
+import traceback
 
 # Local imports:
 import bible
@@ -244,10 +245,10 @@ class _HTMLLectionaryIndexExporter(object):
             outputFile,
             'Sunday Lectionary',
             lectionary.getLectionary().allSundayMasses)
-        # self._writeIndexOfSomeMasses(
-        #     outputFile,
-        #     'Weekday Lectionary',
-        #     lectionary.getLectionary().allWeekdayMasses)
+        self._writeIndexOfSomeMasses(
+            outputFile,
+            'Weekday Lectionary',
+            lectionary.getLectionary().allWeekdayMasses)
         self._writeIndexOfSomeMasses(
             outputFile,
             'Special Lectionary',
@@ -310,6 +311,7 @@ class _HTMLMassReadingsExporter(object):
 
         for mass in itertools.chain(
             lectionary.getLectionary().allSundayMasses,
+            lectionary.getLectionary().allWeekdayMasses,
             lectionary.getLectionary().allSpecialMasses):
             self._exportMass(mass)
 
@@ -377,20 +379,33 @@ class _HTMLMassReadingsExporter(object):
 ''' % cycles)
 
         for reading in readings:
-            outputFile.write('''\
+            self._writeReading(outputFile, reading)
+
+    def _writeReading(self, outputFile, reading):
+        self._writeReadingTitle(outputFile, reading)
+        self._writeReadingVerses(outputFile, reading)
+
+    def _writeReadingTitle(self, outputFile, reading):
+        try:
+            readingTitle = reading.title
+        except Exception as e:
+            traceback.print_exc()
+            return
+
+        outputFile.write('''\
 <h3>%s</h3>
-''' % reading.title)
+''' % readingTitle)
 
-            verses = bible.getVerses(reading.citation)
+    def _writeReadingVerses(self, outputFile, reading):
+        verses = bible.getVerses(reading.citation)
 
-            try:
-                self.formatter.formatVerses(verses)
-                outputFile.write(self.formatter.htmlFormattedText)
-            except:
-                sys.stderr.write(
-                    'An exception occurred while formatting "%s"!' % (
-                        reading.citation))
-                raise
+        try:
+            self.formatter.formatVerses(verses)
+        except Exception as e:
+            traceback.print_exc()
+            return
+
+        outputFile.write(self.formatter.htmlFormattedText)
 
     def _writeMassFoot(self, outputFile, mass):
         pathToIndex = 'index.html'
