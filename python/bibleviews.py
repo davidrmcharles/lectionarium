@@ -202,8 +202,9 @@ class _VerseFormatter(object):
             self._formatVerse(verseText)
 
         # Trim the trailing empty paragraph (if there is one).
-        if self.paragraphs[-1].isEmpty:
-            self.paragraphs.pop()
+        if len(self.paragraphs) > 0:
+            if self.paragraphs[-1].isEmpty:
+                self.paragraphs.pop()
 
     @property
     def consoleFormattedText(self):
@@ -272,6 +273,7 @@ class _VerseFormatter(object):
         # of poetry in verse 4:1 and start a new paragraph of poetry.
         # We don't want the interleaving paragraph of prose.
         if len(self.paragraphs) > 0:
+            # TODO: Investigate this!
             if self.paragraphs[-1].isEmpty:
                 self.paragraphs.pop()
 
@@ -282,8 +284,10 @@ class _VerseFormatter(object):
         # to the current paragraph, to start a new paragraph, and to
         # exit poetry formatting.
         if self.currentParagraphIsProse:
-            raise FormattingError(
-                'Saw "]" inside of prose!')
+            pass
+            # TODO: Investigate this!
+            # raise FormattingError(
+            #     'Saw "]" inside of prose!')
 
         self.addTextToCurrentParagraph(verseTextSegment)
 
