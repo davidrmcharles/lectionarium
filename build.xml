@@ -102,6 +102,7 @@
              remotedir="/www"
              action="put"
              verbose="yes"
+             passive="yes"
              newer="yes">
             <fileset dir="${basedir}/build">
                 <include name="bible/*.html"/>
@@ -134,6 +135,7 @@
              remotedir="/www"
              action="put"
              verbose="yes"
+             passive="yes"
              newer="yes">
             <fileset dir="${basedir}/build">
                 <include name="lectionary/**/*.html"/>
