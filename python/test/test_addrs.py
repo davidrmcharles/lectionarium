@@ -35,11 +35,11 @@ class RangeTestCase(unittest.TestCase):
 class parseTestCase(unittest.TestCase):
 
     def test_None(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(addrs.ParsingError):
             addrs.parse(None)
 
     def test_emptyString(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(addrs.ParsingError):
             addrs.parse('')
 
     def test_syntheticAndMinimal(self):

@@ -22,6 +22,7 @@ Summary of Library Interface
 * :func:`parse` - Parse a single locations token
 * :class:`Addr` - A single address (chapter or verse)
 * :class:`AddrRange` - An inclusive range of addresses
+* :class:`ParsingError` - An exception occurred in :func:`parse`
 
 Reference
 ======================================================================
@@ -29,6 +30,7 @@ Reference
 
 # Standard imports:
 import string
+import sys
 
 class Addr(object):
     '''
@@ -130,9 +132,15 @@ def parse(token):
     '''
     Parse a single locations token and return it as a list of
     :class:`Addr` and :class:`AddrRange` objects.
+
+    Any :class:`Exception` raises :class:`ParsingError` with the
+    original cause within.
     '''
 
-    return _Parser().parse(token)
+    try:
+        return _Parser().parse(token)
+    except Exception as e:
+        raise ParsingError(token, e), None, sys.exc_info()[2]
 
 class _Parser(object):
 
@@ -210,3 +218,16 @@ class _Parser(object):
     def _createAddrFromTokenPair(self, firstToken, secondToken):
         self._chapterIndex = firstToken
         return Addr(int(firstToken), int(secondToken))
+
+class ParsingError(Exception):
+    '''
+    An :class:`Exception` occurred in a call to :func:`parse`.
+    '''
+
+    def __init__(self, token, cause):
+        self.token = token
+        self.cause = cause
+
+    def __str__(self):
+        return 'addrs.ParsingError: %s\nCause: %s' % (
+            self.token, self.cause)

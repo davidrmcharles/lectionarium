@@ -13,29 +13,29 @@ import addrs
 class parseTestCase(unittest.TestCase):
 
     def test_None(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse(None)
 
     def test_emptyString(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('')
 
     def test_actualMistakes(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('Ez` 37:12-14')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('3 Lk 24:13-35')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('Acts 2:14:22-33')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('1 Pt2:20b-25')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('Zep 2:3,3:12--13')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('I s58:7-10')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('Cor 5:6b-8')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(citations.ParsingError):
             citations.parse('Is 49L1-6')
 
     def test_singleTokenBookOnly(self):

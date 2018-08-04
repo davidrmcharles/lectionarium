@@ -7,10 +7,14 @@ Summary of Library Interface
 
 * :func:`parse` - Parse a human-readable citation to an object representation
 * :class:`Citation` - A single-book scripture citation
+* :class:`ParsingError` - An exception occurred in :func:`parse`
 
 Reference
 ======================================================================
 '''
+
+# Standard imports:
+import sys
 
 # Local imports:
 import bible
@@ -97,37 +101,58 @@ def parse(query):
 
     '''
 
-    # Fail if `query` is not a string.
-    if not isinstance(query, basestring):
-        raise TypeError(
-            'Non-string (%s, %s) passed to citations.parse()!' % (
-                type(query), query))
+    try:
+        return _Parser().parse(query)
+    except Exception as e:
+        raise ParsingError(query, e), None, sys.exc_info()[2]
 
-    # Fail if there are no non-white characters in `query`.
-    tokens = query.strip().split()
-    if len(tokens) == 0:
-        raise ValueError(
-            'No non-white characters passed to citations.parse()!')
+class _Parser(object):
 
-    # Try to parse a book out of the leading tokens in a 'greedy'
-    # fashion.
-    book, tokensConsumed = bible.parse(tokens)
-    if book is None:
-        raise ValueError(
-            'Unable to identify the book in citation "%s"!' % query)
+    def parse(self, query):
+        # Fail if `query` is not a string.
+        if not isinstance(query, basestring):
+            raise TypeError(
+                'Non-string (%s, %s) passed to citations.parse()!' % (
+                    type(query), query))
 
-    # If there is more than one token remaining, we have too many
-    # tokens.
-    remainingTokens = tokens[tokensConsumed:]
-    if len(remainingTokens) > 1:
-        raise ValueError(
-            'Extra tokens %s!' % remainingTokens[1:])
+        # Fail if there are no non-white characters in `query`.
+        tokens = query.strip().split()
+        if len(tokens) == 0:
+            raise ValueError(
+                'No non-white characters passed to citations.parse()!')
 
-    # If there is exactly remaining token, try to parse verses out of
-    # it.
-    verses = None
-    if len(remainingTokens) == 1:
-        remainingToken = remainingTokens[0]
-        verses = addrs.parse(remainingToken)
+        # Try to parse a book out of the leading tokens in a 'greedy'
+        # fashion.
+        book, tokensConsumed = bible.parse(tokens)
+        if book is None:
+            raise ValueError(
+                'Unable to identify the book in citation "%s"!' % query)
 
-    return Citation(book, verses)
+        # If there is more than one token remaining, we have too many
+        # tokens.
+        remainingTokens = tokens[tokensConsumed:]
+        if len(remainingTokens) > 1:
+            raise ValueError(
+                'Extra tokens %s!' % remainingTokens[1:])
+
+        # If there is exactly remaining token, try to parse verses out
+        # of it.
+        verses = None
+        if len(remainingTokens) == 1:
+            remainingToken = remainingTokens[0]
+            verses = addrs.parse(remainingToken)
+
+        return Citation(book, verses)
+
+class ParsingError(Exception):
+    '''
+    An :class:`Exception` occurred in a call to :func:`parse`.
+    '''
+
+    def __init__(self, token, cause):
+        self.token = token
+        self.cause = cause
+
+    def __str__(self):
+        return 'citations.ParsingError: %s\nCause: %s' % (
+            self.token, self.cause)
