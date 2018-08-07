@@ -120,6 +120,25 @@ class Lectionary(object):
             if (mass.seasonid == seasonid) and (mass.weekid == weekid)
             ]
 
+    @property
+    def weekdayMassSeasonIDs(self):
+        seen = set()
+        return [
+            mass.seasonid
+            for mass in self._allWeekdayMasses
+            if not (mass.seasonid in seen or seen.add(mass.seasonid))
+            ]
+
+    def weekdayMassWeekIDs(self, seasonid):
+        seen = set()
+        return [
+            mass.weekid
+            for mass in self._allWeekdayMasses
+            if (mass.seasonid == seasonid) and not (
+                mass.weekid in seen or seen.add(mass.weekid)
+                )
+            ]
+
     def findMass(self, fqid):
         '''
         Return the mass having `fqid`, otherwise return ``None``.

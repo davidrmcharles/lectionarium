@@ -245,9 +245,8 @@ class _HTMLLectionaryIndexExporter(object):
             outputFile,
             'Sunday Lectionary',
             lectionary.getLectionary().allSundayMasses)
-        self._writeIndexOfSomeMasses(
+        self._writeIndexOfWeekdayMasses(
             outputFile,
-            'Weekday Lectionary',
             lectionary.getLectionary().allWeekdayMasses)
         self._writeIndexOfSomeMasses(
             outputFile,
@@ -271,6 +270,107 @@ class _HTMLLectionaryIndexExporter(object):
       </tr>
     </table>
 ''')
+
+    def _writeIndexOfWeekdayMasses(self, outputFile, masses):
+        outputFile.write('''
+    <h2>Weekday Lectionary</h2>
+''')
+
+        for seasonid in lectionary.getLectionary().weekdayMassSeasonIDs:
+            self._writeIndexOfWeekdayMassesInSeason(
+                outputFile, seasonid)
+
+    def _writeIndexOfWeekdayMassesInSeason(self, outputFile, seasonid):
+        outputFile.write('''
+    <h3>%s</h3>
+''' % self._seasonLongDisplayName(seasonid))
+
+        for weekid in lectionary.getLectionary().weekdayMassWeekIDs(
+            seasonid):
+            self._writeIndexOfWeekdayMassesInWeek(
+                outputFile, seasonid, weekid)
+
+    def _writeIndexOfWeekdayMassesInWeek(self, outputFile, seasonid, weekid):
+        if weekid is not None:
+            outputFile.write('''
+    <h4>%s</h4>
+''' % self._weekAndSeasonDisplayName(seasonid, weekid))
+
+        masses = lectionary.getLectionary().weekdayMassesInWeek(
+            seasonid, weekid)
+        outputFile.write('''
+    <ul>
+''')
+        for mass in masses:
+            self._writeIndexOfMass(outputFile, mass)
+        outputFile.write('''
+    </ul>
+''')
+
+    def _seasonLongDisplayName(self, seasonid):
+        return {
+            'advent' : 'Advent Season',
+            'christmas' : 'Christmas Season',
+            'lent' : 'Lenten Season',
+            'holy-week' : 'Holy Week',
+            'easter' : 'Easter Season',
+            'ordinary' : 'Season of the Year',
+            }[seasonid]
+
+    def _weekAndSeasonDisplayName(self, seasonid, weekid):
+        return '%s of %s' % (
+            self._weekDisplayName(weekid),
+            self._seasonShortDisplayName(seasonid),
+            )
+
+    def _weekDisplayName(self, weekid):
+        return {
+            'week-of-ash-wednesday' : 'Week of Ash Wednesday',
+            'week-1' : 'First Week',
+            'week-2' : 'Second Week',
+            'week-3' : 'Third Week',
+            'week-4' : 'Fourth Week',
+            'week-5' : 'Fifth Week',
+            'week-6' : 'Sixth Week',
+            'week-7' : 'Seventh Week',
+            'week-8' : 'Eighth Week',
+            'week-9' : 'Ninth Week',
+            'week-10' : 'Tenth Week',
+            'week-11' : 'Eleventh Week',
+            'week-12' : 'Twelfth Week',
+            'week-13' : 'Thirteenth Week',
+            'week-14' : 'Fourteenth Week',
+            'week-15' : 'Fifteenth Week',
+            'week-16' : 'Sixteenth Week',
+            'week-17' : 'Seventeenth Week',
+            'week-18' : 'Eighteenth Week',
+            'week-19' : 'Ninteenth Week',
+            'week-20' : 'Twentieth Week',
+            'week-21' : 'Twenty-First Week',
+            'week-22' : 'Twenty-Second Week',
+            'week-23' : 'Twenty-Third Week',
+            'week-24' : 'Twenty-Fourth Week',
+            'week-25' : 'Twenty-Fifth Week',
+            'week-26' : 'Twenty-Sixth Week',
+            'week-27' : 'Twenty-Seventh Week',
+            'week-28' : 'Twenty-Eighth Week',
+            'week-29' : 'Twenty-Ninth Week',
+            'week-30' : 'Thirtieth Week',
+            'week-31' : 'Thirty-First Week',
+            'week-32' : 'Thirty-Second Week',
+            'week-33' : 'Thirty-Third Week',
+            'week-34' : 'Thirty-Fourth Week',
+            }[weekid]
+
+    def _seasonShortDisplayName(self, seasonid):
+        return {
+            'advent' : 'Advent',
+            'christmas' : 'Christmas',
+            'lent' : 'Lent',
+            'holy-week' : 'Holy Week',
+            'easter' : 'Easter',
+            'ordinary' : 'Ordinary Time',
+            }[seasonid]
 
     def _writeColumnOfIndexEntries(self, outputFile, masses):
         outputFile.write('''\
