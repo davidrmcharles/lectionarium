@@ -342,7 +342,7 @@
       </mass>
     </week>
   </season>
-  <season id="holy-week" name="Holy Week">>
+  <season id="holy-week" name="Holy Week">
     <mass name="Monday">
       <reading>Is 42:1-7</reading>
       <reading>Jn 12:1-11</reading>
