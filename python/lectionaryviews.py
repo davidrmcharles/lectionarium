@@ -245,13 +245,13 @@ class _HTMLLectionaryIndexExporter(object):
             outputFile,
             'Sunday Lectionary',
             lectionary.getLectionary().allSundayMasses)
-        self._writeIndexOfWeekdayMasses(
-            outputFile,
-            lectionary.getLectionary().allWeekdayMasses)
         self._writeIndexOfSomeMasses(
             outputFile,
             'Special Lectionary',
             lectionary.getLectionary().allSpecialMasses)
+        self._writeIndexOfWeekdayMasses(
+            outputFile,
+            lectionary.getLectionary().allWeekdayMasses)
 
     def _writeIndexOfSomeMasses(self, outputFile, title, masses):
         outputFile.write('''\
@@ -411,8 +411,8 @@ class _HTMLMassReadingsExporter(object):
 
         for mass in itertools.chain(
             lectionary.getLectionary().allSundayMasses,
-            lectionary.getLectionary().allWeekdayMasses,
             lectionary.getLectionary().allSpecialMasses):
+            lectionary.getLectionary().allWeekdayMasses,
             self._exportMass(mass)
 
     def _exportMass(self, mass):
