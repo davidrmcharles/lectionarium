@@ -80,5 +80,9 @@ class parseTestCase(unittest.TestCase):
             [addrs.Addr(1, 1), addrs.AddrRange(addrs.Addr(1, 3), addrs.Addr(2, 1))],
             addrs.parse('1:1,3-2:1'))
 
+
+    def test_chapterIsLetter(self):
+        self.assertEqual([addrs.Addr('C', 12)], addrs.parse('C:12'))
+
 if __name__ == '__main__':
     unittest.main()

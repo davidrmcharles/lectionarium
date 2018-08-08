@@ -43,7 +43,19 @@ class Addr(object):
 
     def __init__(self, first, second=None):
         self.first = first
+        try:
+            self.first = int(first)
+        except ValueError:
+            if len(self.first) > 1:
+                raise
+
         self.second = second
+        if second is not None:
+            try:
+                self.second = int(second)
+            except ValueError:
+                if len(self.second) > 1:
+                    raise
 
     @property
     def dimensionality(self):
@@ -77,9 +89,9 @@ class Addr(object):
 
     def __str__(self):
         if self.second is None:
-            return '%d' % self.first
+            return '%s' % str(self.first)
         else:
-            return '%d:%d' % (self.first, self.second)
+            return '%s:%s' % (str(self.first), str(self.second))
 
     def __repr__(self):
         if self.second is None:
@@ -211,13 +223,13 @@ class _Parser(object):
 
     def _createAddrFromSingleToken(self, token):
         if self._chapterIndex is not None:
-            return Addr(int(self._chapterIndex), int(token))
+            return Addr(self._chapterIndex, token)
         else:
-            return Addr(int(token))
+            return Addr(token)
 
     def _createAddrFromTokenPair(self, firstToken, secondToken):
         self._chapterIndex = firstToken
-        return Addr(int(firstToken), int(secondToken))
+        return Addr(firstToken, secondToken)
 
 class ParsingError(Exception):
     '''
