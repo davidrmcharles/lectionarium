@@ -34,7 +34,7 @@
         </exec>
     </target>
 
-    <target name="docs.clean">
+    <target name="docs.clean" description="Clean the docs.">
         <delete dir="${basedir}/docs/source/apidoc"/>
         <exec executable="make" dir="${basedir}/docs" failonerror="true">
             <env key="PYTHONPATH" path="${basedir}/python"/>

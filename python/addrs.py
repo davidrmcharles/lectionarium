@@ -1,26 +1,29 @@
 #!/usr/bin/env python
 '''
-For parsing the numerical portion of a scripture citation
+For parsing the *numerical* portion of a scripture citation
 
-This is where we deal with the numerical portion of a scripture
-citation.  For example, things like:
+For example, things like:
 
 #. ``3:16``,
 #. ``20:1-10``, and
 #. ``1:2-3:4,6``.
 
-The first and second examples are locations.  We model the first as an
-:class:`Addr` and the second as an :class:`AddrRange`.
+We model the first example as a single address (:class:`Addr`) and the
+second example as an address range (:class:`AddrRange`).
 
-The presence of a comma makes the third example a sequence of
-locations, the first being an :class:`AddrRange` and the second being
-an :class:`Addr`.
+The presence of a comma makes the third example a *sequence*.  The
+first part of the sequence, ``1:2-3``, being an address range
+(:class:`AddrRange`).  And, the second part of the sequence, ``6``
+being a single address (:class:`Addr`).
+
+Parsing a full citation including the name of a book is the
+responsibility of the :mod:`citations` module.
 
 Summary of Library Interface
 ======================================================================
 
-* :func:`parse` - Parse a single locations token
-* :class:`Addr` - A single address (chapter or verse)
+* :func:`parse` - Parse the *numerical* portion of a citation
+* :class:`Addr` - A single address (chapter, verse, or chapter and verse)
 * :class:`AddrRange` - An inclusive range of addresses
 * :class:`ParsingError` - An exception occurred in :func:`parse`
 
