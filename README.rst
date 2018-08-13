@@ -2,9 +2,8 @@
 ``README`` for ``lectionarium``
 ======================================================================
 
-``lectionarium`` is a lectionary, in Latin, for Ordinary From of the
-Mass and the source of `fideidepositum.org
-<http://fideidepositum.org>`_.
+``lectionarium`` is a tool for studying **Ecclesiastical Latin** and
+the source of `fideidepositum.org <http://fideidepositum.org>`_.
 
 Here are some things it can do:
 
