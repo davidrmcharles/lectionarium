@@ -411,8 +411,8 @@ class _HTMLMassReadingsExporter(object):
 
         for mass in itertools.chain(
             lectionary.getLectionary().allSundayMasses,
-            lectionary.getLectionary().allSpecialMasses):
-            lectionary.getLectionary().allWeekdayMasses,
+            lectionary.getLectionary().allSpecialMasses,
+            lectionary.getLectionary().allWeekdayMasses):
             self._exportMass(mass)
 
     def _exportMass(self, mass):
