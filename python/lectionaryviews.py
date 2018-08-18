@@ -283,7 +283,7 @@ class _HTMLLectionaryIndexExporter(object):
     def _writeIndexOfWeekdayMassesInSeason(self, outputFile, seasonid):
         outputFile.write('''
     <h3>%s</h3>
-''' % self._seasonLongDisplayName(seasonid))
+''' % _seasonLongDisplayName(seasonid))
 
         for weekid in lectionary.getLectionary().weekdayMassWeekIDs(
             seasonid):
@@ -294,7 +294,7 @@ class _HTMLLectionaryIndexExporter(object):
         if weekid is not None:
             outputFile.write('''
     <h4>%s</h4>
-''' % self._weekAndSeasonDisplayName(seasonid, weekid))
+''' % _weekAndSeasonDisplayName(seasonid, weekid))
 
         masses = lectionary.getLectionary().weekdayMassesInWeek(
             seasonid, weekid)
@@ -306,71 +306,6 @@ class _HTMLLectionaryIndexExporter(object):
         outputFile.write('''
     </ul>
 ''')
-
-    def _seasonLongDisplayName(self, seasonid):
-        return {
-            'advent' : 'Advent Season',
-            'christmas' : 'Christmas Season',
-            'lent' : 'Lenten Season',
-            'holy-week' : 'Holy Week',
-            'easter' : 'Easter Season',
-            'ordinary' : 'Season of the Year',
-            }[seasonid]
-
-    def _weekAndSeasonDisplayName(self, seasonid, weekid):
-        return '%s of %s' % (
-            self._weekDisplayName(weekid),
-            self._seasonShortDisplayName(seasonid),
-            )
-
-    def _weekDisplayName(self, weekid):
-        return {
-            'week-of-ash-wednesday' : 'Week of Ash Wednesday',
-            'week-1' : 'First Week',
-            'week-2' : 'Second Week',
-            'week-3' : 'Third Week',
-            'week-4' : 'Fourth Week',
-            'week-5' : 'Fifth Week',
-            'week-6' : 'Sixth Week',
-            'week-7' : 'Seventh Week',
-            'week-8' : 'Eighth Week',
-            'week-9' : 'Ninth Week',
-            'week-10' : 'Tenth Week',
-            'week-11' : 'Eleventh Week',
-            'week-12' : 'Twelfth Week',
-            'week-13' : 'Thirteenth Week',
-            'week-14' : 'Fourteenth Week',
-            'week-15' : 'Fifteenth Week',
-            'week-16' : 'Sixteenth Week',
-            'week-17' : 'Seventeenth Week',
-            'week-18' : 'Eighteenth Week',
-            'week-19' : 'Ninteenth Week',
-            'week-20' : 'Twentieth Week',
-            'week-21' : 'Twenty-First Week',
-            'week-22' : 'Twenty-Second Week',
-            'week-23' : 'Twenty-Third Week',
-            'week-24' : 'Twenty-Fourth Week',
-            'week-25' : 'Twenty-Fifth Week',
-            'week-26' : 'Twenty-Sixth Week',
-            'week-27' : 'Twenty-Seventh Week',
-            'week-28' : 'Twenty-Eighth Week',
-            'week-29' : 'Twenty-Ninth Week',
-            'week-30' : 'Thirtieth Week',
-            'week-31' : 'Thirty-First Week',
-            'week-32' : 'Thirty-Second Week',
-            'week-33' : 'Thirty-Third Week',
-            'week-34' : 'Thirty-Fourth Week',
-            }[weekid]
-
-    def _seasonShortDisplayName(self, seasonid):
-        return {
-            'advent' : 'Advent',
-            'christmas' : 'Christmas',
-            'lent' : 'Lent',
-            'holy-week' : 'Holy Week',
-            'easter' : 'Easter',
-            'ordinary' : 'Ordinary Time',
-            }[seasonid]
 
     def _writeColumnOfIndexEntries(self, outputFile, masses):
         outputFile.write('''\
@@ -454,10 +389,10 @@ class _HTMLMassReadingsExporter(object):
     <h1>%s</h1>
     <a href="%s">Index</a>
 ''' % (
-                mass.displayName,
-                mass.displayName,
+                _massLongDisplayName(mass),
+                _massLongDisplayName(mass),
                 pathToStylesheet,
-                mass.displayName,
+                _massLongDisplayName(mass),
                 pathToIndex))
 
     def _writeMassBody(self, outputFile, mass):
@@ -528,6 +463,106 @@ def _lengthOfPath(path):
         return 1
     else:
         return 1 + _lengthOfPath(head)
+
+def _massLongDisplayName(mass):
+    # TODO: Reduce the amount of special cases here!
+
+    if mass.seasonid == 'holy-week':
+        if mass.id == 'thursday-chrism-mass':
+            return mass.displayName
+        return '%s in Holy Week' % mass.displayName
+
+    if mass.seasonid == 'christmas':
+        if mass.id == 'day-2-st-stephen':
+            return 'Second Day of Christmas (St. Stephen)'
+        elif mass.id == 'day-3-st-john':
+            return 'Third Day of Christmas (St. John)'
+        elif mass.id == 'day-4-holy-innocents':
+            return 'Fourth Day of Christmas (Holy Innocents)'
+        elif mass.id == 'day-5':
+            return 'Fifth Day of Christmas'
+        elif mass.id == 'day-6':
+            return 'Sixth Day of Christmas'
+        elif mass.id == 'day-7':
+            return 'Seventh Day of Christmas'
+
+    if mass.weekid is None:
+        return mass.displayName
+
+    if mass.id in ('sunday', 'sunday-christ-the-king', 'ash-wednesday'):
+        return mass.longDisplayName
+
+    return '%s in the %s' % (
+        mass.name,
+        _weekAndSeasonDisplayName(mass.seasonid, mass.weekid)
+        )
+
+def _seasonLongDisplayName(seasonid):
+    return {
+        'advent' : 'Advent Season',
+        'christmas' : 'Christmas Season',
+        'lent' : 'Lenten Season',
+        'holy-week' : 'Holy Week',
+        'easter' : 'Easter Season',
+        'ordinary' : 'Season of the Year',
+        }[seasonid]
+
+def _weekAndSeasonDisplayName(seasonid, weekid):
+    if weekid == 'week-of-ash-wednesday':
+        return 'Week of Ash Wednesday'
+    return '%s of %s' % (
+        _weekDisplayName(weekid),
+        _seasonShortDisplayName(seasonid),
+        )
+
+def _weekDisplayName(weekid):
+    return {
+        'week-of-ash-wednesday' : 'Week of Ash Wednesday',
+        'week-1' : 'First Week',
+        'week-2' : 'Second Week',
+        'week-3' : 'Third Week',
+        'week-4' : 'Fourth Week',
+        'week-5' : 'Fifth Week',
+        'week-6' : 'Sixth Week',
+        'week-7' : 'Seventh Week',
+        'week-8' : 'Eighth Week',
+        'week-9' : 'Ninth Week',
+        'week-10' : 'Tenth Week',
+        'week-11' : 'Eleventh Week',
+        'week-12' : 'Twelfth Week',
+        'week-13' : 'Thirteenth Week',
+        'week-14' : 'Fourteenth Week',
+        'week-15' : 'Fifteenth Week',
+        'week-16' : 'Sixteenth Week',
+        'week-17' : 'Seventeenth Week',
+        'week-18' : 'Eighteenth Week',
+        'week-19' : 'Ninteenth Week',
+        'week-20' : 'Twentieth Week',
+        'week-21' : 'Twenty-First Week',
+        'week-22' : 'Twenty-Second Week',
+        'week-23' : 'Twenty-Third Week',
+        'week-24' : 'Twenty-Fourth Week',
+        'week-25' : 'Twenty-Fifth Week',
+        'week-26' : 'Twenty-Sixth Week',
+        'week-27' : 'Twenty-Seventh Week',
+        'week-28' : 'Twenty-Eighth Week',
+        'week-29' : 'Twenty-Ninth Week',
+        'week-30' : 'Thirtieth Week',
+        'week-31' : 'Thirty-First Week',
+        'week-32' : 'Thirty-Second Week',
+        'week-33' : 'Thirty-Third Week',
+        'week-34' : 'Thirty-Fourth Week',
+        }[weekid]
+
+def _seasonShortDisplayName(seasonid):
+    return {
+        'advent' : 'Advent',
+        'christmas' : 'Christmas',
+        'lent' : 'Lent',
+        'holy-week' : 'Holy Week',
+        'easter' : 'Easter',
+        'ordinary' : 'Ordinary Time',
+        }[seasonid]
 
 if __name__ == '__main__':
     main()

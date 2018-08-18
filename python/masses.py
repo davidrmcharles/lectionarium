@@ -296,7 +296,9 @@ class Mass(object):
     @property
     def displayName(self):
         '''
-        A display-name for the mass.
+        A short display name for the mass, for when the context of
+        season and week are clear and when full qualification seems
+        redundant
         '''
 
         if self.name is not None:
@@ -305,6 +307,16 @@ class Mass(object):
             return '%s %d' % (
                 calendar.month_name[self.fixedMonth],
                 self.fixedDay)
+
+    @property
+    def longDisplayName(self):
+        '''
+        A fully qualified display name for the mass
+        '''
+
+        if self.seasonid == 'ordinary':
+            return '%s of Ordinary Time' % (self.displayName)
+        return self.displayName
 
     @name.setter
     def name(self, newValue):
