@@ -302,7 +302,7 @@ class _HTMLLectionaryIndexExporter(object):
     <ul>
 ''')
         for mass in masses:
-            self._writeIndexOfMass(outputFile, mass)
+            self._writeShortIndexEntryForMass(outputFile, mass)
         outputFile.write('''
     </ul>
 ''')
@@ -313,13 +313,18 @@ class _HTMLLectionaryIndexExporter(object):
           <ul>
 ''')
         for mass in masses:
-            self._writeIndexOfMass(outputFile, mass)
+            self._writeLongIndexEntryForMass(outputFile, mass)
         outputFile.write('''\
           </ul>
         </td>
 ''')
 
-    def _writeIndexOfMass(self, outputFile, mass):
+    def _writeLongIndexEntryForMass(self, outputFile, mass):
+        outputFile.write('''\
+            <li><a href="%s.html">%s</a></li>
+''' % (mass.fqid, mass.longDisplayName))
+
+    def _writeShortIndexEntryForMass(self, outputFile, mass):
         outputFile.write('''\
             <li><a href="%s.html">%s</a></li>
 ''' % (mass.fqid, mass.displayName))
