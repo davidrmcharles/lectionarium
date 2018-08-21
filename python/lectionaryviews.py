@@ -273,7 +273,7 @@ class _HTMLLectionaryIndexExporter(object):
 ''')
 
     def _writeIndexOfWeekdayMasses(self, outputFile, masses_):
-        outputFile.write('''
+        outputFile.write('''\
     <h2>Weekday Lectionary</h2>
 ''')
 
@@ -282,7 +282,7 @@ class _HTMLLectionaryIndexExporter(object):
                 outputFile, seasonid)
 
     def _writeIndexOfWeekdayMassesInSeason(self, outputFile, seasonid):
-        outputFile.write('''
+        outputFile.write('''\
     <h3>%s</h3>
 ''' % masses._seasonLongDisplayName(seasonid))
 
@@ -293,13 +293,13 @@ class _HTMLLectionaryIndexExporter(object):
 
     def _writeIndexOfWeekdayMassesInWeek(self, outputFile, seasonid, weekid):
         if weekid is not None:
-            outputFile.write('''
+            outputFile.write('''\
     <h4>%s</h4>
 ''' % masses._weekAndSeasonDisplayName(seasonid, weekid))
 
         masses_ = lectionary.getLectionary().weekdayMassesInWeek(
             seasonid, weekid)
-        outputFile.write('''
+        outputFile.write('''\
     <ul>
 ''')
         for mass in masses_:
