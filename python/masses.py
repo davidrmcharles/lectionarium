@@ -315,12 +315,15 @@ class Mass(object):
         redundant
         '''
 
+        # Has name and altname
         if self.name is not None and self.altName is not None:
             return '%s (%s)' % (self.name, self.altName)
 
+        # Has name only
         if self.name is not None:
             return self.name
 
+        # Has neither name nor altname
         return '%s %d' % (
             calendar.month_name[self.fixedMonth],
             self.fixedDay)
@@ -331,26 +334,29 @@ class Mass(object):
         A fully qualified display name for the mass
         '''
 
+        # There is no context to add to the name
         if self.seasonid is None and self.weekid is None:
             return self.displayName
 
+        # The short name is sufficiently qualified
         if self.shortIsLong:
-            return self.displayName        
+            return self.displayName
 
+        # TODO: The Christmas masses don't need qualification with respect to week
         if self.seasonid == 'christmas':
             if self.altName is None:
                 return '%s of Christmas' % self.name
             return '%s of Christmas (%s)' % (self.name, self.altName)
 
+        # TODO: The season of Holy Week doesn't need qualification with respect to week
         if self.seasonid == 'holy-week':
             return '%s in Holy Week' % self.name
 
-        if self.isSunday and self.seasonid in ('advent', 'lent', 'easter'):
-            return self.displayName
-
+        # TODO: Sundays in ordinary time don't need qualification with respect to week
         if self.isSunday and self.seasonid == 'ordinary':
             return '%s of Ordinary Time' % self.name
 
+        # Everything needs week and season qualification
         return '%s in the %s' % (
             self.name,
             _weekAndSeasonDisplayName(self.seasonid, self.weekid)
