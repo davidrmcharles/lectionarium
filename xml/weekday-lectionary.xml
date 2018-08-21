@@ -76,41 +76,43 @@
         <reading>Jn 5:33-36</reading>
       </mass>
     </week>
-    <mass date="12-17">
-      <reading>Gn 49:2,8-10</reading>
-      <reading>Mt 1:1-17</reading>
-    </mass>
-    <mass date="12-18">
-      <reading>Jer 23:5-8</reading>
-      <reading>Mt 1:18-24</reading>
-    </mass>
-    <mass date="12-19">
-      <reading>Jgs 13:2-7,24-25a</reading>
-      <reading>Lk 1:5-25</reading>
-    </mass>
-    <mass date="12-20">
-      <reading>Is 7:10-14</reading>
-      <reading>Lk 1:26-38</reading>
-    </mass>
-    <mass date="12-21">
-      <option>
-        <reading>Sg 2:8-14</reading>
-        <reading>Zep 3:14-18a</reading>
-      </option>
-      <reading>Lk 1:39-45</reading>
-    </mass>
-    <mass date="12-22">
-      <reading>1 Sm 1:24-28</reading>
-      <reading>Lk 1:46-56</reading>
-    </mass>
-    <mass date="12-23">
-      <reading alt="Mal 3:1-4,4:5-6">Mal 3:1-4,23-24</reading>
-      <reading>Lk 1:57-66</reading>
-    </mass>
-    <mass date="12-24">
-      <reading>2 Sm 7:1-5,8b-11,16</reading>
-      <reading>Lk 1:67-79</reading>
-    </mass>
+    <week id="end-of-advent" name="End of Advent">
+      <mass date="12-17">
+        <reading>Gn 49:2,8-10</reading>
+        <reading>Mt 1:1-17</reading>
+      </mass>
+      <mass date="12-18">
+        <reading>Jer 23:5-8</reading>
+        <reading>Mt 1:18-24</reading>
+      </mass>
+      <mass date="12-19">
+        <reading>Jgs 13:2-7,24-25a</reading>
+        <reading>Lk 1:5-25</reading>
+      </mass>
+      <mass date="12-20">
+        <reading>Is 7:10-14</reading>
+        <reading>Lk 1:26-38</reading>
+      </mass>
+      <mass date="12-21">
+        <option>
+          <reading>Sg 2:8-14</reading>
+          <reading>Zep 3:14-18a</reading>
+        </option>
+        <reading>Lk 1:39-45</reading>
+      </mass>
+      <mass date="12-22">
+        <reading>1 Sm 1:24-28</reading>
+        <reading>Lk 1:46-56</reading>
+      </mass>
+      <mass date="12-23">
+        <reading alt="Mal 3:1-4,4:5-6">Mal 3:1-4,23-24</reading>
+        <reading>Lk 1:57-66</reading>
+      </mass>
+      <mass date="12-24">
+        <reading>2 Sm 7:1-5,8b-11,16</reading>
+        <reading>Lk 1:67-79</reading>
+      </mass>
+    </week>
   </season>
   <season id="christmas" name="Christmas Season">
     <week name="Octave of Christmas">
@@ -164,27 +166,27 @@
       </mass>
     </week>
     <week name="Week After Epiphany">
-      <mass name="Monday after Epiphany">
+      <mass name="Monday After Epiphany">
         <reading>1 Jn 3:22-4:6</reading>
         <reading>Mt 4:12-17,23-25</reading>
       </mass>
-      <mass name="Tuesday after Epiphany">
+      <mass name="Tuesday After Epiphany">
         <reading>1 Jn 4:7-10</reading>
         <reading>Mk 6:34-44</reading>
       </mass>
-      <mass name="Wednesday after Epiphany">
+      <mass name="Wednesday After Epiphany">
         <reading>1 Jn 4:11-18</reading>
         <reading>Mk 6:45-52</reading>
       </mass>
-      <mass name="Thursday after Epiphany">
+      <mass name="Thursday After Epiphany">
         <reading>1 Jn 4:19-5:4</reading>
         <reading>Lk 4:14-22a</reading>
       </mass>
-      <mass name="Friday after Epiphany">
+      <mass name="Friday After Epiphany">
         <reading>1 Jn 5:5-13</reading>
         <reading>Lk 5:12-16</reading>
       </mass>
-      <mass name="Saturday after Epiphany">
+      <mass name="Saturday After Epiphany">
         <reading>1 Jn 5:14-21</reading>
         <reading>Jn 3:22-30</reading>
       </mass>
@@ -197,15 +199,15 @@
         <reading>2 Cor 5:20-6:2</reading>
         <reading>Mt 6:1-16,16-18</reading>
       </mass>
-      <mass id="thursday" name="Thursday after Ash Wednesday">
+      <mass id="thursday" name="Thursday After Ash Wednesday">
         <reading>Dt 30:15-20</reading>
         <reading>Lk 9:22-25</reading>
       </mass>
-      <mass id="friday" name="Friday after Ash Wednesday">
+      <mass id="friday" name="Friday After Ash Wednesday">
         <reading>Is 58:1-9a</reading>
         <reading>Mt 9:14-15</reading>
       </mass>
-      <mass id="saturday" name="Saturday after Ash Wednesday">
+      <mass id="saturday" name="Saturday After Ash Wednesday">
         <reading>Is 58:9b-14</reading>
         <reading>Lk 5:27-32</reading>
       </mass>
