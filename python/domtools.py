@@ -50,7 +50,7 @@ class MissingAttrException(Exception):
 
     pass
 
-def attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
+def attr(node, localName, ifMissing=RaiseIfAttrIsMissing, typeFunc=None):
     '''
     Return the value of the attribute of `node` having `localName`.
     '''
@@ -60,4 +60,15 @@ def attr(node, localName, ifMissing=RaiseIfAttrIsMissing):
             raise MissingAttrException()
         else:
             return ifMissing
-    return node.getAttribute(localName)
+
+    stringValue = node.getAttribute(localName)
+    if typeFunc is None:
+        return stringValue
+    return typeFunc(stringValue)
+
+def str2bool(s):
+    if s.lower() == 'true':
+        return True
+    if s.lower() == 'false':
+        return False
+    raise ValueError('Cannot convert "%s" to bool!')

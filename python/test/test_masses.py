@@ -370,6 +370,5 @@ class MassTestCase(unittest.TestCase):
            'Luke 2:22,2:39-2:40 (Option 2 of 2)',
            optionalReading2Of2.title)
 
-
 if __name__ == '__main__':
     unittest.main()

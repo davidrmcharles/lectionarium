@@ -29,7 +29,30 @@ class lengthOfPathTestCase(unittest.TestCase):
         self.assertEqual(2, lectionaryviews._lengthOfPath('foo/bar'))
         self.assertEqual(3, lectionaryviews._lengthOfPath('foo/bar/zod'))
 
+class massShortDisplayNameTestCase(unittest.TestCase):
+
+    def test_december17(self):
+        self.assertEqual(
+            'December 17',
+            lectionaryviews._massShortDisplayName(
+                self._findMass('advent/end-of-advent/12-17')))
+
+    def test_palmSunday(self):
+        self.assertEqual(
+            'Palm Sunday',
+            lectionaryviews._massShortDisplayName(
+                self._findMass('holy-week/palm-sunday')))
+
+    def _findMass(self, massID):
+        return lectionary.getLectionary().findMass(massID)
+
 class massLongDisplayNameTestCase(unittest.TestCase):
+
+    def test_firstSundayOfAdvent(self):
+        self.assertEqual(
+            '1st Sunday of Advent',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('advent/week-1/sunday')))
 
     def test_thirdSundayOfOrdinaryTime(self):
         self.assertEqual(
@@ -43,11 +66,47 @@ class massLongDisplayNameTestCase(unittest.TestCase):
             lectionaryviews._massLongDisplayName(
                 self._findMass('advent/week-2/monday')))
 
+    def test_december17(self):
+        self.assertEqual(
+            'December 17',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('advent/end-of-advent/12-17')))
+
     def test_fridayInTheFourthWeekOfLent(self):
         self.assertEqual(
             'Friday in the Fourth Week of Lent',
             lectionaryviews._massLongDisplayName(
                 self._findMass('lent/week-4/friday')))
+
+    def test_thursdayAfterAshWednesday(self):
+        self.assertEqual(
+            'Thursday After Ash Wednesday',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('lent/week-of-ash-wednesday/thursday')))
+
+    def test_palmSunday(self):
+        self.assertEqual(
+            'Palm Sunday',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('holy-week/palm-sunday')))
+
+    def test_palmSunday(self):
+        self.assertEqual(
+            'Mass of the Lord\'s Supper',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('holy-week/mass-of-the-lords-supper')))
+
+    def test_goodFriday(self):
+        self.assertEqual(
+            'Good Friday',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('holy-week/good-friday')))
+
+    def test_easterSunday(self):
+        self.assertEqual(
+            'Easter Sunday',
+            lectionaryviews._massLongDisplayName(
+                self._findMass('easter/week-1/easter-sunday')))
 
     def test_seventhDayOfChristmas(self):
         self.assertEqual(

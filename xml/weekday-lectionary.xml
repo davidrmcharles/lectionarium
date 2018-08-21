@@ -77,38 +77,38 @@
       </mass>
     </week>
     <week id="end-of-advent" name="End of Advent">
-      <mass date="12-17">
+      <mass date="12-17" shortislong="true">
         <reading>Gn 49:2,8-10</reading>
         <reading>Mt 1:1-17</reading>
       </mass>
-      <mass date="12-18">
+      <mass date="12-18" shortislong="true">
         <reading>Jer 23:5-8</reading>
         <reading>Mt 1:18-24</reading>
       </mass>
-      <mass date="12-19">
+      <mass date="12-19" shortislong="true">
         <reading>Jgs 13:2-7,24-25a</reading>
         <reading>Lk 1:5-25</reading>
       </mass>
-      <mass date="12-20">
+      <mass date="12-20" shortislong="true">
         <reading>Is 7:10-14</reading>
         <reading>Lk 1:26-38</reading>
       </mass>
-      <mass date="12-21">
+      <mass date="12-21" shortislong="true">
         <option>
           <reading>Sg 2:8-14</reading>
           <reading>Zep 3:14-18a</reading>
         </option>
         <reading>Lk 1:39-45</reading>
       </mass>
-      <mass date="12-22">
+      <mass date="12-22" shortislong="true">
         <reading>1 Sm 1:24-28</reading>
         <reading>Lk 1:46-56</reading>
       </mass>
-      <mass date="12-23">
+      <mass date="12-23" shortislong="true">
         <reading alt="Mal 3:1-4,4:5-6">Mal 3:1-4,23-24</reading>
         <reading>Lk 1:57-66</reading>
       </mass>
-      <mass date="12-24">
+      <mass date="12-24" shortislong="true">
         <reading>2 Sm 7:1-5,8b-11,16</reading>
         <reading>Lk 1:67-79</reading>
       </mass>
@@ -116,15 +116,15 @@
   </season>
   <season id="christmas" name="Christmas Season">
     <week name="Octave of Christmas">
-      <mass id="day-2-st-stephen" name="Second Day (St. Stephen)">
+      <mass id="day-2-st-stephen" name="Second Day" altname="St. Stephen">
         <reading>Acts 6:8-10,7:54-59</reading>
         <reading>Mt 10:17-22</reading>
       </mass>
-      <mass id="day-3-st-john" name="Third Day (St. John)">
+      <mass id="day-3-st-john" name="Third Day" altname="St. John">
         <reading>1 Jn 1:1-4</reading>
         <reading>Jn 20:2-8</reading>
       </mass>
-      <mass id="day-4-holy-innocents" name="Fourth Day (Holy Innocents)">
+      <mass id="day-4-holy-innocents" name="Fourth Day" altname="Holy Innocents">
         <reading>1 Jn 1:5-2:2</reading>
         <reading>Mt 2:13-18</reading>
       </mass>
@@ -140,53 +140,53 @@
         <reading>1 Jn 2:18-21</reading>
         <reading>Jn 1:1-18</reading>
       </mass>
-      <mass date="01-02">
+      <mass date="01-02" shortislong="true">
         <reading>1 Jn 2:22-28</reading>
         <reading>Jn 1:19-28</reading>
       </mass>
-      <mass date="01-03">
+      <mass date="01-03" shortislong="true">
         <reading>1 Jn 2:29-3:6</reading>
         <reading>Jn 1:29-34</reading>
       </mass>
-      <mass date="01-04">
+      <mass date="01-04" shortislong="true">
         <reading>1 Jn 3:7-10</reading>
         <reading>Jn 1:35-42</reading>
       </mass>
-      <mass date="01-05">
+      <mass date="01-05" shortislong="true">
         <reading>1 Jn 3:11-21</reading>
         <reading>Jn 1:43-51</reading>
       </mass>
-      <mass date="01-06" desc="If Epiphany is not celebrated">
+      <mass date="01-06" shortislong="true" desc="If Epiphany is not celebrated">
         <reading>1 Jn 5:5-13</reading>
         <reading>Mk 1:6b-11</reading>
       </mass>
-      <mass date="01-07" desc="Not from original source, but: http://usccb.org/bible/readings/010717.cfm">
+      <mass date="01-07" shortislong="true" desc="Not from original source, but: http://usccb.org/bible/readings/010717.cfm">
         <reading>1 Jn 5:14-21</reading>
         <reading>Jn 2:1-11</reading>
       </mass>
     </week>
     <week name="Week After Epiphany">
-      <mass name="Monday After Epiphany">
+      <mass name="Monday After Epiphany" shortislong="true">
         <reading>1 Jn 3:22-4:6</reading>
         <reading>Mt 4:12-17,23-25</reading>
       </mass>
-      <mass name="Tuesday After Epiphany">
+      <mass name="Tuesday After Epiphany" shortislong="true">
         <reading>1 Jn 4:7-10</reading>
         <reading>Mk 6:34-44</reading>
       </mass>
-      <mass name="Wednesday After Epiphany">
+      <mass name="Wednesday After Epiphany" shortislong="true">
         <reading>1 Jn 4:11-18</reading>
         <reading>Mk 6:45-52</reading>
       </mass>
-      <mass name="Thursday After Epiphany">
+      <mass name="Thursday After Epiphany" shortislong="true">
         <reading>1 Jn 4:19-5:4</reading>
         <reading>Lk 4:14-22a</reading>
       </mass>
-      <mass name="Friday After Epiphany">
+      <mass name="Friday After Epiphany" shortislong="true">
         <reading>1 Jn 5:5-13</reading>
         <reading>Lk 5:12-16</reading>
       </mass>
-      <mass name="Saturday After Epiphany">
+      <mass name="Saturday After Epiphany" shortislong="true">
         <reading>1 Jn 5:14-21</reading>
         <reading>Jn 3:22-30</reading>
       </mass>
@@ -194,20 +194,20 @@
   </season>
   <season id="lent" name="Lenten Season">
     <week id="week-of-ash-wednesday" name="Week of Ash Wednesday">
-      <mass id="ash-wednesday" name="Ash Wednesday">
+      <mass id="ash-wednesday" name="Ash Wednesday" shortislong="true">
         <reading>Jl 2:12-18</reading>
         <reading>2 Cor 5:20-6:2</reading>
         <reading>Mt 6:1-16,16-18</reading>
       </mass>
-      <mass id="thursday" name="Thursday After Ash Wednesday">
+      <mass id="thursday" name="Thursday After Ash Wednesday" shortislong="true">
         <reading>Dt 30:15-20</reading>
         <reading>Lk 9:22-25</reading>
       </mass>
-      <mass id="friday" name="Friday After Ash Wednesday">
+      <mass id="friday" name="Friday After Ash Wednesday" shortislong="true">
         <reading>Is 58:1-9a</reading>
         <reading>Mt 9:14-15</reading>
       </mass>
-      <mass id="saturday" name="Saturday After Ash Wednesday">
+      <mass id="saturday" name="Saturday After Ash Wednesday" shortislong="true">
         <reading>Is 58:9b-14</reading>
         <reading>Lk 5:27-32</reading>
       </mass>
@@ -357,7 +357,7 @@
       <reading>Is 50:4-9a</reading>
       <reading>Mt 26:14-25</reading>
     </mass>
-    <mass name="Thursday Chrism Mass">
+    <mass name="Thursday Chrism Mass" shortislong="true">
       <reading>Is 61:1-3a,6a,8b-9</reading>
       <reading>Rv 1:5-8</reading>
       <reading>Lk 4:16-21</reading>

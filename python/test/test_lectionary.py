@@ -571,12 +571,12 @@ class CalendarTestCase(unittest.TestCase):
             (12, 16, ['advent/week-2/saturday']),
 
             (12, 17, ['advent/week-3/sunday']),
-            (12, 18, ['advent/12-18']),
-            (12, 19, ['advent/12-19']),
-            (12, 20, ['advent/12-20']),
-            (12, 21, ['advent/12-21']),
-            (12, 22, ['advent/12-22']),
-            (12, 23, ['advent/12-23']),
+            (12, 18, ['advent/end-of-advent/12-18']),
+            (12, 19, ['advent/end-of-advent/12-19']),
+            (12, 20, ['advent/end-of-advent/12-20']),
+            (12, 21, ['advent/end-of-advent/12-21']),
+            (12, 22, ['advent/end-of-advent/12-22']),
+            (12, 23, ['advent/end-of-advent/12-23']),
 
             (12, 24, ['advent/week-4/sunday', 'christmas/christmas-vigil']),
             (12, 25, ['christmas/christmas-at-midnight',

@@ -502,7 +502,7 @@ class Calendar(object):
             datetime.date(self._year, 12, 17),
             datetime.date(self._year, 12, 24))
         massKeys = [
-            'advent/12-%02d' % day
+            'advent/end-of-advent/12-%02d' % day
             for day in range(17, 25)
             ]
         for massDate, massKey in zip(massDates, massKeys):

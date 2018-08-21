@@ -178,6 +178,9 @@ class _XMLDecoder(object):
         weekid = domtools.attr(mass_node, 'weekid', ifMissing=None)
         id_ = domtools.attr(mass_node, 'id', ifMissing=None)
         name = domtools.attr(mass_node, 'name', ifMissing=None)
+        altname = domtools.attr(mass_node, 'altname', ifMissing=None)
+        shortislong = domtools.attr(
+            mass_node, 'shortislong', ifMissing=False, typeFunc=domtools.str2bool)
 
         readings = []
         option_index = 0
@@ -199,6 +202,8 @@ class _XMLDecoder(object):
 
         mass = Mass(readings)
         mass.name = name
+        mass.altName = altname
+        mass.shortIsLong = shortislong
         mass.fixedMonth = fixedMonth
         mass.fixedDay = fixedDay
         mass.id = id_
@@ -227,6 +232,7 @@ class Mass(object):
         self._allReadings = readings
         self._id = None
         self._name = None
+        self._shortIsLong = False
         self._fixedMonth = None
         self._fixedDay = None
         self._weekid = None
@@ -294,6 +300,14 @@ class Mass(object):
         return self._name
 
     @property
+    def shortIsLong(self):
+        return self._shortIsLong
+
+    @shortIsLong.setter
+    def shortIsLong(self, newValue):
+        self._shortIsLong = newValue
+
+    @property
     def displayName(self):
         '''
         A short display name for the mass, for when the context of
@@ -301,12 +315,15 @@ class Mass(object):
         redundant
         '''
 
+        if self.name is not None and self.altName is not None:
+            return '%s (%s)' % (self.name, self.altName)
+
         if self.name is not None:
             return self.name
-        else:
-            return '%s %d' % (
-                calendar.month_name[self.fixedMonth],
-                self.fixedDay)
+
+        return '%s %d' % (
+            calendar.month_name[self.fixedMonth],
+            self.fixedDay)
 
     @property
     def longDisplayName(self):
@@ -314,9 +331,30 @@ class Mass(object):
         A fully qualified display name for the mass
         '''
 
-        if self.seasonid == 'ordinary':
-            return '%s of Ordinary Time' % (self.displayName)
-        return self.displayName
+        if self.seasonid is None and self.weekid is None:
+            return self.displayName
+
+        if self.shortIsLong:
+            return self.displayName        
+
+        if self.seasonid == 'christmas':
+            if self.altName is None:
+                return '%s of Christmas' % self.name
+            return '%s of Christmas (%s)' % (self.name, self.altName)
+
+        if self.seasonid == 'holy-week':
+            return '%s in Holy Week' % self.name
+
+        if self.isSunday and self.seasonid in ('advent', 'lent', 'easter'):
+            return self.displayName
+
+        if self.isSunday and self.seasonid == 'ordinary':
+            return '%s of Ordinary Time' % self.name
+
+        return '%s in the %s' % (
+            self.name,
+            _weekAndSeasonDisplayName(self.seasonid, self.weekid)
+            )
 
     @name.setter
     def name(self, newValue):
@@ -522,3 +560,72 @@ class Reading(object):
         if (weekdayCycle is not None) and (weekdayCycle == self._cycles):
             return True
         return False
+
+def _seasonLongDisplayName(seasonid):
+    return {
+        'advent' : 'Advent Season',
+        'christmas' : 'Christmas Season',
+        'lent' : 'Lenten Season',
+        'holy-week' : 'Holy Week',
+        'easter' : 'Easter Season',
+        'ordinary' : 'Season of the Year',
+        }[seasonid]
+
+def _weekAndSeasonDisplayName(seasonid, weekid):
+    if weekid == 'week-of-ash-wednesday':
+        return 'Week of Ash Wednesday'
+    return '%s of %s' % (
+        _weekDisplayName(weekid),
+        _seasonShortDisplayName(seasonid),
+        )
+
+def _weekDisplayName(weekid):
+    return {
+        'end-of-advent' : 'End',
+        'week-of-ash-wednesday' : 'Week of Ash Wednesday',
+        'holy-week' : 'Holy Week',
+        'week-1' : 'First Week',
+        'week-2' : 'Second Week',
+        'week-3' : 'Third Week',
+        'week-4' : 'Fourth Week',
+        'week-5' : 'Fifth Week',
+        'week-6' : 'Sixth Week',
+        'week-7' : 'Seventh Week',
+        'week-8' : 'Eighth Week',
+        'week-9' : 'Ninth Week',
+        'week-10' : 'Tenth Week',
+        'week-11' : 'Eleventh Week',
+        'week-12' : 'Twelfth Week',
+        'week-13' : 'Thirteenth Week',
+        'week-14' : 'Fourteenth Week',
+        'week-15' : 'Fifteenth Week',
+        'week-16' : 'Sixteenth Week',
+        'week-17' : 'Seventeenth Week',
+        'week-18' : 'Eighteenth Week',
+        'week-19' : 'Ninteenth Week',
+        'week-20' : 'Twentieth Week',
+        'week-21' : 'Twenty-First Week',
+        'week-22' : 'Twenty-Second Week',
+        'week-23' : 'Twenty-Third Week',
+        'week-24' : 'Twenty-Fourth Week',
+        'week-25' : 'Twenty-Fifth Week',
+        'week-26' : 'Twenty-Sixth Week',
+        'week-27' : 'Twenty-Seventh Week',
+        'week-28' : 'Twenty-Eighth Week',
+        'week-29' : 'Twenty-Ninth Week',
+        'week-30' : 'Thirtieth Week',
+        'week-31' : 'Thirty-First Week',
+        'week-32' : 'Thirty-Second Week',
+        'week-33' : 'Thirty-Third Week',
+        'week-34' : 'Thirty-Fourth Week',
+        }[weekid]
+
+def _seasonShortDisplayName(seasonid):
+    return {
+        'advent' : 'Advent',
+        'christmas' : 'Christmas',
+        'lent' : 'Lent',
+        'holy-week' : 'Holy Week',
+        'easter' : 'Easter',
+        'ordinary' : 'Ordinary Time',
+        }[seasonid]
