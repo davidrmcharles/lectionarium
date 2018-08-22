@@ -471,7 +471,7 @@
     </mass>
   </season>
   <season id="ordinary" name="Ordinary Time">
-    <mass weekid="week-2" id="sunday" name="2nd Sunday">
+    <mass weekid="week-2" id="sunday" longname="2nd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 49:3,5-6</reading>
         <reading>1 Cor 1:1-3</reading>
@@ -488,7 +488,7 @@
         <reading>Jn 2:1-12</reading>
       </variation>
     </mass>
-    <mass weekid="week-3" id="sunday" name="3rd Sunday">
+    <mass weekid="week-3" id="sunday" longname="3rd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading alt="Is 9:1-3">Is 8:23b-9:3</reading>
         <reading>1 Cor 1:10-13,17</reading>
@@ -505,7 +505,7 @@
         <reading>Lk 1:1-4,4:14-21</reading>
       </variation>
     </mass>
-    <mass weekid="week-4" id="sunday" name="4th Sunday">
+    <mass weekid="week-4" id="sunday" longname="4th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Zep 2:3,3:12-13</reading>
         <reading>1 Cor 1:26-31</reading>
@@ -522,7 +522,7 @@
         <reading>Lk 4:21-30</reading>
       </variation>
     </mass>
-    <mass weekid="week-5" id="sunday" name="5th Sunday">
+    <mass weekid="week-5" id="sunday" longname="5th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 58:7-10</reading>
         <reading>1 Cor 2:1-5</reading>
@@ -539,7 +539,7 @@
         <reading>Lk 5:1-11</reading>
       </variation>
     </mass>
-    <mass weekid="week-6" id="sunday" name="6th Sunday">
+    <mass weekid="week-6" id="sunday" longname="6th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Sir 15:16-21</reading>
         <reading>1 Cor 2:6-10</reading>
@@ -556,7 +556,7 @@
         <reading>Lk 6:17,20-26</reading>
       </variation>
     </mass>
-    <mass weekid="week-7" id="sunday" name="7th Sunday">
+    <mass weekid="week-7" id="sunday" longname="7th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Lv 19:1-2,17-18</reading>
         <reading>1 Cor 3:16-23</reading>
@@ -573,7 +573,7 @@
         <reading>Lk 6:27-38</reading>
       </variation>
     </mass>
-    <mass weekid="week-8" id="sunday" name="8th Sunday">
+    <mass weekid="week-8" id="sunday" longname="8th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 49:14-15</reading>
         <reading>1 Cor 1:1-5</reading>
@@ -590,7 +590,7 @@
         <reading>Lk 6:39-45</reading>
       </variation>
     </mass>
-    <mass weekid="week-9" id="sunday" name="9th Sunday">
+    <mass weekid="week-9" id="sunday" longname="9th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Dt 11:18,26-28,32</reading>
         <reading>Rom 3:21-25a,28</reading>
@@ -607,7 +607,7 @@
         <reading>Lk 7:1-10</reading>
       </variation>
     </mass>
-    <mass weekid="week-10" id="sunday" name="10th Sunday">
+    <mass weekid="week-10" id="sunday" longname="10th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Hos 6:3-6</reading>
         <reading>Rom 4:18-25</reading>
@@ -624,7 +624,7 @@
         <reading>Lk 7:11-17</reading>
       </variation>
     </mass>
-    <mass weekid="week-11" id="sunday" name="11th Sunday">
+    <mass weekid="week-11" id="sunday" longname="11th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Ex 19:2-6a</reading>
         <reading>Rom 5:6-11</reading>
@@ -641,7 +641,7 @@
         <reading>Lk 7:36-8:3</reading>
       </variation>
     </mass>
-    <mass weekid="week-12" id="sunday" name="12th Sunday">
+    <mass weekid="week-12" id="sunday" longname="12th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Jer 20:10-13</reading>
         <reading>Rom 5:12-15</reading>
@@ -658,7 +658,7 @@
         <reading>Lk 9:18-24</reading>
       </variation>
     </mass>
-    <mass weekid="week-13" id="sunday" name="13th Sunday">
+    <mass weekid="week-13" id="sunday" longname="13th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>2 Kgs 4:8-11,14-16a</reading>
         <reading>Rom 6:3-4,8-11</reading>
@@ -675,7 +675,7 @@
         <reading>Lk 9:51-62</reading>
       </variation>
     </mass>
-    <mass weekid="week-14" id="sunday" name="14th Sunday">
+    <mass weekid="week-14" id="sunday" longname="14th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Zec 9:9-10</reading>
         <reading>Rom 8:9,11-13</reading>
@@ -692,7 +692,7 @@
         <reading>Lk 10:1-12,17-20</reading>
       </variation>
     </mass>
-    <mass weekid="week-15" id="sunday" name="15th Sunday">
+    <mass weekid="week-15" id="sunday" longname="15th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 55:10-11</reading>
         <reading>Rom 8:18-23</reading>
@@ -709,7 +709,7 @@
         <reading>Lk 10:25-37</reading>
       </variation>
     </mass>
-    <mass weekid="week-16" id="sunday" name="16th Sunday">
+    <mass weekid="week-16" id="sunday" longname="16th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Wis 12:13,16-19</reading>
         <reading>Rom 8:26-27</reading>
@@ -726,7 +726,7 @@
         <reading>Lk 10:38-42</reading>
       </variation>
     </mass>
-    <mass weekid="week-17" id="sunday" name="17th Sunday">
+    <mass weekid="week-17" id="sunday" longname="17th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>1 Kgs 3:5,7-12</reading>
         <reading>Rom 8:28-30</reading>
@@ -743,7 +743,7 @@
         <reading>Lk 11:1-13</reading>
       </variation>
     </mass>
-    <mass weekid="week-18" id="sunday" name="18th Sunday">
+    <mass weekid="week-18" id="sunday" longname="18th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 55:1-3</reading>
         <reading>Rom 8:35,37-39</reading>
@@ -760,7 +760,7 @@
         <reading>Lk 12:13-31</reading>
       </variation>
     </mass>
-    <mass weekid="week-19" id="sunday" name="19th Sunday">
+    <mass weekid="week-19" id="sunday" longname="19th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>1 Kgs 19,9a,11-13a</reading>
         <reading>Rom 9:1-5</reading>
@@ -777,7 +777,7 @@
         <reading>Lk 12:32-48</reading>
       </variation>
     </mass>
-    <mass weekid="week-20" id="sunday" name="20th Sunday">
+    <mass weekid="week-20" id="sunday" longname="20th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 56:1,6-7</reading>
         <reading>Rom 11:13-15,29-32</reading>
@@ -794,7 +794,7 @@
         <reading>Lk 12:49-53</reading>
       </variation>
     </mass>
-    <mass weekid="week-21" id="sunday" name="21st Sunday">
+    <mass weekid="week-21" id="sunday" longname="21st Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 22:19-23</reading>
         <reading>Rom 11:33-36</reading>
@@ -811,7 +811,7 @@
         <reading>Lk 13:22-30</reading>
       </variation>
     </mass>
-    <mass weekid="week-22" id="sunday" name="22nd Sunday">
+    <mass weekid="week-22" id="sunday" longname="22nd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Jer 20:7-9</reading>
         <reading>Rom 12:1-2</reading>
@@ -828,7 +828,7 @@
         <reading>Lk 14:1,7-14</reading>
       </variation>
     </mass>
-    <mass weekid="week-23" id="sunday" name="23rd Sunday">
+    <mass weekid="week-23" id="sunday" longname="23rd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Ez 33:7-9</reading>
         <reading>Rom 8:8-10</reading>
@@ -845,7 +845,7 @@
         <reading>Lk 14:25-33</reading>
       </variation>
     </mass>
-    <mass weekid="week-24" id="sunday" name="24th Sunday">
+    <mass weekid="week-24" id="sunday" longname="24th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Sir 27:30-28:7</reading>
         <reading>Rom 14:7-9</reading>
@@ -862,7 +862,7 @@
         <reading>Lk 15:1-32</reading>
       </variation>
     </mass>
-    <mass weekid="week-25" id="sunday" name="25th Sunday">
+    <mass weekid="week-25" id="sunday" longname="25th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 55:6-9</reading>
         <reading>Phil 1:20c-24,27a</reading>
@@ -879,7 +879,7 @@
         <reading>Lk 16:1-13</reading>
       </variation>
     </mass>
-    <mass weekid="week-26" id="sunday" name="26th Sunday">
+    <mass weekid="week-26" id="sunday" longname="26th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Ez 18:25-28</reading>
         <reading>Phil 2:1-11</reading>
@@ -896,7 +896,7 @@
         <reading>Lk 16:19-31</reading>
       </variation>
     </mass>
-    <mass weekid="week-27" id="sunday" name="27th Sunday">
+    <mass weekid="week-27" id="sunday" longname="27th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 5:1-7</reading>
         <reading>Phil 4:6-9</reading>
@@ -913,7 +913,7 @@
         <reading>Lk 17:5-10</reading>
       </variation>
     </mass>
-    <mass weekid="week-28" id="sunday" name="28th Sunday">
+    <mass weekid="week-28" id="sunday" longname="28th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 25:6-10a</reading>
         <reading>Phil 4:12-14,19-20</reading>
@@ -930,7 +930,7 @@
         <reading>Lk 17:11-19</reading>
       </variation>
     </mass>
-    <mass weekid="week-29" id="sunday" name="29th Sunday">
+    <mass weekid="week-29" id="sunday" longname="29th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Is 45:1,4-6</reading>
         <reading>1 Thes 1:1-5b</reading>
@@ -947,7 +947,7 @@
         <reading>Lk 18:1-8</reading>
       </variation>
     </mass>
-    <mass weekid="week-30" id="sunday" name="30th Sunday">
+    <mass weekid="week-30" id="sunday" longname="30th Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Ex 22:20-26</reading>
         <reading>1 Thes 1:5c-10</reading>
@@ -964,7 +964,7 @@
         <reading>Lk 18:9-14</reading>
       </variation>
     </mass>
-    <mass weekid="week-31" id="sunday" name="31st Sunday">
+    <mass weekid="week-31" id="sunday" longname="31st Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Mal 1:14b-2:2b,8-10</reading>
         <reading>1 Thes 2:7b-9,13</reading>
@@ -981,7 +981,7 @@
         <reading>Lk 19:1-10</reading>
       </variation>
     </mass>
-    <mass weekid="week-32" id="sunday" name="32nd Sunday">
+    <mass weekid="week-32" id="sunday" longname="32nd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Wis 6:12-16</reading>
         <reading>1 Thes 4:13-18</reading>
@@ -998,7 +998,7 @@
         <reading>Lk 20:27-38</reading>
       </variation>
     </mass>
-    <mass weekid="week-33" id="sunday" name="33rd Sunday">
+    <mass weekid="week-33" id="sunday" longname="33rd Sunday of Ordinary Time">
       <variation cycles="A">
         <reading>Prv 31:10-13,19-20,30-31</reading>
         <reading>1 Thes 5:1-6</reading>
@@ -1015,7 +1015,7 @@
         <reading>Lk 21:5-19</reading>
       </variation>
     </mass>
-    <mass weekid="week-34" id="sunday-christ-the-king" name="34th Sunday" altname="Christ the King">
+    <mass weekid="week-34" id="sunday-christ-the-king" longname="34th Sunday of Ordinary Time (Christ the King)">
       <variation cycles="A">
         <reading>Ez 34:11-12,15-17</reading>
         <reading>1 Cor 15:20-26,28</reading>

@@ -379,10 +379,6 @@ class Mass(object):
         if self.longName is not None:
             return self.longName
 
-        # TODO: Sundays in ordinary time don't need qualification with respect to week
-        if self.isSunday and self.seasonid == 'ordinary':
-            return '%s of Ordinary Time' % self.name
-
         # Everything needs week and season qualification
         return '%s in the %s' % (
             self.name,
