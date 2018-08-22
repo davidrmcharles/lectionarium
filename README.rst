@@ -10,6 +10,7 @@ Here are some things it can do:
 * `View a Set of Lectionary Readings`_
 * `View a Scripture Passage`_
 * `Render the Whole Bible as HTML`_
+* `Render the Whole Lectionary as HTML`_
 
 View a Set of Lectionary Readings
 ======================================================================
@@ -58,3 +59,13 @@ There is an ant target, ``bible``, to render the entire bible as HTML.
 .. code-block:: text
 
     $ ant bible
+
+Render the Whole Lectionary as HTML
+======================================================================
+
+There is an ant target, ``lectionary``, to render the entire
+lectionary as HTML.
+
+.. code-block:: text
+
+    $ ant lectionary
