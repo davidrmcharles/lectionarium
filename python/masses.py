@@ -179,7 +179,6 @@ class _XMLDecoder(object):
         id_ = domtools.attr(mass_node, 'id', ifMissing=None)
         name = domtools.attr(mass_node, 'name', ifMissing=None)
         longname = domtools.attr(mass_node, 'longname', ifMissing=None)
-        altname = domtools.attr(mass_node, 'altname', ifMissing=None)
         shortislong = domtools.attr(
             mass_node, 'shortislong', ifMissing=False, typeFunc=domtools.str2bool)
 
@@ -203,7 +202,6 @@ class _XMLDecoder(object):
 
         mass = Mass(readings)
         mass.name = name
-        mass.altName = altname
         mass.shortIsLong = shortislong
         mass.longName = longname
         mass.fixedMonth = fixedMonth
@@ -339,19 +337,15 @@ class Mass(object):
         redundant
         '''
 
-        # Has name and altname
-        if self.name is not None and self.altName is not None:
-            return '%s (%s)' % (self.name, self.altName)
-
-        # Has name only
+        # Has name only.
         if self.name is not None:
             return self.name
 
-        # Has longname only
+        # Has longname only.
         if self.longName is not None:
             return self.longName
 
-        # Has neither name nor altname
+        # Has neither name nor longname.
         return '%s %d' % (
             calendar.month_name[self.fixedMonth],
             self.fixedDay)
