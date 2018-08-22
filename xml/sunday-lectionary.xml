@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <lectionary name="THE NEW 3-YEAR CYCLE OF READINGS FOR SUNDAY MASS">
   <season id="advent" name="Advent Season">
-    <mass weekid="week-1" id="sunday" name="1st Sunday of Advent" shortislong="true">
+    <mass weekid="week-1" id="sunday" longname="1st Sunday of Advent">
       <variation cycles="A">
         <reading>Is 2:1-5</reading>
         <reading>Rom 13:11-14</reading>
@@ -18,7 +18,7 @@
         <reading>Lk 21:25-28,34-36</reading>
       </variation>
     </mass>
-    <mass weekid="week-2" id="sunday" name="2nd Sunday of Advent" shortislong="true">
+    <mass weekid="week-2" id="sunday" longname="2nd Sunday of Advent">
       <variation cycles="A">
         <reading>Is 11:1-10</reading>
         <reading>Rom 15:4-9</reading>
@@ -35,7 +35,7 @@
         <reading>Lk 3:1-6</reading>
       </variation>
     </mass>
-    <mass weekid="week-3" id="sunday" name="3rd Sunday of Advent" shortislong="true">
+    <mass weekid="week-3" id="sunday" longname="3rd Sunday of Advent">
       <variation cycles="A">
         <reading>Is 35:1-6a,10</reading>
         <reading>Jas 5:7-10</reading>
@@ -52,7 +52,7 @@
         <reading>Lk 3:10-18</reading>
       </variation>
     </mass>
-    <mass weekid="week-4" id="sunday" name="4th Sunday of Advent" shortislong="true">
+    <mass weekid="week-4" id="sunday" longname="4th Sunday of Advent">
       <variation cycles="A">
         <reading>Is 7:10-14</reading>
         <reading>Rom 1:1-7</reading>
@@ -71,27 +71,27 @@
     </mass>
   </season>
   <season id="christmas" name="Christmas Season">
-    <mass name="Christmas Vigil" shortislong="true">
+    <mass longname="Christmas Vigil">
       <reading>Is 62:1-5</reading>  ### Check this!
       <reading>Acts 13:16-17,22-25</reading>
       <reading>Mt 1:1-25</reading>
     </mass>
-    <mass name="Christmas (At Midnight)" shortislong="true">
+    <mass longname="Christmas (At Midnight)">
       <reading>Is 9:1-6</reading>
       <reading>Ti 2:11-14</reading>
       <reading>Lk 2:1-14</reading>
     </mass>
-    <mass name="Christmas (At Dawn)" shortislong="true">
+    <mass longname="Christmas (At Dawn)">
       <reading>Is 62:11-12</reading>
       <reading>Ti 3:4-7</reading>
       <reading>Lk 2:15-20</reading>
     </mass>
-    <mass name="Christmas (During the Day)" shortislong="true">
+    <mass longname="Christmas (During the Day)">
       <reading>Is 52:7-10</reading>  ### Check this!
       <reading>Heb 1:1-6</reading>
       <reading>Jn 1:1-18</reading>
     </mass>
-    <mass name="Holy Family" shortislong="true">
+    <mass longname="Holy Family">
       <variation cycles="A">
         <reading>Sir 3:3-7,14-17a</reading>
         <reading>Col 3:12-21</reading>
@@ -111,17 +111,17 @@
         <reading>Lk 2:41-52</reading>
       </variation>
     </mass>
-    <mass name="2nd Sunday After Christmas" shortislong="true">
+    <mass longname="2nd Sunday After Christmas">
       <reading>Sir 24:1-4,12-16</reading>  ### Check this!
       <reading>Eph 1:3-6,15-18</reading>
       <reading>Jn 1:1-18</reading>
     </mass>
-    <mass name="Epiphany" shortislong="true">
+    <mass longname="Epiphany">
       <reading>Is 60:1-6</reading>
       <reading>Eph 3:2-3a,5-6</reading>
       <reading>Mt 2:1-12</reading>
     </mass>
-    <mass name="Baptism of the Lord" shortislong="true">
+    <mass longname="Baptism of the Lord">
       <variation cycles="A">
         <reading>Is 42:1-4,6-7</reading>
         <reading>Acts 10:34-38</reading>
@@ -140,7 +140,7 @@
     </mass>
   </season>
   <season id="lent" name="Lenten Season">
-    <mass weekid="week-1" id="sunday" name="1st Sunday of Lent" shortislong="true">
+    <mass weekid="week-1" id="sunday" longname="1st Sunday of Lent">
       <variation cycles="A">
         <reading>Gn 2:7-9,3:1-7</reading>
         <reading>Rom 5:12-19</reading>
@@ -157,7 +157,7 @@
         <reading>Lk 4:1-13</reading>
       </variation>
     </mass>
-    <mass weekid="week-2" id="sunday" name="2nd Sunday of Lent" shortislong="true">
+    <mass weekid="week-2" id="sunday" longname="2nd Sunday of Lent">
       <variation cycles="A">
         <reading>Gn 12:1-4a</reading>
         <reading>2 Tm 1:8b-10</reading>
@@ -174,7 +174,7 @@
         <reading>Lk 9:28b-36</reading>
       </variation>
     </mass>
-    <mass weekid="week-3" id="sunday" name="3rd Sunday of Lent" shortislong="true">
+    <mass weekid="week-3" id="sunday" longname="3rd Sunday of Lent">
       <variation cycles="A">
         <reading>Ex 17:3-7</reading>
         <reading>Rom 5:1-2,5-8</reading>
@@ -191,7 +191,7 @@
         <reading>Lk 13:1-9</reading>
       </variation>
     </mass>
-    <mass weekid="week-4" id="sunday" name="4th Sunday of Lent" shortislong="true">
+    <mass weekid="week-4" id="sunday" longname="4th Sunday of Lent">
       <variation cycles="A">
         <reading>1 Sm 16:1b,6-7,10-13a</reading>
         <reading>Eph 5:8-14</reading>
@@ -208,7 +208,7 @@
         <reading>Lk 15:1-3,11-32</reading>
       </variation>
     </mass>
-    <mass weekid="week-5" id="sunday" name="5th Sunday of Lent" shortislong="true">
+    <mass weekid="week-5" id="sunday" longname="5th Sunday of Lent">
       <variation cycles="A">
         <reading>Ez 37:12-14</reading>
         <reading>Rom 8:8-11</reading>
@@ -249,19 +249,19 @@
         <reading>Lk 22:14-23:56</reading>
       </variation>
     </mass>
-    <mass name="Mass of the Lord's Supper" shortislong="true">
+    <mass longname="Mass of the Lord's Supper">
       <reading>Ex 12:1-8,11-14</reading>
       <reading>1 Cor 11:23-26</reading>
       <reading>Jn 13:1-15</reading>
     </mass>
-    <mass name="Good Friday" shortislong="true">
+    <mass longname="Good Friday">
       <reading>Is 52:13-53:12</reading>
       <reading>Heb 4:14-16,5:7-9</reading>
       <reading>Jn 18:1-19:42</reading>
     </mass>
   </season>
   <season id="easter" name="Easter Triduum and Easter Season">
-    <mass name="Easter Vigil" shortislong="true">
+    <mass longname="Easter Vigil">
       <reading>Gn 1:1-2:2</reading>
       <reading>Gn 22:1-18</reading>
       <reading>Ex 14:15-15:1</reading>
@@ -280,7 +280,7 @@
         <reading>Lk 24:1-12</reading>
       </variation>
     </mass>
-    <mass weekid="week-1" id="easter-sunday" name="Easter Sunday" shortislong="true">
+    <mass weekid="week-1" id="easter-sunday" longname="Easter Sunday">
       <reading>Acts 10:34a,37-43</reading>
       <option>
         <reading>Col 3:1-4</reading>
@@ -308,7 +308,7 @@
         </option>
       </variation>
     </mass>
-    <mass weekid="week-2" id="sunday" name="2nd Sunday of Easter" shortislong="true">
+    <mass weekid="week-2" id="sunday" longname="2nd Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 2:42-47</reading>
         <reading>1 Pt 1:3-9</reading>
@@ -323,7 +323,7 @@
       </variation>
       <reading>Jn 20:19-31</reading>
     </mass>
-    <mass weekid="week-3" id="sunday" name="3rd Sunday of Easter" shortislong="true">
+    <mass weekid="week-3" id="sunday" longname="3rd Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 2:14,22-33</reading>
         <reading>1 Pt 1:17-21</reading>
@@ -343,7 +343,7 @@
         </option>
       </variation>
     </mass>
-    <mass weekid="week-4" id="sunday" name="4th Sunday of Easter" shortislong="true">
+    <mass weekid="week-4" id="sunday" longname="4th Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 2:14a,36-41</reading>
         <reading>1 Pt 2:20b-25</reading>
@@ -360,7 +360,7 @@
         <reading>Jn 10:27-30</reading>
       </variation>
     </mass>
-    <mass weekid="week-5" id="sunday" name="5th Sunday of Easter" shortislong="true">
+    <mass weekid="week-5" id="sunday" longname="5th Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 6:1-7</reading>
         <reading>1 Pt 2:4-9</reading>
@@ -377,7 +377,7 @@
         <reading>Jn 13:31-33a,34-35</reading>
       </variation>
     </mass>
-    <mass weekid="week-6" id="sunday" name="6th Sunday of Easter" shortislong="true">
+    <mass weekid="week-6" id="sunday" longname="6th Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 8:5-8,14-17</reading>
         <reading>1 Pt 3:15-18</reading>
@@ -394,7 +394,7 @@
         <reading>Jn 14:23-29</reading>
       </variation>
     </mass>
-    <mass name="Ascension of Our Lord" shortislong="true">
+    <mass longname="Ascension of Our Lord">
       <reading>Acts 1:1-11</reading>
       <variation cycles="A">
         <reading>Eph 1:17-23</reading>
@@ -415,7 +415,7 @@
         <reading>Lk 24:46-53</reading>
       </variation>
     </mass>
-    <mass weekid="week-7" id="sunday" name="7th Sunday of Easter" shortislong="true">
+    <mass weekid="week-7" id="sunday" longname="7th Sunday of Easter">
       <variation cycles="A">
         <reading>Acts 1:12-14</reading>
         <reading>1 Pt 4:13-16</reading>
@@ -432,7 +432,7 @@
         <reading>Jn 17:20-26</reading>
       </variation>
     </mass>
-    <mass name="Pentecost Vigil" shortislong="true">
+    <mass longname="Pentecost Vigil">
       <option>
         <reading>Gn 11:1-9</reading>
         <reading>Ex 19:3-8a,16-20b</reading>
@@ -442,7 +442,7 @@
       <reading>Rom 8:22-27</reading>
       <reading>Jn 7:37-39</reading>
     </mass>
-    <mass name="Pentecost" shortislong="true">
+    <mass longname="Pentecost">
       <reading>Acts 2:1-11</reading>
       <variation cycles="A">
         <reading>1 Cor 12:3b-7,12-13</reading>

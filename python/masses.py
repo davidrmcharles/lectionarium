@@ -179,8 +179,6 @@ class _XMLDecoder(object):
         id_ = domtools.attr(mass_node, 'id', ifMissing=None)
         name = domtools.attr(mass_node, 'name', ifMissing=None)
         longname = domtools.attr(mass_node, 'longname', ifMissing=None)
-        shortislong = domtools.attr(
-            mass_node, 'shortislong', ifMissing=False, typeFunc=domtools.str2bool)
 
         readings = []
         option_index = 0
@@ -202,7 +200,6 @@ class _XMLDecoder(object):
 
         mass = Mass(readings)
         mass.name = name
-        mass.shortIsLong = shortislong
         mass.longName = longname
         mass.fixedMonth = fixedMonth
         mass.fixedDay = fixedDay
@@ -232,7 +229,6 @@ class Mass(object):
         self._allReadings = readings
         self._id = None
         self._name = None
-        self._shortIsLong = False
         self._fixedMonth = None
         self._fixedDay = None
         self._weekid = None
@@ -322,14 +318,6 @@ class Mass(object):
         self._longName = newValue
 
     @property
-    def shortIsLong(self):
-        return self._shortIsLong
-
-    @shortIsLong.setter
-    def shortIsLong(self, newValue):
-        self._shortIsLong = newValue
-
-    @property
     def displayName(self):
         '''
         A short display name for the mass, for when the context of
@@ -356,12 +344,11 @@ class Mass(object):
         A fully qualified display name for the mass
         '''
 
-        # There is no context to add to the name
-        if self.seasonid is None and self.weekid is None:
+        if self.name is None and self.longName is None:
             return self.displayName
 
-        # The short name is sufficiently qualified
-        if self.shortIsLong:
+        # There is no context to add to the name
+        if self.seasonid is None and self.weekid is None:
             return self.displayName
 
         if self.longName is not None:
