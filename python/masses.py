@@ -370,12 +370,6 @@ class Mass(object):
         if self.shortIsLong:
             return self.displayName
 
-        # TODO: The Christmas masses don't need qualification with respect to week
-        if self.seasonid == 'christmas':
-            if self.altName is None:
-                return '%s of Christmas' % self.name
-            return '%s of Christmas (%s)' % (self.name, self.altName)
-
         if self.longName is not None:
             return self.longName
 

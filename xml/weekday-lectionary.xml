@@ -116,27 +116,27 @@
   </season>
   <season id="christmas" name="Christmas Season">
     <week name="Octave of Christmas">
-      <mass id="day-2-st-stephen" name="Second Day" altname="St. Stephen">
+      <mass id="day-2-st-stephen" name="Second Day (St. Stephen)" longname="Second Day of Christmas (St. Stephen)">
         <reading>Acts 6:8-10,7:54-59</reading>
         <reading>Mt 10:17-22</reading>
       </mass>
-      <mass id="day-3-st-john" name="Third Day" altname="St. John">
+      <mass id="day-3-st-john" name="Third Day (St. John)" longname="Third Day of Christmas (St. John)">
         <reading>1 Jn 1:1-4</reading>
         <reading>Jn 20:2-8</reading>
       </mass>
-      <mass id="day-4-holy-innocents" name="Fourth Day" altname="Holy Innocents">
+      <mass id="day-4-holy-innocents" name="Fourth Day (Holy Innocents)" longname="Fourth Day of Christmas (Holy Innocents)">
         <reading>1 Jn 1:5-2:2</reading>
         <reading>Mt 2:13-18</reading>
       </mass>
-      <mass id="day-5" name="Fifth Day">
+      <mass id="day-5" name="Fifth Day" longname="Fifth Day of Christmas">
         <reading>1 Jn 2:3-11</reading>
         <reading>Lk 2:22-35</reading>
       </mass>
-      <mass id="day-6" name="Sixth Day">
+      <mass id="day-6" name="Sixth Day" longname="Sixth Day of Christmas">
         <reading>1 Jn 2:12-17</reading>
         <reading>Lk 2:36-40</reading>
       </mass>
-      <mass id="day-7" name="Seventh Day">
+      <mass id="day-7" name="Seventh Day" longname="Seventh Day of Christmas">
         <reading>1 Jn 2:18-21</reading>
         <reading>Jn 1:1-18</reading>
       </mass>
