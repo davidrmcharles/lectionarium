@@ -410,17 +410,27 @@ class _HTMLMassReadingsExporter(object):
                 readingsByCycles[reading.cycles] = []
             readingsByCycles[reading.cycles].append(reading)
 
-        for cycles, readings in readingsByCycles.iteritems():
+        for index, (cycles, readings) in enumerate(readingsByCycles.iteritems()):
+            if index != 0:
+                outputFile.write('''\
+    <hr/>
+''')
             self._writeMassBodyForCycles(outputFile, cycles, readings)
 
     def _writeMassBodyForCycles(self, outputFile, cycles, readings):
-        if cycles is not None:
-            outputFile.write('''\
-    <h2>%s</h2>
-''' % cycles)
-
+        self._writeCyclesHeading(outputFile, cycles)
         for reading in readings:
             self._writeReading(outputFile, reading)
+
+    def _writeCyclesHeading(self, outputFile, cycles):
+        if cycles in ('I', 'II'):
+            outputFile.write('''\
+    <h2>Year %s</h2>
+''' % cycles)
+        elif cycles is not None:
+            outputFile.write('''\
+    <h2>%s</h2>
+''' % ' and '.join(cycles))
 
     def _writeReading(self, outputFile, reading):
         self._writeReadingTitle(outputFile, reading)
@@ -447,6 +457,7 @@ class _HTMLMassReadingsExporter(object):
             return
 
         outputFile.write(self.formatter.htmlFormattedText)
+        outputFile.write('\n')
 
     def _writeMassFoot(self, outputFile, mass):
         pathToIndex = 'index.html'
