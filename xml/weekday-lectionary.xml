@@ -345,15 +345,15 @@
     </week>
   </season>
   <season id="holy-week" name="Holy Week">
-    <mass name="Monday">
+    <mass name="Monday" longname="Monday in Holy Week">
       <reading>Is 42:1-7</reading>
       <reading>Jn 12:1-11</reading>
     </mass>
-    <mass name="Tuesday">
+    <mass name="Tuesday" longname="Tuesday in Holy Week">
       <reading>Is 49:1-6</reading>
       <reading>Jn 13:21-33,36-38</reading>
     </mass>
-    <mass name="Wednesday">
+    <mass name="Wednesday" longname="Wednesday in Holy Week">
       <reading>Is 50:4-9a</reading>
       <reading>Mt 26:14-25</reading>
     </mass>

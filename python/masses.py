@@ -178,6 +178,7 @@ class _XMLDecoder(object):
         weekid = domtools.attr(mass_node, 'weekid', ifMissing=None)
         id_ = domtools.attr(mass_node, 'id', ifMissing=None)
         name = domtools.attr(mass_node, 'name', ifMissing=None)
+        longname = domtools.attr(mass_node, 'longname', ifMissing=None)
         altname = domtools.attr(mass_node, 'altname', ifMissing=None)
         shortislong = domtools.attr(
             mass_node, 'shortislong', ifMissing=False, typeFunc=domtools.str2bool)
@@ -204,6 +205,7 @@ class _XMLDecoder(object):
         mass.name = name
         mass.altName = altname
         mass.shortIsLong = shortislong
+        mass.longName = longname
         mass.fixedMonth = fixedMonth
         mass.fixedDay = fixedDay
         mass.id = id_
@@ -284,6 +286,12 @@ class Mass(object):
                     r'[^[A-Za-z0-9 ]',
                     '',
                     self._name).lower().split())
+        elif self._longName is not None:
+            return '-'.join(
+                re.sub(
+                    r'[^[A-Za-z0-9 ]',
+                    '',
+                    self._longName).lower().split())
         else:
             return '%02d-%02d' % (self.fixedMonth, self.fixedDay)
 
@@ -298,6 +306,22 @@ class Mass(object):
         '''
 
         return self._name
+
+    @name.setter
+    def name(self, newValue):
+        self._name = newValue
+
+    @property
+    def longName(self):
+        '''
+        TODO
+        '''
+
+        return self._longName
+
+    @longName.setter
+    def longName(self, newValue):
+        self._longName = newValue
 
     @property
     def shortIsLong(self):
@@ -322,6 +346,10 @@ class Mass(object):
         # Has name only
         if self.name is not None:
             return self.name
+
+        # Has longname only
+        if self.longName is not None:
+            return self.longName
 
         # Has neither name nor altname
         return '%s %d' % (
@@ -348,9 +376,8 @@ class Mass(object):
                 return '%s of Christmas' % self.name
             return '%s of Christmas (%s)' % (self.name, self.altName)
 
-        # TODO: The season of Holy Week doesn't need qualification with respect to week
-        if self.seasonid == 'holy-week':
-            return '%s in Holy Week' % self.name
+        if self.longName is not None:
+            return self.longName
 
         # TODO: Sundays in ordinary time don't need qualification with respect to week
         if self.isSunday and self.seasonid == 'ordinary':
@@ -361,10 +388,6 @@ class Mass(object):
             self.name,
             _weekAndSeasonDisplayName(self.seasonid, self.weekid)
             )
-
-    @name.setter
-    def name(self, newValue):
-        self._name = newValue
 
     @property
     def fqid(self):

@@ -227,7 +227,7 @@
     </mass>
   </season>
   <season id="holy-week">
-    <mass name="Palm Sunday">
+    <mass longname="Palm Sunday">
       <variation cycles="A">
         <reading>Mt 21:1-11</reading>
         <reading>Is 50:4-7</reading>
