@@ -153,5 +153,10 @@ class massLongDisplayNameTestCase(unittest.TestCase):
     def _findMass(self, massID):
         return lectionary.getLectionary().findMass(massID)
 
+class LectionaryCalendarHTMLParserTestCase(unittest.TestCase):
+
+    def test_2018Calendar(self):
+        pass  # TODO
+
 if __name__ == '__main__':
     unittest.main()

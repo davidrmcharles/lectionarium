@@ -4,6 +4,7 @@ Tests for :mod:`viewtools`
 '''
 
 # Standard imports:
+import calendar
 import unittest
 
 # Local imports:
@@ -69,6 +70,15 @@ class columnizedListTestCase(unittest.TestCase):
         columns = list(viewtools.columnizedList(specialMasses, 2))
         self.assertEquals(expectedFirstColumn, columns[0])
         self.assertEquals(expectedSecondColumn, columns[1])
+
+class IdentityHTMLParserTestCase(unittest.TestCase):
+
+    def test_2008Calendar(self):
+        parser = viewtools.IdentityHTMLParser()
+        parser.feed(
+            calendar.HTMLCalendar(
+                calendar.SUNDAY).formatyear(2018))
+        self.assertEqual(inputHTML, parser.html)
 
 if __name__ == '__main__':
     unittest.main()
