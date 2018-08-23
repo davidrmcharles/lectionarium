@@ -43,24 +43,24 @@ def main(args=None):
     exampleText = '''\
 Examples:
 
-    lectionary.py trinity-sunday
-    lectionary.py 2017-10-17
-    lectionary.py today
+    lectionaryviews.py trinity-sunday
+    lectionaryviews.py 2017-10-17
+    lectionaryviews.py today
 
 By default, only the cycle-applicable readings are included.  To see
 all readings, append '#' to the name of the mass (or date).  For
 example:
 
-    lectionary.py trinity-sunday#
-    lectionary.py 2017-10-17#
-    lectionary.py today#
+    lectionaryviews.py trinity-sunday#
+    lectionaryviews.py 2017-10-17#
+    lectionaryviews.py today#
 
 To see only the readings for a particular cycle, append '#' and the
 name of the cycle to the name of the mass (or date).  For example:
 
-    lectionary.py trinity-sunday#C
-    lectionary.py 2017-10-17#A
-    lectionary.py today#A
+    lectionaryviews.py trinity-sunday#C
+    lectionaryviews.py 2017-10-17#A
+    lectionaryviews.py today#A
 '''
     parser = argparse.ArgumentParser(
         description='''\
