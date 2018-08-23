@@ -20,6 +20,7 @@ Reference
 
 # Standard imports:
 import argparse
+import calendar
 import collections
 import itertools
 import logging
@@ -164,6 +165,8 @@ class _HTMLLectionaryExporter(object):
     def __init__(self, outputFolderPath):
         self._outputFolderPath = outputFolderPath
         self._indexExporter = _HTMLLectionaryIndexExporter(outputFolderPath)
+        self._calendarExporter = _HTMLLectionaryCalendarExporter(
+            outputFolderPath)
         self._massExporter = _HTMLMassReadingsExporter(outputFolderPath)
 
     def export(self):
@@ -173,6 +176,7 @@ class _HTMLLectionaryExporter(object):
         '''
 
         self._indexExporter.export()
+        self._calendarExporter.export()
         self._massExporter.export()
         self._exportStylesheet()
 
@@ -331,6 +335,60 @@ class _HTMLLectionaryIndexExporter(object):
 ''' % (mass.fqid, _massShortDisplayName(mass)))
 
     def _writeIndexFoot(self, outputFile):
+        outputFile.write('''\
+    <hr/>
+    <a href="../index.html">fideidepositum.org</a>
+  </body>
+</html>
+''')
+
+class _HTMLLectionaryCalendarExporter(object):
+
+    def __init__(self, outputFolderPath):
+        self.outputFolderPath = outputFolderPath
+        self.year = 2018
+
+    def export(self):
+        '''
+        Export a lectionary calendar as HTML.
+        '''
+
+        outputFolderPath = os.path.join(
+            self.outputFolderPath, '%d.html' % self.year)
+
+        with open(outputFolderPath, 'w') as outputFile:
+            self._writeCalendarHead(outputFile)
+            self._writeCalendarBody(outputFile)
+            self._writeCalendarFoot(outputFile)
+
+    def _writeCalendarHead(self, outputFile):
+        outputFile.write('''\
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="The Lectionary for Mass (Clementine Vulgate Text)"/>
+    <meta name="keywords" content="Catholic,Bible,Lectionary,Latin"/>
+    <meta name="author" content="David R M Charles"/>
+    <title>%d Lectionary for Mass (Clementine Vulgate Text)</title>
+    <link rel="stylesheet" href="lectionary.css"/>
+    <style>
+      td, th {
+        padding: 6px;
+        text-align: center;
+        vertical-align: top;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>%d Lectionary for Mass (Clementine Vulgate Text)</h1>
+''' % (self.year, self.year))
+
+    def _writeCalendarBody(self, outputFile):
+        outputFile.write(
+            calendar.HTMLCalendar(calendar.SUNDAY).formatyear(self.year))
+
+    def _writeCalendarFoot(self, outputFile):
         outputFile.write('''\
     <hr/>
     <a href="../index.html">fideidepositum.org</a>
